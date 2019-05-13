@@ -1,27 +1,27 @@
 <template>
 	<view>
-		<div class="container-control-logoAndTabsAndSearch">
-        <div class="topSearchWrapper" @tap.stop.prevent="$router.pushPlus('/searchAll','list-detail-page-three')">
-          <div class="searchFrame">
+	 <view class="container-control-logoAndTabsAndSearch">
+        <view class="topSearchWrapper" @tap.stop.prevent="$router.pushPlus('/searchAll','list-detail-page-three')">
+          <view class="searchFrame">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-sousuo"></use>
             </svg>
             <span>搜产品、问答、圈子、内容</span>
-          </div>
-        </div>
-        <div class="addIcon" @tap.stop.prevent="jumpToDiscoverAdd">
+          </view>
+        </view>
+        <view class="addIcon" @tap.stop.prevent="jumpToDiscoverAdd">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-tianjia"></use>
           </svg>
-        </div>
-      </div>
+        </view>
+      </view>
 
-      <div class="container-tags-home container-tags-home-margin" id="container-tags-home-content">
-        <div>
-          <div class="container-allTags " :class="type === 0 ? 'active' : ''" @tap.stop.prevent="getAllRecommend()">
+      <view class="container-tags-home container-tags-home-margin" id="container-tags-home-content">
+        <view>
+          <view class="container-allTags " :class="type === 0 ? 'active' : ''" @tap.stop.prevent="getAllRecommend()">
             全部<i class="allTagsLine" :class="type === 0 ? 'activeLine':''"></i>
-          </div>
-          <div class="container-tabLabels">
+          </view>
+          <view class="container-tabLabels">
             <customSwiper ref="inTags" :options="swiperOption" class="container-upload-images">
               <customSwiperSlide v-for="(tag, index) in regions" :key="index" class="tagLabel">
                     <span class="tab" :class="type === index+1 ? 'active' : ''"
@@ -29,19 +29,17 @@
                 <i class="" :class="type === index+1 ? 'activeLine' : ''" ></i>
               </customSwiperSlide>
             </customSwiper>
-          </div>
-        </div>
-      </div>
+          </view>
+        </view>
+      </view>
 
-      
-    
+
+
 	</view>
 </template>
 
 <script>
 	import { swiper as customSwiper, swiperSlide as customSwiperSlide } from 'vue-awesome-swiper'
-
-    import { parseDateStr } from '../../lib/util'
 
     import {
         getHomeData
