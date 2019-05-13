@@ -1,0 +1,149 @@
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.container-control-logoAndTabsAndSearch {
+  height: 43.99px;
+  line-height: 43.99px;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative; }
+.container-control-logoAndTabsAndSearch .addIcon {
+  font-size: 18px;
+  color: #444444;
+  padding-left: 15px;
+}
+.container-control-logoAndTabsAndSearch .logoIcon {
+  font-size: 81px;
+  position: relative;
+  top: -15px;
+  left: 10.99px;
+  color: #3c3e44; }
+.container-control-logoAndTabsAndSearch .splitCircle {
+  display: inline-block;
+  margin-top: 21px;
+  margin-left: 27px;
+  border-radius: 50%;
+  width: 3.98px;
+  height: 3.98px;
+  background: #B4B4B6; }
+.container-control-logoAndTabsAndSearch .logoAndTabsAndSearchTabs {
+  color: #B4B4B6;
+  margin-left: 9.98px; }
+.container-control-logoAndTabsAndSearch .logoAndTabsAndSearchTabs .tab {
+  margin: 0 9.98px;
+  font-size: 15.98px;
+  display: inline-block; }
+.container-control-logoAndTabsAndSearch .logoAndTabsAndSearchTabs .tab.active {
+  color: #444444;
+  position: relative;
+  font-family: PingFangSC-Medium; }
+.container-control-logoAndTabsAndSearch .logoAndTabsAndSearchTabs .tab.active:after {
+  position: absolute;
+  bottom: 3.98px;
+  left: 7.99px;
+  right: 0;
+  width: 15.98px;
+  content: '';
+  text-align: center;
+  background-color: #03AEF9;
+  height: 3.98px;
+  border-radius: 117px;;}
+.container-control-logoAndTabsAndSearch .searchIcon {
+  font-size: 18px;
+  color: #444;
+  position: absolute;
+  right: 16.99px;
+  top: 13.99px; }
+.container-control-logoAndTabsAndSearch .topSearchWrapper {
+  margin-top: 4.99px;
+  margin-left: 17.25px;}
+.container-control-logoAndTabsAndSearch .topSearchWrapper .searchFrame {
+  width: 309.98px;
+  height: 33.98px;
+  padding-left: 9.98px;
+  line-height: 33.98px;
+  background: #F3F4F6;
+  color: #C8C8C8;
+  border-radius: 99.98px;}
+.container-control-logoAndTabsAndSearch .topSearchWrapper .searchFrame span {
+  font-size: 13.99px;
+}
+.container-control-logoAndTabsAndSearch .topSearchWrapper .searchFrame .icon {
+  font-size: 16.99px;}
+.container-control-logoAndTabsAndSearch.searchBoxShadow {
+  box-shadow:0px 1.99px 25.99px 0px rgba(240,242,245,1);
+}
+
+
+.container-tags-home {
+  width: 100%;
+  height: 33.98px;
+  /*display: flex;*/
+  color: #808080;
+  font-size: 12.98px;
+  /*padding: 0 15.98px;*/
+  background: #FFF;
+  justify-content: space-around;
+  box-shadow:0px 7.5px 11.25px 0px rgba(240,242,245,1);}
+.container-tags-home .container-allTags {
+  position: relative;
+  line-height: 33.98px;
+  padding-right: 9px;
+  padding-left: 15.98px;
+  font-size: 15px;
+  float: left;}
+.container-tags-home .container-allTags.active {
+  font-family:PingFangSC-Medium;
+  color: #444444;}
+.container-tags-home .activeLine {
+  width: 15.98px;
+  height: 3.98px;
+  border-radius: 24.98px;
+  display: inline-block;
+  background: #03AEF9;
+  position: absolute;
+  bottom: 1.99px;
+  left: 50%;
+  transform: translateX(-50%);}
+.container-tags-home .container-allTags .allTagsLine {
+  margin-left: 3px;
+  bottom: 0.98px;
+}
+.container-tags-home .container-tabLabels {
+  width: 315px;
+  line-height: 33.98px;
+  float: left;}
+.container-tags-home .container-tabLabels .tab {
+  position: relative;
+  border: none;
+  padding: 0 9px;
+  margin-right: 0;}
+.container-tags-home .container-moreIcon {
+  font-size: 15.98px;
+  color: #808080;
+  line-height: 33.98px;
+  padding-left: 9px;
+  padding-right: 15.98px;
+  float: right;}
+.container-tags-home .line-river-after-short:after {
+  left: 0;
+  right: 0;}
+
+.container-tabLabels .tab {
+  display: inline-block;
+  color: #808080;
+  font-size: 15px;
+  border: 0.98px solid #DCDCDC;
+  padding: 4.99px 9.98px;
+  border-radius: 3.98px;
+  margin-right: 4.99px; }
+.container-tabLabels .tab.active {
+  color: #444;
+  border: none;
+  font-family:PingFangSC-Medium; }
