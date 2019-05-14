@@ -34,12 +34,12 @@
             </view>
         </view>
 
-        <div class="leftTopFixed fixedData">
+        <view class="leftTopFixed fixedData">
             <svg class='icon' aria-hidden='true'>
                 <use xlink:href='#icon-rili'></use>
             </svg>
             <span class="indexPosition"></span>
-        </div>
+        </view>
 
         <SwiperMescrollList
                 ref="RefreshList"
@@ -56,58 +56,58 @@
         >
 
             <template v-for="(listData, listDataIndex) in listDataConfig">
-                <div :slot="'swiperList-' + listDataIndex">
+                <view :slot="'swiperList-' + listDataIndex">
 
-                    <div class="everyDayWrapper" @tap.stop.prevent="sharHotspot" v-if="type === 1">
-                        <div class="everyDay">
+                    <view class="everyDayWrapper" @tap.stop.prevent="sharHotspot" v-if="type === 1">
+                        <view class="everyDay">
                             <svg class='icon' aria-hidden='true'>
                                 <use xlink:href='#icon-dingyue-'></use>
                             </svg>
-                            <div class="textImg">
+                            <view class="textImg">
                                 <img src="@/static/images/everyDay@3x.png" alt="">
-                            </div>
-                        </div>
-                    </div>
+                            </view>
+                        </view>
+                    </view>
 
-                    <div v-for="(item, itemIndex) in lists[listDataIndex]" :key="itemIndex">
+                    <view v-for="(item, itemIndex) in lists[listDataIndex]" :key="itemIndex">
 
-                        <div class="container-wrapper" @tap.stop.prevent="goArticle(item)">
-                            <div class="dateWrapper" v-if="showData(item, itemIndex, listDataIndex)">
-                                <div class="LeftDate">
+                        <view class="container-wrapper" @tap.stop.prevent="goArticle(item)">
+                            <view class="dateWrapper" v-if="showData(item, itemIndex, listDataIndex)">
+                                <view class="LeftDate">
                                     <svg class="icon" aria-hidden="true">
                                         <use xlink:href="#icon-riliyouse"></use>
                                     </svg>
                                     <span>{{ timeToHumanText(item.created_at) }}</span>
-                                </div>
-                                <div class="rightDaily"  @tap.stop.prevent="$router.pushPlus('/hotrecommend/' + item.created_at.split(' ')[0])" v-if="type === 1">
+                                </view>
+                                <view class="rightDaily"  @tap.stop.prevent="$router.pushPlus('/hotrecommend/' + item.created_at.split(' ')[0])" v-if="type === 1">
                                     <svg class="icon" aria-hidden="true">
                                         <use xlink:href="#icon-fenxiang1"></use>
                                     </svg>
                                     <span>日报</span>
-                                </div>
-                            </div>
-                            <div class="container-list">
-                                <div class="pointLine" v-if="type === 0">
+                                </view>
+                            </view>
+                            <view class="container-list">
+                                <view class="pointLine" v-if="type === 0">
                                     <span class="splitCircle"></span>
                                     <span class="splitLine" v-if="isShowSplitLine(itemIndex, listDataIndex)"></span>
-                                </div>
-                                <div class="pointLine" v-if="type !== 0">
+                                </view>
+                                <view class="pointLine" v-if="type !== 0">
                                     <span class="number">{{ getLiIndex(itemIndex, listDataIndex) }}.</span>
-                                </div>
-                                <div class="content">
-                                    <div class="top-time">
+                                </view>
+                                <view class="content">
+                                    <view class="top-time">
                                         <span class="time">{{ item.created_at.split(' ')[1].substring(0, 5) }}</span>
                                         <i class="splitCircle"></i>
                                         <span class="linkURL">{{ item.domain }}</span>
-                                    </div>
-                                    <div class="middle">
-                                        <div class="left">
-                                            <div class="title font-family-medium text-line-2">{{ item.title }}</div>
-                                            <div class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, itemIndex, listDataIndex)">
-                                                <div class="addOne" v-if="item.startAnimation">
+                                    </view>
+                                    <view class="middle">
+                                        <view class="left">
+                                            <view class="title font-family-medium text-line-2">{{ item.title }}</view>
+                                            <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, itemIndex, listDataIndex)">
+                                                <view class="addOne" v-if="item.startAnimation">
                                                     <i></i>
                                                     <span>+{{startAnimationNum}}</span>
-                                                </div>
+                                                </view>
                                                 <svg class="icon" aria-hidden="true">
                                                     <use xlink:href="#icon-huo"></use>
                                                 </svg>
@@ -115,19 +115,19 @@
                                                 <svg class="icon heatAddIcon" aria-hidden="true">
                                                     <use xlink:href="#icon-tianjia"></use>
                                                 </svg>
-                                            </div>
-                                        </div>
-                                        <div class="right" v-if="item.img.length">
-                                            <div class="articleImg">
+                                            </view>
+                                        </view>
+                                        <view class="right" v-if="item.img.length">
+                                            <view class="articleImg">
                                                 <ImageView :src="item.img" width="97" :isLazyload="true" :saveToLocal="true"></ImageView>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
             </template>
         </SwiperMescrollList>
 
@@ -157,6 +157,8 @@
                 @fail="shareFail"
                 @clickedItem="iconMenusClickedItem"
         ></PageMore>
+
+        <Footer></Footer>
     </view>
 </template>
 
@@ -164,7 +166,7 @@
   import {swiper as customSwiper, swiperSlide as customSwiperSlide} from 'vue-awesome-swiper'
   import SwiperMescrollList from '@/components/refresh/SwiperMescrollList.vue'
   import { timeToHumanText, getTimestampByDateStr } from '@/lib/time'
-  import { saveLocationInfo } from '@/lib/allPlatform'
+  import { saveLocationInfo, isIos } from '@/lib/allPlatform'
   import userAbility from '@/lib/userAbility'
   import { goThirdPartyArticle } from '@/lib/webview'
   import { openAppUrlByUrl } from '@/lib/plus'
@@ -177,6 +179,7 @@
   import { getIndexByIdArray } from '@/lib/array'
   import Vue from 'vue'
   import { getHomeData } from '@/lib/home'
+  import Footer from '@/components/Footer'
 
   export default {
     data() {
@@ -220,7 +223,8 @@
       SwiperMescrollList,
       BottomActions,
       PageMore,
-      HotBottomActions
+      HotBottomActions,
+      Footer
     },
     onLoad: function (option) {
       getHomeData((data) => {
@@ -365,7 +369,7 @@
         if (!navWarp) {
           return
         }
-        if (window.mui.os.ios) {
+        if (isIos()) {
           if (y < 10) {
             navWarp.classList.remove('leftTopFixedShow')
             navWarp.classList.remove('nav-sticky')
