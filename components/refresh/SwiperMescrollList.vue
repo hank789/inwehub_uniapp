@@ -1,6 +1,6 @@
 <template>
-  <swiper ref="mySwiper" :options="swiperOption" class="mescrollList-swiper-container" v-if="localListDataConfig.length">
-    <swiper-slide v-for="(config, index) in localListDataConfig" :key="index">
+  <mySwiper ref="mySwiper" :options="swiperOption" class="mescrollList-swiper-container" v-if="localListDataConfig.length">
+    <mySwiperSlide v-for="(config, index) in localListDataConfig" :key="index">
       <RefreshList
         :ref="'RefreshList_' + index"
         class="refreshListWrapper"
@@ -24,13 +24,13 @@
         <!--</div>-->
 
       </RefreshList>
-    </swiper-slide>
-  </swiper>
+    </mySwiperSlide>
+  </mySwiper>
 </template>
 
 <script>
   import RefreshList from './MescrollList.vue'
-  import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import { swiper as mySwiper, swiperSlide as mySwiperSlide } from 'vue-awesome-swiper'
   import Vue from 'vue'
 
   const SwiperMescrollList = {
@@ -60,8 +60,8 @@
     },
     components: {
       RefreshList,
-      swiper,
-      swiperSlide
+      mySwiper,
+      mySwiperSlide
     },
     props: {
       initPageIndex: {

@@ -20,7 +20,7 @@
 <script>
   import MescrollVue from 'mescroll.js/mescroll.vue'
   import 'mescroll.js/mescroll.min.css'
-  import { postRequest } from '../../utils/request'
+  import { postRequest } from '@/lib/request'
   import Empty from '../../components/Empty.vue'
 
   export default {
@@ -243,6 +243,7 @@
           console.log(param)
 
           postRequest(this.api, param, false, {}, 0, false).then(response => {
+            console.log(response)
             var code = response.data.code
             if (code !== 1000) {
               window.mui.toast(response.data.message)
@@ -300,7 +301,7 @@
     height: 0.64rem;
     border: none !important;
     margin: auto;
-    background-image: url(../../statics/images/mescroll-progress.jpg);
+    background-image: url(../../static/images/mescroll-progress.jpg);
     background-size: contain;
   }
 

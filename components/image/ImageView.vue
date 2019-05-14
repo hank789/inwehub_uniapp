@@ -1,0 +1,58 @@
+<template>
+    <img class="lazyImg" v-lazy="getImage(src)" v-if="isLazyload" :key="src" :rsrc="getImage(src)"/>
+    <img :src="getImage(src)" :key="src" v-else/>
+</template>
+
+<script type="text/javascript">
+
+  import { getImageSuffix } from '@/lib/image'
+  import { getDpi } from '@/lib/dom'
+  import { getCacheImage } from '@/lib/plus'
+
+  export default {
+    data () {
+      return {}
+    },
+    components: {},
+    props: {
+      src: {
+        type: String,
+        default: ''
+      },
+      isLazyload: {
+        type: Boolean,
+        default: true
+      },
+      saveToLocal: {
+        type: Boolean,
+        default: false
+      },
+      width: {
+        default: 0
+      },
+      height: {
+        default: 0
+      }
+    },
+    created () {},
+    methods: {
+      getImage (src) {
+        if (src.length <= 0) return src
+        var width = parseFloat(this.width)
+        if (width) {
+          width *= getDpi()
+        }
+        var height = parseFloat(this.height)
+        if (height) {
+          height *= getDpi()
+        }
+        var formatSrc = getImageSuffix(src, width, height)
+        if (this.saveToLocal) {
+          // 存储到本地
+          formatSrc = getCacheImage(formatSrc, (imgUrl) => {})
+        }
+        return formatSrc
+      }
+    }
+  }
+</script>
