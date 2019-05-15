@@ -6,7 +6,7 @@
 			this.$ls.set('appDeviceInfo',uni.getSystemInfoSync())
 			//#ifdef APP-PLUS
 			plus.screen.lockOrientation('portrait-primary');
-			util.checkUpdate(this)
+			// util.checkUpdate(this)
 			//#endif
 		},
 		onShow: function () {

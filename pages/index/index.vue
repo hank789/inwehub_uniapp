@@ -5,16 +5,12 @@
             <view class="container-control-logoAndTabsAndSearch">
                 <view class="topSearchWrapper" @tap.stop.prevent="$router.pushPlus('/searchAll','list-detail-page-three')">
                     <view class="searchFrame">
-                        <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-sousuo"></use>
-                        </svg>
+                        <view class="iconfont icon-sousuo"></view>
                         <span>搜产品、问答、圈子、内容</span>
                     </view>
                 </view>
                 <view class="addIcon" @tap.stop.prevent="jumpToDiscoverAdd">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-tianjia"></use>
-                    </svg>
+                    <view class="iconfont icon-tianjia"></view>
                 </view>
             </view>
 
@@ -37,7 +33,7 @@
                 <swiper-item v-for="(listData, listDataIndex) in lists" :key="listDataIndex">
                     <scroll-view class="list" scroll-y @scrolltolower="loadMore(listDataIndex)">
 
-                        <view class='download-tip'>{{downloadTipalertMsg}}</view>
+                        <view class='download-tip' :style="{top: downloadTipTop}">{{downloadTipalertMsg}}</view>
 
                         <block v-for="(item, itemIndex) in listData.data" :key="itemIndex">
                             <view class="container-wrapper">
@@ -124,7 +120,8 @@
         tabIndex: 0,
         lists: [],
         tabBars: [],
-        liIndexConfig: []
+        liIndexConfig: [],
+        downloadTipTop: '-100px'
       }
     },
     computed: {
@@ -163,14 +160,10 @@
     },
     methods: {
       showDownloadTip () {
-        if (this.$el.querySelector('.download-tip')) {
-          this.$el.querySelector('.download-tip').style.top = '0'
-        }
+        this.downloadTipTop = '0px'
       },
       hideDownloadTip () {
-        if (this.$el.querySelector('.download-tip')) {
-          this.$el.querySelector('.download-tip').style.top = '-100px'
-        }
+        this.downloadTipTop = '-100px'
       },
       resetData(listDataIndex) {
         console.log('reset' + listDataIndex)
