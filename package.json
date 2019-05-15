@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "mescroll-uni": "^1.0.1",
     "mescroll.js": "^1.4.1",
     "raven-js": "^3.27.0",
     "vue-awesome-swiper": "^3.1.3",
