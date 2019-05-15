@@ -1,92 +1,43 @@
 <template>
   <view>
     <view class="container-footer">
-      <view class="menu active" v-if="isHome">
+      <view class="menu active">
         <view class="iconWrapper">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-shouye"></use>
-          </svg>
-        </view>
-        <view class="desc">首页</view>
-      </view>
-      <view class="menu" @tap.stop.prevent="$router.push('/home')" v-else>
-        <view class="iconWrapper">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-shouye"></use>
-          </svg>
+          <view class="iconfont icon-shouye"></view>
         </view>
         <view class="desc">首页</view>
       </view>
 
-      <view class="menu active" v-if="isFeed">
+
+
+      <view class="menu">
         <view class="iconWrapper followIcon">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-guanzhudilan"></use>
-          </svg>
-        </view>
-        <view class="desc">关注</view>
-      </view>
-      <view class="menu" @tap.stop.prevent="$router.replace('/discover')" v-else>
-        <view class="iconWrapper followIcon">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-guanzhudilan"></use>
-          </svg>
+          <view class="iconfont icon-guanzhudilan"></view>
         </view>
         <view class="desc">关注</view>
       </view>
 
-      <view class="menu active" v-if="isDiscover">
+
+      <view class="menu">
         <view class="iconWrapper">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-shequ1"></use>
-          </svg>
-        </view>
-        <view class="desc">社区</view>
-      </view>
-      <view class="menu" @tap.stop.prevent="$router.replace('/dianping')" v-else>
-        <view class="iconWrapper">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-shequ1"></use>
-          </svg>
+          <view class="iconfont icon-shequ1"></view>
         </view>
         <view class="desc">社区</view>
       </view>
 
 
-      <view class="menu active" v-if="isAsk">
+      <view class="menu">
         <view class="iconWrapper">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-xiaoxi2"></use>
-          </svg>
+          <view class="iconfont icon-xiaoxi2"></view>
         </view>
         <view class="desc">消息</view>
         <span class="mui-badge" v-if="taskCount">{{ taskCount }}</span>
       </view>
 
 
-      <view class="menu" @tap.stop.prevent="$router.push('/inform')" v-else>
+      <view class="menu">
         <view class="iconWrapper">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-xiaoxi2"></use>
-          </svg>
-        </view>
-        <view class="desc">消息</view>
-        <span class="mui-badge" v-if="taskCount">{{ taskCount }}</span>
-      </view>
-
-      <view class="menu active" v-if="isMy">
-        <view class="iconWrapper">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-wode2"></use>
-          </svg>
-        </view>
-        <view class="desc">我的</view>
-      </view>
-      <view class="menu" @tap.stop.prevent="$router.push('/my')" v-else>
-        <view class="iconWrapper">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-wode2"></use>
-          </svg>
+          <view class="iconfont icon-wode2"></view>
         </view>
         <view class="desc">我的</view>
       </view>

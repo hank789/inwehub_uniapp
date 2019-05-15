@@ -88,7 +88,7 @@
                                             </view>
                                             <view class="right" v-if="item.img.length">
                                                 <view class="articleImg">
-                                                    <ImageView :src="item.img" width="97" :isLazyload="true" :saveToLocal="true"></ImageView>
+                                                    <img :src="item.img" width="97" :isLazyload="true" :saveToLocal="true"></img>
                                                 </view>
                                             </view>
                                         </view>
