@@ -1,5 +1,4 @@
 <template>
-    <view class="mainContent">
         <view class="uni-tab-bar">
 
             <view class="container-control-logoAndTabsAndSearch">
@@ -39,15 +38,11 @@
                             <view class="container-wrapper">
                                 <view class="dateWrapper" v-if="showDate(item, itemIndex, listDataIndex)">
                                     <view class="LeftDate">
-                                        <svg class="icon" aria-hidden="true">
-                                            <use xlink:href="#icon-riliyouse"></use>
-                                        </svg>
+                                        <view class="iconfont icon-riliyouse"></view>
                                         <span>{{ timeToHumanText(item.created_at) }}</span>
                                     </view>
                                     <view class="rightDaily"  @tap.stop.prevent="$router.pushPlus('/hotrecommend/' + item.created_at.split(' ')[0])" v-if="tabIndex === 1">
-                                        <svg class="icon" aria-hidden="true">
-                                            <use xlink:href="#icon-fenxiang1"></use>
-                                        </svg>
+                                        <view class="iconfont icon-fenxiang1"></view>
                                         <span>日报</span>
                                     </view>
                                 </view>
@@ -61,7 +56,7 @@
                                     </view>
                                     <view class="content">
                                         <view class="top-time">
-                                            <span class="time">{{ item.created_at.split(' ')[1].substring(0, 5) }}</span>
+                                            <span class="time">{{ topTime(item) }}</span>
                                             <i class="splitCircle"></i>
                                             <span class="linkURL">{{ item.domain }}</span>
                                         </view>
@@ -73,13 +68,9 @@
                                                         <i></i>
                                                         <span>+{{startAnimationNum}}</span>
                                                     </view>
-                                                    <svg class="icon" aria-hidden="true">
-                                                        <use xlink:href="#icon-huo"></use>
-                                                    </svg>
+                                                    <view class="iconfont icon-huo"></view>
                                                     <span>{{ item.rate }}</span>
-                                                    <svg class="icon heatAddIcon" aria-hidden="true">
-                                                        <use xlink:href="#icon-tianjia"></use>
-                                                    </svg>
+                                                    <view class="iconfont icon-tianjia"></view>
                                                 </view>
                                             </view>
                                             <view class="right" v-if="item.img.length">
@@ -99,18 +90,15 @@
                 </swiper-item>
             </swiper>
         </view>
-        <Footer></Footer>
-    </view>
 </template>
 <script>
 
   import {getHomeData, getListData} from '@/lib/home'
   import { timeToHumanText, getTimestampByDateStr } from '@/lib/time'
-  import Footer from '@/components/Footer'
 
   export default {
     components: {
-      Footer
+
     },
     data() {
       return {
@@ -159,6 +147,9 @@
       })
     },
     methods: {
+      topTime (item) {
+        return item.created_at.split(' ')[1].substring(0, 5)
+      },
       showDownloadTip () {
         this.downloadTipTop = '0px'
       },
@@ -334,13 +325,10 @@
 
 <style scoped lang="less">
     .uni-tab-bar .swiper-box{
-        height:auto;
-    }
-    .mainContent{
         height:100%;
     }
     .uni-tab-bar{
-        height: calc(100% - 50px);
+        height: 600px;
     }
     .container-wrapper {
         /*margin-top: 30upx;*/

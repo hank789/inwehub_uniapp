@@ -103,7 +103,7 @@
     width: 100%;
     bottom: 0;
     z-index: 9;
-    padding: 0 12px; /* px不转换 */}
+    padding: 0; /* px不转换 */}
   .container-footer:before {
     position: absolute;
     top: 0;
