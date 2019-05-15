@@ -1,266 +1,198 @@
 <template>
-    <view>
-        <view class="container-control-logoAndTabsAndSearch">
-            <view class="topSearchWrapper" @tap.stop.prevent="$router.pushPlus('/searchAll','list-detail-page-three')">
-                <view class="searchFrame">
+    <view class="mainContent">
+        <view class="uni-tab-bar">
+
+            <view class="container-control-logoAndTabsAndSearch">
+                <view class="topSearchWrapper" @tap.stop.prevent="$router.pushPlus('/searchAll','list-detail-page-three')">
+                    <view class="searchFrame">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-sousuo"></use>
+                        </svg>
+                        <span>搜产品、问答、圈子、内容</span>
+                    </view>
+                </view>
+                <view class="addIcon" @tap.stop.prevent="jumpToDiscoverAdd">
                     <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-sousuo"></use>
+                        <use xlink:href="#icon-tianjia"></use>
                     </svg>
-                    <span>搜产品、问答、圈子、内容</span>
                 </view>
             </view>
-            <view class="addIcon" @tap.stop.prevent="jumpToDiscoverAdd">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-tianjia"></use>
-                </svg>
-            </view>
-        </view>
 
-        <view class="container-tags-home container-tags-home-margin" id="container-tags-home-content">
-            <view>
-                <view class="container-allTags " :class="type === 0 ? 'active' : ''"
-                      @tap.stop.prevent="getAllRecommend()">
-                    全部<i class="allTagsLine" :class="type === 0 ? 'activeLine':''"></i>
+            <view class="container-tags-home">
+                <view class="container-allTags " :class="tabIndex === 0 ? 'active' : ''"
+                      :data-current="0" @click="tapTab">
+                    全部<i class="allTagsLine" :class="tabIndex === 0 ? 'activeLine':''"></i>
                 </view>
-                <view class="container-tabLabels">
-                    <customSwiper ref="inTags" :options="swiperOption" class="container-upload-images">
-                        <customSwiperSlide v-for="(tag, index) in regions" :key="index" class="tagLabel">
-                    <span class="tab" :class="type === index+1 ? 'active' : ''"
-                          @tap.stop.prevent="selectTag(index + 1)">{{ tag.text }}</span>
-                            <i class="" :class="type === index+1 ? 'activeLine' : ''"></i>
-                        </customSwiperSlide>
-                    </customSwiper>
-                </view>
-            </view>
-        </view>
 
-        <view class="leftTopFixed fixedData">
-            <svg class='icon' aria-hidden='true'>
-                <use xlink:href='#icon-rili'></use>
-            </svg>
-            <span class="indexPosition"></span>
-        </view>
-
-        <SwiperMescrollList
-                ref="RefreshList"
-                class="refreshListWrapper"
-                :api="'readList'"
-                v-if="listDataConfig.length"
-                :listDataConfig="listDataConfig"
-                :isLoading="loading"
-                :initPageIndex="initPageIndex"
-                v-model="lists"
-                @prevSuccessCallback="prevSuccessCallback"
-                @curNavIndexChange="curNavIndexChange"
-                @listScroll="listScroll"
-        >
-
-            <template v-for="(listData, listDataIndex) in listDataConfig">
-                <view :slot="'swiperList-' + listDataIndex">
-
-                    <view class="everyDayWrapper" @tap.stop.prevent="sharHotspot" v-if="type === 1">
-                        <view class="everyDay">
-                            <svg class='icon' aria-hidden='true'>
-                                <use xlink:href='#icon-dingyue-'></use>
-                            </svg>
-                            <view class="textImg">
-                                <img src="@/static/images/everyDay@3x.png" alt="">
-                            </view>
-                        </view>
+                <scroll-view id="tab-bar" class="uni-swiper-tab" scroll-x :scroll-left="scrollLeft">
+                    <view v-for="(tab, index) in tabBarsNoAll" :key="tab.id" class="swiper-tab-list"
+                          :class="tabIndex == index + 1 ? 'active' : ''"
+                          :id="'tabbaritem_' + index + 1" :data-current="index + 1" @click="tapTab">{{tab.text}}
+                      <i class="allTagsLine" :class="tabIndex == index + 1 ? 'activeLine':''"></i>
                     </view>
+                </scroll-view>
+            </view>
 
-                    <view v-for="(item, itemIndex) in lists[listDataIndex]" :key="itemIndex">
+            <swiper :current="tabIndex" class="swiper-box" :duration="300" @change="changeTab">
+                <swiper-item v-for="(listData, listDataIndex) in lists" :key="listDataIndex">
+                    <scroll-view class="list" scroll-y @scrolltolower="loadMore(listDataIndex)">
 
-                        <view class="container-wrapper" @tap.stop.prevent="goArticle(item)">
-                            <view class="dateWrapper" v-if="showData(item, itemIndex, listDataIndex)">
-                                <view class="LeftDate">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-riliyouse"></use>
-                                    </svg>
-                                    <span>{{ timeToHumanText(item.created_at) }}</span>
-                                </view>
-                                <view class="rightDaily"  @tap.stop.prevent="$router.pushPlus('/hotrecommend/' + item.created_at.split(' ')[0])" v-if="type === 1">
-                                    <svg class="icon" aria-hidden="true">
-                                        <use xlink:href="#icon-fenxiang1"></use>
-                                    </svg>
-                                    <span>日报</span>
-                                </view>
-                            </view>
-                            <view class="container-list">
-                                <view class="pointLine" v-if="type === 0">
-                                    <span class="splitCircle"></span>
-                                    <span class="splitLine" v-if="isShowSplitLine(itemIndex, listDataIndex)"></span>
-                                </view>
-                                <view class="pointLine" v-if="type !== 0">
-                                    <span class="number">{{ getLiIndex(itemIndex, listDataIndex) }}.</span>
-                                </view>
-                                <view class="content">
-                                    <view class="top-time">
-                                        <span class="time">{{ item.created_at.split(' ')[1].substring(0, 5) }}</span>
-                                        <i class="splitCircle"></i>
-                                        <span class="linkURL">{{ item.domain }}</span>
+                        <view class='download-tip'>{{downloadTipalertMsg}}</view>
+
+                        <block v-for="(item, itemIndex) in listData.data" :key="itemIndex">
+                            <view class="container-wrapper">
+                                <view class="dateWrapper" v-if="showDate(item, itemIndex, listDataIndex)">
+                                    <view class="LeftDate">
+                                        <svg class="icon" aria-hidden="true">
+                                            <use xlink:href="#icon-riliyouse"></use>
+                                        </svg>
+                                        <span>{{ timeToHumanText(item.created_at) }}</span>
                                     </view>
-                                    <view class="middle">
-                                        <view class="left">
-                                            <view class="title font-family-medium text-line-2">{{ item.title }}</view>
-                                            <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, itemIndex, listDataIndex)">
-                                                <view class="addOne" v-if="item.startAnimation">
-                                                    <i></i>
-                                                    <span>+{{startAnimationNum}}</span>
+                                    <view class="rightDaily"  @tap.stop.prevent="$router.pushPlus('/hotrecommend/' + item.created_at.split(' ')[0])" v-if="tabIndex === 1">
+                                        <svg class="icon" aria-hidden="true">
+                                            <use xlink:href="#icon-fenxiang1"></use>
+                                        </svg>
+                                        <span>日报</span>
+                                    </view>
+                                </view>
+                                <view class="container-list">
+                                    <view class="pointLine" v-if="tabIndex === 0">
+                                        <span class="splitCircle"></span>
+                                        <span class="splitLine" v-if="isShowSplitLine(itemIndex, listDataIndex)"></span>
+                                    </view>
+                                    <view class="pointLine" v-if="tabIndex !== 0">
+                                        <span class="number">{{ getLiIndex(itemIndex, listDataIndex) }}.</span>
+                                    </view>
+                                    <view class="content">
+                                        <view class="top-time">
+                                            <span class="time">{{ item.created_at.split(' ')[1].substring(0, 5) }}</span>
+                                            <i class="splitCircle"></i>
+                                            <span class="linkURL">{{ item.domain }}</span>
+                                        </view>
+                                        <view class="middle">
+                                            <view class="left">
+                                                <view class="title font-family-medium text-line-2">{{ item.title }}</view>
+                                                <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, itemIndex, listDataIndex)">
+                                                    <view class="addOne" v-if="item.startAnimation">
+                                                        <i></i>
+                                                        <span>+{{startAnimationNum}}</span>
+                                                    </view>
+                                                    <svg class="icon" aria-hidden="true">
+                                                        <use xlink:href="#icon-huo"></use>
+                                                    </svg>
+                                                    <span>{{ item.rate }}</span>
+                                                    <svg class="icon heatAddIcon" aria-hidden="true">
+                                                        <use xlink:href="#icon-tianjia"></use>
+                                                    </svg>
                                                 </view>
-                                                <svg class="icon" aria-hidden="true">
-                                                    <use xlink:href="#icon-huo"></use>
-                                                </svg>
-                                                <span>{{ item.rate }}</span>
-                                                <svg class="icon heatAddIcon" aria-hidden="true">
-                                                    <use xlink:href="#icon-tianjia"></use>
-                                                </svg>
                                             </view>
-                                        </view>
-                                        <view class="right" v-if="item.img.length">
-                                            <view class="articleImg">
-                                                <ImageView :src="item.img" width="97" :isLazyload="true" :saveToLocal="true"></ImageView>
+                                            <view class="right" v-if="item.img.length">
+                                                <view class="articleImg">
+                                                    <ImageView :src="item.img" width="97" :isLazyload="true" :saveToLocal="true"></ImageView>
+                                                </view>
                                             </view>
                                         </view>
                                     </view>
                                 </view>
                             </view>
-                        </view>
+                        </block>
+                        <view class="uni-tab-bar-loading">
+                            {{listData.loadingText}}
                     </view>
-                </view>
-            </template>
-        </SwiperMescrollList>
-
-        <BottomActions
-                ref="BottomActions"
-                v-model="activeItem"
-                :regions="regions"
-                @clickDelete="clickDelete"
-                @startAnimation="startAnimationEvent"
-                style="display: none"
-        >
-        </BottomActions>
-
-        <HotBottomActions
-                ref="HotBottomActions"
-                style="display: none"
-        >
-        </HotBottomActions>
-
-        <PageMore
-                style="display: none"
-                ref="share"
-                :shareOption="shareOption"
-                :hideShareBtn="true"
-                :iconMenu="shareIconMenus"
-                @success="shareSuccess"
-                @fail="shareFail"
-                @clickedItem="iconMenusClickedItem"
-        ></PageMore>
-
+                    </scroll-view>
+                </swiper-item>
+            </swiper>
+        </view>
         <Footer></Footer>
     </view>
 </template>
-
 <script>
-  import {swiper as customSwiper, swiperSlide as customSwiperSlide} from 'vue-awesome-swiper'
-  import SwiperMescrollList from '@/components/refresh/SwiperMescrollList.vue'
+
+  import {getHomeData, getListData} from '@/lib/home'
   import { timeToHumanText, getTimestampByDateStr } from '@/lib/time'
-  import { saveLocationInfo, isIos } from '@/lib/allPlatform'
-  import userAbility from '@/lib/userAbility'
-  import { goThirdPartyArticle } from '@/lib/webview'
-  import { openAppUrlByUrl } from '@/lib/plus'
-  import BottomActions from '@/components/BottomActions'
-  import HotBottomActions from '@/components/HotBottomActions'
-  import { deleteItem } from '@/lib/discover'
-  import PageMore from '@/components/PageMore.vue'
-  import { iconMenusClickedItem } from '@/lib/feed'
-  import { getHomeDetail } from '@/lib/shareTemplate'
-  import { getIndexByIdArray } from '@/lib/array'
-  import Vue from 'vue'
-  import { getHomeData } from '@/lib/home'
   import Footer from '@/components/Footer'
 
   export default {
-    data() {
-      return {
-        loading: true,
-        startAnimation: false,
-        lists: [],
-        regions: [],
-        shareOption: {},
-        itemOptionsObj: {},
-        shareIconMenus: [
-          {
-            icon: '#icon-shoucangdilantongyi',
-            text: '收藏',
-            isBookMark: 0
-          },
-          {
-            icon: '#icon-jubao',
-            text: '举报'
-          }
-        ],
-        swiperOption: {
-          slidesPerView: 'auto',
-          spaceBetween: 0,
-          freeMode: true
-        },
-        type: 1,
-        initPageIndex: 1,
-        isShowAddOne: false,
-        activeItem: {},
-        activeItemIndex: 0,
-        activeListIndex: 0,
-        startAnimationNum: '1',
-        liIndexConfig: [],
-        indexPosition: ''
-      }
-    },
     components: {
-      customSwiper,
-      customSwiperSlide,
-      SwiperMescrollList,
-      BottomActions,
-      PageMore,
-      HotBottomActions,
       Footer
     },
-    onLoad: function (option) {
-      getHomeData((data) => {
-        console.log(data)
-        this.regions = data.regions
-      })
-    },
-    computed: {
-      listDataConfig () {
-        var rs = this.regions.map(item => {
-          return {
-            api: 'readList',
-            data: {
-              tagFilter: item.value
-            },
-            autoShow: false
-          }
-        })
-        rs.unshift({
-          api: 'readList',
-          data: {
-            tagFilter: ''
-          },
-          autoShow: false
-        })
-
-        if (rs[this.initPageIndex]) {
-          rs[this.initPageIndex].autoShow = true
-        }
-
-        return rs
+    data() {
+      return {
+        downloadTipalertMsg: '',
+        scrollLeft: 0,
+        isClickChange: false,
+        tabIndex: 0,
+        lists: [],
+        tabBars: [],
+        liIndexConfig: []
       }
     },
+    computed: {
+      tabBarsNoAll () {
+        return this.tabBars.slice(1)
+      }
+    },
+    onLoad() {
+      getHomeData((data) => {
+        data.regions.unshift({value:0, text: '全部'})
+        this.tabBars = data.regions
+        this.lists = this.initLists()
+        this.addData(this.tabIndex)
+      })
+    },
+    onPullDownRefresh () {
+      let index = this.tabIndex
+      getListData(1, this.tabBars[index].value, (res) => {
+        this.lists[index].page = 0
+        this.lists[index].data = []
+        this.downloadTipalertMsg = res.alert_msg || ''
+        for (let i = 1; i < res.data.length; i++) {
+          this.lists[index].data.push(res.data[i])
+        }
+
+        if (this.lists[index].page === 0) {
+          if (this.downloadTipalertMsg) {
+            this.showDownloadTip()
+          }
+          setTimeout(() => {
+            this.hideDownloadTip()
+          }, 2000)
+        }
+        uni.stopPullDownRefresh()
+      })
+    },
     methods: {
-      sharHotspot () {
-        this.$refs.HotBottomActions.show()
+      showDownloadTip () {
+        if (this.$el.querySelector('.download-tip')) {
+          this.$el.querySelector('.download-tip').style.top = '0'
+        }
+      },
+      hideDownloadTip () {
+        if (this.$el.querySelector('.download-tip')) {
+          this.$el.querySelector('.download-tip').style.top = '-100px'
+        }
+      },
+      resetData(listDataIndex) {
+        console.log('reset' + listDataIndex)
+      },
+      getAllRecommend () {
+        this.tabIndex = 0
+      },
+      timeToHumanText (time) {
+        return timeToHumanText(getTimestampByDateStr(time))
+      },
+      isShowSplitLine (itemIndex, listDataIndex) {
+        if (itemIndex >= this.lists[listDataIndex].data.length - 1) {
+          return false
+        }
+
+        var nextItemIndex = itemIndex + 1
+        var isNextDate = this.showDate(this.lists[listDataIndex].data[nextItemIndex], nextItemIndex, listDataIndex)
+        if (isNextDate) {
+          return false
+        }
+
+        return true
       },
       getLiIndex (itemIndex, listDataIndex) {
         if (!this.liIndexConfig[listDataIndex]) {
@@ -275,233 +207,147 @@
 
         return this.liIndexConfig[listDataIndex]
       },
-      isShowSplitLine (itemIndex, listDataIndex) {
-        if (itemIndex >= this.lists[listDataIndex].length - 1) {
-          return false
-        }
-
-        var nextItemIndex = itemIndex + 1
-        var isNextDate = this.showData(this.lists[listDataIndex][nextItemIndex], nextItemIndex, listDataIndex)
-        if (isNextDate) {
-          return false
-        }
-
-        return true
-      },
-      prevSuccessCallback (data) {
-        if (this.type === 1) {
-          this.$ls.set('HomeDataList', data)
-          this.$refs.HotBottomActions.getNotification()
-        }
-      },
-      startAnimationEvent (num) {
-        this.startAnimationNum = num
-        var list = this.lists[this.activeListIndex]
-        list[this.activeItemIndex].startAnimation = 1
-        list[this.activeItemIndex].rate += num
-        Vue.set(this.lists, this.activeListIndex, list)
-
-        setTimeout(() => {
-          list[this.activeItemIndex].startAnimation = 0
-          Vue.set(this.lists, this.activeListIndex, list)
-        }, 2500)
-      },
-      showItemMore (item) {
-        item.feed_type = 16
-        item.user = {
-          id: 0
-        }
-        item.feed = {
-          is_bookmark: item.is_upvoted,
-          submission_id: item.id
-        }
-        this.shareIconMenus = [] // getIconMenus(item)
-        this.itemOptionsObj = item
-        this.shareOption = getHomeDetail(
-          '/c/' + item.category_id + '/' + item.slug, // item.link_url,
-          item.title,
-          item.img
-        )
-        this.shareOption.targetId = item.slug
-        this.shareOption.targetType = 'submission'
-        this.$refs.share.share()
-      },
-      iconMenusClickedItem (item) {
-        this.itemOptionsObj.feed_type = 16
-        this.itemOptionsObj.user = {
-          id: 0
-        }
-        this.itemOptionsObj.feed = {
-          is_bookmark: this.itemOptionsObj.is_upvoted,
-          submission_id: this.itemOptionsObj.id
-        }
-        iconMenusClickedItem(this, this.itemOptionsObj, item, () => {})
-      },
-      shareFail () {
-
-      },
-      shareSuccess () {
-        this.activeItem.share_number++
-        this.startAnimationEvent(3)
-      },
-      clickDelete () {
-        this.$refs.BottomActions.cancelShare()
-        deleteItem(this.activeItem.id, (context) => {
-          var index = getIndexByIdArray(this.lists, this.item.id)
-          this.lists.splice(index, 1)
-        })
-      },
-      goArticle: function (detail) {
-        if (detail.link_url.indexOf(process.env.H5_ROOT) === 0) {
-          openAppUrlByUrl(detail.link_url)
-        } else {
-          goThirdPartyArticle(
-            detail.link_url,
-            detail.id,
-            detail.title,
-            '/c/' + detail.category_id + '/' + detail.slug,
-            detail.img
-          )
-        }
-      },
-      listScroll (index, y, isUp) {
-        var navWarp = document.querySelector('.leftTopFixed')
-        if (!navWarp) {
-          return
-        }
-        if (isIos()) {
-          if (y < 10) {
-            navWarp.classList.remove('leftTopFixedShow')
-            navWarp.classList.remove('nav-sticky')
-          } else {
-            navWarp.classList.add('leftTopFixedShow')
-            navWarp.classList.add('nav-sticky')
-          }
-        } else {
-          if (y >= 10) {
-            navWarp.classList.add('leftTopFixedShow')
-            navWarp.classList.add('nav-fixed')
-          } else {
-            navWarp.classList.remove('leftTopFixedShow')
-            navWarp.classList.remove('nav-fixed')
-          }
-        }
-
-        var bmpPosition = ''
-        var positionValues = this.$refs.RefreshList.positionValues[index]
-        if (positionValues && positionValues.length) {
-          for (var i = 0; i < positionValues.length; i++) {
-            if (positionValues[i].offsetTop <= y) {
-              bmpPosition = positionValues[i].text
-            }
-          }
-        }
-
-        document.querySelector('.indexPosition').innerText = bmpPosition
-        // this.indexPosition = bmpPosition
-      },
-      toDetail (item) {
-        switch (item.type) {
-          case 'link':
-          case 'text':
-          case 'article':
-            this.$router.pushPlus('/c/' + item.category_id + '/' + item.slug)
-            break
-          default:
-        }
-      },
-      jumpToDiscoverAdd () {
-        userAbility.jumpToDiscoverAddLink(this)
-      },
-      addHeat (item, itemIndex, listIndex) {
-        this.activeItem = item
-        this.activeItemIndex = itemIndex
-        this.activeListIndex = listIndex
-        this.$refs.BottomActions.show()
-      },
-      timeToHumanText (time) {
-        return timeToHumanText(getTimestampByDateStr(time))
-      },
-      showData (item, index, listDataIndex) {
+      showDate (item, index, listDataIndex) {
         if (index >= 0) {
           var itemTime = item.created_at.split(' ')[0]
           var time = timeToHumanText(getTimestampByDateStr(itemTime))
 
           let currentData = time
-          let prevData = this.lists[listDataIndex][index - 1] && timeToHumanText(getTimestampByDateStr(this.lists[listDataIndex][index - 1].created_at.split(' ')[0]))
+          let prevData = this.lists[listDataIndex].data[index - 1] && timeToHumanText(getTimestampByDateStr(this.lists[listDataIndex].data[index - 1].created_at.split(' ')[0]))
           return currentData !== prevData
         }
       },
-      selectTag (index) {
-        console.log('indexTAG:' + index)
-        this.loading = true
-        this.$refs.inTags.swiper.slideTo(index - 1, 1000)
-        this.$refs.RefreshList.slideTo(index)
+      goDetail(e) {
+        uni.navigateTo({
+          url: '/pages/template/tabbar/detail/detail?title=' + e.title
+        });
       },
-      getAllRecommend () {
-        this.type = 0
-        this.$refs.RefreshList.slideTo(0)
+      loadMore(e) {
+        this.addData(e);
       },
-      curNavIndexChange (index) {
-        this.type = index
-        this.loading = true
-        this.$refs.inTags.swiper.slideTo(index - 1, 1000)
-      },
-      refreshPageData () {
-        var refreshHomeByAddLink = this.$ls.get('refreshHomeByAddLink')
-        if (refreshHomeByAddLink && refreshHomeByAddLink.status) {
-          this.$ls.remove('refreshHomeByAddLink')
-          this.refreshHomeByAddLink()
-        } else {
-          userAbility.newbieTask(this)
-          getHomeData((data) => {
-            console.log(data)
-            this.regions = data.regions
-          })
-        }
-      },
-      refreshHomeByAddLink () {
-        // addlink页操作完后刷新首页
-        this.getAllRecommend()
-        this.$refs.RefreshList.refreshPage(0)
-      },
-      getRegionIndex (value) {
-        for (var i = 0; i < this.regions.length; i++) {
-          if (this.regions[i].value === parseInt(value)) {
-            return i + 1
+      addData(index) {
+        getListData(this.lists[index].page + 1, this.tabBars[index].value, (res) => {
+          this.lists[index].page += 1
+          for (let i = 1; i < res.data.length; i++) {
+            this.lists[index].data.push(res.data[i])
           }
+        })
+      },
+      async changeTab(e) {
+        let index = e.target.current;
+        if (this.lists[index].data.length === 0) {
+          this.addData(index)
         }
-        return 0
+
+        if (this.isClickChange) {
+          this.tabIndex = index;
+          this.isClickChange = false;
+          return;
+        }
+        let tabBar = await this.getElSize("tab-bar"),
+          tabBarScrollLeft = tabBar.scrollLeft;
+        let width = 0;
+
+        for (let i = 0; i < index; i++) {
+          let result = await this.getElSize('tabbaritem_' + i + 1);
+          width += result.width;
+        }
+        let winWidth = uni.getSystemInfoSync().windowWidth,
+          nowElement = await this.getElSize('tabbaritem_' + index + 1),
+          nowWidth = nowElement.width;
+        if (width + nowWidth - tabBarScrollLeft > winWidth) {
+          this.scrollLeft = width + nowWidth - winWidth;
+        }
+        if (width < tabBarScrollLeft) {
+          this.scrollLeft = width;
+        }
+        this.isClickChange = false;
+        this.tabIndex = index
+      },
+      getElSize(id) {
+        return new Promise((res, rej) => {
+          uni.createSelectorQuery().select("#" + id).fields({
+            size: true,
+            scrollOffset: true
+          }, (data) => {
+            res(data);
+          }).exec();
+        })
+      },
+      async tapTab(e) {
+        let tabIndex = e.target.dataset.current;
+        if (!this.lists[tabIndex] || this.lists[tabIndex].length === 0) {
+          this.addData(tabIndex)
+        }
+        if (this.tabIndex === tabIndex) {
+          return false;
+        } else {
+          let tabBar = await this.getElSize("tab-bar")
+          let tabBarScrollLeft = tabBar.scrollLeft;
+          this.scrollLeft = tabBarScrollLeft;
+          this.isClickChange = true;
+          this.tabIndex = tabIndex;
+        }
+      },
+      initLists () {
+        let ary = [];
+        for (let i = 0, length = this.tabBars.length; i < length; i++) {
+          let aryItem = {
+            loadingText: '加载更多...',
+            page: 0,
+            data: []
+          };
+          ary.push(aryItem);
+        }
+        return ary;
       }
     }
   }
 </script>
 
-<style scoped lang="less">
-
-    .mui-content {
-        background: #FFFFFF;}
-    .container-control-logoAndTabsAndSearch .topSearchWrapper .searchFrame {
-        width: 619.96upx;}
-    .tagLabel {
-        width: auto !important;}
-
-    .splitCircle {
-        display: inline-block;
+<style>
+    .container-tags-home{
         position: relative;
-        top: -3.98upx;
-        border-radius: 50%;
-        width: 3.98upx;
-        height: 3.98upx;
-        background: #B4B4B6;
     }
-    .isFiexd {
+    .container-tags-home #tab-bar{
+        position: absolute;
+        top:0;
+        left:50px;
+        height:34px;
+        line-height: 34px;
+        border-bottom:0;
+    }
+    .container-tags-home .swiper-tab-list{
+        color: #808080;
+        font-size: 15px;
         position: relative;
-        z-index: 999;
-        display: none;
-        &.showTags {
-            display: block;
-        }
+    }
+    .container-tags-home .active{
+        color: #444;
+        font-family: PingFangSC-Medium;
+    }
+    .uni-tab-bar-loading {
+        text-align: center;
+        font-size: 28 upx;
+        color: #999;
+    }
+
+    uni-page-body {
+        height: 100%;
+    }
+
+
+</style>
+
+<style scoped lang="less">
+    .uni-tab-bar .swiper-box{
+        height:auto;
+    }
+    .mainContent{
+        height:100%;
+    }
+    .uni-tab-bar{
+        height: calc(100% - 50px);
     }
     .container-wrapper {
         /*margin-top: 30upx;*/
@@ -676,200 +522,6 @@
                     }
                 }
             }
-        }
-    }
-
-    .refreshListWrapper{
-        top: 156upx !important;
-        bottom: 50px !important; /* px不转换 */
-    }
-
-    .immersed44 .refreshListWrapper{
-        bottom: 84px !important; /* px不转换 */
-    }
-
-    .nav-sticky {
-        z-index: 9999;
-        position: -webkit-sticky;
-        position: sticky;
-        top: 27.98upx;
-    }
-
-    .nav-fixed{
-        z-index: 99;
-        position: absolute;
-        top: 156upx !important;
-        left: 0;
-    }
-    .fixedData {
-        color: #FFFFFF;
-        padding-left: 31.96upx;
-        padding-right: 19.96upx;
-        background: #03AEF9;
-        font-size: 24upx;
-        display: none;
-        margin-top: 27.98upx;
-        border-top-right-radius: 99.98upx;
-        border-bottom-right-radius: 99.98upx;
-        box-shadow:0upx 9.98upx 19.96upx -3.98upx rgba(205,215,220,1);
-        &.centerFiexd {
-            height: 57.98upx;
-            line-height: 57.98upx;
-            left: 50%;
-            transform: translateX(-21%);
-            border-radius: 99.98upx;
-        }
-        .icon {
-            font-size: 27.98upx;
-            position: relative;
-            top: 0.98upx;
-            color: #CCF2FF;
-        }
-        .upLine {
-            width: 1.96upx;
-            height: 24upx;
-            background: #67CEFB;
-            display: inline-block;
-            position: relative;
-            top: 3.98upx;
-            margin: 0 30upx;
-        }
-        .subscribeText {
-            font-size: 24upx;
-            margin-left: 114upx;
-            .icon {
-                font-size: 27.98upx;
-                margin-right: 9.98upx;
-            }
-        }
-        .shareText {
-            font-size: 24upx;
-            .icon {
-                font-size: 30upx;
-                margin-right: 9.98upx;
-            }
-        }
-    }
-
-    .everyDayWrapper {
-        padding: 0 31.96upx;
-        margin-top: 19.96upx;
-        .everyDay {
-            height: 87.98upx;
-            line-height: 87.98upx;
-            text-align: center;
-            border-radius: 7.96upx;
-            display: flex;
-            justify-content: center;
-            border: 1.96upx solid #E8E8E8;
-            background: #ffffff;
-            .icon {
-                font-size: 27.98upx;
-                color: #C8C8C8;
-                position: relative;
-                top: 27.98upx;
-            }
-            .textImg {
-                width: 199.96upx;
-                height: 24.98upx;
-                line-height: 87.98upx;
-                margin-left: 9.98upx;
-                img {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-    }
-
-    .leftTopFixedShow{
-        display: inline-block !important;
-    }
-    .mui-ios {
-        .heatWrapper {
-            .icon {
-                top: -6upx !important;
-                &.heatAddIcon {
-                    top: 11.26upx !important;
-                }
-            }
-            span {
-                top: -3.76upx !important;
-            }
-        }
-    }
-    .mui-android {
-        .heatWrapper {
-            .icon {
-                &.heatAddIcon {
-                    top: 12upx !important;
-                }
-            }
-        }
-    }
-    .hideData {
-        display: none !important;
-    }
-
-
-    @keyframes addone
-    {
-        0% {
-            top: -55.96upx;
-            opacity: 1;
-        }
-        50% {
-            top: -55.96upx;
-            opacity: 5;
-        }
-        100% {
-            top: -90upx;
-            opacity: 0;
-        }
-    }
-    @-moz-keyframes addone /* Firefox */
-    {
-        0% {
-            top: -55.96upx;
-            opacity: 1;
-        }
-        50% {
-            top: -55.96upx;
-            opacity: 5;
-        }
-        100% {
-            top: -90upx;
-            opacity: 0;
-        }
-    }
-    @-webkit-keyframes addone /* Safari and Chrome */
-    {
-        0% {
-            top: -55.96upx;
-            opacity: 1;
-        }
-        50% {
-            top: -55.96upx;
-            opacity: 5;
-        }
-        100% {
-            top: -90upx;
-            opacity: 0;
-        }
-    }
-    @-o-keyframes addone /* Opera */
-    {
-        0% {
-            top: -55.96upx;
-            opacity: 1;
-        }
-        50% {
-            top: -55.96upx;
-            opacity: 5;
-        }
-        100% {
-            top: -90upx;
-            opacity: 0;
         }
     }
 </style>

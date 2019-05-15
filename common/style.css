@@ -118,7 +118,9 @@
 .container-tags-home .container-tabLabels {
   width: 630upx;
   line-height: 67.96upx;
-  float: left;}
+  position: absolute;
+  height:33px;
+}
 .container-tags-home .container-tabLabels .tab {
   position: relative;
   border: none;

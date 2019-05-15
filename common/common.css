@@ -3190,6 +3190,7 @@ a {
 }
 .container-tags-home .container-tabLabels {
     width: 630upx;
+    height:100%;
     line-height: 67.96upx;
     float: left;}
 .container-tags-home .container-tabLabels .tab {
@@ -3477,3 +3478,20 @@ img.mui-zoom{
     color: #FFFFFF;
     font-size: 27.98upx;
     text-align: center;}
+
+/*下拉刷新回调的提示*/
+.download-tip {
+    z-index: 9900;
+    position: absolute;
+    top: -61.96rpx;
+    left: 0;
+    width: 100%;
+    height: 61.96rpx;
+    line-height: 61.96rpx;
+    font-size: 27.98rpx;
+    text-align: center;
+    background-color: #03AEF9;
+    color: #FFFFFF;
+    -webkit-transition: top 300ms;
+    transition: top 300ms;
+}
