@@ -6,14 +6,6 @@ import store from './store'
 import localstorage from "./lib/localstorage.js"
 import ajax from './lib/ajax_request.js'
 
-import VueLazyload from 'vue-lazyload'
-
-Vue.use(VueLazyload, {
-  preLoad: 1.3, // 预加载的高度比例
-  loading: '',
-  attempt: 8, // 尝试次数
-  listenEvents: [ 'scroll' ]
-})
 
 Vue.config.productionTip = false
 

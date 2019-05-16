@@ -43,10 +43,10 @@
 		}
 	],
 	"tabBar": {
-		"color": "#7A7E83",
-		"selectedColor": "#007AFF",
+		"color": "#B4B4B6",
+		"selectedColor": "#444",
 		"borderStyle": "black",
-		"backgroundColor": "#F8F8F8",
+		"backgroundColor": "#fff",
 		"list": [{
 				"pagePath": "pages/index/index",
 				"iconPath": "static/images/commentwait@3x.png",
@@ -78,8 +78,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#fff"
 	}
 }

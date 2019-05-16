@@ -16,14 +16,14 @@
             <view class="container-tags-home">
                 <view class="container-allTags " :class="tabIndex === 0 ? 'active' : ''"
                       :data-current="0" @click="tapTab">
-                    全部<i class="allTagsLine" :class="tabIndex === 0 ? 'activeLine':''"></i>
+                    全部<text class="allTagsLine" :class="tabIndex === 0 ? 'activeLine':''"></text>
                 </view>
 
                 <scroll-view id="tab-bar" class="uni-swiper-tab" scroll-x :scroll-left="scrollLeft">
                     <view v-for="(tab, index) in tabBarsNoAll" :key="tab.id" class="swiper-tab-list"
                           :class="tabIndex == index + 1 ? 'active' : ''"
                           :id="'tabbaritem_' + index + 1" :data-current="index + 1" @click="tapTab">{{tab.text}}
-                      <i class="allTagsLine" :class="tabIndex == index + 1 ? 'activeLine':''"></i>
+                      <text class="allTagsLine" :class="tabIndex == index + 1 ? 'activeLine':''"></text>
                     </view>
                 </scroll-view>
             </view>
@@ -57,7 +57,7 @@
                                     <view class="content">
                                         <view class="top-time">
                                             <text class="time">{{ topTime(item) }}</text>
-                                            <i class="splitCircle"></i>
+                                            <text class="splitCircle"></text>
                                             <text class="linkURL">{{ item.domain }}</text>
                                         </view>
                                         <view class="middle">
@@ -65,7 +65,7 @@
                                                 <view class="title font-family-medium text-line-2">{{ item.title }}</view>
                                                 <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, itemIndex, listDataIndex)">
                                                     <view class="addOne" v-if="item.startAnimation">
-                                                        <i></i>
+                                                        <text></text>
                                                         <text>+{{startAnimationNum}}</text>
                                                     </view>
                                                     <text class="iconfont icon-huo first"></text>
@@ -75,7 +75,7 @@
                                             </view>
                                             <view class="right" v-if="item.img.length">
                                                 <view class="articleImg">
-                                                    <img :src="item.img" width="97" :isLazyload="true" :saveToLocal="true"></img>
+                                                    <image :src="item.img" width="97" :isLazyload="true" :saveToLocal="true"></image>
                                                 </view>
                                             </view>
                                         </view>
@@ -85,7 +85,7 @@
                         </block>
                         <view class="uni-tab-bar-loading">
                             {{listData.loadingText}}
-                    </view>
+                        </view>
                     </scroll-view>
                 </swiper-item>
             </swiper>
