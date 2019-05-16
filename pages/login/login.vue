@@ -1,33 +1,40 @@
 <template>
-	<view style="background: #FFFFFF;overflow: hidden;">
-		<view class="">
-			<image src="../../static/images/loginbj.jpg" mode="widthFix" style="width: 100%;"></image>
-		</view>
-		<view class="" style="overflow: hidden;position: absolute;top: 140upx;left: 50%;transform: translate(-50%, -50%);">
-		</view>
-		<view class="" style="position: absolute;top: 200upx;left:5%;width: 90%;box-shadow:0 0 0.16rem rgba(7, 138, 255, 0.5);background: #FFFFFF;border-radius: 16upx;padding: 60upx 0">
-			<view style="text-align: center;"><image src="../../static/images/logo.png" mode="widthFix" style="width: 130upx;height: 130upx;"></image></view>
-			<view class="content">
-				<view class="grace-form" style="margin-top:50upx;width: 90%;">
-					<form @submit="submitLogin">
-						<view class="grace-items grace-items-wbg" style="border-bottom: 1px solid #F1F1F1!important;border-radius: 0;">
-							<input type="number" focus=true class="input" v-model.trim="phone" placeholder="请输入手机号" style="margin-left: 0;line-height: 40upx;"></input>
-						</view>
-						<view class="grace-space-between" style="margin-top:28upx;border-bottom: 2upx solid #f1f1f1;">
-							<view class="grace-items grace-items-wbg" style="width:66%;">
-								<input type="number" class="input" :focus="yzmFocus" v-model.trim="yzm" placeholder="请输入验证码" style="margin-left: 0;"></input>
-							</view>
-							<view style="width: 36%;">
-								<button class="thisBtn" @tap.stop.prevent="entryYzm">{{get_msg_btn}}</button>
-							</view>
-						</view>
-						<view class="memo noCount">验证即可登录，未注册用户将根据手机号自动创建账号</view>
-						<button :disabled="btnDisabled" form-type='submit' type='primary' style='background:#076cD4; margin-top:20px;border-radius: 88upx;'>
-							登录
-						</button>
-					</form>
-				</view>
+	<view class="mui-content">
+		<view class="login">
+			<view class="logo">
+				<text class="iconfont icon-logowenzi"></text>
 			</view>
+			<view class="inputWrapper half">
+				<text class="iconfont icon-shoujihao"></text>
+				<input class="inputPhone text" placeholder="请输入手机号" pattern="\d*" ref="phone" autofocus="autofocus"
+					   v-model="phone"
+					   type="text" name="phone" autocomplete="off">
+
+				<text class="getYzm disabled" @tap.stop.prevent="" v-if="!isCanGetCode">{{get_msg_btn}}</text>
+				<text class="getYzm" @tap.stop.prevent="entryYzm" v-else>{{get_msg_btn}}</text>
+			</view>
+			<view class="inputWrapper">
+				<text class="iconfont icon-yanzhengma"></text>
+				<input placeholder="请输入验证码" ref="yzmInput" :focus="yzmFocus" v-model.trim="yzm" class="text" type="text" name="code"
+					   autocomplete="off"/>
+			</view>
+
+			<button type="button" class="mui-btn mui-btn-block mui-btn-primary" @click.prevent="submitLogin"
+					:disabled="btnDisabled">登录
+        </button>
+			<view class="registerPassword">
+				<text>未注册验证即自动创建账号</text>
+				<text class="font-family-medium" @tap.stop.prevent="">密码登录</text>
+			</view>
+
+			<view class="weChat" @tap.stop.prevent="">
+				<view class="weChatIcon">
+					<text class="iconfont icon-wechat"></text>
+				</view>
+				<text>微信授权登录</text>
+			</view>
+
+			<view class="protocol">注册即同意<text @tap.stop.prevent="$router.pushPlus('/protocol/register')">《用户注册服务协议》</text></view>
 		</view>
 	</view>
 </template>
@@ -40,6 +47,7 @@
 	export default {
 		data() {
 			return {
+              isCanGetCode: true,
 			  phone: '',
 			  yzm: '',
 			  get_msg_btn: '获取验证码',
@@ -48,7 +56,7 @@
 			  yzmFocus: false
 			}
 		},
-		created() {
+        onLoad() {
 			console.log(this.$ls.get('token'))
 		},
 		methods: {
@@ -139,53 +147,264 @@
 	}
 </script>
 
-<style>
-	.content {
+
+<style lang="less" rel="stylesheet/less" scoped>
+	.registerPassword {
+		padding: 0 73.96upx;
 		display: flex;
-		justify-content: center;
-		align-items: center;
-
-		text-align: center;
+		justify-content: space-between;
+		span {
+			&:nth-of-type(1) {
+				color: #B4B4B6;
+				font-size: 24upx;
+				text-align: left;
+			}
+			&:nth-of-type(2) {
+				color: #444444;
+				font-size: 30upx;
+			}
+		}
 	}
-
-	.thisBtn {
+	.weChat {
+		position: absolute;
+		bottom: 111.98upx;
+		left: 50%;
+		transform: translateX(-50%);
+		text-align: center;
+		.weChatIcon {
+			width: 79.96upx;
+			height: 79.96upx;
+			margin: 0 auto;
+			color: #FFFFFF;
+			font-size: 49.96upx;
+			line-height: 79.96upx;
+			border-radius: 50%;
+			background: linear-gradient(155deg,#7ADF75 0%,#51C944 100%);
+		}
+		span {
+			color: #B4B4B6;
+			font-size: 21.98upx;
+			margin-top: 12upx;
+		}
+	}
+	.mui-content{
 		background: #FFFFFF;
-		color: #076cD4;
-		font-size: 14px;
+		min-height: 1135.96upx;
+	}
+	.login {
+		position: absolute;
 		width: 100%;
-		height: 80upx;
-		line-height: 80upx;
+		min-height: 100%;
+		background: #FFFFFF;
+		background-size: cover;
 	}
-
-	.input {
-		margin-left: 0 ! !important;
-		color: #333333;
-	}
-
-	.memo {
-		color: #999999;
-		font-size: 22upx;
-		text-align: left;
-	}
-
-	.registeText {
-		color: #076cD4;
-		margin-left: 10upx;
-	}
-
-	.noCount {
+	/*协议*/
+	.protocol {
+		position: absolute;
+		bottom: 39.98upx;
+		left: 50%;
+		transform: translateX(-50%);
+		color: #808080;
 		text-align: center;
-		margin-top: 20upx;
+		font-size: 24upx;
+		span {
+			color: #3C95F9;
+		}
 	}
 
-	.titleName {
+	/*登录*/
+	.button, .mui-btn {
+		border-radius: 9.98upx;
+		width: 80%;
+		margin-left: 10%;
+		margin-top: 30upx;
+		margin-bottom: 24upx;
+	}
+
+	button {
+		border-radius: 9.98upx;
+		&:disabled {
+			background: #DCDCDC;
+			border: 1.96upx solid #dcdcdc;
+			color: #b4b4b6;
+		}
+	}
+
+	/*邀请码*/
+	.help {
+		font-size: 27.98upx;
+		color: #3c95f9;
 		text-align: center;
+
 	}
 
-	.titleName {
-		color: #076DD4;
-		font-size: 36upx;
-		font-weight: bold;
-		padding-bottom: 40upx;
+	/*小箭头*/
+
+	.leftNav {
+
+		position: absolute;
+		left: 24upx;
+		top: 30upx;
+		font-size: 39.98upx;
+		color: #808080;
+	}
+
+	/*图标*/
+	.logo{
+		font-size: 295.96upx;
+		text-align: center;
+		margin: 9.98upx 0;
+		padding-top: 39.98upx;
+		height: 295.96upx;
+	}
+	.logo .iconfont {
+		font-size: 295.96upx;
+		position: relative;
+		top:-30upx;
+	}
+
+	/*输入框的内容*/
+	.inputWrapper {
+		margin: 0 66upx 49.96upx;
+		position: relative;
+		width: 80%;
+		margin-left: 10%;
+		.iconfont {
+			position: absolute;
+			top: 9.98upx;
+			font-size: 43.96upx;
+			color: #c8c8c8;
+			left: 0;
+		}
+	}
+
+	.inputWrapper.focus {
+		&:after {
+			background-color: #3c95f9;
+		}
+		.iconfont {
+			color: #3c95f9;
+		}
+	}
+
+	/*验证码*/
+	.inputWrapper .getYzm {
+		display: inline-block;
+		font-size: 27.98upx;
+		color: #444444;
+		position: absolute;
+		right: 3.98upx;
+		top: 9.0upx;
+		height: 60upx;
+		padding: 0 30upx;
+		line-height: 60upx;
+		border-radius: 9.98upx;
+		border: 1.96upx solid #dcdcdc;
+	}
+
+	.inputWrapper .getYzm.disabled {
+		border: 1.96upx solid #DCDCDC;
+		color: #C8C8C8;
+	}
+
+	.inputWrapper:after {
+		position: absolute;
+		right: 0;
+		bottom: 6upx;
+		left: 0;
+		height: 1.96upx;
+		content: '';
+		-webkit-transform: scaleY(.5);
+		transform: scaleY(.5);
+		background-color: rgb(220, 220, 220);
+	}
+
+	.inputWrapper input {
+		color: #444;
+		border: none;
+		margin: 0;
+		font-size: 27.98upx;
+		background: none;
+		display: inline-block;
+		height: 72upx;
+		line-height: 72upx;
+		margin-left: 30upx;
+		padding-top:0;
+		padding-bottom:0;
+	}
+
+	input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+		color: #b4b4b6;
+	}
+
+	input:-moz-placeholder, textarea:-moz-placeholder {
+		color: #b4b4b6;
+	}
+
+	input::-moz-placeholder, textarea::-moz-placeholder {
+		color: #b4b4b6;
+	}
+
+	input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+		color: #b4b4b6;
+	}
+
+	/*手机号input输入框的调整*/
+	.inputPhone {
+		color: #444;
+		border: none;
+		margin: 0;
+		font-size: 27.98upx;
+		background: none;
+		display: inline-block;
+		height: 72upx;
+		margin-left: 24upx;
+		/*background: #ccc;*/
+		width: 60%;
+		padding-top:0;
+		padding-bottom:0;
+		margin-right: 40%;
+	}
+
+	.half:after {
+		position: absolute;
+		right: 36%;
+		bottom: 6upx;
+		left: 0;
+		height: 1.96upx;
+		content: '';
+		-webkit-transform: scaleY(0.5);
+		transform: scaleY(0.5);
+		background-color: #dcdcdc;
+	}
+
+	/*2 3图标大小的微调*/
+	.inputWrapper:nth-of-type(3) .iconfont {
+		position: absolute;
+		top: 6upx;
+		font-size: 49.96upx;
+		/*color: #c8c8c8;*/
+		left: 0;
+	}
+
+	.inputWrapper:nth-of-type(4) .iconfont {
+		position: absolute;
+		top: 6upx;
+		font-size: 49.96upx;
+		/*color: #c8c8c8;*/
+		left: 0;
+	}
+
+	.inputWrapper:nth-of-type(5) .iconfont {
+		position: absolute;
+		top: 9.98upx;
+		font-size: 39.98upx;
+		/*color: #c8c8c8;*/
+		left: 0;
+	}
+
+	uni-button[disabled] {
+		color:#b4b4b6;
+		opacity: .6;
 	}
 </style>

@@ -7,6 +7,8 @@
    + 不要写内联样式
    + 不能使用css3选择器
    + 单位只能使用px, upx, vh
+   + 图标使用
+        <text class="iconfont icon-tianjia"></text>
 + vue
    + created 改为 onLoad
    + mounted 改为 onReady

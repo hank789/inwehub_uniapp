@@ -105,3 +105,47 @@
     transform: scale(0.5);
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0; }
+
+.mui-content{
+    position: absolute;
+    top:0;
+    width: 750upx;
+    left:50%;
+    margin-left:-375.0upx !important;
+    bottom:0;
+    padding-top:0;
+    overflow: scroll;
+}
+
+input,
+input[type='text'],
+input[type='search'],
+input[type='password'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='date'],
+input[type='month'],
+input[type='time'],
+input[type='week'],
+input[type='number'],
+input[type='email'],
+input[type='url'],
+input[type='tel'],
+input[type='color']
+{
+    line-height: 42upx;
+
+    width: 100%;
+    height: 79.96upx;
+    margin-bottom: 30upx;
+    padding: 19.96upx 30upx;
+
+    -webkit-user-select: text;
+
+    border: 1.96upx solid rgba(0, 0, 0, .2);
+    border-radius: 6upx;
+    outline: none;
+    background-color: #fff;
+
+    -webkit-appearance: none;
+}

@@ -33,6 +33,12 @@
 			}
 		},
 		{
+			"path": "pages/test/test",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path" : "pages/login/login",
 			"style" : {
 				"app-plus" : {
