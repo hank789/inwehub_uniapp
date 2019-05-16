@@ -325,7 +325,7 @@
 
 <style scoped lang="less">
     .uni-tab-bar{
-        height: 600px;
+        height:100%;
     }
     .uni-tab-bar .swiper-box{
         height:calc(100% - 76px);
