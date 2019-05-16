@@ -8,6 +8,7 @@
 				<text class="iconfont icon-shoujihao"></text>
 				<input class="inputPhone text" placeholder="请输入手机号" pattern="\d*" ref="phone" autofocus="autofocus"
 					   v-model="phone"
+					   placeholder-class="inputPlaceholder"
 					   type="text" name="phone" autocomplete="off">
 
 				<text class="getYzm disabled" @tap.stop.prevent="" v-if="!isCanGetCode">{{get_msg_btn}}</text>
@@ -23,18 +24,18 @@
 					:disabled="btnDisabled">登录
         </button>
 			<view class="registerPassword">
-				<text>未注册验证即自动创建账号</text>
-				<text class="font-family-medium" @tap.stop.prevent="">密码登录</text>
+				<text class="firstSpan">未注册验证即自动创建账号</text>
+				<text class="twoSpan font-family-medium" @tap.stop.prevent="">密码登录</text>
 			</view>
 
 			<view class="weChat" @tap.stop.prevent="">
 				<view class="weChatIcon">
 					<text class="iconfont icon-wechat"></text>
 				</view>
-				<text>微信授权登录</text>
+				<text class="span">微信授权登录</text>
 			</view>
 
-			<view class="protocol">注册即同意<text @tap.stop.prevent="$router.pushPlus('/protocol/register')">《用户注册服务协议》</text></view>
+			<view class="protocol">注册即同意<text class="span" @tap.stop.prevent="$router.pushPlus('/protocol/register')">《用户注册服务协议》</text></view>
 		</view>
 	</view>
 </template>
@@ -149,21 +150,22 @@
 
 
 <style lang="less" rel="stylesheet/less" scoped>
+
 	.registerPassword {
 		padding: 0 73.96upx;
 		display: flex;
 		justify-content: space-between;
-		span {
-			&:nth-of-type(1) {
-				color: #B4B4B6;
-				font-size: 24upx;
-				text-align: left;
-			}
-			&:nth-of-type(2) {
-				color: #444444;
-				font-size: 30upx;
-			}
+
+		.firstSpan {
+			color: #B4B4B6;
+			font-size: 24upx;
+			text-align: left;
 		}
+		.twoSpan {
+			color: #444444;
+			font-size: 30upx;
+		}
+
 	}
 	.weChat {
 		position: absolute;
@@ -176,12 +178,14 @@
 			height: 79.96upx;
 			margin: 0 auto;
 			color: #FFFFFF;
-			font-size: 49.96upx;
 			line-height: 79.96upx;
 			border-radius: 50%;
 			background: linear-gradient(155deg,#7ADF75 0%,#51C944 100%);
+			.iconfont{
+				font-size: 49.96upx;
+			}
 		}
-		span {
+		.span {
 			color: #B4B4B6;
 			font-size: 21.98upx;
 			margin-top: 12upx;
@@ -207,7 +211,7 @@
 		color: #808080;
 		text-align: center;
 		font-size: 24upx;
-		span {
+		.span {
 			color: #3C95F9;
 		}
 	}
@@ -329,25 +333,13 @@
 		height: 72upx;
 		line-height: 72upx;
 		margin-left: 30upx;
+		position: relative;
+		top:10upx;
 		padding-top:0;
 		padding-bottom:0;
 	}
 
-	input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
-		color: #b4b4b6;
-	}
 
-	input:-moz-placeholder, textarea:-moz-placeholder {
-		color: #b4b4b6;
-	}
-
-	input::-moz-placeholder, textarea::-moz-placeholder {
-		color: #b4b4b6;
-	}
-
-	input:-ms-input-placeholder, textarea:-ms-input-placeholder {
-		color: #b4b4b6;
-	}
 
 	/*手机号input输入框的调整*/
 	.inputPhone {

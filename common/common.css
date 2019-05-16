@@ -149,3 +149,7 @@ input[type='color']
 
     -webkit-appearance: none;
 }
+
+.input-placeholder{
+    color: #b4b4b6;
+}
