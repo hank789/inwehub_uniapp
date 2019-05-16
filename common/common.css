@@ -88,3 +88,20 @@
     -webkit-transition: top 300ms;
     transition: top 300ms;
 }
+
+.border-football {
+    border:none !important;
+    position: relative; }
+.border-football:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    border: 1.96upx solid #B4B4B6;
+    border-radius: 84.98upx;
+    width: 200%;
+    height: 200%;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0; }

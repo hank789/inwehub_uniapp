@@ -4,12 +4,12 @@
             <view class="container-control-logoAndTabsAndSearch">
                 <view class="topSearchWrapper" @tap.stop.prevent="$router.pushPlus('/searchAll','list-detail-page-three')">
                     <view class="searchFrame">
-                        <view class="iconfont icon-sousuo"></view>
-                        <span>搜产品、问答、圈子、内容</span>
+                        <text class="iconfont icon-sousuo"></text>
+                        <text>搜产品、问答、圈子、内容</text>
                     </view>
                 </view>
                 <view class="addIcon" @tap.stop.prevent="jumpToDiscoverAdd">
-                    <view class="iconfont icon-tianjia"></view>
+                    <text class="iconfont icon-tianjia"></text>
                 </view>
             </view>
 
@@ -38,27 +38,27 @@
                             <view class="container-wrapper">
                                 <view class="dateWrapper" v-if="showDate(item, itemIndex, listDataIndex)">
                                     <view class="LeftDate">
-                                        <view class="iconfont icon-riliyouse"></view>
-                                        <span>{{ timeToHumanText(item.created_at) }}</span>
+                                        <text class="iconfont icon-riliyouse"></text>
+                                        <text class="text">{{ timeToHumanText(item.created_at) }}</text>
                                     </view>
                                     <view class="rightDaily"  @tap.stop.prevent="$router.pushPlus('/hotrecommend/' + item.created_at.split(' ')[0])" v-if="tabIndex === 1">
-                                        <view class="iconfont icon-fenxiang1"></view>
-                                        <span>日报</span>
+                                        <text class="iconfont icon-fenxiang1"></text>
+                                        <text>日报</text>
                                     </view>
                                 </view>
                                 <view class="container-list">
                                     <view class="pointLine" v-if="tabIndex === 0">
-                                        <span class="splitCircle"></span>
-                                        <span class="splitLine" v-if="isShowSplitLine(itemIndex, listDataIndex)"></span>
+                                        <text class="splitCircle"></text>
+                                        <text class="splitLine" v-if="isShowSplitLine(itemIndex, listDataIndex)"></text>
                                     </view>
                                     <view class="pointLine" v-if="tabIndex !== 0">
-                                        <span class="number">{{ getLiIndex(itemIndex, listDataIndex) }}.</span>
+                                        <text class="number">{{ getLiIndex(itemIndex, listDataIndex) }}.</text>
                                     </view>
                                     <view class="content">
                                         <view class="top-time">
-                                            <span class="time">{{ topTime(item) }}</span>
+                                            <text class="time">{{ topTime(item) }}</text>
                                             <i class="splitCircle"></i>
-                                            <span class="linkURL">{{ item.domain }}</span>
+                                            <text class="linkURL">{{ item.domain }}</text>
                                         </view>
                                         <view class="middle">
                                             <view class="left">
@@ -66,11 +66,11 @@
                                                 <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, itemIndex, listDataIndex)">
                                                     <view class="addOne" v-if="item.startAnimation">
                                                         <i></i>
-                                                        <span>+{{startAnimationNum}}</span>
+                                                        <text>+{{startAnimationNum}}</text>
                                                     </view>
-                                                    <view class="iconfont icon-huo"></view>
-                                                    <span>{{ item.rate }}</span>
-                                                    <view class="iconfont icon-tianjia"></view>
+                                                    <text class="iconfont icon-huo first"></text>
+                                                    <text class="text">{{ item.rate }}</text>
+                                                    <text class="iconfont icon-tianjia second"></text>
                                                 </view>
                                             </view>
                                             <view class="right" v-if="item.img.length">
@@ -324,11 +324,11 @@
 </style>
 
 <style scoped lang="less">
-    .uni-tab-bar .swiper-box{
-        height:100%;
-    }
     .uni-tab-bar{
         height: 600px;
+    }
+    .uni-tab-bar .swiper-box{
+        height:calc(100% - 76px);
     }
     .container-wrapper {
         /*margin-top: 30upx;*/
@@ -340,10 +340,10 @@
             line-height: 42upx;
             margin-bottom: 39.98upx;
             margin-top: 19.96upx;
-            .icon {
+            .iconfont {
                 font-size: 30upx;
             }
-            span {
+            text {
                 color: #444444;
                 font-size: 24upx;
             }
@@ -391,7 +391,7 @@
                 display: inline-block;
             }
             .top-time {
-                span {
+                text {
                     color: #B4B4B6;
                     font-size: 21.98upx;
                     line-height: 21.98upx;
@@ -443,7 +443,7 @@
                                 top: 37.50upx;
                                 left: 12upx;
                             }
-                            span {
+                            .text {
                                 width: 45.98upx;
                                 height: 36upx;
                                 line-height: 36upx;
@@ -455,25 +455,25 @@
                                 display: inline-block;
                             }
                         }
-                        span {
+                        .text {
                             color: #C8C8C8;
                             font-size: 21.98upx;
                             margin-right: 7.96upx;
                             position: relative;
-                            top: -1.96upx;
-                            left: -3.98upx;
+                            top: -5upx;
+                            left: 6upx;
                         }
-                        .icon {
+                        .iconfont {
                             position: relative;
-                            top: -3.98upx;
-                            &:nth-of-type(1) {
+                            top: -6upx;
+                            &.first {
                                 color: #FA4975;
                                 font-size: 22.50upx;
                             }
-                            &:nth-of-type(2) {
+                            &.second {
                                 color: #808080;
                                 font-size: 18upx;
-                                top: 9.98upx;
+                                top: -2upx;
                                 position: absolute !important;
                                 right: 15.98upx !important;
                             }
