@@ -9,6 +9,12 @@
 			}
 		},
 		{
+			"path": "pages/test/test",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/discover/index",
 			"style": {
 				"navigationStyle": "custom"
@@ -20,22 +26,28 @@
 				"navigationBarTitleText" : "通知",
 				"app-plus" : {
 				    "titleNView" : {
-				        "buttons" : [
-							{
-								"text": "设置",
-								"float":"left",
-								"fontSize": "14px",
-								"color":"#808080"
-							},
-				            {
-								"text": "&#xe6b7;",
-								"color":"#808080",
-								"fontSrc": "/static/fonts/iconfont.ttf",
-								"fontSize": "21px"
-				            }
-				        ]
+							"buttons" : [
+								{
+									"text": "设置",
+									"float":"left",
+									"fontSize": "14px",
+									"color":"#808080"
+								},
+								{
+									"text": "&#xe6b7;",
+									"color":"#808080",
+									"fontSrc": "/static/fonts/iconfont.ttf",
+									"fontSize": "21px"
+								}
+				      ]
 				    }
 				}
+			}
+		},
+		{
+			"path": "pages/discover/addlink",
+			"style": {
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -51,12 +63,6 @@
 			}
 		},
 		{
-			"path": "pages/test/test",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path" : "pages/login/login",
 			"style" : {
 				"app-plus" : {
@@ -64,44 +70,44 @@
 				},
 				"navigationBarTitleText" : "登录"
 			}
-		}
-	    ,{
-            "path" : "pages/inform/setting",
-            "style" : {
+		},
+	  {
+			"path" : "pages/inform/setting",
+			"style" : {
 				"navigationBarTitleText" : "设置"
 			}
-        }
-        ,{
-            "path" : "pages/inform/task",
-            "style" : {
+    },
+    {
+			"path" : "pages/inform/task",
+			"style" : {
 				"navigationBarTitleText" : "任务通知"
 			}
-        }
-        ,{
-            "path" : "pages/inform/informbar",
-            "style" : {
+		},
+    {
+			"path" : "pages/inform/informbar",
+			"style" : {
 				"navigationBarTitleText" : "通知公告"
 			}
-        },
+    },
 		{
-            "path" : "pages/inform/balancebar",
-            "style" : {
+      "path" : "pages/inform/balancebar",
+      "style" : {
 				"navigationBarTitleText" : "余额变动"
 			}
-        }
-		,{
-            "path" : "pages/inform/questionbar",
-            "style" : {
+    },
+		{
+			"path" : "pages/inform/questionbar",
+			"style" : {
 				"navigationBarTitleText" : "问答通知"
 			}
-        }
-		,{
-            "path" : "pages/inform/readbar",
-            "style" : {
+    },
+		{
+			"path" : "pages/inform/readbar",
+			"style" : {
 				"navigationBarTitleText" : "动态通知"
 			}
-        }
-    ],
+    }
+  ],
 	"tabBar": {
 		"color": "#B4B4B6",
 		"selectedColor": "#444",

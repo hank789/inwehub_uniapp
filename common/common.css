@@ -153,3 +153,26 @@ input[type='color']
 .input-placeholder{
     color: #b4b4b6;
 }
+
+
+
+.line-river-after {
+    position: relative;
+    height: 1px; /* px不转换 */
+    width: 100%; }
+.line-river-after:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    content: '';
+    background-color: #dcdcdc;
+    height: 1px; /* px不转换 */
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5); }
+
+.line-river-after-top {
+    top: -1px; /* px不转换 */}
+.line-river-after-short:after {
+    left: 30upx;
+    right: 30upx; }
