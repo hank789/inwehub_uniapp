@@ -8,11 +8,11 @@
         <view class="textWrapper">
           <view class="text textBottom">
             <text>客服微信：hiinwe</text>
-            <text @tap.stop.prevent="showWeChat">添加</text>
+            <text class="textColor" @tap.stop.prevent="showWeChat">添加</text>
           </view>
           <view class="text">
             <text>联系邮箱：hi@inwehub.com</text>
-            <text v-clipboard="'hi@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
+            <text class="textColor" v-clipboard="'hi@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
           </view>
         </view>
         <view class="bot"></view>
@@ -23,7 +23,7 @@
         <view class="textWrapper">
           <view class="text">
             <text>联系邮箱：Ad@inwehub.com</text>
-            <text v-clipboard="'Ad@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
+            <text class="textColor" v-clipboard="'Ad@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
           </view>
         </view>
         <view class="bot"></view>
@@ -34,7 +34,7 @@
         <view class="textWrapper">
           <view class="text">
             <text>联系邮箱：BD@inwehub.com</text>
-            <text v-clipboard="'BD@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
+            <text class="textColor" v-clipboard="'BD@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
           </view>
         </view>
         <view class="bot"></view>
@@ -45,7 +45,7 @@
         <view class="textWrapper">
           <view class="text">
             <text>联系邮箱：Hi@inwehub.com</text>
-            <text v-clipboard="'Hi@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
+            <text class="textColor" v-clipboard="'Hi@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
           </view>
         </view>
         <view class="bot"></view>
@@ -56,7 +56,7 @@
         <view class="textWrapper">
           <view class="text">
             <text>联系邮箱：HR@inwehub.com</text>
-            <text v-clipboard="'HR@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
+            <text class="textColor" v-clipboard="'HR@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
           </view>
         </view>
         <!--<view class="bot"></view>-->
@@ -114,11 +114,9 @@
         &:nth-of-type(1) {
           margin: 18upx 0 0upx;
         }
-        span {
-          &:nth-of-type(2) {
-            color: #03AEF9;
-          }
-        }
+		.textColor {
+			color: #03AEF9;
+		}
       }
     }
 
