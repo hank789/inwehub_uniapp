@@ -38,7 +38,7 @@
                             <view class="container-wrapper">
                                 <view class="dateWrapper" v-if="showDate(item, itemIndex, listDataIndex)">
                                     <view class="LeftDate">
-                                        <text class="iconfont icon-riliyouse"></text>
+                                        <text class="iconfont icon-rili"></text>
                                         <text class="text">{{ timeToHumanText(item.created_at) }}</text>
                                     </view>
                                     <view class="rightDaily"  @tap.stop.prevent="$router.pushPlus('/hotrecommend/' + item.created_at.split(' ')[0])" v-if="tabIndex === 1">
@@ -342,6 +342,7 @@
             margin-top: 19.96upx;
             .iconfont {
                 font-size: 30upx;
+                color:rgb(3, 174, 249);
             }
             text {
                 color: #444444;
