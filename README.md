@@ -6,6 +6,7 @@
 + 请求数据：
 	+ this.$request.post
 	+ this.$request.get
+	+ this.$request.upload
 
 + 缓存数据(永久)
 	+ this.$ls.get
