@@ -8,7 +8,7 @@
                         <text>搜产品、问答、圈子、内容</text>
                     </view>
                 </view>
-                <view class="addIcon" @tap.stop.prevent="jumpToDiscoverAdd">
+                <view class="addIcon" @tap.stop.prevent="toRoute('/pages/discover/addlink')">
                     <text class="iconfont icon-tianjia"></text>
                 </view>
             </view>
@@ -147,6 +147,9 @@
       })
     },
     methods: {
+      toRoute (url) {
+        uni.navigateTo({url: url})
+      },
       topTime (item) {
         return item.created_at.split(' ')[1].substring(0, 5)
       },
