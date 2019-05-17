@@ -74,7 +74,7 @@
 					})
 					return;
 				}
-				this.$ajax.post('auth/sendPhoneCode',{mobile: phone, type: 'login'}).then(res => {
+				this.$request.post('auth/sendPhoneCode',{mobile: phone, type: 'login'}).then(res => {
 					console.log(res)
 					if (res.code == 1000) {
 						uni.showToast({
@@ -120,7 +120,7 @@
 					return;
 				}
 				this.btnDisabled = true
-				this.$ajax.post('auth/login', params).then(res => {
+				this.$request.post('auth/login', params).then(res => {
 					console.log(res);
 					this.btnDisabled = false
 					if(res.code==1000){
