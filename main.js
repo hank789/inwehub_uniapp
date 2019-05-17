@@ -4,7 +4,7 @@ import App from './App'
 import './config/index.js'
 import store from './store'
 import localstorage from "./lib/localstorage.js"
-import ajax from './lib/ajax_request.js'
+import ajax from './lib/request.js'
 
 
 Vue.config.productionTip = false
