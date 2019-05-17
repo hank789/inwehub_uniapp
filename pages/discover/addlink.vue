@@ -97,11 +97,11 @@
           this.resetData()
           uni.navigateBack()
         }, (res) => {
-          var code = res.data.code
+          var code = res.code
           if (code === 6101) {
             // 已存在
-            this.$ui.toast(res.data.message)
-            uni.redirectTo({url: res.data.data.exist_url})
+            this.$ui.toast(res.message)
+            uni.redirectTo({url: res.data.exist_url})
             return
           }
         })
