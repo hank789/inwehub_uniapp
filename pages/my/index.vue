@@ -25,12 +25,13 @@
 
 					<view class="my-personal">
 						<view class="my-info">
-							<text class="mui-ellipsis font-family-medium">{{name}}</text>
-							<text @tap.stop.prevent="$router.pushPlus('/my/Growth')">L{{ user_level }}</text>
+							<text class="userName font-family-medium">{{name}}</text>
+							<text class="userLevel" @tap.stop.prevent="$router.pushPlus('/my/Growth')">L{{ user_level }}</text>
 						</view>
 						<view class="my-detail">
 							<text class="followedMy" @tap.stop.prevent="$router.pushPlus('/my/focus/'+uuid)">关注我的人{{followed_number}}</text>
-							<text class="popul" @tap.stop.prevent="$router.pushPlus('/my/visitors')">访客人气{{popularity}}</text>
+							<view class="spots"></view>
+							<text class="followedMy" @tap.stop.prevent="$router.pushPlus('/my/visitors')">访客人气{{popularity}}</text>
 						</view>
 					</view>
 				</view>
@@ -58,30 +59,30 @@
 
 			<!--列表内容-->
 			<view class="component-option">
-				<view v-if="show_my_wallet" class="optionList" @tap.stop.prevent="$router.pushPlus('/my/Finance')">
-					<text>我的钱包</text>
+				<view class="optionList" @tap.stop.prevent="$router.pushPlus('/my/Finance')">
+					<text class="optionText">我的钱包</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="gray"></view>
-				<view v-if="show_my_wallet" class="optionList invite" @tap.stop.prevent="$router.pushPlus('/invitation/index')">
-					<text>邀请好友</text>
-					<text>5%返现</text>
+				<view class="optionList invite" @tap.stop.prevent="$router.pushPlus('/invitation/index')">
+					<text class="optionText">邀请好友</text>
+					<text class="rightText">5%返现</text>
 					<text class="iconfont icon-jinru"></text>
 					<i class="bot"></i>
 				</view>
-				<view v-if="show_my_wallet" class="optionList signIn" @tap.stop.prevent="toSignIGift()">
-					<text>每日签到</text>
-					<text v-if="!current_day_signed"></text>
+				<view class="optionList signIn" @tap.stop.prevent="toSignIGift()">
+					<text class="optionText">每日签到</text>
+					<text class="redSpots" v-if="!current_day_signed"></text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="gray"></view>
 				<view class="optionList" @tap.stop.prevent="$router.pushPlus('/feedback/advise')">
-					<text>意见反馈</text>
+					<text class="optionText">意见反馈</text>
 					<text class="iconfont icon-jinru"></text>
 					<i class="bot"></i>
 				</view>
-				<view class="optionList" @tap.stop.prevent="$router.pushPlus('/contactUs')">
-					<text>联系我们</text>
+				<view class="optionList" @tap.stop.prevent="toRoute('/pages/my/contactUs')">
+					<text class="optionText">联系我们</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="gray"></view>
@@ -91,28 +92,81 @@
 
 	</view>
 </template>
-<script>
 
+<script>
+	export default {
+		onLoad() {
+
+		},
+		methods: {
+		  toRoute (url) {
+			uni.navigateTo({url: url})
+		  }
+		}
+	}
 </script>
+
 <style lang="less">
+	.mui-content {
+		background: #fff;
+		top: 100upx;
+		bottom: 50px;
+		/* px不转换 */
+	}
+
+	.gray {
+		width: 100%;
+		height: 19.96upx;
+		background: #F3F4F5;
+	}
+
+	.bot {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0upx;
+		height: 1.96upx;
+		-webkit-transform: scaleY(.5);
+		transform: scaleY(.5);
+		background-color: rgb(220, 220, 220);
+	}
+
 	.mui-bar {
-		padding: 0.306rem 32upx 0;
+		padding: 22.96upx 32upx 0;
 		display: flex;
 		justify-content: space-between;
 
 		.icon {
-			font-size: 0.56rem;
+			font-size: 42upx;
 			color: #444444;
 		}
 
 		.setUp {
 			display: flex;
-			padding-left: 0.106rem;
+			padding-left: 7.96upx;
 		}
 
 		.code {
 			display: flex;
-			padding-right: 0.106rem;
+			padding-right: 7.96upx;
+		}
+	}
+
+	.account_info {
+		position: absolute;
+		right: 0;
+		top: 43.96upx;
+		height: 57.98upx;
+		border-radius: 199.96upx 0 0 199.96upx;
+		line-height: 57.98upx;
+		color: #FFFFFF;
+		font-size: 25.96upx;
+		padding-left: 25.96upx;
+		padding-right: 30upx;
+		z-index: 9;
+
+		.iconfont {
+			color: #808080;
 		}
 	}
 
@@ -120,27 +174,27 @@
 	.my-top {
 		overflow: hidden;
 		background-color: #ffffff;
-		padding: 0 0.426rem;
+		padding: 0 31.96upx;
 	}
 
 	.professor {
-		margin-top: 0.4rem;
+		margin-top: 30upx;
 		display: flex;
 
 		.my-img {
-			width: 1.573rem;
-			height: 1.573rem;
+			width: 117.98upx;
+			height: 117.98upx;
 			position: relative;
 
 			.expert {
 				position: absolute;
-				bottom: -0.026rem;
-				right: -0.08rem;
+				bottom: -1.96upx;
+				right: -6upx;
 
-				.icon {
-					font-size: 0.586rem;
+				.iconfont {
+					font-size: 43.96upx;
 					color: #FCC816;
-					border: 0.053rem solid #FFF;
+					border: 3.98upx solid #FFF;
 					border-radius: 50%;
 					background: #FFF;
 				}
@@ -155,83 +209,64 @@
 	}
 
 	.my-personal {
-		margin-top: 0.106rem;
-		margin-left: 0.266rem;
+		margin-top: 7.96upx;
+		margin-left: 19.96upx;
 		position: relative;
 		z-index: 98;
 
 		.my-info {
 			position: relative;
 
-			span {
-				display: inline-block;
-
-				&:nth-of-type(1) {
-					max-width: 2.92rem;
-					font-size: 0.533rem;
-					color: #444444;
-					margin-right: 0.04rem;
-					margin-bottom: -0.106rem;
-				}
-
-				&:nth-of-type(2) {
-					position: relative;
-					z-index: 1;
-					padding: 0.026rem 0.133rem;
-					position: relative;
-					top: -0.08rem;
-					font-style: normal;
-					line-height: 0.4rem;
-					font-size: 0.266rem;
-					color: #FFFFFF;
-					text-align: center;
-					border-radius: 2.666rem;
-					background: linear-gradient(180deg, #07D7FD 0%, #03AEF9 100%);
-				}
+			.userName {
+				max-width: 219.0upx;
+				font-size: 39.98upx;
+				color: #444444;
+				margin-right: 3.0upx;
+				margin-bottom: -7.96upx;
 			}
 
-			p {
-				&:nth-of-type(1) {}
-			}
-
-			svg {
-				:nth-of-type(1) {
-					font-size: 0.693rem;
-					margin-bottom: -0.106rem;
-					margin-left: -0.08rem;
-					color: rgb(3, 174, 249);
-					position: relative;
-				}
+			.userLevel {
+				position: relative;
+				z-index: 1;
+				padding: 1.96upx 9.98upx;
+				position: relative;
+				top: -6upx;
+				font-style: normal;
+				line-height: 30upx;
+				font-size: 19.96upx;
+				color: #FFFFFF;
+				text-align: center;
+				border-radius: 199.96upx;
+				background: linear-gradient(180deg, #07D7FD 0%, #03AEF9 100%);
 			}
 		}
 
 		.my-detail {
-			margin-top: 0.106rem;
+			margin-top: 7.96upx;
 
-			span {
-				font-size: 0.346rem;
+			.followedMy {
+				font-size: 25.96upx;
 				color: #444444;
 			}
 
-			i {
+			.spots {
 				display: inline-block;
-				width: 0.053rem;
-				height: 0.053rem;
+				width: 3.98upx;
+				height: 3.98upx;
 				border-radius: 50%;
 				background: #B4B4B6;
-				margin: 0 0rem 0.08rem;
+				margin: 0 10upx 6upx;
 			}
 		}
 	}
 
-
 	.part2 {
 		list-style: none;
 		width: 100%;
-		height: 1.653rem;
-		margin-top: 0.4rem;
-		padding-left: 0.4rem;
-		padding-right: 0.4rem;
+		height: 123.98upx;
+		margin-top: 30upx;
+		padding-left: 30upx;
+		padding-right: 30upx;
 		background: #ffffff;
 		position: relative;
 
@@ -241,74 +276,76 @@
 			height: 100%;
 			text-align: center;
 			position: relative;
-			margin-top: 0.213rem;
+			margin-top: 15.98upx;
 
 			.iconfont {
-				font-size: 0.64rem;
-				margin-top: 0.266rem;
+				font-size: 48upx;
+				margin-top: 19.96upx;
 			}
 
 			.font-family-medium {
 				color: #444444;
-				font-size: 0.506rem;
-				line-height: 0.586rem;
+				font-size: 37.96upx;
+				line-height: 43.96upx;
 			}
 
 			.listText {
-				font-size: 0.32rem;
+				font-size: 24upx;
 				color: #808080;
 				display: block;
+				/*margin-top: 13.96upx;*/
 			}
 		}
 	}
-	
-	.component-option{
-    .invite {
-      span {
-        &:nth-of-type(2) {
-          position: absolute;
-          right: 1.093rem;
-          color: #B4B4B6;
-          font-size: 0.32rem;
-        }
-      }
-    }
-    .signIn {
-      span {
-        &:nth-of-type(2) {
-          width: 0.213rem;
-          height: 0.213rem;
-          position: absolute;
-          left: 2.1rem;
-          top: 0.266rem;
-          border-radius: 50%;
-          background: #FA4975;
-          display: inline-block;
-        }
-      }
-    }
-    .optionList {
-      /*width: 92%;*/
-      margin: 0 auto;
-      color: #444444;
-      font-size: 0.4rem;
-      padding: 0.293rem 0.4rem;
-      position: relative;
-      display: flex;
-      justify-content: space-between;
-      span {
-        display: flex;
-      }
-      .icon {
-        font-size: 0.346rem;
-        display: flex;
-        margin-top: 0.08rem;
-        color: #808080;
-      }
-      .bot {
-        right: 0.48rem;
-        left: 0.426rem;
-      }
-    }
-  }
+
+	.component-option {
+		.invite {
+			.rightText {
+				position: absolute;
+				right: 81.98upx;
+				color: #B4B4B6;
+				font-size: 24upx;
+			}
+		}
+
+		.signIn {
+			.redSpots {
+				width: 15.98upx;
+				height: 15.98upx;
+				position: absolute;
+				left: 157.50upx;
+				top: 19.96upx;
+				border-radius: 50%;
+				background: #FA4975;
+				display: inline-block;
+			}
+		}
+
+		.optionList {
+			/*width: 92%;*/
+			margin: 0 auto;
+			color: #444444;
+			font-size: 30upx;
+			padding: 21.98upx 30upx;
+			position: relative;
+			display: flex;
+			justify-content: space-between;
+
+			.optionText {
+				display: flex;
+			}
+
+			.iconfont {
+				font-size: 25.96upx;
+				display: flex;
+				margin-top: 6upx;
+				color: #808080;
+			}
+
+			.bot {
+				right: 36upx;
+				left: 31.96upx;
+			}
+		}
+	}
 </style>

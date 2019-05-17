@@ -23,24 +23,23 @@
 		{
 			"path": "pages/inform/index",
 			"style": {
-				"navigationBarTitleText" : "通知",
-				"app-plus" : {
-				    "titleNView" : {
-							"buttons" : [
-								{
-									"text": "设置",
-									"float":"left",
-									"fontSize": "14px",
-									"color":"#808080"
-								},
-								{
-									"text": "&#xe6b7;",
-									"color":"#808080",
-									"fontSrc": "/static/fonts/iconfont.ttf",
-									"fontSize": "21px"
-								}
-				      ]
-				    }
+				"navigationBarTitleText": "通知",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+								"text": "设置",
+								"float": "left",
+								"fontSize": "14px",
+								"color": "#808080"
+							},
+							{
+								"text": "&#xe6b7;",
+								"color": "#808080",
+								"fontSrc": "/static/fonts/iconfont.ttf",
+								"fontSize": "21px"
+							}
+						]
+					}
 				}
 			}
 		},
@@ -63,52 +62,59 @@
 			}
 		},
 		{
-			"path" : "pages/login/login",
-			"style" : {
-				"app-plus" : {
-					"titleNView" : false //禁用原生导航栏
+			"path": "pages/my/contactUs",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "联系我们"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏
 				},
-				"navigationBarTitleText" : "登录"
+				"navigationBarTitleText": "登录"
 			}
 		},
-	  {
-			"path" : "pages/inform/setting",
-			"style" : {
-				"navigationBarTitleText" : "设置"
-			}
-    },
-    {
-			"path" : "pages/inform/task",
-			"style" : {
-				"navigationBarTitleText" : "任务通知"
+		{
+			"path": "pages/inform/setting",
+			"style": {
+				"navigationBarTitleText": "设置"
 			}
 		},
-    {
-			"path" : "pages/inform/informbar",
-			"style" : {
-				"enablePullDownRefresh" : true,
-				"navigationBarTitleText" : "通知公告"
-			}
-    },
 		{
-      "path" : "pages/inform/balancebar",
-      "style" : {
-				"navigationBarTitleText" : "余额变动"
+			"path": "pages/inform/task",
+			"style": {
+				"navigationBarTitleText": "任务通知"
 			}
-    },
+		},
 		{
-			"path" : "pages/inform/questionbar",
-			"style" : {
-				"navigationBarTitleText" : "问答通知"
+			"path": "pages/inform/informbar",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "通知公告"
 			}
-    },
+		},
 		{
-			"path" : "pages/inform/readbar",
-			"style" : {
-				"navigationBarTitleText" : "动态通知"
+			"path": "pages/inform/balancebar",
+			"style": {
+				"navigationBarTitleText": "余额变动"
 			}
-    }
-  ],
+		},
+		{
+			"path": "pages/inform/questionbar",
+			"style": {
+				"navigationBarTitleText": "问答通知"
+			}
+		},
+		{
+			"path": "pages/inform/readbar",
+			"style": {
+				"navigationBarTitleText": "动态通知"
+			}
+		}
+	],
 	"tabBar": {
 		"color": "#B4B4B6",
 		"selectedColor": "#444",
