@@ -14,15 +14,28 @@
 				</view>
 			</view>
 		</view>
+		<uni-load-more :status="status" :content-text="contentText" />
 	</view>
 </template>
 
 <script>
-  const Taskbar = {
-    data: () => ({
-      list: [],
-      loading: true
-    }),
+	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
+  export default {
+    data() {
+			return {
+				list: [],
+				isMore: false,
+				status: 'more',
+				contentText: {
+					contentdown: '上拉加载更多',
+					contentrefresh: '加载中',
+					contentnomore: '没有更多'
+				}
+			}
+    },
+		components: {
+			uniLoadMore
+		},
     created () {
 
     },
@@ -37,10 +50,12 @@
     },
 		onPullDownRefresh() {
 			this.page = 1;
+			this.isMore = true;
 			this.getList(1);
 			uni.stopPullDownRefresh();
 		},
 		onReachBottom() {
+			this.status = 'more';
 			this.getList(this.page);
 		},
     methods: {
@@ -67,6 +82,10 @@
       },
       getList(page) {
 				console.log(page)
+				if (this.isMore) {
+					//说明已有数据，目前处于上拉加载
+					this.status = 'loading';
+				}
 				this.$request.post('notification/notice_list', {page: page}).then(res_data => {
 					if (res_data.code == 1000) {
 						this.page = page + 1;
@@ -75,11 +94,10 @@
 						} else {
 							this.list = this.list.concat(res_data.data.data);
 						}
-						this.loadingText = '加载更多...'
 						this.isMore = true
 						if (!res_data.data.next_page_url) {
 							this.isMore = false;
-							this.loadingText = '没有更多了'
+							this.status = '';
 						}
 					} else {
 					    uni.showToast({
@@ -105,7 +123,6 @@
       this.sign()
     }
   }
-  export default Taskbar
 </script>
 
 <style scoped>
