@@ -154,8 +154,6 @@ input[type='color']
     color: #b4b4b6;
 }
 
-
-
 .line-river-after {
     position: relative;
     height: 1px; /* px不转换 */
@@ -176,3 +174,7 @@ input[type='color']
 .line-river-after-short:after {
     left: 30upx;
     right: 30upx; }
+
+input, textarea, select{
+    font-size:31.96upx;
+}
