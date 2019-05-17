@@ -3,6 +3,18 @@
 
 
 [代码限制]
++ 请求数据：
+	+ this.$request.post
+	+ this.$request.get
+	+ this.$request.upload
+
++ 缓存数据(永久)
+	+ this.$ls.get
+	+ this.$ls.set
++ 缓存数据（应用运行期间）
+	+ this.$store.commit('setAppHide', true)
+	+ this.$store.state.isAppHide
+
 + css
    + 不要写内联样式
    + 不能使用css3选择器
