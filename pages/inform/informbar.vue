@@ -1,111 +1,111 @@
 <template>
   <view>
-		<view class="uni-list">
-			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(item,key) in list" :key="key" @tap.stop.prevent="goUrl(item.data.url)">
-				<view class="uni-media-list">
-					<image class="uni-media-list-logo" :src="item.data.avatar"></image>
-					<view class="uni-media-list-body">
-						<view class="uni-media-list-text-top">{{item.data.title}}</view>
-						<view class="uni-media-list-text-bottom">
-							<text>{{item.data.body}}</text>
-							<text>{{item.created_at}}</text>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view>
-	</view>
+    <view class="uni-list">
+      <view v-for="(item,key) in list" :key="key" class="uni-list-cell" hover-class="uni-list-cell-hover" @tap.stop.prevent="goUrl(item.data.url)">
+        <view class="uni-media-list">
+          <image class="uni-media-list-logo" :src="item.data.avatar" />
+          <view class="uni-media-list-body">
+            <view class="uni-media-list-text-top">{{ item.data.title }}</view>
+            <view class="uni-media-list-text-bottom">
+              <text>{{ item.data.body }}</text>
+              <text>{{ item.created_at }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
-  const Taskbar = {
-    data: () => ({
-      list: [],
-      loading: true
-    }),
-    created () {
+const Taskbar = {
+  data: () => ({
+    list: [],
+    loading: true
+  }),
+  created() {
 
-    },
-    computed: {
-      // 有无数据；
-      nothing () {
-        if (this.loading) {
-          return -1
-        }
-        return this.list.length ? 0 : 1
+  },
+  computed: {
+    // 有无数据；
+    nothing() {
+      if (this.loading) {
+        return -1
+      }
+      return this.list.length ? 0 : 1
+    }
+  },
+  onPullDownRefresh() {
+    this.page = 1
+    this.getList(1)
+    uni.stopPullDownRefresh()
+  },
+  onReachBottom() {
+    this.getList(this.page)
+  },
+  methods: {
+    typeDesc(type) {
+      switch (type) {
+        case 'App\\Notifications\\GroupAuditResult':
+          return 1
+        case 'App\\Notifications\\NewGroupMemberJoin':
+          return 1
+        case 'App\\Notifications\\NewGroupMemberApply':
+          return 1
+        case 'App\\Notifications\\GroupMemberApplyResult':
+          return 1
+        default:
+          return 0
       }
     },
-		onPullDownRefresh() {
-			this.page = 1;
-			this.getList(1);
-			uni.stopPullDownRefresh();
-		},
-		onReachBottom() {
-			this.getList(this.page);
-		},
-    methods: {
-      typeDesc (type) {
-        switch (type) {
-          case 'App\\Notifications\\GroupAuditResult':
-            return 1
-          case 'App\\Notifications\\NewGroupMemberJoin':
-            return 1
-          case 'App\\Notifications\\NewGroupMemberApply':
-            return 1
-          case 'App\\Notifications\\GroupMemberApplyResult':
-            return 1
-          default:
-            return 0
-        }
-      },
-      goUrl (url) {
-        if (/resume/.test(url)) {
-          this.$router.pushPlus(url + '?goback=1', 'list-detail-page')
+    goUrl(url) {
+      if (/resume/.test(url)) {
+        this.$router.pushPlus(url + '?goback=1', 'list-detail-page')
+      } else {
+        this.$router.pushPlus(url, 'list-detail-page')
+      }
+    },
+    getList(page) {
+      console.log(page)
+      this.$request.post('notification/notice_list', { page: page }).then(res_data => {
+        if (res_data.code == 1000) {
+          this.page = page + 1
+          if (page === 1) {
+            this.list = res_data.data.data
+          } else {
+            this.list = this.list.concat(res_data.data.data)
+          }
+          this.loadingText = '加载更多...'
+          this.isMore = true
+          if (!res_data.data.next_page_url) {
+            this.isMore = false
+            this.loadingText = '没有更多了'
+          }
         } else {
-          this.$router.pushPlus(url, 'list-detail-page')
-        }
-      },
-      getList(page) {
-				console.log(page)
-				this.$request.post('notification/notice_list', {page: page}).then(res_data => {
-					if (res_data.code == 1000) {
-						this.page = page + 1;
-						if (page === 1) {
-							this.list = res_data.data.data;
-						} else {
-							this.list = this.list.concat(res_data.data.data);
-						}
-						this.loadingText = '加载更多...'
-						this.isMore = true
-						if (!res_data.data.next_page_url) {
-							this.isMore = false;
-							this.loadingText = '没有更多了'
-						}
-					} else {
 					    uni.showToast({
 					        title: res_data.message,
 					        icon: 'none'
-					    });
-					}
-					this.refreshing = false
-				})
-			},
-      // 请求标记
-      sign () {
-        this.$request.post(`notification/mark_as_read`, {
-          notification_type: 1
-        }).then(response => {
-          
-        })
-      }
+					    })
+        }
+        this.refreshing = false
+      })
     },
-    onLoad () {
-      // 加载页面请求一次；
-      this.getList(1)
-      this.sign()
+    // 请求标记
+    sign() {
+      this.$request.post(`notification/mark_as_read`, {
+        notification_type: 1
+      }).then(response => {
+
+      })
     }
+  },
+  onLoad() {
+    // 加载页面请求一次；
+    this.getList(1)
+    this.sign()
   }
-  export default Taskbar
+}
+export default Taskbar
 </script>
 
 <style scoped>

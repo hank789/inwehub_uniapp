@@ -1,7 +1,7 @@
 <template>
-    <view>
-        demo
-    </view>
+  <view>
+    demo
+  </view>
 </template>
 <script>
 
