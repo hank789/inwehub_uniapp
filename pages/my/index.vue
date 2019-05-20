@@ -2,7 +2,7 @@
 	<view>
 
 		<view class="mui-bar">
-			<view class="setUp" @tap.stop.prevent="$router.pushPlus('/setting')">
+			<view class="setUp" @tap.stop.prevent="toRoute('/pages/my/setting')">
 				<text class="iconfont icon-shezhi"></text>
 			</view>
 			<view class="code" @tap.stop.prevent="$router.pushPlus('/my/qrcode')">

@@ -80,6 +80,13 @@
 			}
 		},
 		{
+			"path": "pages/my/setting",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"app-plus": {
