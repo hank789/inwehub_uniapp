@@ -69,6 +69,13 @@
 			}
 		},
 		{
+			"path": "pages/my/finance",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "我的钱包"
+			}
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"app-plus": {
