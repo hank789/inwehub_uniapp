@@ -59,7 +59,7 @@
 
 			<!--列表内容-->
 			<view class="component-option">
-				<view class="optionList" @tap.stop.prevent="$router.pushPlus('/my/Finance')">
+				<view class="optionList" @tap.stop.prevent="toRoute('/pages/my/finance')">
 					<text class="optionText">我的钱包</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>

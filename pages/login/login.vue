@@ -1,153 +1,172 @@
 <template>
-	<view class="mui-content">
-		<view class="login">
-			<view class="logo">
-				<text class="iconfont icon-logowenzi"></text>
-			</view>
-			<view class="inputWrapper half">
-				<text class="iconfont icon-shoujihao"></text>
-				<input class="inputPhone text" placeholder="请输入手机号" pattern="\d*" ref="phone" autofocus="autofocus"
-					   v-model="phone"
-					   placeholder-class="inputPlaceholder"
-					   type="text" name="phone" autocomplete="off">
+  <view class="mui-content">
+    <view class="login">
+      <view class="logo">
+        <text class="iconfont icon-logowenzi" />
+      </view>
+      <view class="inputWrapper half">
+        <text class="iconfont icon-shoujihao" />
+        <input
+          ref="phone"
+          v-model="phone"
+          class="inputPhone text"
+          placeholder="请输入手机号"
+          pattern="\d*"
+          autofocus="autofocus"
+          placeholder-class="inputPlaceholder"
+          type="text"
+          name="phone"
+          autocomplete="off"
+        >
 
-				<text class="getYzm disabled" @tap.stop.prevent="" v-if="!isCanGetCode">{{get_msg_btn}}</text>
-				<text class="getYzm" @tap.stop.prevent="entryYzm" v-else>{{get_msg_btn}}</text>
-			</view>
-			<view class="inputWrapper">
-				<text class="iconfont icon-yanzhengma"></text>
-				<input placeholder="请输入验证码" ref="yzmInput" :focus="yzmFocus" v-model.trim="yzm" class="text" type="text" name="code"
-					   autocomplete="off"/>
-			</view>
+        <text v-if="!isCanGetCode" class="getYzm disabled" @tap.stop.prevent="">{{ get_msg_btn }}</text>
+        <text v-else class="getYzm" @tap.stop.prevent="entryYzm">{{ get_msg_btn }}</text>
+      </view>
+      <view class="inputWrapper">
+        <text class="iconfont icon-yanzhengma" />
+        <input
+          ref="yzmInput"
+          v-model.trim="yzm"
+          placeholder="请输入验证码"
+          :focus="yzmFocus"
+          class="text"
+          type="text"
+          name="code"
+          autocomplete="off"
+        >
+      </view>
 
-			<button type="button" class="mui-btn mui-btn-block mui-btn-primary" @click.prevent="submitLogin"
-					:disabled="btnDisabled">登录
-        </button>
-			<view class="registerPassword">
-				<text class="firstSpan">未注册验证即自动创建账号</text>
-				<text class="twoSpan font-family-medium" @tap.stop.prevent="">密码登录</text>
-			</view>
+      <button
+        type="button"
+        class="mui-btn mui-btn-block mui-btn-primary"
+        :disabled="btnDisabled"
+        @click.prevent="submitLogin"
+      >登录
+      </button>
+      <view class="registerPassword">
+        <text class="firstSpan">未注册验证即自动创建账号</text>
+        <text class="twoSpan font-family-medium" @tap.stop.prevent="">密码登录</text>
+      </view>
 
-			<view class="weChat" @tap.stop.prevent="">
-				<view class="weChatIcon">
-					<text class="iconfont icon-wechat"></text>
-				</view>
-				<text class="span">微信授权登录</text>
-			</view>
+      <view class="weChat" @tap.stop.prevent="">
+        <view class="weChatIcon">
+          <text class="iconfont icon-wechat" />
+        </view>
+        <text class="span">微信授权登录</text>
+      </view>
 
-			<view class="protocol">注册即同意<text class="span" @tap.stop.prevent="$router.pushPlus('/protocol/register')">《用户注册服务协议》</text></view>
-		</view>
-	</view>
+      <view class="protocol">注册即同意<text class="span" @tap.stop.prevent="$router.pushPlus('/protocol/register')">《用户注册服务协议》</text></view>
+    </view>
+  </view>
 </template>
 
 <script>
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex'
-	export default {
-		data() {
-			return {
-              isCanGetCode: true,
+import {
+  mapState,
+  mapMutations
+} from 'vuex'
+export default {
+  data() {
+    return {
+      isCanGetCode: true,
 			  phone: '',
 			  yzm: '',
 			  get_msg_btn: '获取验证码',
 			  can_send_msg: true,
 			  btnDisabled: false,
 			  yzmFocus: false
-			}
-		},
-        onLoad() {
-			console.log(this.$ls.get('token'))
-		},
-		methods: {
-			...mapMutations(['setUser', 'setToken']),
-			entryYzm() {
-				let phone = this.phone;
-				if (!this.can_send_msg) {
-					return
-				}
-				if (!phone) {
-					uni.showToast({
-						title: "请输入手机号",
-						icon: "none"
-					})
-					return;
-				}
-				this.$request.post('auth/sendPhoneCode',{mobile: phone, type: 'login'}).then(res => {
-					console.log(res)
-					if (res.code == 1000) {
-						uni.showToast({
-							title: "验证码发送成功",
-						});
-						this.can_send_msg = false;
-						this.get_msg_btn = 59;
-						this.yzmFocus = true;
-						let timer = setInterval(() => {
-							this.get_msg_btn--;
-							if (this.get_msg_btn == 0) {
-								this.get_msg_btn = "获取验证码";
-								this.can_send_msg = true;
-								clearInterval(timer)
-							}
-						}, 1000)
-					} else {
-						uni.showToast({
-							title: res.message,
-							icon: 'none'
-						})
-					}
-				})
-			},
-			submitLogin() {
-				let params = {
-					mobile: this.phone,
-					phoneCode: this.yzm
-				}
-				console.log(params);
-				if (!this.phone) {
-					uni.showToast({
-						title: '请填写手机号',
-						icon: 'none'
-					})
-					return;
-				}
-				if (!this.yzm) {
-					uni.showToast({
-						title: '请填写验证码',
-						icon: 'none'
-					})
-					return;
-				}
-				this.btnDisabled = true
-				this.$request.post('auth/login', params).then(res => {
-					console.log(res);
-					this.btnDisabled = false
-					if(res.code==1000){
-						this.setUser(res.data)
-						this.setToken(res.data.token)
-						this.$ls.set('token',res.data.token)
-						if (!res.data.name) {
-							uni.reLaunch({
-								url: '/pages/login/updateInfo'
-							})
-						} else {
-							uni.reLaunch({
-								url: '/pages/index/index'
-							})
-						}
-					}else{
-						uni.showToast({
-							title:res.message,
-							icon:'none'
-						})
-					}
-				})
-			}
-		}
-	}
+    }
+  },
+  onLoad() {
+    console.log(this.$ls.get('token'))
+  },
+  methods: {
+    ...mapMutations(['setUser', 'setToken']),
+    entryYzm() {
+      const phone = this.phone
+      if (!this.can_send_msg) {
+        return
+      }
+      if (!phone) {
+        uni.showToast({
+          title: '请输入手机号',
+          icon: 'none'
+        })
+        return
+      }
+      this.$request.post('auth/sendPhoneCode', { mobile: phone, type: 'login' }).then(res => {
+        console.log(res)
+        if (res.code == 1000) {
+          uni.showToast({
+            title: '验证码发送成功'
+          })
+          this.can_send_msg = false
+          this.get_msg_btn = 59
+          this.yzmFocus = true
+          const timer = setInterval(() => {
+            this.get_msg_btn--
+            if (this.get_msg_btn == 0) {
+              this.get_msg_btn = '获取验证码'
+              this.can_send_msg = true
+              clearInterval(timer)
+            }
+          }, 1000)
+        } else {
+          uni.showToast({
+            title: res.message,
+            icon: 'none'
+          })
+        }
+      })
+    },
+    submitLogin() {
+      const params = {
+        mobile: this.phone,
+        phoneCode: this.yzm
+      }
+      console.log(params)
+      if (!this.phone) {
+        uni.showToast({
+          title: '请填写手机号',
+          icon: 'none'
+        })
+        return
+      }
+      if (!this.yzm) {
+        uni.showToast({
+          title: '请填写验证码',
+          icon: 'none'
+        })
+        return
+      }
+      this.btnDisabled = true
+      this.$request.post('auth/login', params).then(res => {
+        console.log(res)
+        this.btnDisabled = false
+        if (res.code == 1000) {
+          this.setUser(res.data)
+          this.setToken(res.data.token)
+          this.$ls.set('token', res.data.token)
+          if (!res.data.name) {
+            uni.reLaunch({
+              url: '/pages/login/updateInfo'
+            })
+          } else {
+            uni.reLaunch({
+              url: '/pages/index/index'
+            })
+          }
+        } else {
+          uni.showToast({
+            title: res.message,
+            icon: 'none'
+          })
+        }
+      })
+    }
+  }
+}
 </script>
-
 
 <style lang="less" rel="stylesheet/less" scoped>
 
@@ -338,8 +357,6 @@
 		padding-top:0;
 		padding-bottom:0;
 	}
-
-
 
 	/*手机号input输入框的调整*/
 	.inputPhone {

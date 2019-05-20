@@ -1,20 +1,20 @@
 <template>
-	<view>
-		setting
-	</view>
+  <view>
+    setting
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				
-			}
-		},
-		methods: {
-			
-		}
-	}
+export default {
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+
+  }
+}
 </script>
 
 <style>
