@@ -180,3 +180,34 @@ input, textarea, select{
     font-size:31.96upx;
 }
 
+.component-labelWithIcon {
+    display: inline-block;
+    background: #c8c8c8;
+    padding: 2upx 20upx 4upx 14upx;
+    border-radius: 50upx;
+    color: #fff;
+    font-size: 26upx;
+    line-height: normal
+}
+
+
+.float-right {
+    float: right
+}
+
+.float-right:after {
+    content: " ";
+    display: table;
+    clear: both
+}
+
+.clear:after {
+    content: " ";
+    display: table;
+    clear: both
+}
+
+.text-right {
+    text-align: right
+}
+

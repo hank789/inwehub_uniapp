@@ -113,6 +113,7 @@
   let windowWidth = 0; let scrollTimer = false; let tabBar
   import { getHomeData, getListData } from '@/lib/home'
   import { timeToHumanText, getTimestampByDateStr } from '@/lib/time'
+  import { urlencode } from '@/lib/string'
 
   export default {
     components: {
@@ -238,13 +239,13 @@
         const data = {
           id: item.id,
           title: item.title,
-          author: item.author,
-          time: item.time
+          url: item.link_url,
+          img: item.img
         }
-        const url = item.videoSrc ? 'videoDetails' : 'details'
+
 
         uni.navigateTo({
-          url: `/pages/details/${url}?data=${JSON.stringify(data)}`
+          url: `/pages/webview/article?data=${urlencode(JSON.stringify(data))}`
         })
       },
 
