@@ -2,7 +2,7 @@
 	<view>
 
 		<view class="mui-bar">
-			<view class="setUp" @tap.stop.prevent="$router.pushPlus('/setting')">
+			<view class="setUp" @tap.stop.prevent="toRoute('/pages/my/setting')">
 				<text class="iconfont icon-shezhi"></text>
 			</view>
 			<view class="code" @tap.stop.prevent="$router.pushPlus('/my/qrcode')">
@@ -64,7 +64,7 @@
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="gray"></view>
-				<view class="optionList invite" @tap.stop.prevent="$router.pushPlus('/invitation/index')">
+				<view class="optionList invite" @tap.stop.prevent="toRoute('/pages/invitation/index')">
 					<text class="optionText">邀请好友</text>
 					<text class="rightText">5%返现</text>
 					<text class="iconfont icon-jinru"></text>
