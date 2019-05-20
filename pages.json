@@ -1,12 +1,6 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/test/test",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "uni-app",
@@ -23,6 +17,7 @@
 		{
 			"path": "pages/inform/index",
 			"style": {
+
 				"navigationBarTitleText" : "通知",
 				"app-plus" : {
 				    "titleNView" : {
@@ -41,6 +36,7 @@
 								}
 				      ]
 				    }
+
 				}
 			}
 		},
@@ -63,14 +59,48 @@
 			}
 		},
 		{
-			"path" : "pages/login/login",
-			"style" : {
-				"app-plus" : {
-					"titleNView" : false //禁用原生导航栏
-				},
-				"navigationBarTitleText" : "登录"
+			"path": "pages/my/contactUs",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "联系我们"
 			}
 		},
+		{
+			"path": "pages/my/finance",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "我的钱包"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏
+				},
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/inform/setting",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/inform/task",
+			"style": {
+				"navigationBarTitleText": "任务通知"
+			}
+		},
+		{
+			"path": "pages/inform/informbar",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "通知公告"
+			}
+		},
+
 	  {
 			"path" : "pages/inform/setting",
 			"style" : {
@@ -108,7 +138,7 @@
 				"navigationBarTitleText" : "动态通知"
 			}
     }
-  ],
+	],
 	"tabBar": {
 		"color": "#B4B4B6",
 		"selectedColor": "#444",

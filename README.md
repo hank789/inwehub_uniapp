@@ -11,7 +11,7 @@
 + 缓存数据(永久)
 	+ this.$ls.get
 	+ this.$ls.set
-+ 缓存数据（应用运行期间）
++ 缓存数据（vuex，应用运行期间）
 	+ this.$store.commit('setAppHide', true)
 	+ this.$store.state.isAppHide
 
