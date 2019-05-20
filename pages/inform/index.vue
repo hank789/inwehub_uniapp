@@ -162,7 +162,7 @@
 			switch(e.index) {
 				case 0:
 					uni.navigateTo({
-						url: '/pages/inform/setting'
+						url: '/pages/inform/setting/pushSetting'
 					});
 					break;
 				case 1:
@@ -199,7 +199,7 @@
       },
       toSetting () {
         uni.navigateTo({
-					url: '/pages/inform/setting'
+					url: '/pages/inform/setting/pushSetting'
 				});
       },
 			toTask () {
