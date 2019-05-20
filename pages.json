@@ -73,6 +73,13 @@
 			}
 		},
 		{
+			"path": "pages/invitation/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "邀请好友"
+			}
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"app-plus": {
