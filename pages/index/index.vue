@@ -230,7 +230,7 @@
             }
           }
 
-          tabItem.loadMoreStatus = res.next_page_url.length > 0 ? 0 : 2
+          tabItem.loadMoreStatus = res.next_page_url ? 0 : 2
         })
       },
       // 新闻详情
