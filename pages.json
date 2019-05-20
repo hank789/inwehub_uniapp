@@ -82,9 +82,27 @@
 			}
 		},
 		{
-			"path": "pages/inform/setting",
+			"path": "pages/inform/setting/pushSetting",
 			"style": {
 				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/inform/setting/pushSettingAboutMe",
+			"style": {
+				"navigationBarTitleText": "与我相关"
+			}
+		},
+		{
+			"path": "pages/inform/setting/pushSettingFollow",
+			"style": {
+				"navigationBarTitleText": "我的关注"
+			}
+		},
+		{
+			"path": "pages/inform/setting/pushSettingSubscribe",
+			"style": {
+				"navigationBarTitleText": "订阅热点推荐"
 			}
 		},
 		{
@@ -100,13 +118,6 @@
 				"navigationBarTitleText": "通知公告"
 			}
 		},
-
-	  {
-			"path" : "pages/inform/setting",
-			"style" : {
-				"navigationBarTitleText" : "设置"
-			}
-    },
     {
 			"path" : "pages/inform/task",
 			"style" : {
