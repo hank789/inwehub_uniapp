@@ -32,9 +32,9 @@
         isOpenNotification: -1, // -1， 未知, 1 yes 0 no
         isNotificationPermission: -1, // -1， 未知, 1 yes 0 no
         notices: {
-          all: 1,
-          disturb: 0,
-          system_notify: 0
+          all: true,
+          disturb: false,
+          system_notify: false
         }
       }
     },
@@ -43,14 +43,17 @@
 			uniListItem
 		},
     methods: {
-			switchAllChange: function (e) {
-				console.log('switch1 发生 change 事件，携带值为', e.target.value)
+			switchAllChange(e) {
+				this.notices.all = e.value
+				this.openDisturb('all')
 			},
-			switchSystemChange: function (e) {
-				console.log('switch1 发生 change 事件，携带值为', e.target.value)
+			switchSystemChange(e) {
+				this.notices.system_notify = e.value
+				this.openDisturb('system_notify')
 			},
-			switchDisturbChange: function (e) {
-				console.log('switch1 发生 change 事件，携带值为', e.target.value)
+			switchDisturbChange(e) {
+				this.notices.disturb = e.value
+				this.openDisturb('disturb')
 			},
 			goSettingMe() {
 				uni.navigateTo({
@@ -67,9 +70,6 @@
 						url: '/pages/inform/setting/pushSettingSubscribe'
 					});
       },
-      refreshResumeData () {
-        this.checkPermissionSelf()
-      },
       closeAll () {
         this.notices = {
           all: 0,
@@ -81,10 +81,6 @@
       getNotification () {
         this.$request.post(`notification/push/info`, {}).then(response => {
           var code = response.code
-          if (code !== 1000) {
-            window.mui.alert(response.message)
-            return
-          }
           this.notices.disturb = response.data.push_do_not_disturb
           this.notices.system_notify = response.data.push_system_notify
         })
@@ -96,15 +92,18 @@
           var value = this.notices[type]
           if (value && this.isOpenNotification === 0) {
             this.notices[type] = 0
-            var btnArray = ['取消', '去设置']
-            window.mui.confirm('现在开启通知，不错过任何一次可能的平台合作机会呦~。', '开启通知', btnArray, (e) => {
-              if (e.index === 1) {
-                toSettingSystem('NOTIFITION')
-              } else {
-           // 点击取消
-           //  window.mui.back()
-              }
-            })
+						uni.showModal({
+							title: '开启通知',
+							content: '现在开启通知，不错过任何一次可能的平台合作机会呦~。',
+							confirmText: '去设置',
+							success: function (res) {
+									if (res.confirm) {
+											util.toSettingSystem('NOTIFITION')
+									} else if (res.cancel) {
+											console.log('用户点击取消');
+									}
+							}
+						})
           }
           this.updateNotification()
         }
@@ -128,10 +127,6 @@
           push_do_not_disturb: this.notices.disturb ? 1 : 0
         }).then(response => {
           var code = response.code
-          if (code !== 1000) {
-            window.mui.alert(response.message)
-            return
-          }
           this.notices.disturb = response.data.push_do_not_disturb
           this.notices.system_notify = response.data.push_system_notify
         })
@@ -139,17 +134,6 @@
     },
     mounted () {
       this.checkPermissionSelf()
-    },
-    watch: {
-      'notices.all': function (newValue, oldValue) {
-        this.openDisturb('all')
-      },
-      'notices.disturb': function (newValue, oldValue) {
-        this.openDisturb('disturb')
-      },
-      'notices.system_notify': function (newValue, oldValue) {
-        this.openDisturb('system_notify')
-      }
     }
   }
 </script>
