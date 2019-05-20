@@ -7,8 +7,8 @@
 					<view class="uni-media-list-body">
 						<view class="uni-media-list-text-top">{{item.data.title}}</view>
 						<view class="uni-media-list-text-bottom">
-							<text>{{item.data.body}}</text>
-							<text style="float: right;">{{timeago(item.created_at)}}</text>
+							<view><text>{{item.data.body}}</text></view>
+							<view><text>{{timeago(item.created_at)}}</text></view>
 						</view>
 					</view>
 				</view>

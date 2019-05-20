@@ -1,4 +1,4 @@
-﻿@font-face {
+@font-face {
 	font-family: uniicons;
 	font-weight: normal;
 	font-style: normal;
@@ -570,7 +570,6 @@ radio-group label, checkbox-group label{
 	width: 100%;
 }
 .uni-media-list-body {
-	height: 84upx;
 	display: flex;
 	flex: 1;
 	flex-direction: column;
@@ -583,7 +582,7 @@ radio-group label, checkbox-group label{
 	line-height: 36upx;
 	font-size: 30upx;
 }
-.uni-media-list-text-bottom {
+.uni-media-list-text-bottom span {
 	width: 100%;
 	line-height: 30upx;
 	font-size: 26upx;
