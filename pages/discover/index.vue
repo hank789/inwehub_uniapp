@@ -1,3 +1,4 @@
+
 <template>
 	<view class="uni-tab-bar">
 
@@ -53,9 +54,11 @@
     bottom: 50px !important; /* px不转换 */
   }
 
+
   .immersed44 .listWrapper{
     bottom: 84px !important; /* px不转换 */
   }
+
 
   .component-recommendFollow {
     padding: 0.293rem 0 0rem;

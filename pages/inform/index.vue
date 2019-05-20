@@ -1,283 +1,279 @@
 <template>
-    <view class="mui-content">
-              <view class="noticeWrapper" v-if="isOpenNotification === 1 && closingNotice">
-                <view class="closeNotice" @tap.stop.prevent="closeNotice">
-                  
-                </view>
-                <view class="noticeText">打开通知，避免错过订阅的热点新闻，深度文章，招聘动态和招标快讯</view>
-                <view class="unlock border-football" @tap.stop.prevent="goUnlock">开启</view>
-              </view>
-              <view class="line-river-after" v-if="isOpenNotification === 1 && closingNotice"></view>
+  <view class="mui-content">
+    <view v-if="isOpenNotification === 1 && closingNotice" class="noticeWrapper">
+      <view class="closeNotice" @tap.stop.prevent="closeNotice" />
+      <view class="noticeText">打开通知，避免错过订阅的热点新闻，深度文章，招聘动态和招标快讯</view>
+      <view class="unlock border-football" @tap.stop.prevent="goUnlock">开启</view>
+    </view>
+    <view v-if="isOpenNotification === 1 && closingNotice" class="line-river-after" />
 
-              <ul>
-                <view class="notice" @tap.stop.prevent="toTask" v-if="list.todo_task_message.unread_count">
-                  <p>
-                    <image src="/static/images/notice_img@2x.png"  class="notice_l"></image>
-                    <span>({{list.todo_task_message.unread_count}})</span>
-                    <image src="/static/images/notice_text@2x.png" class="notice_r"></image>
-                  </p>
-                  <p>前往完成</p>
-                </view>
+    <ul>
+      <view v-if="list.todo_task_message.unread_count" class="notice" @tap.stop.prevent="toTask">
+        <p>
+          <image src="/static/images/notice_img@2x.png" class="notice_l" />
+          <span>({{ list.todo_task_message.unread_count }})</span>
+          <image src="/static/images/notice_text@2x.png" class="notice_r" />
+        </p>
+        <p>前往完成</p>
+      </view>
 
-                <li @tap.stop.prevent="skip(1)" v-if="list.notice_message.last_message">
-                  <image src="/static/images/inform1.png"/></image>
-                  <view class="message" v-if="list.notice_message.unread_count">{{list.notice_message.unread_count}}</view>
-                  <p>
-                    <span>通知公告</span>
-                    <span class="mui-ellipsis">{{list.notice_message.last_message ? list.notice_message.last_message.data.title : ''}}</span>
-                  </p>
-                  <a>
-                    {{(list.notice_message.last_message ? list.notice_message.last_message.created_at : '')}}
-                  </a>
-                  <i class="bot"></i>
-                </li>
-                <li @tap.stop.prevent="skip(2)" v-if="list.money_message.last_message ">
-                  <image src="/static/images/balance1.png"/></image>
-                  <view class="message" v-if="list.money_message.unread_count">{{list.money_message.unread_count}}</view>
-                  <p>
-                    <span>余额变动</span>
-                    <span class="mui-ellipsis">{{list.money_message.last_message ? list.money_message.last_message.data.title : ""}} </span>
-                  </p>
-                  <a>
-                    {{(list.money_message.last_message ? list.money_message.last_message.created_at : '')}}
-                  </a>
-                  <i class="bot"></i>
-                </li>
+      <li v-if="list.notice_message.last_message" @tap.stop.prevent="skip(1)">
+        <image src="/static/images/inform1.png" /></image>
+        <view v-if="list.notice_message.unread_count" class="message">{{ list.notice_message.unread_count }}</view>
+        <p>
+          <span>通知公告</span>
+          <span class="mui-ellipsis">{{ list.notice_message.last_message ? list.notice_message.last_message.data.title : '' }}</span>
+        </p>
+        <a>
+          {{ (list.notice_message.last_message ? list.notice_message.last_message.created_at : '') }}
+        </a>
+        <i class="bot" />
+      </li>
+      <li v-if="list.money_message.last_message " @tap.stop.prevent="skip(2)">
+        <image src="/static/images/balance1.png" /></image>
+        <view v-if="list.money_message.unread_count" class="message">{{ list.money_message.unread_count }}</view>
+        <p>
+          <span>余额变动</span>
+          <span class="mui-ellipsis">{{ list.money_message.last_message ? list.money_message.last_message.data.title : "" }} </span>
+        </p>
+        <a>
+          {{ (list.money_message.last_message ? list.money_message.last_message.created_at : '') }}
+        </a>
+        <i class="bot" />
+      </li>
 
-                <li @tap.stop.prevent="skip(3)" v-if="list.task_message.last_message">
-                  <image src="/static/images/mission.png"/></image>
-                  <view class="message" v-if="list.task_message.unread_count">{{list.task_message.unread_count}}</view>
-                  <p>
-                    <span>问答通知</span>
-                    <span class="mui-ellipsis">{{list.task_message.last_message ? list.task_message.last_message.data.title : ""}} </span>
-                  </p>
-                  <a>
-                    {{(list.task_message.last_message ? list.task_message.last_message.created_at : '')}}
-                  </a>
-                  <i class="bot"></i>
-                </li>
-                <li @tap.stop.prevent="skip(4)" v-if="list.readhub_message.last_message">
-                  <image src="/static/images/read1.png"/></image>
-                  <view class="message" v-if="list.readhub_message.unread_count">{{list.readhub_message.unread_count}}</view>
-                  <p>
-                    <span>动态通知</span>
-                    <span class="mui-ellipsis">{{list.readhub_message.last_message ? list.readhub_message.last_message.data.title : ""}} </span>
-                  </p>
-                  <a>
-                    {{(list.readhub_message.last_message ? list.readhub_message.last_message.created_at : '')}}
-                  </a>
-                  <i class="bot"></i>
-                </li>
-                <!--消息通知-->
-                <li v-for="(item, index) in list.im_messages" :key="index" :class="'type_' + item.room_type">
-                  <view class="headerLogo" @tap.stop.prevent="toAvatar(item.contact_uuid)">
-                    
-                  </view>
-                  <view class="message" v-if="item.unread_count != 0">{{item.unread_count}}</view>
-                  <p @tap.stop.prevent="gochat(item)">
-                    <span class="mui-ellipsis">{{item.name}}</span>
-                    <span class="mui-ellipsis" v-if="item.last_message.data.img">[图片]</span>
-                    <span class="mui-ellipsis" v-else>{{item.last_message.data.text}}</span>
-                  </p>
-                  <a>
-                    {{(item.last_message ? item.last_message.created_at : '')}}
-                  </a>
-                  <i class="bot"></i>
-                </li>
-              </ul>
-        </view>
+      <li v-if="list.task_message.last_message" @tap.stop.prevent="skip(3)">
+        <image src="/static/images/mission.png" /></image>
+        <view v-if="list.task_message.unread_count" class="message">{{ list.task_message.unread_count }}</view>
+        <p>
+          <span>问答通知</span>
+          <span class="mui-ellipsis">{{ list.task_message.last_message ? list.task_message.last_message.data.title : "" }} </span>
+        </p>
+        <a>
+          {{ (list.task_message.last_message ? list.task_message.last_message.created_at : '') }}
+        </a>
+        <i class="bot" />
+      </li>
+      <li v-if="list.readhub_message.last_message" @tap.stop.prevent="skip(4)">
+        <image src="/static/images/read1.png" /></image>
+        <view v-if="list.readhub_message.unread_count" class="message">{{ list.readhub_message.unread_count }}</view>
+        <p>
+          <span>动态通知</span>
+          <span class="mui-ellipsis">{{ list.readhub_message.last_message ? list.readhub_message.last_message.data.title : "" }} </span>
+        </p>
+        <a>
+          {{ (list.readhub_message.last_message ? list.readhub_message.last_message.created_at : '') }}
+        </a>
+        <i class="bot" />
+      </li>
+      <!--消息通知-->
+      <li v-for="(item, index) in list.im_messages" :key="index" :class="'type_' + item.room_type">
+        <view class="headerLogo" @tap.stop.prevent="toAvatar(item.contact_uuid)" />
+        <view v-if="item.unread_count != 0" class="message">{{ item.unread_count }}</view>
+        <p @tap.stop.prevent="gochat(item)">
+          <span class="mui-ellipsis">{{ item.name }}</span>
+          <span v-if="item.last_message.data.img" class="mui-ellipsis">[图片]</span>
+          <span v-else class="mui-ellipsis">{{ item.last_message.data.text }}</span>
+        </p>
+        <a>
+          {{ (item.last_message ? item.last_message.created_at : '') }}
+        </a>
+        <i class="bot" />
+      </li>
+    </ul>
+  </view>
 
 </template>
 
 <script>
-  import util from '@/lib/util'
-  export default {
-    data() {
-			return {
-				list: {
-					todo_task_message: {
-						last_message: {
-							status_description: '',
-							task_type_description: ''
-						},
-						unread_count: ''
-					},
-					notice_message: {
-						last_message: {
-							created_at: '',
-							data: {
-								title: ''
-							}
-						},
-						unread_count: ''
-					},
-					money_message: {
-						last_message: {
-							created_at: '',
-							data: {
-								title: ''
-							}
-						},
-						unread_count: ''
-					},
-					readhub_message: {
-						last_message: {
-							created_at: '',
-							data: {
-								title: ''
-							}
-						},
-						unread_count: ''
-					},
-					task_message: {
-						last_message: {
-							created_at: '',
-							data: {
-								title: ''
-							}
-						},
-						unread_count: ''
-					},
-					im_messages: []
-				},
-				loading: true,
-				total_count: 0,
-				mobile: 0,
-				closingNotice: '',
-				Today: '',
-				isShowNotice: -1,
-				isOpenNotification: -1 // -1， 未知, 1 yes 0 no
-			}
-		},
-    onLoad() {
-			this.checkPermission()
-			this.$request.get('notification/count').then((res)=>{
-				this.list = res.data
-			})
-    },
-		onNavigationBarButtonTap(e) {
-			switch(e.index) {
-				case 0:
-					uni.navigateTo({
-						url: '/pages/inform/setting'
-					});
-					break;
-				case 1:
-					var itemList = ['全部标记为已读']
-					uni.showActionSheet({
-					title:'通知',
-					itemList: itemList,
-					success: (e) => {
-						switch (itemList[e.tapIndex]) {
-							case '全部标记为已读':
-								this.notification()
-								break;
-							}
-						}
-					})
-					break
-			}
-		},
-    methods: {
-      checkPermission () {
-        util.checkPermission('NOTIFITION', () => {
-            this.isOpenNotification = 0
-          }, () => {
-            this.isOpenNotification = 1
-          })
+import util from '@/lib/util'
+export default {
+  data() {
+    return {
+      list: {
+        todo_task_message: {
+          last_message: {
+            status_description: '',
+            task_type_description: ''
+          },
+          unread_count: ''
+        },
+        notice_message: {
+          last_message: {
+            created_at: '',
+            data: {
+              title: ''
+            }
+          },
+          unread_count: ''
+        },
+        money_message: {
+          last_message: {
+            created_at: '',
+            data: {
+              title: ''
+            }
+          },
+          unread_count: ''
+        },
+        readhub_message: {
+          last_message: {
+            created_at: '',
+            data: {
+              title: ''
+            }
+          },
+          unread_count: ''
+        },
+        task_message: {
+          last_message: {
+            created_at: '',
+            data: {
+              title: ''
+            }
+          },
+          unread_count: ''
+        },
+        im_messages: []
       },
-      goUnlock () {
-        toSettingSystem('NOTIFITION')
-      },
-      closeNotice () {
-        var data = new Date().toLocaleString().split(' ')[0]
-        this.$ls.set('closingNotice', data)
-        this.closingNotice = false
-      },
-      toSetting () {
+      loading: true,
+      total_count: 0,
+      mobile: 0,
+      closingNotice: '',
+      Today: '',
+      isShowNotice: -1,
+      isOpenNotification: -1 // -1， 未知, 1 yes 0 no
+    }
+  },
+  onLoad() {
+    this.checkPermission()
+    this.$request.get('notification/count').then((res) => {
+      this.list = res.data
+    })
+  },
+  onNavigationBarButtonTap(e) {
+    switch (e.index) {
+      case 0:
         uni.navigateTo({
-					url: '/pages/inform/setting'
-				});
-      },
-			toTask () {
-				uni.navigateTo({
-					url: '/pages/inform/task'
-				});
-			},
-			notification () {
-				this.$request.post(`notification/mark_as_read`, {
-					notification_type: 0
-				}).then(response => {
-					this.list.money_message.unread_count = 0
-					this.list.notice_message.unread_count = 0
-					this.list.readhub_message.unread_count = 0
-					this.list.task_message.unread_count = 0
-					for (var i = 0; i < this.list.im_messages.length; i++) {
-						this.list.im_messages[i].unread_count = 0
-					}
-					uni.showToast({
-						title: '标记为已读'
-					})
-				})
-			},
-      toAvatar (uuid) {
-        if (!uuid) {
-          return false
+          url: '/pages/inform/setting'
+        })
+        break
+      case 1:
+        var itemList = ['全部标记为已读']
+        uni.showActionSheet({
+          title: '通知',
+          itemList: itemList,
+          success: (e) => {
+            switch (itemList[e.tapIndex]) {
+              case '全部标记为已读':
+                this.notification()
+                break
+            }
+          }
+        })
+        break
+    }
+  },
+  methods: {
+    checkPermission() {
+      util.checkPermission('NOTIFITION', () => {
+        this.isOpenNotification = 0
+      }, () => {
+        this.isOpenNotification = 1
+      })
+    },
+    goUnlock() {
+      toSettingSystem('NOTIFITION')
+    },
+    closeNotice() {
+      var data = new Date().toLocaleString().split(' ')[0]
+      this.$ls.set('closingNotice', data)
+      this.closingNotice = false
+    },
+    toSetting() {
+      uni.navigateTo({
+        url: '/pages/inform/setting'
+      })
+    },
+    toTask() {
+      uni.navigateTo({
+        url: '/pages/inform/task'
+      })
+    },
+    notification() {
+      this.$request.post(`notification/mark_as_read`, {
+        notification_type: 0
+      }).then(response => {
+        this.list.money_message.unread_count = 0
+        this.list.notice_message.unread_count = 0
+        this.list.readhub_message.unread_count = 0
+        this.list.task_message.unread_count = 0
+        for (var i = 0; i < this.list.im_messages.length; i++) {
+          this.list.im_messages[i].unread_count = 0
         }
-        this.$router.pushPlus('/share/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime()))
-      },
-      messagecountchange (obj) {
-        this.total_count = obj
-      },
-      gochat (item) {
-        item.unread_count = 0
-        if (item.room_type === 1) {
-          // 私聊
-          this.$router.pushPlus('/chat/' + item.contact_id)
-        } else {
-          // 群聊
-          this.$router.pushPlus('/group/chat/' + item.room_id)
-        }
-      },
-      skip (num) {
-        switch (num) {
-          case 1:
-            this.list.notice_message.unread_count = 0
-						uni.navigateTo({
-							url: '/pages/inform/informbar'
-						});
-            break
-          case 2:
-            this.list.money_message.unread_count = 0
-						uni.navigateTo({
-							url: '/pages/inform/balancebar'
-						});
-            break
-          case 3:
-            this.list.task_message.unread_count = 0
-						uni.navigateTo({
-							url: '/pages/inform/taskbar'
-						});
-            break
-          case 4:
-            this.list.readhub_message.unread_count = 0
-						uni.navigateTo({
-							url: '/pages/inform/readbar'
-						});
-            break
-        }
+        uni.showToast({
+          title: '标记为已读'
+        })
+      })
+    },
+    toAvatar(uuid) {
+      if (!uuid) {
+        return false
+      }
+      this.$router.pushPlus('/share/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime()))
+    },
+    messagecountchange(obj) {
+      this.total_count = obj
+    },
+    gochat(item) {
+      item.unread_count = 0
+      if (item.room_type === 1) {
+        // 私聊
+        this.$router.pushPlus('/chat/' + item.contact_id)
+      } else {
+        // 群聊
+        this.$router.pushPlus('/group/chat/' + item.room_id)
       }
     },
-    onReady () {
-      this.closingNotice = this.$ls.get('closingNotice')
-      var data = new Date().toLocaleString().split(' ')[0]
-      if (data === this.closingNotice) {
-        this.closingNotice = false
-      } else {
-        this.closingNotice = true
+    skip(num) {
+      switch (num) {
+        case 1:
+          this.list.notice_message.unread_count = 0
+          uni.navigateTo({
+            url: '/pages/inform/informbar'
+          })
+          break
+        case 2:
+          this.list.money_message.unread_count = 0
+          uni.navigateTo({
+            url: '/pages/inform/balancebar'
+          })
+          break
+        case 3:
+          this.list.task_message.unread_count = 0
+          uni.navigateTo({
+            url: '/pages/inform/taskbar'
+          })
+          break
+        case 4:
+          this.list.readhub_message.unread_count = 0
+          uni.navigateTo({
+            url: '/pages/inform/readbar'
+          })
+          break
       }
     }
+  },
+  onReady() {
+    this.closingNotice = this.$ls.get('closingNotice')
+    var data = new Date().toLocaleString().split(' ')[0]
+    if (data === this.closingNotice) {
+      this.closingNotice = false
+    } else {
+      this.closingNotice = true
+    }
   }
+}
 </script>
 
 <style scoped="scoped" lang="less">
@@ -371,7 +367,6 @@
     margin-top: 0.266rem;
     float: left;
   }
-
 
   .mui-content ul li p {
     float: left;
