@@ -2,7 +2,7 @@
     <view>
         <iw-feed-item-ask v-if="isAsk" :item="item"></iw-feed-item-ask>
         <iw-feed-item-dianping v-if="isComment" :item="item"></iw-feed-item-dianping>
-        <iw-feed-item-share v-if="isDiscover" :item="item"></iw-feed-item-share>
+        <iw-feed-item-share v-if="isDiscover" :item="item" @showPageMore="showPageMore"></iw-feed-item-share>
     </view>
 </template>
 
@@ -69,6 +69,9 @@
     methods: {
       showDownloadTip() {
 
+      },
+      showPageMore () {
+        this.$emit('showPageMore')
       }
     }
   }
