@@ -83,7 +83,7 @@
                     <span class="mui-ellipsis" v-else>{{item.last_message.data.text}}</span>
                   </p>
                   <a>
-                    {{(item.last_message ? item.last_message.created_at : '')}}
+                    {{timeago(item ? (item.last_message ? item.last_message.created_at:'') : '', false)}}
                   </a>
                   <i class="bot"></i>
                 </li>

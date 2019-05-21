@@ -177,7 +177,11 @@
 				"navigationBarTitleText" : "动态通知"
 			}
     }
-	],
+	    ,{
+            "path" : "pages/chat/chat",
+            "style" : {}
+        }
+    ],
 	"tabBar": {
 		"color": "#B4B4B6",
 		"selectedColor": "#444",
