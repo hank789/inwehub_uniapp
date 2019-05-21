@@ -26,7 +26,6 @@
     },
     data() {
       return {
-        cssTop: 0,
         list: [],
         enableScroll: true,
         page: 0,
@@ -37,13 +36,19 @@
       }
     },
     props: {
+      cssTop: {
+        type: Number,
+        default: 0
+      },
       api: {
         type: String,
         default: ''
       },
       requestData: {
         type: Object,
-        default: {}
+        default: () => {
+          return {}
+        }
       }
     },
     created() {
