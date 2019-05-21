@@ -50,7 +50,7 @@
 					<text class="font-family-medium">{{collections}}</text>
 					<text class="listText">收藏</text>
 				</view>
-				<view class="liList" @tap.stop.prevent="$router.pushPlus('/group/my/'+uuid)">
+				<view class="liList" @tap.stop.prevent="toRoute('/pages/group/my')">
 					<text class="font-family-medium">{{groups}}</text>
 					<text class="listText">圈子</text>
 				</view>

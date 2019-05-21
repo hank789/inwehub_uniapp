@@ -1,7 +1,7 @@
 <template>
     <div class="page-content">
         
-            <ul v-for="item in list" :key="item.id" @tap.stop.prevent="$router.pushPlus(item.data.url)">
+            <ul v-for="item in list" :key="item.id" @tap.stop.prevent="goUrl(item.data.url)">
               <!--<p>{{item.read_at}}</p>-->
               <li>
                 <p>
@@ -61,26 +61,8 @@
 			this.getList(this.page);
 		},
     methods: {
-      typeDesc (type) {
-        switch (type) {
-          case 'App\\Notifications\\GroupAuditResult':
-            return 1
-          case 'App\\Notifications\\NewGroupMemberJoin':
-            return 1
-          case 'App\\Notifications\\NewGroupMemberApply':
-            return 1
-          case 'App\\Notifications\\GroupMemberApplyResult':
-            return 1
-          default:
-            return 0
-        }
-      },
       goUrl (url) {
-        if (/resume/.test(url)) {
-          this.$router.pushPlus(url + '?goback=1', 'list-detail-page')
-        } else {
-          this.$router.pushPlus(url, 'list-detail-page')
-        }
+        
       },
       getList(page) {
 				console.log(page)
@@ -222,10 +204,6 @@
     color: rgb(128, 128, 128);
     height: 55.96upx;
     line-height: 49.96upx;
-  }
-
-  ul li p:nth-of-type(2) span:nth-child {
-    height: 43.96upx;
   }
 
   ul li p:nth-of-type(3) {
