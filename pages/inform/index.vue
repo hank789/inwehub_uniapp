@@ -17,7 +17,7 @@
                   <p>
                     <img src="@/static/images/notice_img@2x.png"  class="notice_l"/>
                     <span>({{list.todo_task_message.unread_count}})</span>
-                    <img  src="@/static/images/notice_text@2x.png" class="notice_r"/>
+                    <img src="@/static/images/notice_text@2x.png" class="notice_r"/>
                   </p>
                   <p>前往完成</p>
                 </div>
@@ -83,7 +83,7 @@
                     <span class="mui-ellipsis" v-else>{{item.last_message.data.text}}</span>
                   </p>
                   <a>
-                    {{timeago(item.last_message ? item.last_message.created_at : '', false)}}
+                    {{(item.last_message ? item.last_message.created_at : '')}}
                   </a>
                   <i class="bot"></i>
                 </li>
