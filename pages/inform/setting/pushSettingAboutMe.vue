@@ -37,22 +37,29 @@
 		},
     methods: {
 			switchUpvotedChange: function (e) {
-				console.log('switch1 发生 change 事件，携带值为', e.target.value)
+				this.notices.upvoted = e.value
+				console.log('switch1 发生 change 事件，携带值为', e.value)
+				this.openNotification('upvoted')
 			},
 			switchFollowedChange: function (e) {
-				
+				this.notices.followed = e.value
+				this.openNotification('followed')
 			},
 			switchMentionedChange: function (e) {
-				
+				this.notices.mentioned = e.value
+				this.openNotification('mentioned')
 			},
 			switchCommentedChange: function (e) {
-				
+				this.notices.commented = e.value
+				this.openNotification('commented')
 			},
 			switchInvitedChange: function (e) {
-				
+				this.notices.invited = e.value
+				this.openNotification('invited')
 			},
 			switchChattedChange: function (e) {
-				
+				this.notices.chatted = e.value
+				this.openNotification('chatted')
 			},
       closeAll () {
         this.notices = {
@@ -85,14 +92,18 @@
         if (value && this.isOpenNotification === 0) {
           //  todo 显示confirm 提示用户去开启通知权限
           this.notices[type] = 0
-          var btnArray = ['取消', '去设置']
-          window.mui.confirm('现在开启通知，不错过任何一次可能的平台合作机会呦~。', '开启通知', btnArray, (e) => {
-            if (e.index === 1) {
-              toSettingSystem('NOTIFITION')
-            } else {
-              window.mui.back()
-            }
-          })
+					uni.showModal({
+							title: '开启通知',
+							content: '现在开启通知，不错过任何一次可能的平台合作机会呦~。',
+							confirmText: '去设置',
+							success: function (res) {
+									if (res.confirm) {
+											util.toSettingSystem('NOTIFITION')
+									} else if (res.cancel) {
+											console.log('用户点击取消');
+									}
+							}
+						})
         } else {
           this.updateNotification()
         }
@@ -120,10 +131,6 @@
           push_rel_mine_chatted: this.notices.chatted ? 1 : 0
         }).then(response => {
           var code = response.code
-          if (code !== 1000) {
-            window.mui.alert(response.message)
-            return
-          }
           this.notices.upvoted = response.data.push_rel_mine_upvoted
           this.notices.followed = response.data.push_rel_mine_followed
           this.notices.mentioned = response.data.push_rel_mine_mentioned
@@ -135,26 +142,6 @@
     },
     mounted () {
       this.checkPermission()
-    },
-    watch: {
-      'notices.upvoted': function (newValue, oldValue) {
-        this.openNotification('upvoted')
-      },
-      'notices.followed': function (newValue, oldValue) {
-        this.openNotification('followed')
-      },
-      'notices.mentioned': function (newValue, oldValue) {
-        this.openNotification('mentioned')
-      },
-      'notices.commented': function (newValue, oldValue) {
-        this.openNotification('commented')
-      },
-      'notices.invited': function (newValue, oldValue) {
-        this.openNotification('invited')
-      },
-      'notices.chatted': function (newValue, oldValue) {
-        this.openNotification('chatted')
-      }
     }
   }
 </script>
