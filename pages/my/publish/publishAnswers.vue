@@ -25,7 +25,7 @@
 </template>
 
 <script>
-	import { getAnswerList } from "@/lib/article.js"
+	import { getAnswerList } from "@/lib/answer.js"
 	export default {
 		data() {
 			return {
