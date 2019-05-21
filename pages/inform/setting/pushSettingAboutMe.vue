@@ -76,7 +76,9 @@
         this.$request.post(`notification/push/info`, {}).then(response => {
           var code = response.code
           if (code !== 1000) {
-            window.mui.alert(response.message)
+						uni.showToast({
+							title: response.message
+						})
             return
           }
           this.notices.upvoted = response.data.push_rel_mine_upvoted

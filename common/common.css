@@ -1,3 +1,4 @@
+
 page {
     font-family: "Helvetica Neue", "Helvetica", PingFang SC,STHeitiSC-Light,Helvetica-Light,arial,sans-serif;
     -webkit-tap-highlight-color: transparent;
@@ -306,6 +307,7 @@ input, textarea, select{
     margin-right: -6upx;}
 
 
+
 .component-userinfo {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -340,3 +342,34 @@ input, textarea, select{
     border-top-left-radius: 36upx;
     border-top-right-radius: 36upx;
 }
+
+.container-searchMenu {
+    width:100%;
+    height:78upx;
+    background: #ffffff;
+    font-size:27.98upx;
+    color: #444444;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    margin-top: -7.96upx;}
+.container-searchMenu.searchSearchMenu span {
+    width: 13.5% !important;
+}
+.container-searchMenu .tabText{
+    position: relative;
+    display: flex;
+    width: 33%;
+    height:100%;
+    justify-content: center;
+    align-items: center;}
+.container-searchMenu .tabText .underline{
+    position:absolute;
+    width:54upx;
+    height:4upx;
+    border-radius: 99.98upx;
+    background:#03aef9;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;}

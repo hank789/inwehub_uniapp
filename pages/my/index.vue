@@ -38,7 +38,7 @@
 			</view>
 
 			<view class="part2">
-				<view class="liList" @tap.stop.prevent="$router.pushPlus('/my/publishAnswers/' + uuid)">
+				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/publish/publishAnswers')">
 					<text class="font-family-medium">{{publishes}}</text>
 					<text class="listText">发布</text>
 				</view>
