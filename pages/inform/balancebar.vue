@@ -206,10 +206,6 @@
     line-height: 49.96upx;
   }
 
-  ul li p:nth-of-type(2) span:nth-child {
-    height: 43.96upx;
-  }
-
   ul li p:nth-of-type(3) {
     height: 49.96upx;
     color: #808080;
