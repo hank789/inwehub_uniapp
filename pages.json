@@ -94,6 +94,12 @@
 			}
 		},
 		{
+			"path": "pages/my/publish/publishAnswers",
+			"style": {
+				"navigationBarTitleText": "我的发布"
+			}
+		},
+		{
 			"path": "pages/invitation/index",
 			"style": {
 				"navigationStyle": "custom",
