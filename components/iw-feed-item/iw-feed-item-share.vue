@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="level-one">
-                <div class="loLeft"><i class="iconfont icon-gengduo1"></i></div>
+                <div class="loLeft" @tap="showPageMore"><i class="iconfont icon-gengduo1"></i></div>
                 <div class="loRight"><i class="iconfont icon-pinglun"></i><i class="iconfont icon-cai"></i><i class="iconfont icon-zan"></i></div>
             </div>
         </div>
@@ -53,6 +53,9 @@
     methods: {
       showDownloadTip() {
 
+      },
+      showPageMore () {
+        this.$emit('showPageMore')
       }
     }
   }
@@ -62,34 +65,6 @@
     .content{
         padding:20upx 32upx;
     }
-    .component-userinfo {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center; }
-    .component-userinfo .left {
-        width: 68upx;
-        height: 68upx;
-        position: relative; }
-    .component-userinfo .left image {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%; }
-    .component-userinfo .left .iconfont {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        color: #fff; }
-    .component-userinfo .right {
-        padding-left: 12upx; }
-    .component-userinfo .right .twoLevel {
-        color: #444;
-        font-size: 26upx; }
-    .component-userinfo .right .oneLevel {
-        color: #B4B4B6;
-        font-size: 24upx; }
 
     .component-share .level-three {
         font-size: 28upx;

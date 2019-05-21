@@ -1,23 +1,8 @@
 <template>
 	<view>
-      <uni-list v-if="isOpenNotification === 0">
-				<uni-list-item :show-switch="true" :switch-checked="notices.all?true:false" :show-arrow="false" title="开启系统通知" note="你可能错过重要的活动机会推荐，点击前往“设置”开启通知" @switchChange="switchAllChange" />        
-      </uni-list>
-      <div class="grey"  v-if="isOpenNotification === 0"></div>
-      <uni-list>
-				<uni-list-item :show-switch="true" :switch-checked="notices.system_notify?true:false" :show-arrow="false" title="活动通知及系统公告" @switchChange="switchSystemChange" />        
-				<uni-list-item title="与我有关" @click="$router.pushPlus('/push/setting/aboutme')" />
-       	<uni-list-item title="我的关注" @click="$router.pushPlus('/push/setting/follow')" />
-      </uni-list>
-
-      <div class="grey"></div>
-			<uni-list>
-				<uni-list-item title="订阅热点推荐" @click="toSettingSubscribe" />
-      </uni-list>
-
-      <div class="grey"></div>
-      <uni-list>
-				<uni-list-item :show-switch="true" :switch-checked="notices.disturb?true:false" :show-arrow="false" title="免打扰" note="22:00-07:30自动关闭推送" @switchChange="switchDisturbChange" />
+     <uni-list>
+				<uni-list-item :show-switch="true" :switch-checked="notices.new_user?true:false" :show-arrow="false" title="关注的用户有新动态" @switchChange="switchNewUserChange" />
+				<uni-list-item :show-switch="true" :switch-checked="notices.new_answered?true:false" :show-arrow="false" title="关注的问题有新回答" @switchChange="switchNewAnsweredChange" />
       </uni-list>
     </view>
 </template>
@@ -29,12 +14,12 @@
   export default {
     data () {
       return {
+        loading: 1,
         isOpenNotification: -1, // -1， 未知, 1 yes 0 no
         isNotificationPermission: -1, // -1， 未知, 1 yes 0 no
         notices: {
-          all: 1,
-          disturb: 0,
-          system_notify: 0
+          new_user: 1,
+          new_answered: 1
         }
       }
     },
@@ -43,27 +28,19 @@
 			uniListItem
 		},
     methods: {
-			switchAllChange: function (e) {
-				console.log('switch1 发生 change 事件，携带值为', e.target.value)
+			switchNewUserChange: function (e) {
+				this.notices.new_user = e.value
+				console.log('switch1 发生 change 事件，携带值为', e.value)
+				this.openNotification('new_user')
 			},
-			switchSystemChange: function (e) {
-				console.log('switch1 发生 change 事件，携带值为', e.target.value)
+			switchNewAnsweredChange: function (e) {
+				this.notices.new_answered = e.value
+				this.openNotification('new_answered')
 			},
-			switchDisturbChange: function (e) {
-				console.log('switch1 发生 change 事件，携带值为', e.target.value)
-			},
-      toSettingSubscribe () {
-        localEvent.setLocalItem('needRefresh', {value: true})
-        this.$router.pushPlus('/push/setting/subscribe')
-      },
-      refreshResumeData () {
-        this.checkPermissionSelf()
-      },
       closeAll () {
         this.notices = {
-          all: 0,
-          disturb: 0,
-          system_notify: 0
+          new_user: 0,
+          new_answered: 0
         }
         this.isOpenNotification = 0
       },
@@ -71,82 +48,62 @@
         this.$request.post(`notification/push/info`, {}).then(response => {
           var code = response.code
           if (code !== 1000) {
-            window.mui.alert(response.message)
+            uni.showToast({
+							title: response.message
+						})
             return
           }
-          this.notices.disturb = response.data.push_do_not_disturb
-          this.notices.system_notify = response.data.push_system_notify
+          this.notices.new_user = response.data.push_my_user_new_activity
+          this.notices.new_answered = response.data.push_my_question_new_answered
         })
       },
-      openDisturb (type) {
-        if (type === 'all' && !this.notices.all) {
-          this.closeAll()
+      openNotification (type) {
+        var value = this.notices[type]
+        if (value && this.isOpenNotification === 0) {
+          //  todo 显示confirm 提示用户去开启通知权限
+          this.notices[type] = 0
+					uni.showModal({
+							title: '开启通知',
+							content: '现在开启通知，不错过任何一次可能的平台合作机会呦~。',
+							confirmText: '去设置',
+							success: function (res) {
+									if (res.confirm) {
+											util.toSettingSystem('NOTIFITION')
+									} else if (res.cancel) {
+											console.log('用户点击取消');
+									}
+							}
+						})
         } else {
-          var value = this.notices[type]
-          if (value && this.isOpenNotification === 0) {
-            this.notices[type] = 0
-            var btnArray = ['取消', '去设置']
-            window.mui.confirm('现在开启通知，不错过任何一次可能的平台合作机会呦~。', '开启通知', btnArray, (e) => {
-              if (e.index === 1) {
-                toSettingSystem('NOTIFITION')
-              } else {
-           // 点击取消
-           //  window.mui.back()
-              }
-            })
-          }
           this.updateNotification()
         }
       },
-      checkPermissionSelf () {
+      checkPermission () {
         util.checkPermission('NOTIFITION', () => {
-          this.notices.all = 1
           this.isOpenNotification = 1
           this.isNotificationPermission = 1
           this.getNotification()
         }, (result) => {
-          this.notices.all = 0
-          this.isOpenNotification = 0
+          console.log('没有通知权限:')
           this.isNotificationPermission = 0
+          //  失败的回调
           this.closeAll()
+          this.loading = 0
         })
       },
       updateNotification () {
         this.$request.post(`notification/push/update`, {
-          push_system_notify: this.notices.system_notify ? 1 : 0,
-          push_do_not_disturb: this.notices.disturb ? 1 : 0
+          push_my_user_new_activity: this.notices.new_user ? 1 : 0,
+          push_my_question_new_answered: this.notices.new_answered ? 1 : 0
         }).then(response => {
           var code = response.code
-          if (code !== 1000) {
-            window.mui.alert(response.message)
-            return
-          }
-          this.notices.disturb = response.data.push_do_not_disturb
-          this.notices.system_notify = response.data.push_system_notify
+          this.notices.new_user = response.data.push_my_user_new_activity
+          this.notices.new_answered = response.data.push_my_question_new_answered
         })
       }
     },
     mounted () {
-      this.checkPermissionSelf()
-    },
-    watch: {
-      'notices.all': function (newValue, oldValue) {
-        this.openDisturb('all')
-      },
-      'notices.disturb': function (newValue, oldValue) {
-        this.openDisturb('disturb')
-      },
-      'notices.system_notify': function (newValue, oldValue) {
-        this.openDisturb('system_notify')
-      }
+      this.checkPermission()
     }
   }
 </script>
-
-<style scoped>
-  .grey {
-    width: 100%;
-    height: 19.96upx;
-    background: #F3F4F5;
-  }
-</style>

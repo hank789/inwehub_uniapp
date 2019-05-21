@@ -17,20 +17,26 @@
 
     <iw-list v-model="list" :api="'feed/list'" :cssTop="88" :requestData="{search_type: 2}">
       <view v-for="(item, index) in list" :key="index" class="iwItem">
-        <iw-feed-item :item="item"></iw-feed-item>
+        <iw-feed-item :item="item" @showPageMore="showPageMore"></iw-feed-item>
       </view>
     </iw-list>
+
+    <iw-page-more
+      ref="pageMore"
+    ></iw-page-more>
   </view>
 </template>
 
 <script>
 import iwList from '@/components/iw-list/iw-list'
 import iwFeedItem from '@/components/iw-feed-item/iw-feed-item'
+import iwPageMore from "@/components/iw-page-more/iw-page-more"
 
 export default {
   components: {
     iwList,
-    iwFeedItem
+    iwFeedItem,
+    iwPageMore
   },
   data() {
     return {
@@ -39,6 +45,11 @@ export default {
   },
   onLoad() {
 
+  },
+  methods: {
+    showPageMore () {
+      this.$refs.pageMore.show()
+    }
   }
 }
 </script>
