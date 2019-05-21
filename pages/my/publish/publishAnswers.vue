@@ -1,12 +1,13 @@
 <template>
 	<view class="mui-content">
+		<cmd-nav-bar :fixed="false" right-color="#03AEF9" back title="我的发布" @rightText="rightText" />
 		<view class="container-searchMenu">
-			<text class="tabText font-family-medium" @tap.stop.prevent="$router.replace('/my/publishAnswers/' + uuid)">回答<text
+			<text class="tabText font-family-medium" @tap.stop.prevent="toRoute('/pages/my/publish/publishAnswers')">回答<text
 				 class="underline"></text></text>
-			<text class="tabText" @tap.stop.prevent="$router.replace('/my/publishQuestions/' + uuid)">提问</text>
+			<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishQuestions')">提问</text>
 			<text class="tabText">分享</text>
-			<text class="tabText" @tap.stop.prevent="$router.replace('/my/publishComment/' + uuid)">评论</text>
-			<text class="tabText" @tap.stop.prevent="$router.replace('/dianping/my/publishComments/' + uuid)">点评</text>
+			<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishComment')">评论</text>
+			<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishComments')">点评</text>
 			<text class="bot"></text>
 		</view>
 		
@@ -26,16 +27,23 @@
 
 <script>
 	import { getAnswerList } from "@/lib/answer.js"
+	import cmdNavBar from '@/components/cmd-nav-bar/cmd-nav-bar.vue'
 	export default {
 		data() {
 			return {
 				list: []
 			}
 		},
+		components: {
+			cmdNavBar
+		},
 		async onLoad() {
 		  this.getMyAnswerList()
 		},
 		methods: {
+			toRoute (url) {
+				uni.navigateTo({url: url})
+			  },
 			getMyAnswerList () {
 				getAnswerList('27707c887b4911e8b73500163e000d6b', (res) => {
 					this.list = res
