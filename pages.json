@@ -87,6 +87,19 @@
 			}
 		},
 		{
+			"path": "pages/group/my",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "我的圈子"
+			}
+		},
+		{
+			"path": "pages/my/publish/publishAnswers",
+			"style": {
+				"navigationBarTitleText": "我的发布"
+			}
+		},
+		{
 			"path": "pages/invitation/index",
 			"style": {
 				"navigationStyle": "custom",

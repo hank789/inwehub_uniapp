@@ -1,3 +1,8 @@
+
+.font-family-medium{
+    font-family: PingFangSC-Medium, sans-serif;
+}
+
 .container-control-logoAndTabsAndSearch {
     height: 87.98upx;
     line-height: 87.98upx;
@@ -211,3 +216,113 @@ input, textarea, select{
     text-align: right
 }
 
+.text-line-1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.text-line-2 {
+	display: -webkit-box;
+    overflow: hidden;
+    white-space: normal!important;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+
+
+.component-group {
+    padding: 25.96upx 31.96upx 6upx;
+    position: relative;}
+.component-group .bot {
+    right: 31.96upx !important;
+    left: 31.96upx !important;}
+.component-group .groupLogo {
+    width: 87.98upx;
+    height: 87.98upx;
+    vertical-align: top;
+    display: inline-block;}
+.component-group .groupLogo .groupPhoto {
+    width: 100%;
+    height: 100%;
+    border-radius: 7.96upx;
+    object-fit: cover;}
+.component-group .groupContent {
+    width: 559.96upx;
+    margin-top: -3.98upx;
+    margin-left: 9.98upx;
+    display: inline-block;}
+.component-group .groupContent .groupName {
+    position: relative;}
+.component-group .groupContent .groupName .groupOwnerWrapper .groupTitle {
+    max-width: 499.96upx;
+    color: #444444;
+    font-size: 31.96upx;
+    line-height: 43.96upx;
+    display: inline-block;}
+.component-group .groupContent .groupName .groupOwnerWrapper .border-football {
+    width: 60upx;
+    height: 30upx;
+    color: #03AEF9;
+    position: absolute;
+    top: 3.98upx;
+    text-align: center;
+    font-size: 19.96upx;
+    line-height: 30upx;
+    margin-left: 9.98upx;
+    display: inline-block;}
+.component-group .groupContent .groupName .groupOwnerWrapper .border-football:after {
+    border-radius: 15.98upx !important;
+    border-color: #03AEF9 !important;}
+.mui-android .component-group .groupContent .groupName .groupOwnerWrapper .border-football {
+    line-height: 33.76upx;}
+.component-group .groupContent .groupDescribe {
+    width: inherit;
+    display: block;
+    color: #808080;
+    font-size: 25.96upx;
+    line-height: 31.96upx;}
+.mui-ios .component-group .groupContent .groupDescribe {
+    margin-top: 6upx;
+}
+.component-group .groupContent .groupText {
+    color: #B4B4B6;
+    font-size: 21.98upx;
+    line-height: 60upx;
+    margin-right: 9.98upx;}
+.component-group .groupContent .groupText .icon-simi {
+    margin-right: -6upx;}
+
+
+.container-searchMenu {
+    width:100%;
+    height:78upx;
+    background: #ffffff;
+    font-size:27.98upx;
+    color: #444444;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    margin-top: -7.96upx;}
+.container-searchMenu.searchSearchMenu span {
+    width: 13.5% !important;
+}
+.container-searchMenu .tabText{
+    position: relative;
+    display: flex;
+    width: 33%;
+    height:100%;
+    justify-content: center;
+    align-items: center;}
+.container-searchMenu .tabText .underline{
+    position:absolute;
+    width:54upx;
+    height:4upx;
+    border-radius: 99.98upx;
+    background:#03aef9;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;}
