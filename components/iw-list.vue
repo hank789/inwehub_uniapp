@@ -7,11 +7,6 @@
                     @scrolltolower="loadMore"
             >
                 <view class="download-tip" :style="{top: downloadTipTop}">{{ downloadTipalertMsg }}</view>
-
-                <view v-for="(item, index) in list" :key="index" class="iwItem">
-                    {{item.id}}
-                </view>
-
                 <slot></slot>
 
                 <mix-load-more :status="loadMoreStatus" />
