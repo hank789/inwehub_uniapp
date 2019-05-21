@@ -2,25 +2,24 @@
     <view class="content">
         <cmd-nav-bar :fixed="false" right-color="#03AEF9" right-text="确认分享" back title="发布" @rightText="addDiscover"/>
 
-        <textarea class="textarea" placeholder="在这里输入您的分享内容
-底部的按钮可以添加：标签、链接、附件" :value="description"></textarea>
+        <textarea class="textarea" :placeholder="placeholder" :value="description"></textarea>
 
-        <div class="container-bottom-menus">
-            <span @tap.stop.prevent="toUser">
+        <view class="container-bottom-menus">
+            <view @tap.stop.prevent="toUser">
               <text class="iconfont icon-icon-test2"></text>
-            </span>
-            <span @tap.stop.prevent="totags">
-        </span>
-            <span @tap.stop.prevent="uploadImage" :class="{'disable': !isUploadImage}">
+            </view>
+            <view @tap.stop.prevent="totags">
+        </view>
+            <view @tap.stop.prevent="uploadImage" :class="{'disable': !isUploadImage}">
             <text class="iconfont icon-tupian"></text>
-        </span>
-            <span @tap.stop.prevent="uploadPdf" :class="{'disable': !isUploadPdf}">
+        </view>
+            <view @tap.stop.prevent="uploadPdf" :class="{'disable': !isUploadPdf}">
           <text class="iconfont icon-wenjian"></text>
-        </span>
-            <span @tap.stop.prevent="promptUrl" :class="{'disable': !isUploadLink}">
+        </view>
+            <view @tap.stop.prevent="promptUrl" :class="{'disable': !isUploadLink}">
           <text class="iconfont icon-lianjie2"></text>
-        </span>
-            <div class="component-labelWithIcon selectGroup float-right text-line-1" v-if="address"
+        </view>
+            <view class="component-labelWithIcon selectGroup float-right text-line-1" v-if="address"
                  @tap.stop.prevent="selectGroup">
                 <template v-if="selectedGroup.name">
                     <text class="iconfont icon-wodequanzi-shouye"></text>
@@ -30,14 +29,14 @@
                     <text class="iconfont icon-wodequanzi-shouye"></text>
                     选择圈子
                 </template>
-            </div>
-            <div class="component-labelWithIcon selectedAddress float-right text-line-1" v-if="address"
+            </view>
+            <view class="component-labelWithIcon selectedAddress float-right text-line-1" v-if="address"
                  @tap.stop.prevent="toAddress">
                 <text class="iconfont icon-dingwei1"></text>
                 {{selectedAddress}}
-            </div>
+            </view>
 
-        </div>
+        </view>
     </view>
 
 </template>
@@ -51,6 +50,7 @@
       return {
         description: '',
         address: '所在位置',
+        placeholder: '在这里输入您的分享内容底部的按钮可以添加：标签、链接、附件',
         isUploadImage: true,
         isUploadPdf: true,
         isUploadLink: true,
@@ -94,7 +94,7 @@
         background: #fff;
         left:0;
     }
-    .container-bottom-menus span{
+    .container-bottom-menus view{
         display: block;
         float: left;
         padding: 0 15.0upx;
