@@ -1,15 +1,12 @@
 <template>
-    <view>
-        <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="176" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
+    <view class="content">
+        <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="cssTop" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
             <scroll-view
                     class="panel-scroll-box"
                     :scroll-y="enableScroll"
                     @scrolltolower="loadMore"
             >
-                <view v-for="(item, index) in list" :key="index" class="news-item">
-                    {{item.id}}
-                </view>
-
+                <view class="download-tip" :style="{top: downloadTipTop}">{{ downloadTipalertMsg }}</view>
                 <slot></slot>
 
                 <mix-load-more :status="loadMoreStatus" />
@@ -20,7 +17,7 @@
 <script>
   import mixPulldownRefresh from '@/components/mix-pulldown-refresh/mix-pulldown-refresh'
   import mixLoadMore from '@/components/mix-load-more/mix-load-more'
-  import { getListData } from '@/lib/home'
+  import { postRequest } from '@/lib/request.js'
 
   export default {
     components: {
@@ -29,11 +26,24 @@
     },
     data() {
       return {
+        cssTop: 0,
         list: [],
         enableScroll: true,
         page: 0,
         tabCurrentIndex: 0, // 当前选项卡索引
-        loadMoreStatus: 0 // 加载更多 0加载前，1加载中，2没有更多了
+        loadMoreStatus: 0, // 加载更多 0加载前，1加载中，2没有更多了
+        downloadTipTop: '-100px',
+        downloadTipalertMsg: ''
+      }
+    },
+    props: {
+      api: {
+        type: String,
+        default: ''
+      },
+      requestData: {
+        type: Object,
+        default: {}
       }
     },
     created() {
@@ -41,6 +51,12 @@
       this.loadNewsList('add')
     },
     methods: {
+      showDownloadTip() {
+        this.downloadTipTop = '0px'
+      },
+      hideDownloadTip() {
+        this.downloadTipTop = '-100px'
+      },
       // 下拉刷新
       onPulldownReresh() {
         this.loadNewsList('refresh')
@@ -50,15 +66,47 @@
         this.loadNewsList('add')
       },
       loadNewsList(type) {
-        getListData(this.page + 1, '-1', (res) => {
+
+        if (type === 'refresh') {
+          this.list = [] // 刷新前清空数组
+          this.page = 0
+        }
+
+        var requestData = Object.assign({
+          page: this.page + 1
+        }, this.requestData)
+
+        postRequest(this.api, requestData).then(res => {
+          var code = res.code
+          if (code !== 1000) {
+            // window.mui.toast(res.message)
+            return
+          }
+
           this.page += 1
 
-          const list = res.data
+          const list = res.data.data
           list.forEach(item => {
             this.list.push(item)
           })
 
-          this.loadMoreStatus = res.next_page_url ? 0 : 2
+          if (type === 'refresh') {
+            this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh()
+          }
+
+          if (this.page === 1) {
+            if (res.data.alert_msg) {
+              this.downloadTipalertMsg = res.data.alert_msg
+              this.showDownloadTip()
+            }
+            setTimeout(() => {
+              this.hideDownloadTip()
+            }, 2000)
+          }
+
+          this.loadMoreStatus = res.data.next_page_url ? 0 : 2
+
+          this.$emit('input', this.list)
         })
       },
       setEnableScroll(enable) {
@@ -71,3 +119,17 @@
 
   }
 </script>
+
+<style scoped="scoped">
+    .content{
+        height:100%;
+    }
+
+    .panel-scroll-box{
+        height:100%;
+    }
+
+    .iwItem{
+        height:300px;
+    }
+</style>
