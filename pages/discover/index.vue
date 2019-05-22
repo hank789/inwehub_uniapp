@@ -53,6 +53,9 @@ export default {
     });
   },
   methods: {
+    toDiscoverAdd () {
+      uni.navigateTo({ url: '/pages/discover/add' })
+    },
     showPageMore () {
       this.$refs.pageMore.show()
     }
