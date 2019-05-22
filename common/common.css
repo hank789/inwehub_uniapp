@@ -373,3 +373,9 @@ input, textarea, select{
     right: 0;
     bottom: 0;
     margin: auto;}
+
+
+.status_bar{
+    height: var(--status-bar-height);
+    width: 100%;
+}

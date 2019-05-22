@@ -5,13 +5,16 @@
 			"style": {
 				"navigationBarTitleText": "uni-app",
 				"enablePullDownRefresh": false,
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 		},
 		{
 			"path": "pages/discover/add",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "default"
 			}
 		},
 		{
@@ -25,7 +28,10 @@
 		{
 			"path": "pages/discover/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "default",
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 		},
 		{
@@ -57,7 +63,25 @@
 		{
 			"path": "pages/discover/addlink",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "default",
+				"navigationBarTitleText": "发布",
+				"app-plus": {
+					"titleNView": {
+						"titleSize": "18px",
+						"titleColor": "#3c3e44",
+						"buttons": [
+							{
+								"type": "none",
+								"color": "rgb(3, 174, 249)",
+								"fontWeight": "bold",
+								"fontSize": "16px",
+								"text": "确认发布",
+								"width": "auto",
+								"fontSrc": "/static/fonts/iconfont.ttf"
+							}
+						]
+					}
+				}
 			}
 		},
 		{
@@ -159,19 +183,6 @@
 				"navigationBarTitleText": "通知公告"
 			}
 		},
-    {
-			"path" : "pages/inform/task",
-			"style" : {
-				"navigationBarTitleText" : "任务通知"
-			}
-		},
-    {
-			"path" : "pages/inform/informbar",
-			"style" : {
-				"enablePullDownRefresh" : true,
-				"navigationBarTitleText" : "通知公告"
-			}
-    },
 		{
       "path" : "pages/inform/balancebar",
       "style" : {

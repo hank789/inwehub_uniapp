@@ -1,18 +1,16 @@
 <template>
-    <view class="content">
-        <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="cssTop" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
-            <scroll-view
-                    class="panel-scroll-box"
-                    :scroll-y="enableScroll"
-                    @scrolltolower="loadMore"
-            >
-                <view class="download-tip" :style="{top: downloadTipTop}">{{ downloadTipalertMsg }}</view>
-                <slot></slot>
+    <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="cssTop" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
+        <scroll-view
+                class="panel-scroll-box"
+                :scroll-y="enableScroll"
+                @scrolltolower="loadMore"
+        >
+            <view class="download-tip" :style="{top: downloadTipTop}">{{ downloadTipalertMsg }}</view>
+            <slot></slot>
 
-                <mix-load-more :status="loadMoreStatus" />
-            </scroll-view>
-        </mix-pulldown-refresh>
-    </view>
+            <mix-load-more :status="loadMoreStatus" />
+        </scroll-view>
+    </mix-pulldown-refresh>
 </template>
 <script>
   import mixPulldownRefresh from '@/components/mix-pulldown-refresh/mix-pulldown-refresh'
@@ -126,10 +124,6 @@
 </script>
 
 <style scoped="scoped">
-    .content{
-        height:100%;
-    }
-
     .panel-scroll-box{
         height:100%;
     }
