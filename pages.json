@@ -109,6 +109,7 @@
 				"navigationStyle": "custom",
 				"navigationBarTitleText": "我的钱包"
 			}
+
 		},
 		{
 			"path": "pages/group/my",
@@ -120,7 +121,36 @@
 		{
 			"path": "pages/my/publish/publishAnswers",
 			"style": {
-				"navigationBarTitleText": "我的发布"
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "回答"
+			}
+		},
+		{
+			"path": "pages/my/publish/publishQuestions",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "提问"
+			}
+		},
+		{
+			"path": "pages/my/publish/publishArticle",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "分享"
+			}
+		},
+		{
+			"path": "pages/my/publish/publishComment",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "评论"
+			}
+		},
+		{
+			"path": "pages/my/publish/publishComments",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "点评"
 			}
 		},
 		{

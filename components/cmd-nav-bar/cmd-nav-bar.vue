@@ -268,7 +268,7 @@
     line-height: 92upx;
     color: #000;
     background: transparent;
-    box-shadow: 0 6upx 6upx -3upx rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 6upx 6upx -3upx rgba(0, 0, 0, 0.2); */
   }
 
   /*所有都垂直占比*/
