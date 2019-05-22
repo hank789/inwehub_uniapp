@@ -23,11 +23,12 @@
         + ~
         + >
         + 等
-
+   + 不能使用标签名选择器,id选择器,属性选择器
    + 单位只能使用px, upx, vh
    + 图标使用
         <text class="iconfont icon-tianjia"></text>
    + 原来的彩色图标不能用
+
 + vue
    + created 改为 onLoad
    + mounted 改为 onReady
@@ -43,4 +44,5 @@
     + 不能使用dom操作
 + html
     + 不能出现div, span, i, img等html标签
+    + 不能用ID
 
