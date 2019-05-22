@@ -44,4 +44,5 @@
     + 不能使用dom操作
 + html
     + 不能出现div, span, i, img等html标签
+    + 不能用ID
 
