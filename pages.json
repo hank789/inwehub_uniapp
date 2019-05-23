@@ -19,6 +19,13 @@
       }
     },
     {
+      "path": "pages/tag/select",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "选择标签"
+      }
+    },
+    {
       "path": "pages/discover/add",
       "style": {
         "navigationStyle": "default",
