@@ -1,100 +1,117 @@
 <template>
-    <view class="content">
-        <cmd-nav-bar :fixed="false" right-color="#03AEF9" right-text="确认分享" back title="发布" @rightText="addDiscover"/>
+  <view class="content">
+    <textarea v-model="description" class="textarea" :placeholder="placeholder" />
 
-        <textarea class="textarea" :placeholder="placeholder" :value="description"></textarea>
-
-        <view class="container-bottom-menus">
-            <view @tap.stop.prevent="toUser">
-              <text class="iconfont icon-icon-test2"></text>
+    <view class="container-bottom-menus">
+        <view class="leftItems">
+            <view @tap.stop.prevent="toUser" class="leftItem">
+                <text class="iconfont icon-icon-test2" />
             </view>
-            <view @tap.stop.prevent="totags">
+            <view @tap.stop.prevent="totags"/>
+            <view class="leftItem" :class="{'disable': !isUploadImage}" @tap.stop.prevent="uploadImage">
+                <text class="iconfont icon-tupian" />
+            </view>
+            <view class="leftItem" :class="{'disable': !isUploadPdf}" @tap.stop.prevent="uploadPdf">
+                <text class="iconfont icon-wenjian" />
+            </view>
+            <view class="leftItem" :class="{'disable': !isUploadLink}" @tap.stop.prevent="promptUrl">
+                <text class="iconfont icon-lianjie2" />
+            </view>
         </view>
-            <view @tap.stop.prevent="uploadImage" :class="{'disable': !isUploadImage}">
-            <text class="iconfont icon-tupian"></text>
-        </view>
-            <view @tap.stop.prevent="uploadPdf" :class="{'disable': !isUploadPdf}">
-          <text class="iconfont icon-wenjian"></text>
-        </view>
-            <view @tap.stop.prevent="promptUrl" :class="{'disable': !isUploadLink}">
-          <text class="iconfont icon-lianjie2"></text>
-        </view>
-            <view class="component-labelWithIcon selectGroup float-right text-line-1" v-if="address"
-                 @tap.stop.prevent="selectGroup">
-                <template v-if="selectedGroup.name">
-                    <text class="iconfont icon-wodequanzi-shouye"></text>
-                    {{selectedGroup.name}}
+
+
+      <view class="rightItems">
+          <view
+                  v-if="address"
+                  class="component-labelWithIcon selectGroup float-right text-line-1"
+                  @tap.stop.prevent="selectGroup"
+          >
+              <template v-if="selectedGroup.name">
+                  <text class="iconfont icon-wodequanzi-shouye" />
+                  {{ selectedGroup.name }}
+        </template>
+              <template v-else>
+                  <text class="iconfont icon-wodequanzi-shouye" />
+                  选择圈子
                 </template>
-                <template v-else>
-                    <text class="iconfont icon-wodequanzi-shouye"></text>
-                    选择圈子
-                </template>
-            </view>
-            <view class="component-labelWithIcon selectedAddress float-right text-line-1" v-if="address"
-                 @tap.stop.prevent="toAddress">
-                <text class="iconfont icon-dingwei1"></text>
-                {{selectedAddress}}
-            </view>
+          </view>
+          <view
+                  v-if="address"
+                  class="component-labelWithIcon selectedAddress float-right text-line-1"
+                  @tap.stop.prevent="toAddress"
+          >
+              <text class="iconfont icon-dingwei1" />
+              {{ selectedAddress }}
+      </view>
+      </view>
 
-        </view>
+
     </view>
+  </view>
 
 </template>
 
 <script>
-  import cmdNavBar from '@/components/cmd-nav-bar/cmd-nav-bar.vue'
+export default {
+  components: {},
+  data() {
+    return {
+      description: '',
+      address: '所在位置',
+      placeholder: '在这里输入您的分享内容\n底部的按钮可以添加：标签、链接、附件',
+      isUploadImage: true,
+      isUploadPdf: true,
+      isUploadLink: true,
+      selectedGroup: {
+        name: ''
+      },
+      selectedAddress: '所在位置'
+    }
+  },
+  methods: {
+    addDiscover() {
 
-  export default {
-    components: {cmdNavBar},
-    data() {
-      return {
-        description: '',
-        address: '所在位置',
-        placeholder: '在这里输入您的分享内容底部的按钮可以添加：标签、链接、附件',
-        isUploadImage: true,
-        isUploadPdf: true,
-        isUploadLink: true,
-        selectedGroup: {
-          name: ''
-        },
-        selectedAddress: '所在位置',
-      }
     },
-    methods: {
-      addDiscover() {
+    toUser() {
+      uni.navigateTo({ url: '/pages/user/select' })
+    },
+    totags() {
 
-      },
-      toUser () {
+    },
+    uploadImage() {
 
-      },
-      totags () {
-
-      },
-      uploadImage () {
-
-      }
     }
   }
+}
 </script>
 
 <style>
     .content {
         height: 100%;
+        background: #f3f4f6;
     }
 
     .textarea {
         width: 100%;
-        height:calc(100% - 180upx);
-        padding:5px;
+        height:calc(100% - 88upx);
+        padding:12px 15px;
     }
 
-    .container-bottom-menus{
-        position: absolute;
-        padding-left: 15.0upx;
+    .container-bottom-menus {
+        position: fixed;
+        display: flex;
+        align-items:center;
+        width: 100%;
+        bottom: 0;
+        height: 88upx;
         background: #fff;
-        left:0;
+        justify-content: space-between;
+        line-height: 88upx; }
+
+    .container-bottom-menus .leftItems{
+        flex-grow: 2;
     }
-    .container-bottom-menus view{
+    .container-bottom-menus .leftItem{
         display: block;
         float: left;
         padding: 0 15.0upx;
@@ -102,17 +119,17 @@
         color: grey;
     }
 
-    .container-bottom-menus {
-        position: fixed;
-        width: 100%;
-        bottom: 0;
-        background: #ececee;
-        height: 88upx;
-        line-height: 88upx; }
-    .container-bottom-menus .menu {
-        margin-left: 30upx;
-        color: #808080;
-        font-size: 38upx; }
+    .container-bottom-menus .leftItem .iconfont{
+        font-size: 37.96upx;
+    }
+
+    .container-bottom-menus .component-labelWithIcon{
+        align-self: flex-end;
+    }
+
+    .container-bottom-menus .selectGroup{
+        background: #03AEF9;
+    }
 
     .component-labelWithIcon {
         margin: 25.96upx 9.98upx;

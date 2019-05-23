@@ -12,10 +12,36 @@
       }
     },
     {
+      "path": "pages/user/select",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "选择用户"
+      }
+    },
+    {
       "path": "pages/discover/add",
       "style": {
-        "navigationStyle": "default"
+        "navigationStyle": "default",
+        "navigationBarTitleText": "发布",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontWeight": "bold",
+                "fontSize": "16px",
+                "text": "确认分享",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
       }
+
     },
     {
       "path": "pages/webview/article",
@@ -25,6 +51,7 @@
         "navigationStyle": "custom"
       }
     },
+
     {
       "path": "pages/discover/index",
       "style": {
