@@ -7,7 +7,9 @@
             <view @tap.stop.prevent="toUser" class="leftItem">
                 <text class="iconfont icon-icon-test2" />
             </view>
-            <view @tap.stop.prevent="totags"/>
+            <view class="leftItem" @tap.stop.prevent="totags">
+                <text class="iconfont icon-biaoqian2" />
+            </view>
             <view class="leftItem" :class="{'disable': !isUploadImage}" @tap.stop.prevent="uploadImage">
                 <text class="iconfont icon-tupian" />
             </view>
@@ -76,7 +78,7 @@ export default {
       uni.navigateTo({ url: '/pages/user/select' })
     },
     totags() {
-
+      uni.navigateTo({ url: '/pages/tag/select?from=discover' })
     },
     uploadImage() {
 
