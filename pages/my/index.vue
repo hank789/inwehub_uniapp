@@ -1,6 +1,5 @@
 <template>
 	<view>
-
 		<view class="mui-bar">
 			<view class="setUp" @tap.stop.prevent="toRoute('/pages/my/setting')">
 				<text class="iconfont icon-shezhi"></text>
@@ -17,7 +16,7 @@
 				</view>
 				<view class="professor">
 					<view class="my-img" @tap.stop.prevent="$router.pushPlus('/my/resume')">
-						<ImageView :src="avatar" width="59" height="59" class="avatar"></ImageView>
+						<image :src="avatar" width="59" height="59" class="avatar"></image>
 						<view class="expert" v-if="expert_apply_status =='2'">
 							<text class="iconfont icon-zhuanjiabiaozhishixin"></text>
 						</view>

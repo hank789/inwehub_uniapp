@@ -258,6 +258,19 @@
       }
     },
     {
+      "path": "pages/wechat/bindPhone",
+	  "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "更换手机号",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
       "path": "pages/login/login",
       "style": {
         "app-plus": {
