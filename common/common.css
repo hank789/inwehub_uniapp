@@ -134,7 +134,7 @@ page {
 }
 
 
-view {
+view, textarea {
     box-sizing: border-box;
 }
 

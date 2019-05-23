@@ -70,12 +70,14 @@
 <script>
   import Contact from '@/components/iw-index/iw-index.vue'
   import { postRequest } from '@/lib/request'
+  import localEvent from '@/lib/localstorage'
   import Vue from 'vue'
-  const currentUser = {}
+  const currentUser = localEvent.get('UserInfo')
 
   export default {
     data () {
       return {
+        pageOption: {},
         apperClose: false,
         id: 0,
         search: '',
@@ -94,9 +96,12 @@
     components: {
       Contact
     },
+    onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
+        this.pageOption = option
+    },
     methods: {
       submitInfo () {
-        window.mui.back()
+        uni.navigateBack()
       },
       empty () {
         this.search = ''
@@ -125,8 +130,8 @@
         } else {
           this.apperClose = false
         }
-        if (this.$route.query.from === 'discover' || this.$route.query.from === 'comment') {
-          // localEvent.setLocalItem('selected_' + this.$route.query.from + '_user' + this.userId, options)
+        if (this.pageOption.from === 'discover' || this.pageOption.from === 'comment') {
+          localEvent.set('selected_' + this.pageOption.from + '_user' + this.userId, options)
         } else {
           return false
         }
@@ -137,7 +142,7 @@
           var code = response.code
           if (code !== 1000) {
             window.mui.alert(response.data.message)
-            window.mui.back()
+            uni.navigateBack()
             return
           }
           if (response.data.length > 0) {
@@ -165,8 +170,8 @@
     },
     activated () {
       this.Selected = []
-      if (this.$route.query.from === 'discover' || this.$route.query.from === 'comment') {
-        var user = [] // localEvent.getLocalItem(this.$route.query.from + '_selectUser' + this.userId)
+      if (this.pageOption.from === 'discover' || this.pageOption.from === 'comment') {
+        var user = localEvent.get(this.pageOption.from + '_selectUser' + this.userId)
         for (var num = 0; num < user.length; num++) {
           this.collectProfessor(user[num].listindex, user[num])
         }
@@ -177,8 +182,8 @@
     watch: {},
     mounted () {
       this.getList()
-      if (this.$route.query.from === 'discover' || this.$route.query.from === 'comment') {
-        var user = [] // localEvent.getLocalItem(this.$route.query.from + '_selectUser' + this.userId)
+      if (this.pageOption.from === 'discover' || this.pageOption.from === 'comment') {
+        var user = localEvent.get(this.pageOption.from + '_selectUser' + this.userId)
         for (var num = 0; num < user.length; num++) {
           this.collectProfessor(user[num].listindex, user[num])
         }
@@ -214,7 +219,7 @@
             .iconfont{
                 position: absolute;
                 left: 49.96upx;
-                top: 39.98upx;
+                top: 24upx;
                 color: #c8c8c8;
                 z-index:1;
             }
