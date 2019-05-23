@@ -118,36 +118,66 @@
     {
       "path": "pages/my/publish/publishAnswers",
       "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "回答"
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的发布",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
       }
     },
     {
       "path": "pages/my/publish/publishQuestions",
       "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "提问"
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的发布",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
       }
     },
     {
       "path": "pages/my/publish/publishArticle",
       "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "分享"
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的发布",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
       }
     },
     {
       "path": "pages/my/publish/publishComment",
       "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "评论"
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的发布",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
       }
     },
     {
       "path": "pages/my/publish/publishComments",
       "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "点评"
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的发布",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
       }
     },
     {

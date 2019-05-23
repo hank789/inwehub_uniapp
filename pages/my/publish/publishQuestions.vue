@@ -1,6 +1,5 @@
 <template>
 	<view class="content">
-		<cmd-nav-bar :fixed="true" right-color="#03AEF9" back title="我的发布" @rightText="rightText" />
 		
 		<view class="mui-content">
 			<view class="container-searchMenu">
@@ -30,7 +29,6 @@
 </template>
 
 <script>
-	import cmdNavBar from '@/components/cmd-nav-bar/cmd-nav-bar.vue'
 	import iwList from '@/components/iw-list/iw-list.vue'
 	export default {
 		data() {
@@ -39,7 +37,6 @@
 			}
 		},
 		components: {
-			cmdNavBar,
 			iwList
 		},
 		methods: {
@@ -54,7 +51,7 @@
 	.content {
 		height: 100%;
 		.mui-content {
-			margin: 44px 0 0;
+			// margin: 44px 0 0;
 		}
 	}
 	.bot {

@@ -1,13 +1,12 @@
 <template>
 	<view class="content">
-		<cmd-nav-bar :fixed="true" right-color="#03AEF9" back title="我的发布" @rightText="rightText" />
 
 		<view class="mui-content">
 			<view class="container-searchMenu">
 				<text class="tabText font-family-medium" @tap.stop.prevent="toRoute('/pages/my/publish/publishAnswers')">回答<text
 					 class="underline"></text></text>
 				<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishQuestions')">提问</text>
-				<text class="tabText">分享</text>
+				<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishArticle')">分享</text>
 				<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishComment')">评论</text>
 				<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishComments')">点评</text>
 				<text class="bot"></text>
@@ -34,16 +33,14 @@
 	import {
 		getAnswerList
 	} from "@/lib/answer.js"
-	import cmdNavBar from '@/components/cmd-nav-bar/cmd-nav-bar.vue'
 	import iwList from '@/components/iw-list/iw-list.vue'
 	export default {
 		data() {
 			return {
-				list: []
+				list: [],
 			}
 		},
 		components: {
-			cmdNavBar,
 			iwList
 		},
 		async onLoad() {
@@ -68,7 +65,7 @@
 	.content {
 		height: 100%;
 		.mui-content {
-			margin-top: 44px;
+			// margin-top: 44px;
 		}
 	}
 
