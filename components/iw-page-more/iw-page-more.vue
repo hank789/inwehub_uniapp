@@ -7,46 +7,46 @@
                 :h5-top="true"
                 @hidePopup="hidePopup">
 
-            <div id="sharePageMoreWrapper" class="sharePageMoreWrapper">
-                <div class="title">
+            <view id="sharePageMoreWrapper" class="sharePageMoreWrapper">
+                <view class="title">
                     分享到
-                  </div>
-                <div class="more">
-                    <div class="single" @tap.stop.prevent="shareToHaoyou()">
-                        <img src="~@/static/images/wechat_2x.png"/>
-                        <span>微信</span>
-                    </div>
-                    <div class="single" @tap.stop.prevent="shareToPengyouQuan()">
-                        <img src="~@/static/images/pengyouquan.png"/>
-                        <span>朋友圈</span>
-                    </div>
-                    <div class="single" @tap.stop.prevent="shareToChat()">
-                        <img src="~@/static/images/sendFriend@2x.png"/>
-                        <span>私信</span>
-                    </div>
-                    <div class="single" v-if="shareOption.link" @success="shareToCopyLink()">
-                        <img src="~@/static/images/copyLink@3x.png"/>
-                        <span>复制链接</span>
-                    </div>
-                </div>
+                  </view>
+                <view class="more">
+                    <view class="single" @tap.stop.prevent="shareToHaoyou()">
+                        <image class="image" src="../../static/images/wechat_2x.png"/>
+                        <text class="text">微信</text>
+                    </view>
+                    <view class="single" @tap.stop.prevent="shareToPengyouQuan()">
+                        <image class="image" src="../../static/images/pengyouquan.png"/>
+                        <text class="text">朋友圈</text>
+                    </view>
+                    <view class="single" @tap.stop.prevent="shareToChat()">
+                        <image class="image" src="../../static/images/sendFriend@2x.png"/>
+                        <text class="text">私信</text>
+                    </view>
+                    <view class="single" v-if="shareOption.link" @success="shareToCopyLink()">
+                        <image class="image" src="../../static/images/copyLink@3x.png"/>
+                        <text class="text">复制链接</text>
+                    </view>
+                </view>
 
-                <div class="line-river-after line-river-after-height"></div>
+                <view class="line-river-after line-river-after-height"></view>
 
-                <div v-if="iconMenu.length">
-                    <div class="more twoLevel">
-                        <div class="delete single" @tap.stop.prevent="clickItem(item)"  v-for="(item, index) in iconMenu" :key="index">
-          <span class="iconBorder" :class="item.isBookMark ? 'active' : ''">
+                <view v-if="iconMenu.length">
+                    <view class="more twoLevel">
+                        <view class="delete single" @tap.stop.prevent="clickItem(item)"  v-for="(item, index) in iconMenu" :key="index">
+          <text class="iconBorder" :class="item.isBookMark ? 'active' : ''">
             <svg class="icon" aria-hidden="true">
               <use :xlink:href="item.icon"></use>
             </svg>
-          </span>
-                            <span class="text" :class="item.isBookMark ? 'active' : ''">{{item.text}}</span>
-                        </div>
-                    </div>
-                    <div class="line-river-after line-river-after-height"></div>
-                </div>
-                <div class="cancel" @tap.stop.prevent="hidePopup()"><span class="font-family-medium">取消</span></div>
-            </div>
+          </text>
+                            <text class="text" :class="item.isBookMark ? 'active' : ''">{{item.text}}</text>
+                        </view>
+                    </view>
+                    <view class="line-river-after line-river-after-height"></view>
+                </view>
+                <view class="cancel" @tap.stop.prevent="hidePopup()"><text class="text font-family-medium">取消</text></view>
+            </view>
 
         </uni-popup>
     </view>
@@ -60,7 +60,8 @@
     },
     data() {
       return {
-        showPopupBottomShare: false
+        showPopupBottomShare: false,
+        isHaveNavigationBar: false
       }
     },
     props: {
@@ -86,6 +87,16 @@
       },
       hidePopup () {
         this.showPopupBottomShare = false
+        uni.showTabBar()
+
+        if (this.isHaveNavigationBar) {
+          setTimeout(() => {
+            uni.setNavigationBarColor({
+              frontColor: '#000000',
+              backgroundColor: '#ffffff'
+            })
+          }, 100)
+        }
       },
       shareToCopyLink () {
          // todo 复制到剪切板
@@ -96,8 +107,21 @@
       shareToHaoyou () {
 
       },
-      show () {
+      show (isHaveNavigationBar) {
         this.showPopupBottomShare = true
+        uni.hideTabBar()
+
+        this.isHaveNavigationBar = false
+
+        if (isHaveNavigationBar) {
+          this.isHaveNavigationBar = true
+          setTimeout(() => {
+            uni.setNavigationBarColor({
+              frontColor: '#000000',
+              backgroundColor: '#b3b3b3'
+            })
+          }, 100)
+        }
       },
       shareToPengyouQuan () {
 
@@ -106,7 +130,7 @@
   }
 </script>
 
-<style lang="less" scoped="scoped">
+<style lang="less">
     .red{
         height:100%;
     }
@@ -156,12 +180,12 @@
             .single {
                 height: 139.96upx;
                 display: inline-block;
-                img {
+                .image {
                     width: 87.98upx;
                     height: 85.96upx;
                     margin: 0 24upx;
                 }
-                span {
+                .text {
                     display: block;
                     font-size: 24upx;
                     color: #808080;
@@ -206,24 +230,12 @@
         }
     }
 
-    #shareShowWrapper {
-        position: absolute;
-        right: 0;
-        top: 0;
-        .icon {
-            color: #fff;
-            position: absolute;
-            right: 30upx;
-            top: 19.96upx;
-            font-size: 139.96upx;
-        }
-    }
     .cancel {
         height: 103.96upx;
         line-height: 103.96upx;
         background: #FFF;
         text-align: center;
-        span {
+        .text {
             color: #444444;
             font-size: 31.96upx;
         }

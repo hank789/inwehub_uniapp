@@ -1,5 +1,7 @@
 <template>
   <view class="content">
+    <view class="status_bar">
+    </view>
     <view class="container-control-logoAndTabsAndSearch">
       <view class="topSearchWrapper" @tap.stop.prevent="$router.pushPlus('/searchAll','list-detail-page-three')">
         <view class="searchFrame">

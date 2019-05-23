@@ -1,7 +1,5 @@
 <template>
   <view>
-    <cmd-nav-bar :fixed="false" right-color="#03AEF9" right-text="确认发布" back title="发布" @rightText="rightText" />
-
     <view v-if="!loading">
 
       <view class="shareTitle font-family-medium">分享到首页</view>
@@ -42,14 +40,13 @@
 </template>
 
 <script>
-import cmdNavBar from '@/components/cmd-nav-bar/cmd-nav-bar.vue'
 import { addLink, getRegions } from '@/lib/article'
 import { searchText } from '@/lib/search'
 import { fetchArticle, isUrl } from '@/lib/url'
 import Vue from 'vue'
 
 export default {
-  components: { cmdNavBar },
+  components: {  },
   data() {
     return {
       loading: 1,
@@ -59,6 +56,9 @@ export default {
       urlImage: '',
       url: ''
     }
+  },
+  ﻿onNavigationBarButtonTap(e) {
+    this.rightText()
   },
   onLoad() {
     getRegions((regions) => {
