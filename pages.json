@@ -123,16 +123,28 @@
     },
     {
       "path": "pages/my/contactUs",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "联系我们"
+	  "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "联系我们",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
       }
     },
     {
       "path": "pages/my/finance",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "我的钱包"
+	  "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的钱包",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
       }
     },
     {
@@ -209,16 +221,28 @@
     },
     {
       "path": "pages/invitation/index",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "邀请好友"
+	  "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "邀请好友",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
       }
     },
     {
       "path": "pages/my/setting",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTitleText": "设置"
+	  "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "设置",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
       }
     },
     {
