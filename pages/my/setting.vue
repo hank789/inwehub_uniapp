@@ -35,6 +35,13 @@
 		},
 		mounted() {},
 		methods: {
+			fnClick (type) {
+				switch (type){
+					case 'modify':
+						uni.navigateTo({ url: '/pages/wechat/bindPhone' })
+						break;
+				}
+			},
 			clearUserCache() {
 				localEvent.clearLocalItem('UserLoginInfo')
 				localEvent.clearLocalItem('UserInfo')
