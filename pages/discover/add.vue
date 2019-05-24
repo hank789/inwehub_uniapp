@@ -3,48 +3,48 @@
     <textarea v-model="description" class="textarea" :placeholder="placeholder" />
 
     <view class="container-bottom-menus">
-        <view class="leftItems">
-            <view @tap.stop.prevent="toUser" class="leftItem">
-                <text class="iconfont icon-icon-test2" />
-            </view>
-            <view @tap.stop.prevent="totags"/>
-            <view class="leftItem" :class="{'disable': !isUploadImage}" @tap.stop.prevent="uploadImage">
-                <text class="iconfont icon-tupian" />
-            </view>
-            <view class="leftItem" :class="{'disable': !isUploadPdf}" @tap.stop.prevent="uploadPdf">
-                <text class="iconfont icon-wenjian" />
-            </view>
-            <view class="leftItem" :class="{'disable': !isUploadLink}" @tap.stop.prevent="promptUrl">
-                <text class="iconfont icon-lianjie2" />
-            </view>
+      <view class="leftItems">
+        <view class="leftItem" @tap.stop.prevent="toUser">
+          <text class="iconfont icon-icon-test2" />
         </view>
-
+        <view class="leftItem" @tap.stop.prevent="totags">
+          <text class="iconfont icon-biaoqian2" />
+        </view>
+        <view class="leftItem" :class="{'disable': !isUploadImage}" @tap.stop.prevent="uploadImage">
+          <text class="iconfont icon-tupian" />
+        </view>
+        <view class="leftItem" :class="{'disable': !isUploadPdf}" @tap.stop.prevent="uploadPdf">
+          <text class="iconfont icon-wenjian" />
+        </view>
+        <view class="leftItem" :class="{'disable': !isUploadLink}" @tap.stop.prevent="promptUrl">
+          <text class="iconfont icon-lianjie2" />
+        </view>
+      </view>
 
       <view class="rightItems">
-          <view
-                  v-if="address"
-                  class="component-labelWithIcon selectGroup float-right text-line-1"
-                  @tap.stop.prevent="selectGroup"
-          >
-              <template v-if="selectedGroup.name">
-                  <text class="iconfont icon-wodequanzi-shouye" />
-                  {{ selectedGroup.name }}
-        </template>
-              <template v-else>
-                  <text class="iconfont icon-wodequanzi-shouye" />
-                  选择圈子
-                </template>
-          </view>
-          <view
-                  v-if="address"
-                  class="component-labelWithIcon selectedAddress float-right text-line-1"
-                  @tap.stop.prevent="toAddress"
-          >
-              <text class="iconfont icon-dingwei1" />
-              {{ selectedAddress }}
+        <view
+          v-if="address"
+          class="component-labelWithIcon selectGroup float-right text-line-1"
+          @tap.stop.prevent="selectGroup"
+        >
+          <template v-if="selectedGroup.name">
+            <text class="iconfont icon-wodequanzi-shouye" />
+            {{ selectedGroup.name }}
+          </template>
+          <template v-else>
+            <text class="iconfont icon-wodequanzi-shouye" />
+            选择圈子
+          </template>
+        </view>
+        <view
+          v-if="address"
+          class="component-labelWithIcon selectedAddress float-right text-line-1"
+          @tap.stop.prevent="toAddress"
+        >
+          <text class="iconfont icon-dingwei1" />
+          {{ selectedAddress }}
+        </view>
       </view>
-      </view>
-
 
     </view>
   </view>
@@ -68,15 +68,18 @@ export default {
       selectedAddress: '所在位置'
     }
   },
+  onShow: function () { //option为object类型，会序列化上个页面传递的参数
+     this.$ls.get()
+  },
   methods: {
     addDiscover() {
 
     },
     toUser() {
-      uni.navigateTo({ url: '/pages/user/select' })
+      uni.navigateTo({ url: '/pages/user/select?from=discover' })
     },
     totags() {
-
+      uni.navigateTo({ url: '/pages/tag/select?from=discover' })
     },
     uploadImage() {
 
