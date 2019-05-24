@@ -1,6 +1,34 @@
 <template>
   <view class="content">
-    <textarea v-model="description" class="textarea" :placeholder="placeholder" />
+    <textarea :class="{hasFile: waitUploadImages.length, hasLink: links.length}" v-model="description" class="textarea" :placeholder="placeholder" />
+
+    <scroll-view>
+      <view class="container-upload-images" v-for="(image, index) in waitUploadImages" :key="index">
+        <view class="imageItem">
+          <image class="image" :mode="'aspectFill'" :src="image.path"></image>
+          <text class="iconfont icon-times1" @tap.stop.prevent="delImg(index)"></text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="link" v-if="links.length" v-for="(link, index) in links" :key="index">
+      <view class="linkBox">
+        <!-- 没有图片的样式 -->
+        <view class="linkIimg" v-if="!link.img_url">
+              <text class="iconfont icon-biaozhunlogoshangxiayise"></text>
+            </view>
+        <!-- 有图片的样式 -->
+        <image class="image" :mode="'aspectFill'" v-else :src="link.img_url" alt=""></image>
+        <view class="linkContent">
+          <view v-if="link.title" class="text-line-2">{{link.title}}</view>
+          <view v-else class="seat"></view>
+          <view class="div text-line-1">{{link.url}}</view>
+        </view>
+      </view>
+      <view class="linkClose" @tap.stop.prevent="linkClose">
+        <text class="iconfont icon-times1"></text>
+      </view>
+    </view>
 
     <view class="container-bottom-menus">
       <view class="leftItems">
@@ -24,20 +52,6 @@
       <view class="rightItems">
         <view
           v-if="address"
-          class="component-labelWithIcon selectGroup float-right text-line-1"
-          @tap.stop.prevent="selectGroup"
-        >
-          <template v-if="selectedGroup.name">
-            <text class="iconfont icon-wodequanzi-shouye" />
-            {{ selectedGroup.name }}
-          </template>
-          <template v-else>
-            <text class="iconfont icon-wodequanzi-shouye" />
-            选择圈子
-          </template>
-        </view>
-        <view
-          v-if="address"
           class="component-labelWithIcon selectedAddress float-right text-line-1"
           @tap.stop.prevent="toAddress"
         >
@@ -47,17 +61,34 @@
       </view>
 
     </view>
+
+    <prompt :visible.sync="promptVisible"
+            title="插入链接卡片"
+            placeholder="输入链接地址"
+            defaultValue=""
+            mainColor="#007aff"
+            @confirm="addLink"
+    >
+    </prompt>
   </view>
 
 </template>
 
 <script>
 import localStorageKey from '@/lib/localstoragekey'
+import { addDiscover } from '@/lib/discover'
+import Prompt from '@/components/zz-prompt/index.vue'
+import { fetchArticle } from '@/lib/url'
 
 export default {
-  components: {},
+  components: {Prompt},
   data() {
     return {
+      swiperOption: {
+        slidesPerView: 'auto',
+        spaceBetween: 10,
+        freeMode: true
+      },
       description: '',
       address: '所在位置',
       placeholder: '在这里输入您的分享内容\n底部的按钮可以添加：标签、链接、附件',
@@ -67,14 +98,55 @@ export default {
       selectedGroup: {
         name: ''
       },
-      selectedAddress: '所在位置'
+      waitUploadImages: [],
+      selectedAddress: '所在位置',
+      promptVisible: false,
+      links: [],
     }
+  },
+  onNavigationBarButtonTap(e) {
+    this.addDiscover()
   },
   onShow: function () {
     this.readSelectUsers()
     this.readSelectTags()
   },
-  methods: {
+  onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
+        this.pageOption = option
+    },
+    methods: {
+      linkClose () {
+        this.links = []
+      },
+      addLink (url) {
+        fetchArticle(url, (data) => {
+          this.links = [{
+            url: url,
+            title: data.title,
+            img_url: data.img_url
+          }]
+
+          this.promptVisible = false
+        })
+      },
+    uploadImage: function () {
+      const that = this
+      uni.chooseImage({
+        count: 9,
+        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album'], //从相册选择
+        success: function (res) {
+          that.waitUploadImages = res.tempFiles
+        }
+      })
+    },
+    promptUrl () {
+      if (!this.isUploadLink) {
+        return
+      }
+
+      this.promptVisible = true
+    },
     readSelectUsers () {
       const selectUsers = this.$ls.get(localStorageKey.discover_select_user)
       if (selectUsers) {
@@ -83,6 +155,9 @@ export default {
         })
         this.$ls.remove(localStorageKey.discover_select_user)
       }
+    },
+    delImg (index) {
+      this.waitUploadImages.splice(index, 1)
     },
     readSelectTags () {
       const values = this.$ls.get(localStorageKey.discover_select_tag)
@@ -94,22 +169,27 @@ export default {
       }
     },
     addDiscover() {
-
+      if (this.links.length) {
+        addLink(this.description, this.links[0].url, (res) => {
+          uni.redirectTo({ url:'/pages/discover/detail?slug=' + res.data.slug })
+        })
+      } else {
+        addDiscover(this.description, (res) => {
+          uni.redirectTo({ url:'/pages/discover/detail?slug=' + res.data.slug })
+        })
+      }
     },
     toUser() {
       uni.navigateTo({ url: '/pages/user/select?from=discover' })
     },
     totags() {
       uni.navigateTo({ url: '/pages/tag/select?from=discover' })
-    },
-    uploadImage() {
-
     }
   }
 }
 </script>
 
-<style>
+<style lang="less">
     .content {
         height: 100%;
         background: #f3f4f6;
@@ -118,7 +198,15 @@ export default {
     .textarea {
         width: 100%;
         height:calc(100% - 88upx);
-        padding:12px 15px;
+        padding:24upx 30upx;
+    }
+
+    .textarea.hasFile{
+      height:calc(100% - 88upx - 182upx);
+    }
+
+    .textarea.hasLink{
+      height:calc(100% - 88upx - 176upx);
     }
 
     .container-bottom-menus {
@@ -157,5 +245,90 @@ export default {
 
     .component-labelWithIcon {
         margin: 25.96upx 9.98upx;
+    }
+
+    .container-upload-images{
+      height:182upx;
+      padding:20upx 0;
+    }
+    .container-upload-images .imageItem{
+      margin: 9.98upx;
+      display: inline-block;
+      width: 122upx;
+      height: 122upx;
+      border-radius: 8upx;
+      position: relative;
+
+      .image{
+        width:100%;
+        height:100%;
+        border-radius: 9.98upx;
+        -o-object-fit: cover;
+        object-fit: cover;
+      }
+
+      .iconfont{
+        position: absolute;
+        right: -9.98upx;
+        top: -24upx;
+      }
+    }
+
+    // 新增链接样式
+    .link {
+      margin-top: 19.96upx;
+      padding: 0 37.96upx 0 25.96upx;
+      position: relative;
+      .linkBox {
+        padding: 19.96upx;
+        border-radius: 7.96upx;
+        background: #fff;
+        .linkIimg {
+          width: 87.98upx;
+          height: 87.98upx;
+          float: left;
+          text-align: center;
+          line-height: 99.98upx;
+          margin-right: 19.96upx;
+          border-radius: 7.96upx;
+          background: #ECECEE;
+          .iconfont{
+            color: #C8C8C8;
+            font-size: 55.96upx;
+          }
+        }
+        .image {
+          width: 87.98upx;
+          height: 87.98upx;
+          float: left;
+          margin-right: 19.96upx;
+          border-radius: 7.96upx;
+          -o-object-fit: cover;
+          object-fit: cover;
+        }
+        .linkContent {
+          font-size: 27.98upx;
+          color: #808080;
+          .seat {
+            width: 19.96upx;
+            height: 30upx;
+            display: inline-block;
+          }
+          .div {
+            color: #B4B4B6;
+            word-wrap: break-word;
+          }
+        }
+      }
+      .linkClose {
+        position: absolute;
+        top: -15.98upx;
+        right: 24upx;
+        .iconfont{
+          width: 31.96upx;
+          height: 31.96upx;
+          color: #808080;
+        }
+      }
     }
 </style>
