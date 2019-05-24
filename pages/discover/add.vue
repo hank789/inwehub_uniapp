@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import localStorageKey from '@/lib/localstoragekey'
+
 export default {
   components: {},
   data() {
@@ -68,10 +70,29 @@ export default {
       selectedAddress: '所在位置'
     }
   },
-  onShow: function () { //option为object类型，会序列化上个页面传递的参数
-     this.$ls.get()
+  onShow: function () {
+    this.readSelectUsers()
+    this.readSelectTags()
   },
   methods: {
+    readSelectUsers () {
+      const selectUsers = this.$ls.get(localStorageKey.discover_select_user)
+      if (selectUsers) {
+        selectUsers.forEach((item) => {
+          this.description += '@' + item.name + ' '
+        })
+        this.$ls.remove(localStorageKey.discover_select_user)
+      }
+    },
+    readSelectTags () {
+      const values = this.$ls.get(localStorageKey.discover_select_tag)
+      if (values) {
+        values.forEach((item) => {
+          this.description += '#' + item.text + ' '
+        })
+        this.$ls.remove(localStorageKey.discover_select_tag)
+      }
+    },
     addDiscover() {
 
     },

@@ -147,6 +147,7 @@ export default {
           this.setUser(res.data)
           this.setToken(res.data.token)
           this.$ls.set('token', res.data.token)
+          this.$ls.set('UserInfo', res.data)
           if (!res.data.name) {
             uni.reLaunch({
               url: '/pages/login/updateInfo'

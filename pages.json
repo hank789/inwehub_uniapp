@@ -48,7 +48,6 @@
           }
         }
       }
-
     },
     {
       "path": "pages/webview/article",
@@ -58,13 +57,21 @@
         "navigationStyle": "custom"
       }
     },
-
     {
       "path": "pages/discover/index",
       "style": {
         "navigationStyle": "default",
         "app-plus": {
           "titleNView": false
+        }
+      }
+    },
+    {
+      "path": "pages/discover/detail",
+      "style": {
+        "style": {
+          "navigationStyle": "default",
+          "navigationBarTitleText": "分享"
         }
       }
     },
@@ -130,7 +137,7 @@
     },
     {
       "path": "pages/my/contactUs",
-	  "style": {
+      "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "联系我们",
         "app-plus": {
@@ -143,7 +150,7 @@
     },
     {
       "path": "pages/my/finance",
-	  "style": {
+      "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "我的钱包",
         "app-plus": {
@@ -155,7 +162,8 @@
       }
     },
     {
-      "path": "pages/group/my","style": {
+      "path": "pages/group/my",
+      "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "我的圈子",
         "app-plus": {
@@ -233,7 +241,7 @@
     },
     {
       "path": "pages/invitation/index",
-	  "style": {
+      "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "邀请好友",
         "app-plus": {
@@ -246,7 +254,7 @@
     },
     {
       "path": "pages/my/setting",
-	  "style": {
+      "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "设置",
         "app-plus": {
@@ -259,7 +267,7 @@
     },
     {
       "path": "pages/wechat/bindPhone",
-	  "style": {
+      "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "更换手机号",
         "app-plus": {
