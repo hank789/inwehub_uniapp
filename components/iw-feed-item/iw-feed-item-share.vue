@@ -1,5 +1,5 @@
 <template>
-    <view class="content">
+    <view class="content" @tap="toDetail(item)">
 
         <div class="component-userinfo">
             <div class="left"> <image :src="item.user.avatar"/></div>
@@ -11,7 +11,7 @@
         <div class="component-share">
             <div class="level-three">{{item.feed.title}}</div>
             <div class="level-two">
-                <div class="ltLeft"><image :src="item.feed.img"/></div>
+                <div class="ltLeft"><image :src="img"/></div>
                 <div class="ltRight">
                     <div class="ltRightTwo">{{item.feed.article_title}}</div>
                     <div class="ltRightOne">{{item.feed.domain}}</div>
@@ -37,7 +37,13 @@
       }
     },
     computed: {
+      img () {
+        if (this.item.feed.img.length) {
+          return this.item.feed.img[0]
+        }
 
+        return ''
+      }
     },
     props: {
       item: {
@@ -51,6 +57,9 @@
 
     },
     methods: {
+      toDetail (item) {
+        uni.navigateTo({ url: '/pages/discover/detail?slug=' + item.feed.slug })
+      },
       showDownloadTip() {
 
       },
