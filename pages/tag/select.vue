@@ -54,6 +54,7 @@
   import { postRequest } from '@/lib/request'
   import {getIndexByIdArray} from '@/lib/array'
   import localEvent from '@/lib/localstorage'
+  import localStorageKey from '@/lib/localstoragekey'
   const currentUser = localEvent.get('UserInfo')
 
   export default {
@@ -92,8 +93,12 @@
         }
       },
       keepTags () {
-        if (this.pageOption.from === 'ask' || this.pageOption.from === 'interaction' || this.pageOption.from === 'discover' || this.pageOption.from === 'article') {
+        if (this.pageOption.from === 'ask' || this.pageOption.from === 'interaction' || this.pageOption.from === 'article') {
           localEvent.set('selected_' + this.pageOption.from + '_skill_tags' + this.id, this.skill_tags)
+          uni.navigateBack()
+          return
+        } else if (this.pageOption.from === 'discover') {
+          localEvent.set(localStorageKey.discover_select_tag, this.skill_tags)
           uni.navigateBack()
           return
         } else {
@@ -182,12 +187,21 @@
       // 默认加载热门标签
       this.sort = 1
       this.search()
-      if (this.pageOption.from === 'ask' || this.pageOption.from === 'interaction' || this.pageOption.from === 'discover' || this.pageOption.from === 'article') {
+      if (this.pageOption.from === 'ask' || this.pageOption.from === 'interaction' || this.pageOption.from === 'article') {
         const skill_tags = localEvent.get('selected_' + this.pageOption.from + '_skill_tags' + this.id)
         if (skill_tags) {
           this.skill_tags = skill_tags
         }
         const selectNum = localEvent.get('selected_' + this.pageOption.from + '_skill_tags' + this.id)
+        if (selectNum) {
+          this.selectNum = selectNum.length
+        }
+      } else if (this.pageOption.from === 'discover') {
+        const skill_tags = localEvent.get(localStorageKey.discover_select_tag)
+        if (skill_tags) {
+          this.skill_tags = skill_tags
+        }
+        const selectNum = localEvent.get(localStorageKey.discover_select_tag)
         if (selectNum) {
           this.selectNum = selectNum.length
         }

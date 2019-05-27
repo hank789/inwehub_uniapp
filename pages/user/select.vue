@@ -71,6 +71,7 @@
   import Contact from '@/components/iw-index/iw-index.vue'
   import { postRequest } from '@/lib/request'
   import localEvent from '@/lib/localstorage'
+  import localStorageKey from '@/lib/localstoragekey'
   import Vue from 'vue'
   const currentUser = localEvent.get('UserInfo')
 
@@ -130,8 +131,11 @@
         } else {
           this.apperClose = false
         }
-        if (this.pageOption.from === 'discover' || this.pageOption.from === 'comment') {
-          localEvent.set('selected_' + this.pageOption.from + '_user' + this.userId, options)
+
+        if (this.pageOption.from === 'discover') {
+          localEvent.set(localStorageKey.discover_select_user, options)
+        } else if (this.pageOption.from === 'comment') {
+
         } else {
           return false
         }
@@ -170,11 +174,13 @@
     },
     activated () {
       this.Selected = []
-      if (this.pageOption.from === 'discover' || this.pageOption.from === 'comment') {
-        var user = localEvent.get(this.pageOption.from + '_selectUser' + this.userId)
+      if (this.pageOption.from === 'discover') {
+        var user = localEvent.get(localStorageKey.discover_select_user)
         for (var num = 0; num < user.length; num++) {
           this.collectProfessor(user[num].listindex, user[num])
         }
+      } else if (this.pageOption.from === 'comment') {
+
       } else {
         return false
       }
@@ -182,11 +188,13 @@
     watch: {},
     mounted () {
       this.getList()
-      if (this.pageOption.from === 'discover' || this.pageOption.from === 'comment') {
-        var user = localEvent.get(this.pageOption.from + '_selectUser' + this.userId)
+      if (this.pageOption.from === 'discover') {
+        var user = localEvent.get(localStorageKey.discover_select_user)
         for (var num = 0; num < user.length; num++) {
           this.collectProfessor(user[num].listindex, user[num])
         }
+      } else if (this.pageOption.from === 'comment') {
+
       } else {
         return false
       }
