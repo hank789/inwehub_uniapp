@@ -365,12 +365,6 @@
         "text": "社区"
       },
       {
-        "pagePath": "pages/inform/index",
-        "iconPath": "static/images/commentwait@3x.png",
-        "selectedIconPath": "static/images/commentwait@3x.png",
-        "text": "消息"
-      },
-      {
         "pagePath": "pages/my/index",
         "iconPath": "static/images/commentwait@3x.png",
         "selectedIconPath": "static/images/commentwait@3x.png",

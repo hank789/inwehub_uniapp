@@ -236,10 +236,14 @@
         item.unread_count = 0
         if (item.room_type === 1) {
           // 私聊
-          this.$router.pushPlus('/chat/' + item.contact_id)
+					uni.navigateTo({
+						url: '/pages/chat/chat?contact_id=' + item.contact_id
+					});
         } else {
           // 群聊
-          this.$router.pushPlus('/group/chat/' + item.room_id)
+					uni.navigateTo({
+						url: '/pages/chat/chat?room_id=' + item.room_id
+					});
         }
       },
       skip (num) {
