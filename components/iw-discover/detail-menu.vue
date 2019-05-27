@@ -6,8 +6,8 @@
         <view class="footerRight">
 
             <view class="collectionComment" :class="[{showNumer: menuItem.showNumber || menuItem.ShowIsUpVote }]" v-for="(menuItem, index) in iconOptions" :key="index" @tap.stop.prevent="detailMenuIcon(menuItem)" :title="menuItem.text">
-                <view :class="[{active: menuItem.showClass}]" :title="menuItem.text">
-                    <text class="iconfont "></text>
+                <view class="iconWrapper" :class="{active: menuItem.showClass}" :title="menuItem.text">
+                    <text class="iconfont" :class="menuItem.icon"></text>
                 </view>
                 <view class="span" v-if="menuItem.number">{{ menuItem.number }}</view>
             </view>
@@ -134,6 +134,11 @@
                 color: #808080;
                 padding-top: 27.98upx;
                 position: relative;
+
+                .iconWrapper{
+                    width:100%;
+                    height:100%;
+                }
                 &.showNumer {
                     .iconfont{
                         color: #ffffff;

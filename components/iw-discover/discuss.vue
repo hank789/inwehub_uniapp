@@ -16,9 +16,9 @@
                         <view class="lidR1">{{info.name}}</view>
                         <view class="lidR2">
                             <view class="lidframe" @tap.stop.prevent="goComment()">
-                                <view v-if="list.length === 0">有花堪折直须折，快做评论第一人</view>
-                                <view v-else-if="list.length > 3">知音千里难寻觅，说点什么不后悔</view>
-                                <view v-else>有想法就说，莫负好时光</view>
+                                <view class="span" v-if="list.length === 0">有花堪折直须折，快做评论第一人</view>
+                                <view class="span" v-else-if="list.length > 3">知音千里难寻觅，说点什么不后悔</view>
+                                <view class="span" v-else>有想法就说，莫负好时光</view>
                             </view>
                         </view>
                     </view>
@@ -26,7 +26,11 @@
             </view>
 
             <view class="container-list-discuss" v-show="list.length !== 0 && showList">
-                <view v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+                
+            <scroll-view  scroll-y="true"
+                                         class="scroll-Y"
+                                         @scrolltolower="loadMore">
+
                     <template v-for="(item, index) in list" v-if="index < 3">
                         <view class="list-item-discuss"  @tap.stop.prevent="clickComment(item, list)" :key="index">
                             <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
@@ -59,22 +63,7 @@
                         <view class="line-river-after" v-if="index !== list.length-1"></view>
 
                     </template>
-                </view>
-            </view>
-        </view>
-
-        <view id="sheet1" class="mui-popover mui-popover-bottom mui-popover-action">
-            <!-- 可选择菜单 -->
-            <view class="mui-table-view">
-                <view class="mui-table-view-cell">
-                    <a @tap.stop.prevent="doDelComment">删除我的回复</a>
-                </view>
-            </view>
-            <!-- 取消菜单 -->
-            <view class="mui-table-view">
-                <view class="mui-table-view-cell">
-                    <a @tap.stop.prevent="hideDelComment"><b>取消</b></a>
-                </view>
+                </scroll-view>
             </view>
         </view>
 
@@ -89,7 +78,6 @@
   import Vue from 'vue'
   import DiscussReplay from '@/components/iw-discover/discuss-reply.vue'
   import { textToLinkHtml } from '@/lib/dom'
-  import { openVendorUrl, openAppUrl } from '@/lib/plus'
   import userAbility from '@/lib/userAbility'
 
   const Discuss = {
@@ -419,7 +407,7 @@
             padding-left: 19.96upx;
             border-radius: 9.98upx;
             border: 1.96upx solid #DCDCDC;
-            span {
+            .span {
                 font-size: 27.98upx;
                 color: #C8C8C8;
             }
@@ -444,7 +432,7 @@
         font-size: 99.98upx;
     }
 
-    .empty p {
+    .empty .p {
         width: 100%;
         font-size: 24upx;
         color: #c8c8c8;
@@ -455,7 +443,7 @@
         position: relative;
     }
 
-    .lidL .icon{
+    .lidL .iconfont{
         position: absolute;
         top:39.98upx;
         right:-6upx;

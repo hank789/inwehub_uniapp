@@ -37,13 +37,13 @@
     .upStar{
         position: absolute;
         color: #fcc816;
-        top:-54upx;
+        top:-112upx;
         overflow: hidden;
     }
     .downStar{
         position: absolute;
         color: #fcc816;
-        top:-54upx;
+        top:-112upx;
         overflow: hidden;
     }
 </style>
