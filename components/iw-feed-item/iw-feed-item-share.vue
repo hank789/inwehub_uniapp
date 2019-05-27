@@ -10,7 +10,7 @@
         </div>
         <div class="component-share">
             <div class="level-three">{{item.feed.title}}</div>
-            <div class="level-two">
+            <div class="level-two" v-if="item.feed.submission_type === 'link'">
                 <div class="ltLeft"><image :src="img"/></div>
                 <div class="ltRight">
                     <div class="ltRightTwo">{{item.feed.article_title}}</div>
@@ -18,10 +18,12 @@
                 </div>
             </div>
             <div class="level-one">
-                <div class="loLeft" @tap="showPageMore"><i class="iconfont icon-gengduo1"></i></div>
+                <div class="loLeft" @tap.stop.prevent="showPageMore"><i class="iconfont icon-gengduo1"></i></div>
                 <div class="loRight"><i class="iconfont icon-pinglun"></i><i class="iconfont icon-cai"></i><i class="iconfont icon-zan"></i></div>
             </div>
         </div>
+
+        <div class="line-river-after line-river-after-top"></div>
     </view>
 </template>
 

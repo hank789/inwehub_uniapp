@@ -115,6 +115,9 @@ export default {
         this.pageOption = option
     },
     methods: {
+      uploadPdf () {
+        
+      },
       linkClose () {
         this.links = []
       },
