@@ -385,3 +385,247 @@ input, textarea, select{
     height: var(--status-bar-height);
     width: 100%;
 }
+
+
+.container-list-discuss {
+    padding: 0 30upx; }
+.container-list-discuss .list-item-discuss {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    padding: 19.96upx 0; }
+.container-list-discuss .list-item-discuss .lidL {
+    width: 67.96upx; }
+.container-list-discuss .list-item-discuss .lidL image {
+    width: 67.96upx;
+    height: 67.96upx;
+    border-radius: 50%; }
+.container-list-discuss .list-item-discuss .lidR {
+    -webkit-box-flex: 2;
+    -ms-flex-positive: 2;
+    flex-grow: 2;
+    padding-left: 9.98upx; }
+.container-list-discuss .list-item-discuss .lidR .lidR1 {
+    color: #808080;
+    font-size: 25.96upx; }
+.container-list-discuss .list-item-discuss .lidR .lidR1 .span {
+    color: #B4B4B6;
+    margin: 0 9.98upx; }
+.container-list-discuss .list-item-discuss .lidR .lidR2 {
+    color: #444444;
+    font-size: 27.98upx;
+    line-height: 37.96upx;
+    word-break: break-all;}
+.container-list-discuss .list-item-discuss .lidR .lidR3 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    color: #B4B4B6;
+    font-size: 24upx; }
+.container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption.active {
+    color: #03AEF9; }
+.container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption .icon {
+    font-size: 28.96upx; }
+.container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption .span {
+    margin-left: 9.98upx; }
+.container-list-discuss .list-item-discuss.list-item-discuss-children {
+    background-color: #F7F8FA;
+    margin-left: 78upx;
+    padding: 19.96upx 19.96upx 0; }
+.list-item-discuss-childrens div .list-item-discuss.list-item-discuss-children:first-child {
+    border-radius: 7.96upx 7.96upx 0 0; }
+.list-item-discuss-childrens div .list-item-discuss.list-item-discuss-children:last-child {
+    margin-bottom: 19.96upx;
+    padding-bottom: 19.96upx;
+    border-radius: 0 0 7.96upx 7.96upx; }
+.list-item-discuss-childrens div .list-item-discuss.list-item-discuss-children:first-child:last-child {
+    border-radius: 7.96upx; }
+.container-list-discuss .line-river-after:after {
+    left: 79.96upx !important; }
+
+
+
+.line-river {
+    height: 2upx;
+    position: relative;
+    width: 100%
+}
+
+.line-river:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 30upx;
+    right: 30upx;
+    height: 2upx;
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #dcdcdc
+}
+
+.line-river-big {
+    width: 100%;
+    height: 20upx;
+    background-color: #f3f4f6
+}
+
+.line-river-full:after{
+    left:0 !important;
+    right:0 !important;
+}
+
+.river{
+    height:19.96upx;
+    background: #f3f4f6;
+}
+
+.component-block-title {
+    height: 87.98upx;
+    line-height: 87.98upx;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0 30.98upx; }
+.component-block-title .left {
+    font-family: "PingFangSC-Medium";
+    font-size: 31.96upx;
+    line-height:inherit;
+    color: #444; }
+.component-block-title .right {
+    color: #808080;
+    font-size: 30upx; }
+.component-block-title .right .iconfont {
+    font-size: 36.98upx;
+    vertical-align: -6upx;
+    margin-right: 13.96upx; }
+
+
+
+.component-item-article {
+    position: relative;
+    height: 225.98upx;
+    padding: 25.96upx 31.96upx; }
+.component-item-article .itemArticleLeft {
+    display: inline-block;
+    width: 444upx;
+    vertical-align: top;
+    height: 100%;
+    position: relative; }
+.component-item-article .itemArticleLeft .titleWrapper {
+    display: inline-block;
+    width: inherit;
+    color: #444;
+    font-size: 31.96upx;
+    font-family: PingFangSC-Medium;
+    line-height: 45.98upx; }
+.component-item-article .itemArticleLeft .titleWrapper .number {
+    color: #808080;
+    font-size: 31.96upx;
+    margin-right: 9.98upx; }
+.component-item-article .itemArticleLeft .explain {
+    display: inline-block;
+    color: #B4B4B6;
+    font-size: 21.98upx;
+    position: absolute;
+    left: 0;
+    bottom: 0; }
+.component-item-article .itemArticleLeft .explain label {
+    display: inline-block;
+    height:43.96upx;
+    line-height: 39.98upx;
+    border: 1.96upx solid #03aef9;
+    border-radius: 7.96upx;
+    color: #03AEF9;
+    font-size: 19.96upx;
+    padding: 0 9.98upx;
+    margin-right: 19.96upx; }
+.mui-android .component-item-article .itemArticleLeft .explain label {
+    line-height: 43.96upx;}
+.component-item-article .itemArticleLeft .explain span {
+    color: #03AEF9;
+    font-size: 21.98upx;
+    position: relative;
+    margin: 0 30upx 0 0; }
+.component-item-article .itemArticleLeft .explain span:after {
+    position: absolute;
+    content: '';
+    right: -18upx;
+    bottom: 13.96upx;
+    width: 3.98upx;
+    height: 3.98upx;
+    background: #b4b4b6;
+    border-radius: 50%; }
+.component-item-article .itemArticleRight {
+    display: inline-block;
+    width: 222upx;
+    height: 100%;
+    position: relative;
+    right: -9.98upx; }
+.component-item-article .itemArticleRight image {
+    border-radius: 9.98upx;
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover; }
+.container-tabLabels .tab {
+    display: inline-block;
+    color: #808080;
+    font-size: 30upx;
+    border: 1.96upx solid #DCDCDC;
+    padding: 9.98upx 19.96upx;
+    border-radius: 7.96upx;
+    margin-right: 9.98upx; }
+.container-tabLabels .tab.active {
+    color: #444;
+    border: none;
+    font-family:PingFangSC-Medium; }
+
+
+
+.openAppReadBox {
+    display: none;}
+.openAppRead {
+    height: 87.98upx;
+    color: #03AEF9;
+    text-align: center;
+    line-height: 87.98upx;
+    background: #FFFFFF;}
+.openAppRead span {
+    font-size: 30upx;}
+.followCode {
+    position: relative;
+    text-align: center;}
+.followCode .CodeImg {
+    height: 396upx;}
+.followCode .CodeImg img {
+    width: 100%;
+    height: 100%;}
+.followCode .codeText {
+    width: 100%;
+    position: absolute;
+    top: 261.98upx;}
+.followCode .codeText div:nth-of-type(1) {
+    color: #B4B4B6;
+    font-size: 21.98upx;
+    line-height: 30upx;}
+.followCode .codeText div:nth-of-type(2) {
+    color: #444444;
+    font-size: 27.98upx;
+    line-height: 39.98upx;
+    margin-top: 9.98upx;
+    margin-bottom: 54upx;}
+
+.mui-wechat .openAppReadBox {
+    display: block;
+}
+.openAppH5 .openAppReadBox {
+    display: block;
+}
