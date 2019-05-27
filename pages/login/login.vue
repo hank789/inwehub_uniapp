@@ -65,6 +65,7 @@ import {
   mapState,
   mapMutations
 } from 'vuex'
+import allPlatform from '@/lib/allPlatform.js'
 export default {
   data() {
     return {
@@ -148,15 +149,10 @@ export default {
           this.setToken(res.data.token)
           this.$ls.set('token', res.data.token)
           this.$ls.set('UserInfo', res.data)
-          if (!res.data.name) {
-            uni.reLaunch({
-              url: '/pages/login/updateInfo'
-            })
-          } else {
-            uni.reLaunch({
+					allPlatform.saveLocationInfo()
+          uni.reLaunch({
               url: '/pages/index/index'
-            })
-          }
+          })
         } else {
           uni.showToast({
             title: res.message,

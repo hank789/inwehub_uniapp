@@ -1,12 +1,15 @@
 <script>
-	import util from './lib/util.js'
+	import notice from './lib/notice.js'
+	import html5plus from './lib/html5plus.js'
 	export default {
 		onLaunch: function () {
 			console.log('App Launch');
 			this.$ls.set('appDeviceInfo',uni.getSystemInfoSync())
 			//#ifdef APP-PLUS
 			plus.screen.lockOrientation('portrait-primary');
-			// util.checkUpdate(this)
+			html5plus.checkUpdate(this)
+			html5plus.saveDeviceInfo(this)
+			notice.addPushEventListener()
 			//#endif
 		},
 		onShow: function () {
