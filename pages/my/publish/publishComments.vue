@@ -3,8 +3,8 @@
 
 		<view class="mui-content">
 			<view class="container-searchMenu">
-				<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishAnswers')">回答</text>
-				<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishQuestions')">提问</text>
+				<!-- <text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishAnswers')">回答</text>
+				<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishQuestions')">提问</text> -->
 				<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishArticle')">分享</text>
 				<text class="tabText" @tap.stop.prevent="toRoute('/pages/my/publish/publishComment')">评论</text>
 				<text class="tabText font-family-medium">点评<text class="underline"></text></text>

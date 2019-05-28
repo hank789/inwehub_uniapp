@@ -147,49 +147,10 @@
       }
     },
     {
-      "path": "pages/my/finance",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "我的钱包",
-        "app-plus": {
-          "titleNView": {
-            "titleSize": "18px",
-            "titleColor": "#3c3e44"
-          }
-        }
-      }
-    },
-    {
       "path": "pages/group/my",
       "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "我的圈子",
-        "app-plus": {
-          "titleNView": {
-            "titleSize": "18px",
-            "titleColor": "#3c3e44"
-          }
-        }
-      }
-    },
-    {
-      "path": "pages/my/publish/publishAnswers",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "我的发布",
-        "app-plus": {
-          "titleNView": {
-            "titleSize": "18px",
-            "titleColor": "#3c3e44"
-          }
-        }
-      }
-    },
-    {
-      "path": "pages/my/publish/publishQuestions",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "我的发布",
         "app-plus": {
           "titleNView": {
             "titleSize": "18px",
@@ -229,19 +190,6 @@
       "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "我的发布",
-        "app-plus": {
-          "titleNView": {
-            "titleSize": "18px",
-            "titleColor": "#3c3e44"
-          }
-        }
-      }
-    },
-    {
-      "path": "pages/invitation/index",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "邀请好友",
         "app-plus": {
           "titleNView": {
             "titleSize": "18px",

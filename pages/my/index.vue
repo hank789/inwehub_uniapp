@@ -37,7 +37,7 @@
 			</view>
 
 			<view class="part2">
-				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/publish/publishAnswers')">
+				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/publish/publishArticle')">
 					<text class="font-family-medium">{{publishes}}</text>
 					<text class="listText">发布</text>
 				</view>
@@ -49,10 +49,10 @@
 					<text class="font-family-medium">{{collections}}</text>
 					<text class="listText">收藏</text>
 				</view>
-				<view class="liList" @tap.stop.prevent="toRoute('/pages/group/my')">
+				<!-- <view class="liList" @tap.stop.prevent="toRoute('/pages/group/my')">
 					<text class="font-family-medium">{{groups}}</text>
 					<text class="listText">圈子</text>
-				</view>
+				</view> -->
 			</view>
 			<view class="gray"></view>
 
