@@ -85,6 +85,13 @@
       }
     },
     {
+      "path": "pages/comment/index",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "评论"
+      }
+    },
+    {
       "path": "pages/inform/index",
       "style": {
         "navigationBarTitleText": "通知",

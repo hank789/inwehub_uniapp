@@ -473,7 +473,7 @@
       detailMenuIcon (item) {
         switch (item.text) {
           case '评论':
-            uni.navigateTo({ url:'/comment/' + this.detail.category_id + '/' + this.detail.slug + '/' + this.detail.id})
+            uni.navigateTo({ url:'/pages/comment/index?slug=' + this.detail.slug + '&id=' + this.detail.id + '&category_id=' + this.detail.category_id})
             break
           case '踩':
             this.detailDownVote()
