@@ -6,7 +6,7 @@
             <view v-if="isShow">
 
                 <view class="topImg container-image" v-if="detail.type === 'article' && detail.data.img">
-                    <image :src="detail.data.img"></image>
+                    <image mode="aspectFill" :src="detail.data.img"></image>
                 </view>
 
                 <view class="mui-table-view detail-discover">
@@ -59,7 +59,7 @@
                     </view>
 
                     <!--<view class="groups"  v-if="typeDesc(detail.group.is_joined)"-->
-                    <!--@tap.stop.prevent="$router.pushPlus('/group/detail/' + detail.group.id)">加入圈子阅读全部内容-->
+                    <!--@tap.stop.prevent="$uni.navigateTo('/group/detail/' + detail.group.id)">加入圈子阅读全部内容-->
                     <!--</view>-->
 
                     <!-- 新增链接样式 -->
@@ -68,7 +68,7 @@
                             <view class="linkIimg" v-if="!detail.data.img">
                                 <text class="iconfont icon-biaozhunlogoshangxiayise"></text>
                             </view>
-                            <image class="lazyImg" :key="detail.data.img" v-lazy="detail.data.img" v-else />
+                            <image mode="aspectFill" class="lazyImg" :key="detail.data.img" v-lazy="detail.data.img" v-else />
                             <view class="linkContent">
                                 <view v-if="detail.data.title" class="text-line-2">{{detail.data.title}}</view>
                                 <view v-else class="seat"></view>
@@ -99,7 +99,7 @@
                                 <view class="follow">{{detail.related_question.follow_number}}人关注 </view>
                                 <view class="rightLine"></view>
                                 <view class="replay">
-                                    <image v-for="(answerUser, index) in detail.related_question.answer_users" :src="answerUser.avatar" />
+                                    <image mode="aspectFill" v-for="(answerUser, index) in detail.related_question.answer_users" :src="answerUser.avatar" />
                                     <view>等{{detail.related_question.answer_number}}人回答</view>
                                 </view>
                             </view>
@@ -132,7 +132,7 @@
                         ref="discuss"
                 ></ArticleDiscuss>
                 <view class="seeAll" v-if="detail.comments_number > 3"
-                      @tap.stop.prevent="$router.pushPlus('/comment/' + detail.category_id + '/' + detail.slug + '/' + detail.id)">
+                      @tap.stop.prevent="$uni.navigateTo('/comment/' + detail.category_id + '/' + detail.slug + '/' + detail.id)">
                     查看全部{{detail.comments_number}}条评论
             </view>
             </view>
@@ -148,10 +148,10 @@
                 <view class="productList">
                     <view class="comment-product" v-for="(item, index) in detail.related_tags" :key="index">
                         <view class="product-info"
-                              @tap.stop.prevent="$router.pushPlus('/dianping/product/' + encodeURIComponent(item.name))">
+                              @tap.stop.prevent="$uni.navigateTo('/dianping/product/' + encodeURIComponent(item.name))">
                             <view class="product-img border-football">
-                                <image :src="item.logo" width="44" height="44"></image>
-                                <!--<image src="../../../statics/images/uicon.jpg" alt="">-->
+                                <image mode="aspectFill" :src="item.logo" width="44" height="44"></image>
+                                <!--<image mode="aspectFill" src="../../../statics/images/uicon.jpg" alt="">-->
                             </view>
                             <view class="product-detail">
                                 <view class="productName font-family-medium text-line-1">{{ item.name }}</view>
@@ -194,7 +194,7 @@
                                 {{ timeago(item.created_at) }}
                             </view>
                         </view>
-                        <view class="itemArticleRight"><image :src="item.data.img"/></view>
+                        <view class="itemArticleRight"><image mode="aspectFill" :src="item.data.img"/></view>
                     </view>
                     <view class="line-river-after line-river-after-short" v-if="index !== 4 && index !== list.length-1"></view>
                 </template>
@@ -209,7 +209,7 @@
                 <view class="river openAppReadRiver"></view>
                 <view class="followCode">
                     <view class="CodeImg">
-                        <image src="../../statics/images/xiaohaWeChat@3x.png" alt=""/>
+                        <image mode="aspectFill" src="../../statics/images/xiaohaWeChat@3x.png" alt=""/>
                     </view>
                     <view class="codeText">
                         <view>长按添加平台联络官“小哈”微信</view>
@@ -273,6 +273,8 @@
   import DetailMenu from '@/components/iw-menu-detail/iw-menu-detail.vue'
   import StarView from '@/components/iw-star/iw-star.vue'
   import { textToLinkHtml, transferTagToLink, addPreviewAttrForImg } from '@/lib/dom'
+  import { showComment } from '@/lib/comment'
+
  export default {
     data () {
       return {
@@ -583,9 +585,14 @@
         }, 'div')
       },
       goComment () {
-        var y = this.$el.querySelector('#commentTitle').offsetTop
-        console.log('y:' + y)
-        this.$refs.mescrollDetail.scrollTo(0, y, 300)
+        let view = uni.createSelectorQuery().select("#commentTitle");
+        view.boundingClientRect(data => {
+          uni.pageScrollTo({
+            scrollTop: data.top,
+            duration: 300
+          });
+        }).exec();
+
         this.$refs.discuss.rootComment()
       },
       goDetail (item) {
@@ -856,8 +863,6 @@
           this.detail.supporter_list = this.detail.supporter_list.concat(support)
 
           this.isDetailUpVote = true
-          var animObject = this.getAnimObject(0)
-          animObject.goToAndPlay(0)
 
           if (process.env.NODE_ENV === 'production' && window.mixpanel) {
             // mixpanel

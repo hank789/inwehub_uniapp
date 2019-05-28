@@ -107,6 +107,10 @@
       shareToHaoyou () {
 
       },
+      share (isHaveNavigationBar) {
+        this.$emit('share')
+        this.show(isHaveNavigationBar)
+      },
       show (isHaveNavigationBar) {
         this.showPopupBottomShare = true
         uni.hideTabBar()
