@@ -1,5 +1,16 @@
 {
   "pages": [
+		// #ifdef APP-PLUS
+		{
+			"path" : "pages/guide/guide",
+			"style": {
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+    },
+		// #endif
     {
       "path": "pages/index/index",
       "style": {
@@ -347,7 +358,7 @@
       "path": "pages/chat/chat",
       "style": {}
     }
-  ],
+    ],
   "tabBar": {
     "color": "#B4B4B6",
     "selectedColor": "#444",
