@@ -5,22 +5,23 @@
 			<view class="warningWrapper" v-if="bindedPhone">当前绑定手机<span>{{bindedPhone}}</span>，请输入新的手机号</view>
 			<view class="inputWrapper">
 				<text class="iconfont icon-shoujihao"></text>
-				<input class="textInput" ref="phone" pattern="\d*" type="text" @focus="focus" @blur="blur" maxlength="11"
+				<input class="textInput" ref="phone" pattern="\d*" type="text" maxlength="11"
 				 placeholder="输入手机号" name="phone" @hover.stop.prevent="" v-model.trim.num="phone" autocomplete="off" v-tooltip="{content:errorMsg, placement:'bottom', trigger:'manual'}" />
 
 
-				<text class="getYzm disabled" @tap.stop.prevent="getCode" v-if="!isCanGetCode">{{getCodeText}}</text>
-				<text class="getYzm" @tap.stop.prevent="getCode" v-else>{{getCodeText}}</text>
+				<!-- <text class="getYzm disabled" @tap.stop.prevent="getCode" v-if="!isCanGetCode">{{getCodeText}}</text> -->
+				<text class="getYzm" @tap.stop.prevent="getCode" >{{getCodeText}}</text>
 			</view>
 
 			<view class="inputWrapper">
 				<text class="iconfont icon-yanzhengma"></text>
 				<input class="textInput" ref="code" v-tooltip="{content:'请输入验证码', placement:'bottom', trigger:'manual'}" type="text"
-				 @focus="focus" @blur="blur" placeholder="输入验证码" name="code" v-model.trim.num="code" autocomplete="off" />
+				 placeholder="输入验证码" name="code" v-model.trim.num="code" autocomplete="off" />
 			</view>
 
 			<view class="buttonWrapper">
-				<button type="button" class="mui-btn mui-btn-block mui-btn-primary" :disabled="disableRegister" @click.prevent="register">确认
+				<button type="button" class=" button mui-btn mui-btn-block mui-btn-primary" :disabled="disableRegister"
+				 @click.prevent="register">确认
 				</button>
 			</view>
 		</view>
@@ -50,6 +51,67 @@
 			getCodeText() {
 				return this.time === 0 ? '发送验证' : this.time + '秒后重发'
 			}
+		},
+		methods: {
+
+			timer() {
+				if (this.time > 0) {
+					this.isCanGetCode = false
+					this.time -= 1
+					if (this.time === 0) {
+						this.isCanGetCode = true
+						return
+					}
+					setTimeout(this.timer, 1000)
+				}
+			},
+
+			getCode() {
+				let mobile = this.phone
+				let type = 'change_phone'
+
+				if (!this.isCanGetCode) {
+					return
+				}
+
+				if (mobile.length !== 11 || /^1\d{10}$/.test(mobile) === false) {
+					this.showTip(this.$refs.phone, '请输入有效的手机号码')
+					return
+				}
+
+				this.isCanGetCode = true
+				
+				postRequest('auth/sendPhoneCode', {
+				  mobile,
+				  type,
+				  openid: this.openid,
+				  'registration_code': ''
+				})
+					.then(response => {
+						var code = response.data.code
+						if (code !== 1000) {
+							this.isCanGetCode = true
+							window.mui.toast(response.data.message)
+							return
+						}
+
+						this.time = 120
+						this.timer()
+					})
+					.catch(({
+						response: {
+							data = {}
+						} = {}
+					}) => {
+						this.isCanGetCode = true
+						const {
+							code = 'xxxx'
+						} = data
+						this.errors = Object.assign({}, this.errors, {
+							serverError: errorCodes[code]
+						})
+					})
+			},
 		}
 	}
 </script>
@@ -129,7 +191,7 @@
 	.buttonWrapper {
 		margin: 79.96upx 72upx 31.96upx;
 
-		button {
+		.button {
 			border-radius: 9.98upx;
 			top: 45.0upx;
 

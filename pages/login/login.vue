@@ -148,6 +148,7 @@ export default {
           this.setUser(res.data)
           this.setToken(res.data.token)
           this.$ls.set('token', res.data.token)
+          this.$ls.set('UserLoginInfo', res.data)
           this.$ls.set('UserInfo', res.data)
 					allPlatform.saveLocationInfo()
           uni.reLaunch({

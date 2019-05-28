@@ -37,7 +37,7 @@
 			</view>
 
 			<view class="part2">
-				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/publish/publishAnswers')">
+				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/publish/publishArticle')">
 					<text class="font-family-medium">{{publishes}}</text>
 					<text class="listText">发布</text>
 				</view>
@@ -49,32 +49,15 @@
 					<text class="font-family-medium">{{collections}}</text>
 					<text class="listText">收藏</text>
 				</view>
-				<view class="liList" @tap.stop.prevent="toRoute('/pages/group/my')">
+				<!-- <view class="liList" @tap.stop.prevent="toRoute('/pages/group/my')">
 					<text class="font-family-medium">{{groups}}</text>
 					<text class="listText">圈子</text>
-				</view>
+				</view> -->
 			</view>
 			<view class="gray"></view>
 
 			<!--列表内容-->
 			<view class="component-option">
-				<view class="optionList" @tap.stop.prevent="toRoute('/pages/my/finance')">
-					<text class="optionText">我的钱包</text>
-					<text class="iconfont icon-jinru"></text>
-				</view>
-				<view class="gray"></view>
-				<view class="optionList invite" @tap.stop.prevent="toRoute('/pages/invitation/index')">
-					<text class="optionText">邀请好友</text>
-					<text class="rightText">5%返现</text>
-					<text class="iconfont icon-jinru"></text>
-					<i class="bot"></i>
-				</view>
-				<view class="optionList signIn" @tap.stop.prevent="toSignIGift()">
-					<text class="optionText">每日签到</text>
-					<text class="redSpots" v-if="!current_day_signed"></text>
-					<text class="iconfont icon-jinru"></text>
-				</view>
-				<view class="gray"></view>
 				<view class="optionList" @tap.stop.prevent="$router.pushPlus('/feedback/advise')">
 					<text class="optionText">意见反馈</text>
 					<text class="iconfont icon-jinru"></text>
