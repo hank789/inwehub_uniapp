@@ -5,22 +5,41 @@
 			<view class="warningWrapper" v-if="bindedPhone">当前绑定手机<span>{{bindedPhone}}</span>，请输入新的手机号</view>
 			<view class="inputWrapper">
 				<text class="iconfont icon-shoujihao"></text>
-				<input class="textInput" ref="phone" pattern="\d*" type="text" maxlength="11"
-				 placeholder="输入手机号" name="phone" @hover.stop.prevent="" v-model.trim.num="phone" autocomplete="off" v-tooltip="{content:errorMsg, placement:'bottom', trigger:'manual'}" />
+				
+				<input 
+					ref="phone"
+					v-model="phone"
+					class="textInput" 
+					placeholder="输入手机号"  
+					pattern="\d*" 
+					autofocus="autofocus"
+					placeholder-class="inputPlaceholder"
+					type="text" 
+					name="phone"  
+					autocomplete="off"
+				>
 
 
-				<!-- <text class="getYzm disabled" @tap.stop.prevent="getCode" v-if="!isCanGetCode">{{getCodeText}}</text> -->
+				<text class="getYzm disabled" @tap.stop.prevent="" v-if="!isCanGetCode">{{getCodeText}}</text>
 				<text class="getYzm" @tap.stop.prevent="getCode" >{{getCodeText}}</text>
 			</view>
 
 			<view class="inputWrapper">
 				<text class="iconfont icon-yanzhengma"></text>
-				<input class="textInput" ref="code" v-tooltip="{content:'请输入验证码', placement:'bottom', trigger:'manual'}" type="text"
-				 placeholder="输入验证码" name="code" v-model.trim.num="code" autocomplete="off" />
+				<input 
+					class="textInput" 
+					ref="code"  
+					type="text"
+					placeholder="输入验证码" 
+					name="code" 
+					v-model.trim="code" 
+					autocomplete="off"
+					:focus="yzmFocus"
+				>
 			</view>
 
 			<view class="buttonWrapper">
-				<button type="button" class=" button mui-btn mui-btn-block mui-btn-primary" :disabled="disableRegister"
+				<button type="button" class=" button mui-btn mui-btn-block mui-btn-primary"
 				 @click.prevent="register">确认
 				</button>
 			</view>
@@ -44,13 +63,12 @@
 				redirect: '',
 				type: 1, // 1不合并账户 2合并微信账户, 默认1
 				loading: true,
-				bindedPhone: ''
+				bindedPhone: '',
+				yzmFocus: false,
+				getCodeText: '发送验证'
 			}
 		},
 		computed: {
-			getCodeText() {
-				return this.time === 0 ? '发送验证' : this.time + '秒后重发'
-			}
 		},
 		methods: {
 
@@ -67,49 +85,39 @@
 			},
 
 			getCode() {
-				let mobile = this.phone
-				let type = 'change_phone'
-
-				if (!this.isCanGetCode) {
+				if (!this.phone) {
+					uni.showToast({
+					  title: '请输入手机号',
+					  icon: 'none'
+					})
 					return
 				}
-
-				if (mobile.length !== 11 || /^1\d{10}$/.test(mobile) === false) {
-					this.showTip(this.$refs.phone, '请输入有效的手机号码')
-					return
-				}
-
-				this.isCanGetCode = true
 				
-				postRequest('auth/sendPhoneCode', {
-				  mobile,
-				  type,
+				this.$request.post('auth/sendPhoneCode', {
+				  mobile: this.phone,
+				  type: 'change_phone',
 				  openid: this.openid,
 				  'registration_code': ''
-				})
-					.then(response => {
-						var code = response.data.code
-						if (code !== 1000) {
-							this.isCanGetCode = true
-							window.mui.toast(response.data.message)
-							return
+				}).then(res => {
+						if (res.code === 1000) {
+							uni.showToast({
+								title: '验证码发送成功'
+							})
+							this.yzmFocus = true
+							this.getCodeText = 59
+							const timer = setInterval(() => {
+								this.getCodeText--
+								if (this.getCodeText == 0) {
+									this.getCodeText = '获取验证码'
+									clearInterval(timer)
+								}	
+							}, 1000)
+						} else {
+							uni.showToast({
+								title: res.message,
+								icon: 'none'
+							})
 						}
-
-						this.time = 120
-						this.timer()
-					})
-					.catch(({
-						response: {
-							data = {}
-						} = {}
-					}) => {
-						this.isCanGetCode = true
-						const {
-							code = 'xxxx'
-						} = data
-						this.errors = Object.assign({}, this.errors, {
-							serverError: errorCodes[code]
-						})
 					})
 			},
 		}
@@ -143,6 +151,7 @@
 			font-size: 27.98upx;
 			color: #3c95f9;
 			position: absolute;
+			z-index: 999;
 			right: 3.98upx;
 			top: 12upx;
 			border: 1.96upx solid #3c95f9;
