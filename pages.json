@@ -69,10 +69,8 @@
     {
       "path": "pages/discover/detail",
       "style": {
-        "style": {
-          "navigationStyle": "default",
-          "navigationBarTitleText": "分享"
-        }
+        "navigationStyle": "default",
+        "navigationBarTitleText": "分享"
       }
     },
     {

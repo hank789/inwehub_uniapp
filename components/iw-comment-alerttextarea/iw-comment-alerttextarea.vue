@@ -4,13 +4,13 @@
         <view class="global-comment-wrapper" :class="{active: isShow}">
 
             <view class="formWrapper">
-                <form>
-                    <textarea :placeholder="placeholder" ref="alertTextarea" v-model="value"></textarea>
-                    <footer>
+                <view class="form">
+                    <textarea class="textarea" :placeholder="placeholder" ref="alertTextarea" v-model="value"></textarea>
+                    <footer class="footer">
                         <view class="btnCancel" @tap.stop.prevent="_cancel">取消</view>
                         <view class="btnSubmit" @tap.stop.prevent="_submit">发送</view>
                     </footer>
-                </form>
+                </view>
             </view>
         </view>
     </view>
@@ -34,7 +34,7 @@
         this.cancelCallback = cancelCallback
         this.submitCallback = submitCallback
         this.isShow = true
-        this.$refs.alertTextarea.focus()
+        // this.$refs.alertTextarea.focus()
       },
       show (value, cancelCallback, submitCallback) {
         this.isCache = false
@@ -52,7 +52,7 @@
         this._show(cancelCallback, submitCallback)
       },
       close () {
-        this.$refs.alertTextarea.blur()
+        // this.$refs.alertTextarea.blur()
         this.isShow = false
       },
       _cancel () {
@@ -131,12 +131,12 @@
         transform: translate(0, 0%);
     }
 
-    .global-comment-wrapper form{
+    .global-comment-wrapper .form{
         background: #FFF;
         padding:30upx;
         transition: all 0.6s;
     }
-    .global-comment-wrapper textarea{
+    .global-comment-wrapper .textarea{
         background-color: #fff;
         width: 100%;
         height:187.96upx;
@@ -152,14 +152,14 @@
     }
 
 
-    .global-comment-wrapper footer{
+    .global-comment-wrapper .footer{
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
         justify-content: flex-end;
     }
 
-    .global-comment-wrapper footer .btnCancel{
+    .global-comment-wrapper .footer .btnCancel{
         display: -webkit-inline-flex;
         display: -ms-inline-flexbox;
         display: inline-flex;
@@ -172,7 +172,7 @@
         -webkit-tap-highlight-color: rgba(255, 255, 255, 0.4);
     }
 
-    .global-comment-wrapper footer .btnSubmit{
+    .global-comment-wrapper .footer .btnSubmit{
         background-color: #3086F0;
         color: #FFF;
         display: -webkit-inline-flex;

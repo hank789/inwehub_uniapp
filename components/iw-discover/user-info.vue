@@ -2,8 +2,8 @@
     <view class="mui-table-view-cell userInfoWrapper">
         <view class="avatar">
             <view class="avatarInner" @tap.stop.prevent="toResume()">
-                <image :src="avatar" class="image"/>
-                <text class="iconfont icon-zhuanjiabiaojishixin"></text>
+                <image mode="aspectFill" :src="avatar" class="image"/>
+                <text class="iconfont icon-zhuanjiabiaojishixin"  v-show="isExpert"></text>
             </view>
         </view>
 
@@ -28,7 +28,7 @@
             </view>
             <!--<view class="timeData">-->
             <!--<view>-->
-            <!--<timeago :since="timeago(detail.created_at)" :auto-update="60"></timeago>-->
+            <!--{{timeago(detail.created_at)}}-->
             <!--</view>-->
             <!--</view>-->
         </view>
@@ -39,6 +39,7 @@
   import { postRequest } from '@/lib/request'
   import ui from '@/lib/ui'
   import { getLocalUserInfo } from '@/lib/user'
+  import { timeToHumanText } from '@/lib/time'
 
   export default {
     data () {
@@ -119,9 +120,7 @@
         uni.navigateTo({ url:'/share/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime())})
       },
       timeago (time) {
-        let newDate = new Date()
-        newDate.setTime(Date.parse(time.replace(/-/g, '/')))
-        return newDate
+        return time
       },
       collectProfessor: function () {
         if (!this.uuid) {
@@ -161,6 +160,7 @@
         font-size: 39.98upx;
         text-align: center;
         border-radius: 50%;
+        margin-right:12upx;
     }
 
     .avatar .avatarInner {
