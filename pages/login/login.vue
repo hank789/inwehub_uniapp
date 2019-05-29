@@ -154,10 +154,9 @@ export default {
           this.setUser(res.data)
           this.setToken(res.data.token)
           this.$ls.set('token', res.data.token)
-          this.$ls.set('UserLoginInfo', res.data)
           this.$ls.set('UserInfo', res.data)
 					allPlatform.saveLocationInfo()
-          uni.reLaunch({
+          uni.redirectTo({
               url: '/pages/index/index'
           })
         } else {
@@ -171,22 +170,34 @@ export default {
 		wechatLoginSuccess (token, openid, nickname = '', isNewUser = '') {
 			console.log(token)
 			console.log(openid)
+			uni.hideLoading()
 			if (token) {
-				uni.switchTab({
-					url: '/pages/index/index'
-				});
-				//this.$router.pushPlus('/wechat/register?newUser=' + isNewUser + '&token=' + token + '&openid=' + openid)
+				this.$ls.set('token', token)
+				this.$request.get('profile/info').then(response => {
+					this.$ls.set('UserInfo', response.data)
+					allPlatform.saveLocationInfo()
+					uni.switchTab({
+						url: '/pages/index/index'
+					})
+				})
 			} else {
-				//this.$router.pushPlus('/wechat/register?openid=' + openid)
+				uni.showToast({
+					title: '登陆失败',
+					icon: 'none'
+				})
 			}
 		},
 		wechatLoginFail (errorMessage) {
 			console.log(errorMessage)
+			uni.hideLoading()
 			uni.showToast({
 				title: errorMessage
 			})
 		},
 		wechatLogin () {
+			uni.showLoading({
+					title: ''
+			})
 			this.$refs.oauth.login('weixin')
 		}
   }

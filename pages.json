@@ -252,6 +252,12 @@
         "navigationBarTitleText": "登录"
       }
     },
+		{
+      "path": "pages/wechat/register",
+      "style": {
+        "navigationBarTitleText": "登录验证"
+      }
+    },
     {
       "path": "pages/inform/setting/pushSetting",
       "style": {
