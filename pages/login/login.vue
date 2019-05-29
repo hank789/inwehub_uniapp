@@ -172,14 +172,19 @@ export default {
 			console.log(token)
 			console.log(openid)
 			if (token) {
-				this.$router.pushPlus('/wechat/register?newUser=' + isNewUser + '&token=' + token + '&openid=' + openid)
+				uni.switchTab({
+					url: '/pages/index/index'
+				});
+				//this.$router.pushPlus('/wechat/register?newUser=' + isNewUser + '&token=' + token + '&openid=' + openid)
 			} else {
-				this.$router.pushPlus('/wechat/register?openid=' + openid)
+				//this.$router.pushPlus('/wechat/register?openid=' + openid)
 			}
 		},
 		wechatLoginFail (errorMessage) {
 			console.log(errorMessage)
-			window.mui.toast(errorMessage)
+			uni.showToast({
+				title: errorMessage
+			})
 		},
 		wechatLogin () {
 			this.$refs.oauth.login('weixin')

@@ -6,7 +6,7 @@
   export default{
     data () {
       return {
-        oauth_services: {},
+        oauth_services: [],
         oauth_waiting: null,
         bindType: 1
       }
@@ -70,115 +70,137 @@
 				//#endif
 				// 获取登录认证通道
 				//#ifdef APP-PLUS
-				var self = this
-				plus.oauth.getServices((services) => {
-					for (var i in services) {
-						var service = services[i]
-						if (service.id === 'weixin') {
-							this.oauth_services[service.id] = service
-							var isInstalled = this.isInstalled(service.id)
-							if (!isInstalled) {
-								// plus.nativeUI.toast('您尚未安装微信客户端');
-								return
+				var isInstalled = this.isInstalled(id)
+				if (!isInstalled) {
+					// plus.nativeUI.toast('您尚未安装微信客户端');
+					return
+				}
+				uni.getProvider({
+					service: 'oauth',
+					success: (result) => {
+						this.oauth_services = result.provider.map((value) => {
+							let providerName = '';
+							switch (value) {
+								case 'weixin':
+									providerName = '微信登录'
+									break;
+								case 'qq':
+									providerName = 'QQ登录'
+									break;
+								case 'sinaweibo':
+									providerName = '新浪微博登录'
+									break;
+								case 'xiaomi':
+									providerName = '小米登录'
+									break;
+								case 'alipay':
+									providerName = '支付宝登录'
+									break;
+								case 'baidu':
+									providerName = '百度登录'
+									break;
+								case 'toutiao':
+									providerName = '头条登录'
+									break;
 							}
-							var w = null
-							if (plus.os.name === 'Android') {
-								w = plus.nativeUI.showWaiting()
-							}
-
-							plus.globalEvent.addEventListener('pause', function () {
-								setTimeout(function () {
-									w && w.close()
-									w = null
-								}, 2000)
-							}, false)
-						service.login(() => {
-							w && w.close()
-							w = null
-							console.log(JSON.stringify(service.authResult))
-							service.getUserInfo(function () {
-								console.log('获取用户信息成功：')
-								var nickname = service.userInfo.nickname || service.userInfo.name || service.userInfo.miliaoNick
-								this.$request.post(`oauth/weixinapp/callback`, {
-									openid: service.authResult.openid,
-									nickname: nickname,
-									avatar: service.userInfo.headimgurl,
-									access_token: service.authResult.access_token,
-									refresh_token: service.authResult.refresh_token,
-									expires_in: service.authResult.expires_in,
-									scope: service.authResult.scope,
-									full_info: service.userInfo,
-									bindType: self.bindType
-								}).then(response => {
-									var code = response.code
-									if (code !== 1000) {
-										switch (code) {
-											case 1131:
-												alertPhoneBindWarning(
-													self,
-													'此微信已注册',
-													response.data.wechat_name,
-													response.data.avatar,
-													response.data.is_expert,
-													response.data.name,
-													'合并账号并绑定',
-													() => {
-														self.bindType = 2
-														self.login(id)
+							if (value == id) {
+								uni.login({
+									provider: value.id,
+														// #ifdef MP-ALIPAY
+														scopes: 'auth_user',  //支付宝小程序需设置授权类型
+														// #endif
+									success: (loginRes) => {
+										console.log('login success:', loginRes);
+										// 获取用户信息
+										uni.getUserInfo({
+											provider: value.id,
+											success: (service) => {
+												console.log(service.userInfo);
+												var nickname = service.userInfo.nickName || service.userInfo.name || service.userInfo.miliaoNick
+												this.$request.post(`oauth/weixinapp/callback`, {
+													openid: loginRes.authResult.openid,
+													nickname: nickname,
+													avatar: service.userInfo.avatarUrl,
+													access_token: loginRes.authResult.access_token,
+													refresh_token: loginRes.authResult.refresh_token,
+													expires_in: loginRes.authResult.expires_in,
+													scope: loginRes.authResult.scope,
+													full_info: service.userInfo,
+													bindType: this.bindType
+												}).then(response => {
+													var code = response.code
+													if (code !== 1000) {
+														switch (code) {
+															case 1131:
+																alertPhoneBindWarning(
+																	this,
+																	'此微信已注册',
+																	response.data.wechat_name,
+																	response.data.avatar,
+																	response.data.is_expert,
+																	response.data.name,
+																	'合并账号并绑定',
+																	() => {
+																		this.bindType = 2
+																		this.login(id)
+																	}
+																)
+																return
+															case 1113:
+																alertPhoneBindWarning(
+																	this,
+																	'此微信已绑定其他手机号',
+																	response.data.wechat_name,
+																	response.data.avatar,
+																	response.data.is_expert,
+																	response.data.name,
+																	'联系管理员',
+																	() => {
+																		this.$router.pushPlus('/chat/79')
+																	}
+																)
+																return
+															default:
+																uni.showModal({
+																	title: '提示',
+																	content: response.message,
+																	success: function (res) {
+																			if (res.confirm) {
+																					console.log('用户点击确定');
+																			} else if (res.cancel) {
+																					console.log('用户点击取消');
+																			}
+																	}
+																});
+																return
+														}
 													}
-												)
-												return
-											case 1113:
-												alertPhoneBindWarning(
-													self,
-													'此微信已绑定其他手机号',
-													response.data.wechat_name,
-													response.data.avatar,
-													response.data.is_expert,
-													response.data.name,
-													'联系管理员',
-													() => {
-														self.$router.pushPlus('/chat/79')
-													}
-												)
-												return
-											default:
-												uni.showModal({
-													title: '提示',
-													content: response.message,
-													success: function (res) {
-															if (res.confirm) {
-																	console.log('用户点击确定');
-															} else if (res.cancel) {
-																	console.log('用户点击取消');
-															}
-													}
-												});
-												return
-										}
+													// 如果返回token有值，则登陆成功，如果为null，走注册流程
+													var token = response.data.token
+													// 是否为新用户注册
+													var isNewUser = response.data.newUser
+													console.log('获取微信信息成功: token:' + token + ', openid:' + loginRes.authResult.openid)
+													this.$emit('success', token, loginRes.authResult.openid, service.userInfo.nickname, isNewUser)
+												})
+											}
+										});
+										
+									},
+									fail: (err) => {
+										console.log('login fail:', err);
 									}
-									// 如果返回token有值，则登陆成功，如果为null，走注册流程
-									var token = response.data.token
-									// 是否为新用户注册
-									var isNewUser = response.data.newUser
-									window.console.log('获取微信信息成功: token:' + token + ', openid:' + service.authResult.openid)
-									self.$emit('success', token, service.authResult.openid, service.userInfo.nickname, isNewUser)
-								})
-							}, function (e) {
-								self.$emit('fail', '获取用户信息失败： [' + e.code + ']：' + e.message)
-							})
-						}, function (e) {
-							w && w.close()
-							w = null
-							console.log('[' + e.code + ']：' + e.message)
-							self.$emit('fail', '获取用户信息失败： [' + e.code + ']：' + e.message)
+								});
 							}
-						)
-						}
+							return {
+								name: providerName,
+								service: value
+							}
+						});
+					},
+					fail: (error) => {
+						console.log('获取登录通道失败', error);
 					}
-				}, function (e) {
-						console.log('获取登录认证失败：' + e.message)
-				})
+				});
 				//#endif
       },
       logout (auth) {
