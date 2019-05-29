@@ -314,6 +314,12 @@
       }
     },
     {
+      "path": "pages/report/daily",
+      "style": {
+        "navigationBarTitleText": "今日热点推荐"
+      }
+    },
+    {
       "path": "pages/chat/chat",
       "style": {}
     }
