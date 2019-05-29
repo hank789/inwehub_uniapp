@@ -629,3 +629,7 @@ input, textarea, select{
 .openAppH5 .openAppReadBox {
     display: block;
 }
+
+.span,.i{
+    display: inline-block;
+}

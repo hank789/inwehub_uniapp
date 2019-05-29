@@ -1,125 +1,486 @@
 <template>
-    <view class="content" @tap="toDetail(item)">
+  <view>
+    <view class="container-feed-item feed-currency" @tap.stop.prevent="toDetail(item)">
+      <UserInfo
+        :uuid="item.user.uuid"
+        :avatar="item.user.avatar"
+        :realname="item.title"
+        :is-show-position-and-company="false"
+        :is-expert="item.user.is_expert?1:0"
+        :time="item.created_at"
+        :address="item.feed.current_address_name"
+        :show-set-top="item.top"
+      />
+      <view class="currency-title text-line-5 feed-title"><view>{{ item.feed.title }}</view></view>
+      <view class="feed-open-all font-family-medium" @tap.stop.prevent="extendAll">展开全部</view>
+      <!--图片-->
+      <view
+        v-if="itemObj.feed.img.length && item.feed.submission_type !== 'link'"
+        class="container-images container-images-discover"
+        :class="'container-images-' + (itemObj.feed.img.length)"
+      >
+        <view v-for="img in itemObj.feed.img" class="container-image"><image mode="aspectFill" :src="img" :is-lazyload="true" width="108" height="108" /></view>
+      </view>
+      <!--链接-->
+      <view v-if="item.feed.submission_type === 'link'" class="container-feed-link-box" @tap.stop.prevent="goArticle()">
+        <view class="feed-link-box">
+          <view class="linkImg"><image class="image" mode="aspectFill" :src="item.feed.img" :is-lazyload="true" width="44" height="44" /></view>
+          <view class="linkText">
+            <view class="span firstSpan font-family-medium text-line-2">{{ item.feed.article_title }}</view>
+            <view class="span twoSpan">{{ item.feed.domain }}</view>
+          </view>
+        </view>
+      </view>
+      <!--PDF-->
+      <view v-if="itemObj.feed.files.length" class="container-pdf-box">
+        <view v-for="(pdf, pdfIndex) in itemObj.feed.files":key="pdfIndex" class="feed-pdf-box">
+          <view class="pdfIcon">
+            <text class="iconfont icon-pdf" />
+          </view>
+          <view class="pdfText">
+            <view class="font-family-medium text-line-2">{{ pdf.name }}</view>
+          </view>
+        </view>
+      </view>
+      <!--操作区-->
+      <view class="feed-moreOperation">
 
-        <div class="component-userinfo">
-            <div class="left"> <image :src="item.user.avatar"/></div>
-            <div class="right">
-                <div class="twoLevel">{{item.title}}</div>
-                <div class="oneLevel">3天前</div>
-            </div>
-        </div>
-        <div class="component-share">
-            <div class="level-three">{{item.feed.title}}</div>
-            <div class="level-two" v-if="item.feed.submission_type === 'link'">
-                <div class="ltLeft"><image :src="img"/></div>
-                <div class="ltRight">
-                    <div class="ltRightTwo">{{item.feed.article_title}}</div>
-                    <div class="ltRightOne">{{item.feed.domain}}</div>
-                </div>
-            </div>
-            <div class="level-one">
-                <div class="loLeft" @tap.stop.prevent="showPageMore"><i class="iconfont icon-gengduo1"></i></div>
-                <div class="loRight"><i class="iconfont icon-pinglun"></i><i class="iconfont icon-cai"></i><i class="iconfont icon-zan"></i></div>
-            </div>
-        </div>
+        <view class="feed-mord" @tap.stop.prevent="showItemMore">
+          <text class="iconfont icon-gengduo1" />
+        </view>
+        <view class="feed-operation">
 
-        <div class="line-river-after line-river-after-top"></div>
+          <view class="first">
+            <view class="span" @tap.stop.prevent="toComment">
+              <text class="iconfont icon-pinglun" /><view v-if="item.feed.comment_number" class="i">{{ item.feed.comment_number }}</view>
+            </view>
+            <view class="span" :class="item.feed.is_downvoted ? 'activeSpan':''" @tap.stop.prevent="discoverDown()">
+              <text class="iconfont icon-cai" /><view v-if="item.feed.downvote_number" class="i">{{ item.feed.downvote_number }}</view>
+            </view>
+          </view>
+
+          <view class="posiZan">
+
+            <view :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp(index)">
+              <text v-if="item.feed.is_upvoted === 0" class="iconfont icon-zan" />
+              <text v-if="item.feed.is_upvoted === 1" class="iconfont icon-yizan" />
+              <view v-if="item.feed.support_number" class="i numberColor">{{ item.feed.support_number }}</view>
+            </view>
+            <view v-show="showUpvo" class="upvoted" :class="'zan' + index" @tap.stop.prevent="dianpingDiscoverUp(index)" />
+
+          </view>
+
+        </view>
+
+      </view>
+
+      <view class="line-river-after line-river-after-top" />
     </view>
+  </view>
 </template>
 
 <script>
 
-  export default {
-    components: {
+import { upvote, downVote } from '@/lib/discover'
+import UserInfo from '@/components/iw-discover/user-info.vue'
 
-    },
-    data() {
-      return {
-
+export default {
+  components: {
+    UserInfo
+  },
+  props: {
+    item: {
+      type: Object,
+      default: () => {
+        return {}
       }
     },
-    computed: {
-      img () {
-        if (this.item.feed.img.length) {
-          return this.item.feed.img[0]
+    index: {
+      type: Number,
+      default: 0
+    }
+  },
+  data() {
+    return {
+      showUpvo: false
+    }
+  },
+  computed: {
+    itemObj() {
+      var item = JSON.parse(JSON.stringify(this.item))
+      if (typeof item.feed.img === 'string') {
+        if (item.feed.img) {
+          item.feed.img = [item.feed.img]
+        } else {
+          item.feed.img = []
         }
-
-        return ''
       }
-    },
-    props: {
-      item: {
-        type: Object,
-        default: () => {
-          return {}
+
+      if (typeof item.feed.files === 'string') {
+        if (item.feed.files) {
+          item.feed.files = [item.feed.files]
+        } else {
+          item.feed.files = []
         }
       }
+      return item
+    }
+  },
+  created() {
+
+  },
+  methods: {
+    dianpingDiscoverUp(index) {
+      upvote(this, this.item.feed.submission_id, (response) => {
+        this.item.feed.support_number++
+        this.item.feed.is_upvoted = 1
+        this.showUpvo = true
+      }, (response) => {
+        this.showUpvo = false
+        this.item.feed.support_number--
+        this.item.feed.is_upvoted = 0
+      })
     },
-    created() {
+    discoverUp() {
+      upvote(this, this.item.feed.submission_id, (response) => {
+        this.item.feed.support_number++
+        this.item.feed.is_upvoted = response.data.data.support_percent
+      }, (response) => {
+        this.item.feed.support_number--
+        this.item.feed.is_upvoted = response.data.data.support_percent
+      })
+    },
+    discoverDown() {
+      downVote(this, this.item.feed.submission_id, (response) => {
+        this.item.feed.downvote_number++
+        this.item.feed.is_downvoted = response.data.data.support_percent
+      }, (response) => {
+        this.item.feed.downvote_number--
+        this.item.feed.is_downvoted = 0
+      })
+    },
+    toDetail(item) {
+      uni.navigateTo({ url: '/pages/discover/detail?slug=' + item.feed.slug })
+    },
+    toComment() {
+      uni.navigateTo({ url: '/pages/comment/index?slug=' + this.item.feed.slug + '&id=' + this.item.id + '&category_id=' + this.item.feed.category_id })
+    },
+    showDownloadTip() {
 
     },
-    methods: {
-      toDetail (item) {
-        uni.navigateTo({ url: '/pages/discover/detail?slug=' + item.feed.slug })
-      },
-      showDownloadTip() {
-
-      },
-      showPageMore () {
-        this.$emit('showPageMore')
-      }
+    showItemMore() {
+      this.$emit('showPageMore')
     }
   }
+}
 </script>
 
-<style>
-    .content{
-        padding:20upx 32upx;
+<style lang="less">
+    .feed-currency {
+        .line-river-after {
+            margin-top: 19.96upx;
+            &:after {
+                left: 31.96upx;
+                right: 31.96upx;
+            }
+        }
+        .currency-title {
+            color: #444444;
+            font-size: 27.98upx;
+            line-height: 43.96upx;
+            margin-top: 1.96upx;
+            letter-spacing: 0.98upx;
+        }
+        .userInfoWrapper {
+            padding: 0 31.96upx !important;
+            .mui-media-body {
+                margin-left: 75.98upx;
+                color: #444444;
+                font-size: 25.96upx;
+                font-family: PingFangSC-Medium;
+                .detail {
+                    color: #B4B4B6;
+                    font-size: 21.98upx;
+                    font-family: PingFangSC-Regular;
+                }
+            }
+        }
     }
 
-    .component-share .level-three {
-        font-size: 28upx;
-        color: #444;
-        padding: 20upx 0; }
+    .container-feed-item {
+        position: relative;
+        margin-top: 39.98upx;
+        .feed-address {
+            color: #B4B4B6;
+            font-size: 21.98upx;
+            position: absolute;
+            top: 31.96upx;
+            left: 223.96upx;
+        }
+        .feed-title {
+            padding: 0 31.96upx;
+        }
+        .feed-open-all {
+            color: #03AEF9;
+            font-size: 25.96upx;
+            margin-top: 15.98upx;
+            display: none;
+            padding: 0 31.96upx;
+            line-height: 36upx;
+            &.showOpenAll {
+                display: block;
+            }
+        }
 
-    .component-share .level-two {
-        background: #F7F8FA;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        padding: 20upx; }
-    .component-share .level-two .ltLeft {
-        width: 88upx;
-        height: 88upx; }
-    .component-share .level-two .ltLeft image {
-        width: 100%;
-        height: 100%;
-        -o-object-fit: cover;
-        object-fit: cover;
-        border-radius: 8upx; }
-    .component-share .level-two .ltRight {
-        padding-left: 12upx; }
-    .component-share .level-two .ltRight .ltRightTwo {
-        font-family: PingFangSC-Medium, sans-serif;
-        font-size: 26upx;
-        color: #444; }
-    .component-share .level-two .ltRight .ltRightOne {
-        color: #B4B4B6;
-        font-size: 24upx; }
+        .container-images {
+            padding: 19.96upx 30upx 0;
 
-    .component-share .level-one {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-        justify-content: space-between;
-        padding: 20upx 0;
-        color: #808080; }
-    .component-share .level-one .loRight .iconfont {
-        padding: 0 20upx; }
+        }
+        .container-feed-link-box {
+            padding: 0 31.96upx;
+            .feed-link-box {
+                background: #F7F8FA;
+                border-radius: 7.96upx;
+                padding: 19.96upx;
+                display: flex;
+                margin-top: 24upx;
+                margin-bottom: 19.96upx;
+                .linkImg {
+                    width: 87.98upx;
+                    height: 87.98upx;
+                    .image {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 7.96upx;
+                    }
+                }
+                .linkText {
+                    width: 537.98upx;
+                    margin-left: 19.96upx;
+                    .span {
+                        .firstSpan {
+                            width: inherit;
+                            color: #444444;
+                            font-size: 25.96upx;
+                            line-height: 39.98upx;
+                            letter-spacing: 0.98upx;
+                        }
+                        .twoSpan {
+                            color: #B4B4B6;
+                            font-size: 21.98upx;
+                        }
+                    }
+                }
+            }
+        }
+        .container-pdf-box {
+            padding: 0 31.96upx;
+            .feed-pdf-box {
+                background: #F7F8FA;
+                border-radius: 7.96upx;
+                padding: 19.96upx 19.96upx;
+                display: flex;
+                margin-top: 19.96upx;
+                .pdfIcon {
+                    width: 87.98upx;
+                    height: 87.98upx;
+                    text-align: center;
+                    border-radius: 7.96upx;
+                    background: #DF6F5A;
+                    .iconfont{
+                        color: #ffffff;
+                        font-size: 67.96upx;
+                        margin-top: 9.98upx;
+                    }
+                }
+                .pdfText {
+                    width: 537.98upx;
+                    margin-left: 19.96upx;
+                    .span {
+                        width: inherit;
+                        color: #444444;
+                        font-size: 25.96upx;
+                        line-height: 39.98upx;
+                        letter-spacing: 0.98upx;
+                    }
+                }
+            }
+        }
+        .feed-group {
+            width: fit-content;
+            height: 42upx;
+            color: #444444;
+            padding: 0 19.96upx;
+            font-size: 21.98upx;
+            line-height: 42upx;
+            background: #F7F8FA;
+            border-radius: 199.96upx;
+            display: flex;
+            margin-top: 19.96upx;
+            margin-left: 31.96upx;
+            &.moveUp {
+                margin-top: 9.98upx;
+            }
+            .image {
+                width: 21.98upx;
+                height: 21.98upx;
+                margin-top: 9.98upx;
+                margin-right: 6upx;
+            }
+        }
+        .feed-moreOperation {
+            margin-top: 19.96upx;
+            color: #808080;
+            display: flex;
+            padding: 0 25.96upx;
+            justify-content: space-between;
+            .feed-mord {
+                padding: 9.98upx;
+                color: #808080;
+            }
+            .feed-operation {
+                position: relative;
+                padding-top: 9.98upx;
+                .span {
+                    display: inline-block;
+                    padding: 9.98upx 19.96upx;
+                    font-size: 21.98upx;
+                    color: #444444;
+                    /*margin-left: 39.98upx;*/
+                    .iconfont{
+                        margin-right: 9.98upx;
+                        color: #808080;
+                        font-size: 30upx;
+                    }
+                    .i {
+                        display: inline-block;
+                        font-style: normal;
+                    }
+                }
+                .first {
+                    margin-right: 90upx;
+                }
+                .posiZan {
+                    position: absolute;
+                    top: 12upx;
+                    right: 32upx;
+                    .upvoted {
+                        width: 61.96upx;
+                        height: 61.96upx;
+                        display: inline-block;
+                        position: absolute;
+                        top: -7.50upx;
+                        right: 30upx;
+                        .iconfont{
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                        }
+                    }
+                }
+                .activeSpan {
+                    color: #B4B4B6;
+                    .iconfont{
+                        color: #03AEF9;
+                    }
+                    .numberColor {
+                        color: #03AEF9;
+                    }
+                }
+            }
+        }
+    }
 
+
+    .link {
+        padding: 19.96upx 31.96upx 0;
+        /*margin-bottom: 34.96upx;*/
+        .linkBox {
+            padding: 19.96upx;
+            border-radius: 7.96upx;
+            background: #F7F8FA;
+            .linkIimg {
+                width: 87.98upx;
+                height: 87.98upx;
+                float: left;
+                text-align: center;
+                line-height: 99.98upx;
+                margin-right: 19.96upx;
+                border-radius: 7.96upx;
+                background: #ECECEE;
+                .iconfont{
+                    color: #C8C8C8;
+                    font-size: 55.96upx;
+                }
+            }
+            .productLogo {
+                width: 87.98upx;
+                height: 87.98upx;
+                float: left;
+                margin-right: 19.96upx;
+                .image {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 7.96upx;
+                    object-fit: cover;
+                }
+                &.border-football {
+                    &:after {
+                        border-radius: 15.98upx;
+                        border-color: #DCDCDC;
+                    }
+                }
+            }
+            .linkContent {
+                font-size: 27.98upx;
+                color: #808080;
+                .seat {
+                    width: 19.96upx;
+                    height: 30upx;
+                    display: inline-block;
+                }
+                .div {
+                    word-break: break-all;
+                }
+                .text-line-2 {
+                    color: #808080;
+                }
+                .mark {
+                    padding: 0;
+                    margin-top: 0;
+                    .text {
+                        color: #FCC816;
+                        margin-top: 0 !important;
+                    }
+                    .i {
+                        width: 3.98upx;
+                        height: 3.98upx;
+                        background: #B4B4B6;
+                        border-radius: 50%;
+                        margin: 19.50upx 9.98upx 0;
+                    }
+                    .comment {
+                        color: #B4B4B6;
+                        font-size: 21.98upx;
+                    }
+                }
+            }
+        }
+        .mark {
+            display: flex;
+            padding: 0 31.96upx;
+            margin-top: -15.98upx;
+            margin-bottom: 13.96upx;
+            .stars {
+                color: #FCC816;
+            }
+            .text {
+                color: #FCC816;
+                font-size: 21.98upx;
+                margin-top: 3.98upx;
+                margin-left: 6upx;
+            }
+        }
+    }
 </style>
