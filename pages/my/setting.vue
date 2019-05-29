@@ -43,36 +43,27 @@
 				}
 			},
 			clearUserCache() {
-				localEvent.clearLocalItem('UserLoginInfo')
-				localEvent.clearLocalItem('UserInfo')
-				localEvent.clearLocalItem('UserInfoReal')
-				this.$store.dispatch(ASKS_LIST_APPEND, {})
-				this.$store.dispatch(ANSWERS_LIST_APPEND, {})
-				this.$store.dispatch(TASK_LIST_APPEND, {})
-				if (!window.mui.os.plus) {
-					this.$parent.$refs.OpenAppComponent.refreshData()
-				}
+				this.$ls.remove('UserLoginInfo')
+				this.$ls.remove('UserInfo')
+				this.$ls.remove('UserInfoReal')
 				uni.navigateTo({
 					url: `/pages/login/login`
 				})
 			},
 			logOut() {
-				if (window.mui.os.plus) {
-					window.mui.plusReady(() => {
-						var deviceInfo = window.plus.push.getClientInfo()
-						apiRequest(`auth/logout`, {
-							client_id: deviceInfo.clientid,
-							device_token: deviceInfo.token,
-							appid: deviceInfo.appid,
-							appkey: deviceInfo.appkey,
-							device_type: window.plus.os.name === 'iOS' ? 2 : 1
-						}).then(res => {
-							this.clearUserCache()
-						})
-					})
-				} else {
+				//#ifdef APP-PLUS
+				var deviceInfo = plus.push.getClientInfo()
+					this.$request.get(`auth/logout`, {
+						client_id: deviceInfo.clientid,
+						device_token: deviceInfo.token,
+						appid: deviceInfo.appid,
+						appkey: deviceInfo.appkey,
+						device_type: plus.os.name === 'iOS' ? 2 : 1
+				}).then(res => {
 					this.clearUserCache()
-				}
+				})
+				//#endif
+				this.clearUserCache()
 			}
 		}
 	}

@@ -61,14 +61,14 @@
 						type: 'text',
 						css: 'font-size: 21px;top:66%;left:50%;color: #03AEF9;width: 234px;text-align: center;margin-top: 48px;',
 						value: '打造有影响力的行业人脉',
-						changeBefore: 'transform: translate(-50%, 200%);opacity:0;color: black;',
-						changeAfter: 'transform: translate(-50%, 0);opacity:1;color: white;'
+						changeBefore: 'transform: translate(-50%, 200%);opacity:0;',
+						changeAfter: 'transform: translate(-50%, 0);opacity:1;'
 					}, {
 						type: 'text',
 						css: 'font-size: 15px;top:66%;left:50%;color: #A0A0A0;width: 234px;text-align: center;margin-top: 90px;margin-left: -117px;',
 						value: '圈子动态分享 互助解疑答惑',
-						changeBefore: 'transform: rotate(90deg);opacity:0;',
-						changeAfter: 'transform: rotate(0);opacity:1;'
+						changeBefore: 'transform: translate(-50%, 500%);opacity:0;color: black;',
+						changeAfter: 'transform: translate(0, 0);opacity:1;color: white;'
 					},
 					]
 				},

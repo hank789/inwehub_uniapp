@@ -48,7 +48,7 @@
         <text class="twoSpan font-family-medium" @tap.stop.prevent="">密码登录</text>
       </view>
 
-      <view class="weChat" @tap.stop.prevent="">
+      <view class="weChat" @tap.stop.prevent="wechatLogin()">
         <view class="weChatIcon">
           <text class="iconfont icon-wechat" />
         </view>
@@ -56,7 +56,9 @@
       </view>
 
       <view class="protocol">注册即同意<text class="span" @tap.stop.prevent="$router.pushPlus('/protocol/register')">《用户注册服务协议》</text></view>
-    </view>
+		</view>
+		<oauth ref="oauth" :isShowBtn="false" @success="wechatLoginSuccess" @fail="wechatLoginFail"
+             style="display:none"></oauth>
   </view>
 </template>
 
@@ -66,6 +68,7 @@ import {
   mapMutations
 } from 'vuex'
 import allPlatform from '@/lib/allPlatform.js'
+import oauth from '@/components/oauth/oauth.vue'
 export default {
   data() {
     return {
@@ -78,6 +81,9 @@ export default {
 			  yzmFocus: false
     }
   },
+	components: {
+		oauth
+	},
   onLoad() {
     console.log(this.$ls.get('token'))
   },
@@ -161,7 +167,28 @@ export default {
           })
         }
       })
-    }
+    },
+		wechatLoginSuccess (token, openid, nickname = '', isNewUser = '') {
+			console.log(token)
+			console.log(openid)
+			if (token) {
+				uni.switchTab({
+					url: '/pages/index/index'
+				});
+				//this.$router.pushPlus('/wechat/register?newUser=' + isNewUser + '&token=' + token + '&openid=' + openid)
+			} else {
+				//this.$router.pushPlus('/wechat/register?openid=' + openid)
+			}
+		},
+		wechatLoginFail (errorMessage) {
+			console.log(errorMessage)
+			uni.showToast({
+				title: errorMessage
+			})
+		},
+		wechatLogin () {
+			this.$refs.oauth.login('weixin')
+		}
   }
 }
 </script>
