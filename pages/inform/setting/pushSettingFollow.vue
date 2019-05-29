@@ -7,7 +7,7 @@
     </view>
 </template>
 <script>
-  import util from '@/lib/util'
+  import html5plus from '@/lib/html5plus'
 	import uniList from '@/components/uni-list/uni-list.vue'
 	import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
 	
@@ -68,7 +68,7 @@
 							confirmText: '去设置',
 							success: function (res) {
 									if (res.confirm) {
-											util.toSettingSystem('NOTIFITION')
+											html5plus.toSettingSystem('NOTIFITION')
 									} else if (res.cancel) {
 											console.log('用户点击取消');
 									}
@@ -79,7 +79,7 @@
         }
       },
       checkPermission () {
-        util.checkPermission('NOTIFITION', () => {
+        html5plus.checkPermission('NOTIFITION', () => {
           this.isOpenNotification = 1
           this.isNotificationPermission = 1
           this.getNotification()

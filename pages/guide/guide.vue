@@ -60,9 +60,7 @@
 					}, {
 						type: 'text',
 						css: 'font-size: 21px;top:66%;left:50%;color: #03AEF9;width: 234px;text-align: center;margin-top: 48px;',
-						value: '打造有影响力的行业人脉',
-						changeBefore: 'transform: translate(-50%, 200%);opacity:0;color: black;',
-						changeAfter: 'transform: translate(-50%, 0);opacity:1;color: white;'
+						value: '打造有影响力的行业人脉'
 					}, {
 						type: 'text',
 						css: 'font-size: 15px;top:66%;left:50%;color: #A0A0A0;width: 234px;text-align: center;margin-top: 90px;margin-left: -117px;',
