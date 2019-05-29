@@ -1,10 +1,15 @@
 <template>
-  <view id="homeHeat" class="homeHeat mui-popover mui-popover-action mui-popover-bottom">
+    <uni-popup
+            :show="showPopupBottomShare"
+            :position="'bottom'"
+            type="bottom"
+            :h5-top="true"
+            @hidePopup="hidePopup">
     <view class="heat-wrapper">
       <view class="heatTop">
         <view class="left">
-          <view class="fire"><image mode="aspectFill" src="../../static/images/fire@3x.png" /></view>
-          <view class="heat"><image mode="aspectFill" src="../../static/images/heat@2x.png" /></view>
+          <view class="fire"><image class="image" mode="aspectFill" src="../../static/images/fire@3x.png" /></view>
+          <view class="heat"><image class="image" mode="aspectFill" src="../../static/images/heat@2x.png" /></view>
         </view>
         <view class="right">
           <view class="oneLine" />
@@ -26,7 +31,7 @@
             <view class="span iconCircular">
               <text class="iconfont icon-pinglun" />
             </view>
-            <view class="text active">评论<view>{{ localItem.comment_number }}</view></view>
+            <view class="text active">评论<view class="i">{{ localItem.comment_number }}</view></view>
           </view>
 
           <view class="iconList" :class="localItem.is_upvoted ? 'active' : ''" @tap.stop.prevent="vote">
@@ -74,7 +79,7 @@
         <view class="span">取消</view>
       </view>
     </view>
-  </view>
+    </uni-popup>
 </template>
 
 <script type="text/javascript">
@@ -82,8 +87,12 @@ import { postRequest } from '@/lib/request'
 import { upvoteOnlyHome } from '@/lib/discover'
 import Vue from 'vue'
 import { isAdmin } from '@/lib/user'
+import uniPopup from "@/components/uni-popup/uni-popup.vue"
 
 export default {
+  components: {
+    uniPopup
+  },
   props: {
     regions: {
       type: Array,
@@ -101,7 +110,8 @@ export default {
   data() {
     return {
       localRegions: [],
-      localItem: this.value
+      localItem: this.value,
+      showPopupBottomShare: false
     }
   },
   computed: {
@@ -204,10 +214,11 @@ export default {
       }
     },
     cancelShare() {
-      window.mui('#homeHeat').popover('toggle')
-      this.hide()
+      this.hidePopup()
     },
-    hide() {},
+    hidePopup() {
+      this.showPopupBottomShare = false
+    },
     resetRegions() {
       for (var i = 0; i < this.localRegions.length; i++) {
         var item = this.localRegions[i]
@@ -221,13 +232,8 @@ export default {
       }
     },
     show() {
-      setTimeout(() => {
         this.resetRegions()
-        window.mui('#homeHeat').popover('toggle')
-        window.mui('body').on('tap', '.mui-backdrop', () => {
-          this.hide()
-        })
-      }, 150)
+        this.showPopupBottomShare = true
     }
   }
 }
