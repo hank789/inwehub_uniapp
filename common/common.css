@@ -26,6 +26,8 @@ page {
     font-size: 36upx;
     color: #444444;
     padding-left: 30upx;
+    position: relative;
+    top: 6upx;
 }
 .container-control-logoAndTabsAndSearch .logoIcon {
     font-size: 162upx;
