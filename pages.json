@@ -245,11 +245,18 @@
     {
       "path": "pages/login/login",
       "style": {
-        "app-plus": {
-          "titleNView": false
-          //禁用原生导航栏
-        },
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				},
         "navigationBarTitleText": "登录"
+      }
+    },
+		{
+      "path": "pages/wechat/register",
+      "style": {
+        "navigationBarTitleText": "登录验证"
       }
     },
     {
@@ -317,6 +324,12 @@
       "path": "pages/chat/chat",
       "style": {}
     }
+		,{
+				"path" : "pages/protocol/register",
+				"style" : {
+					"navigationBarTitleText": "注册协议"
+				}
+		}
     ],
   "tabBar": {
     "color": "#B4B4B6",
