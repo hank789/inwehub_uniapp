@@ -3,7 +3,7 @@
       <view class="status_bar">
       </view>
       <view class="container-control-logoAndTabsAndSearch searchBoxShadow">
-        <view class="topSearchWrapper" @tap.stop.prevent="$router.pushPlus('/searchAll','list-detail-page-three')">
+        <view class="topSearchWrapper" @tap.stop.prevent="toSearch">
           <view class="searchFrame">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-sousuo"></use>
@@ -53,6 +53,9 @@ export default {
     });
   },
   methods: {
+    toSearch () {
+      uni.navigateTo({ url: '/pages/search/index'})
+    },
     toDiscoverAdd () {
       uni.navigateTo({ url: '/pages/discover/add' })
     },
