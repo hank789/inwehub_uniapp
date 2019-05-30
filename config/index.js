@@ -4,7 +4,7 @@
 	
 	if (process.env.NODE_ENV === 'development') {
 		store.commit('setBaseApiUrl', devEnv.BASE_API_URL)
-		console.log('开发环境')
+		console.log('开发环境:' + devEnv.BASE_API_URL)
 	} else {
 		store.commit('setBaseApiUrl', prodEnv.BASE_API_URL)
 		console.log('生产环境')
