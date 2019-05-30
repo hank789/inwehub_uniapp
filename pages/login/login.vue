@@ -56,7 +56,7 @@
         <text class="span">微信授权登录</text>
       </view>
 
-      <view class="protocol">注册即同意<text class="span" @tap.stop.prevent="$router.pushPlus('/protocol/register')">《用户注册服务协议》</text></view>
+      <view class="protocol">注册即同意<text class="span" @tap.stop.prevent="navToProtocol">《用户注册服务协议》</text></view>
 		</view>
 		<oauth ref="oauth" :isShowBtn="false" @success="wechatLoginSuccess" @fail="wechatLoginFail"
              style="display:none"></oauth>
@@ -200,6 +200,11 @@ export default {
 					title: ''
 			})
 			this.$refs.oauth.login('weixin')
+		},
+		navToProtocol () {
+			uni.navigateTo({
+				url: '/pages/protocol/register'
+			})
 		}
   }
 }

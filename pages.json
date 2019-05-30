@@ -324,6 +324,12 @@
       "path": "pages/chat/chat",
       "style": {}
     }
+		,{
+				"path" : "pages/protocol/register",
+				"style" : {
+					"navigationBarTitleText": "注册协议"
+				}
+		}
     ],
   "tabBar": {
     "color": "#B4B4B6",
