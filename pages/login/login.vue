@@ -9,12 +9,13 @@
         <input
           ref="phone"
           v-model="phone"
+					focus=true
           class="inputPhone text"
           placeholder="请输入手机号"
           pattern="\d*"
           autofocus="autofocus"
           placeholder-class="inputPlaceholder"
-          type="text"
+          type="number"
           name="phone"
           autocomplete="off"
         >
@@ -30,7 +31,7 @@
           placeholder="请输入验证码"
           :focus="yzmFocus"
           class="text"
-          type="text"
+          type="number"
           name="code"
           autocomplete="off"
         >
@@ -44,8 +45,8 @@
       >登录
       </button>
       <view class="registerPassword">
-        <text class="firstSpan">未注册验证即自动创建账号</text>
-        <text class="twoSpan font-family-medium" @tap.stop.prevent="">密码登录</text>
+        <text class="firstSpan"></text>
+        <text class="firstSpan">验证即可登录，未注册用户将根据手机号自动创建账号</text>
       </view>
 
       <view class="weChat" @tap.stop.prevent="wechatLogin()">
@@ -156,7 +157,7 @@ export default {
           this.$ls.set('token', res.data.token)
           this.$ls.set('UserInfo', res.data)
 					allPlatform.saveLocationInfo()
-          uni.redirectTo({
+          uni.switchTab({
               url: '/pages/index/index'
           })
         } else {
@@ -319,7 +320,7 @@ export default {
 	.logo .iconfont {
 		font-size: 295.96upx;
 		position: relative;
-		top:-30upx;
+		top:-120upx;
 	}
 
 	/*输入框的内容*/
