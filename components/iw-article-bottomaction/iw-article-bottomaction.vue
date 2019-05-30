@@ -209,7 +209,7 @@ export default {
           break
         case '分享':
           this.cancelShare()
-          this.$parent.showItemMore(this.localItem)
+          this.$emit('showItemMore', this.localItem)
           break
       }
     },
