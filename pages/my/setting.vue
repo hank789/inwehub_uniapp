@@ -46,7 +46,8 @@
 				this.$ls.remove('UserLoginInfo')
 				this.$ls.remove('UserInfo')
 				this.$ls.remove('UserInfoReal')
-				uni.navigateTo({
+				this.$ls.remove('token')
+				uni.reLaunch({
 					url: `/pages/login/login`
 				})
 			},

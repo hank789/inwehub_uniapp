@@ -1,17 +1,33 @@
 <template>
-  <span @tap.stop.prevent="login('weixin')" v-show="isShowBtn">{{ content }}</span>
+	<view>
+		  <view @tap.stop.prevent="login" v-show="isShowBtn">{{ content }}</view>
+			<wechat-bind-dialog ref="wechatBindDialog" :showPopup="showPopup" :title="dialogTitle" :phone="dialogPhone" :avatar="dialogAvatar" :name="dialogName" :codeType="dialogCodeType" :isVip="dialogVip" :buttonText="dialogButtonText" @clickButton="clickDialogButton"></phone-bind-dialog>
+	</view>
 </template>
 
 <script>
+	import wechatBindDialog from "@/components/iw-dialog/wechat-bind-dialog"
   export default{
     data () {
       return {
         oauth_services: [],
         oauth_waiting: null,
-        bindType: 1
+        bindType: 1,
+				dialogTitle: '',
+				dialogPhone: '',
+				dialogAvatar: '',
+				dialogName: '',
+				dialogCodeType: 0,
+				dialogVip: '',
+				dialogButtonText: '',
+				showPopup: false
       }
     },
     props: {
+			serviceId: {
+				type: String,
+				default: 'weixin'
+			},
       content: {
         type: String,
         default: '绑定微信'
@@ -21,11 +37,24 @@
         default: true
       }
     },
-    components: {},
+    components: {
+			wechatBindDialog
+		},
     methods: {
       setBindType (type) {
         this.bindType = type
       },
+			clickDialogButton() {
+				console.log(this.dialogCodeType)
+				switch (this.dialogCodeType) {
+					case 1131:
+						this.bindType = 2
+						this.login(this.serviceId)
+						break;
+					case 1113:
+						break;
+				}
+			},
       isInstalled (id) {
         if (id === 'qihoo') {
           return true
@@ -60,7 +89,7 @@
           }
         }
       },
-      login (id) {
+      login () {
 				//#ifndef APP-PLUS
 				uni.showToast({
 						title: '仅支持app',
@@ -68,6 +97,7 @@
 				})
 				return
 				//#endif
+				var id = this.serviceId
 				// 获取登录认证通道
 				//#ifdef APP-PLUS
 				var isInstalled = this.isInstalled(id)
@@ -129,36 +159,28 @@
 													bindType: this.bindType
 												}).then(response => {
 													var code = response.code
+													console.log(code)
 													if (code !== 1000) {
 														switch (code) {
 															case 1131:
-																alertPhoneBindWarning(
-																	this,
-																	'此微信已注册',
-																	response.data.wechat_name,
-																	response.data.avatar,
-																	response.data.is_expert,
-																	response.data.name,
-																	'合并账号并绑定',
-																	() => {
-																		this.bindType = 2
-																		this.login(id)
-																	}
-																)
+																this.dialogTitle = '此微信已注册'
+																this.dialogPhone = response.data.wechat_name
+																this.dialogAvatar = response.data.avatar
+																this.dialogVip = response.data.is_expert
+																this.dialogName = response.data.name
+																this.dialogCodeType = code
+																this.dialogButtonText = '合并账号并绑定'
+																this.$refs.wechatBindDialog.showDialog()
 																return
 															case 1113:
-																alertPhoneBindWarning(
-																	this,
-																	'此微信已绑定其他手机号',
-																	response.data.wechat_name,
-																	response.data.avatar,
-																	response.data.is_expert,
-																	response.data.name,
-																	'联系管理员',
-																	() => {
-																		this.$router.pushPlus('/chat/79')
-																	}
-																)
+																this.dialogTitle = '此微信已绑定其他手机号'
+																this.dialogPhone = response.data.wechat_name
+																this.dialogAvatar = response.data.avatar
+																this.dialogVip = response.data.is_expert
+																this.dialogName = response.data.name
+																this.dialogCodeType = code
+																this.dialogButtonText = '联系管理员微信：hiinwe'
+																this.$refs.wechatBindDialog.showDialog()
 																return
 															default:
 																uni.showModal({
