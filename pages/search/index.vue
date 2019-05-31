@@ -1,422 +1,426 @@
 <template>
-    <view>
-        <view class="mui-content">
-            <view class="search">
-                <view class="p border-football">
-                    <text class="iconfont icon-sousuo "></text>
-                    <input type="text" placeholder="搜产品、问答、圈子、内容" v-model.trim="searchText" v-on:keydown.enter="enterKeyCode($event)"/>
-                    <text class="iconfont icon-times1 "></text>
-                </view>
-                <view class='p' @tap.stop.prevent="back()">取消</view>
-            </view>
-            <!--导航栏-->
-            <view class="menu" v-if="getCurrentMode === 'result' && searchText !== ''">
-                <view  class="span font-family-medium">综合<view></view></view>
-                <view class='span'  @tap.stop.prevent="$router.replace('/searchSubmission?text=' + searchText)">分享</view>
-                <view class='span'  @tap.stop.prevent="$router.replace('/searchQuestion?text=' + searchText)">问答</view>
-                <view class='span'  @tap.stop.prevent="$router.replace('/group/search?text=' + searchText)">圈子</view>
-                <view class='span'  @tap.stop.prevent="$router.replace('/dianping/search/products?text=' + searchText)">产品</view>
-                <view  @tap.stop.prevent="$router.replace('/dianping/search/comments?text=' + searchText)" class="span ">点评</view>
-                <view class="i bot"></view>
-            </view>
+  <view>
+    <view class="mui-content">
+      <view class="search">
+        <view class="p border-football">
+          <text class="iconfont icon-sousuo " />
+          <input v-model.trim="searchText" type="text" placeholder="搜产品、问答、圈子、内容" @keydown.enter="enterKeyCode($event)">
+          <text class="iconfont icon-times1 " />
+        </view>
+        <view class="p" @tap.stop.prevent="back()">取消</view>
+      </view>
+      <!--导航栏-->
+      <view v-if="getCurrentMode === 'result' && searchText !== ''" class="menu">
+        <view class="span font-family-medium">综合<view /></view>
+        <view class="span" @tap.stop.prevent="to('/pages/search/discover?text=' + searchText)">分享</view>
+        <view class="span" @tap.stop.prevent="$router.replace('/searchQuestion?text=' + searchText)">问答</view>
+        <view class="span" @tap.stop.prevent="$router.replace('/group/search?text=' + searchText)">圈子</view>
+        <view class="span" @tap.stop.prevent="$router.replace('/dianping/search/products?text=' + searchText)">产品</view>
+        <view class="span " @tap.stop.prevent="$router.replace('/dianping/search/comments?text=' + searchText)">点评</view>
+        <view class="i bot" />
+      </view>
 
-            <view class="hotSearch" v-if="getCurrentMode === 'history'">
-                <view class="hotSearchText">
-                    <text class="iconfont icon-huo "></text>
-                    <view  class="span font-family-medium">热搜</view>
-                </view>
-                <view class="hotSearchList">
-                    <view class='span'  v-for="(item, index) in hotSearchHistory.top" :key="index" @tap.stop.prevent="selectConfirmSearchText(item)">{{item}}</view>
-                </view>
-                <view class="hotSearchText history">
-                    <view  class="span font-family-medium">历史</view>
-                </view>
-                <view class="hotSearchList">
-                    <view class='span'  v-for="(item, index) in hotSearchHistory.history" :key="index" @tap.stop.prevent="selectConfirmSearchText(item)">{{item}}</view>
-                </view>
-            </view>
+      <view v-if="getCurrentMode === 'history'" class="hotSearch">
+        <view class="hotSearchText">
+          <text class="iconfont icon-huo " />
+          <view class="span font-family-medium">热搜</view>
+        </view>
+        <view class="hotSearchList">
+          <view v-for="(item, index) in hotSearchHistory.top" :key="index" class="span" @tap.stop.prevent="selectConfirmSearchText(item)">{{ item }}</view>
+        </view>
+        <view class="hotSearchText history">
+          <view class="span font-family-medium">历史</view>
+        </view>
+        <view class="hotSearchList">
+          <view v-for="(item, index) in hotSearchHistory.history" :key="index" class="span" @tap.stop.prevent="selectConfirmSearchText(item)">{{ item }}</view>
+        </view>
+      </view>
 
-            <view class="searchList" v-if="getCurrentMode === 'match'">
-                <view class="listOne" @tap.stop.prevent="selectConfirmSearchText(searchText)">
-                    查看“{{searchText}}”的搜索结果
-          <view class="i bot"></view>
-                </view>
-            </view>
+      <view v-if="getCurrentMode === 'match'" class="searchList">
+        <view class="listOne" @tap.stop.prevent="selectConfirmSearchText(searchText)">
+          查看“{{ searchText }}”的搜索结果
+          <view class="i bot" />
+        </view>
+      </view>
 
-            <view class="searchList" v-if="getCurrentMode === 'match'">
-                <view v-for="(item, index) in searchAdviceList" :key="index" @tap.stop.prevent="selectConfirmSearchText(item)">
-                    {{item}}
-          <view class="i bot"></view>
-                </view>
-            </view>
+      <view v-if="getCurrentMode === 'match'" class="searchList">
+        <view v-for="(item, index) in searchAdviceList" :key="index" @tap.stop.prevent="selectConfirmSearchText(item)">
+          {{ item }}
+          <view class="i bot" />
+        </view>
+      </view>
 
-            <RefreshList
-                    v-if="getCurrentMode === 'result'"
-                    ref="refreshlist"
-                    :api="'search/all'"
-                    :requestData="dataList"
-                    class="listWrapper">
+      <RefreshList
+        v-if="getCurrentMode === 'result'"
+        ref="refreshlist"
+        v-model="list"
+        :api="'search/all'"
+        :request-data="dataList"
+      >
 
-                <view class="searchSubmission" v-if="list.submission.list.length">
-                    <view class="searchTitle">分享</view>
-                    <view class="" v-for="(submission, index) in list.submission.list" :key="index">
-                        <FeedItem
-                                :item="submission"
-                                @showPageMore="showItemMore"
-                        ></FeedItem>
-                    </view>
-                    <view class="checkAll" v-if="this.list.submission.total > 3"  @tap.stop.prevent="$router.replace('/searchSubmission?text=' + searchText)">
-                        <view  class="span font-family-medium">查看全部{{ this.list.submission.total }}个分享</view>
-                    </view>
-                </view>
-
-                <view class="searchQuestion" v-if="list.question.list.length">
-                    <view class="searchTitle">问答</view>
-                    <view class="">
-
-                        <template  v-for="(item, index) in list.question.list">
-                            <view class="container-list-question" @tap.stop.prevent="toDetail(item.id,item.question_type)">
-                                <view class="question text-line-3">
-                                    <label v-if="item.price>0" class="component-label" >{{item.status_description}}</label><view class='span'  v-html="textToLink(item.description)"></view>
-                                </view>
-                                <view v-if="item.question_type == 2" class="statistics">{{item.answer_number}}回答<view  class="span line-wall"></view>{{item.follow_number}}关注</view>
-                                <view v-if="item.question_type == 1" class="statistics">{{item.comment_number}}评论<view  class="span line-wall"></view>{{item.support_number}}点赞<view  v-if="item.average_rate" class="span line-wall"></view>{{item.average_rate?item.average_rate:''}}</view>
-                            </view>
-                            <view class="line-river-after line-river-after-top" v-if="index === 2 && index === list.question.list.length-1"></view>
-                            <view class="line-river-big" v-if="index !== 3 && index !== list.question.list.length-1"></view>
-                        </template>
-
-                    </view>
-                    <view class="checkAll" v-if="this.list.question.total > 3"  @tap.stop.prevent="$router.replace('/searchQuestion?text=' + searchText)">
-                        <view  class="span font-family-medium">查看全部{{ this.list.question.total }}个问答</view>
-                    </view>
-                </view>
-
-                <view class="searchGroup" v-if="list.group.list.length">
-                    <view class="searchTitle">圈子</view>
-                    <view class="" v-for="(submission, index) in list.group.list" :key="index">
-                        <view class="component-group" @tap.stop.prevent="$uni.navigateTo('/group/detail/' + submission.id)">
-                            <view class="groupLogo">
-                                <image mode="aspectFill" class='image' :src="submission.logo" width="44" height="44"></image>
-                            </view>
-                            <view class="groupContent">
-                                <view class="groupName">
-                                    <view class="font-family-medium groupOwnerWrapper">
-                                        <view  v-html="getHighlight(submission.name)" class="span text-line-1"></view><view  v-if="submission.is_joined === 3" class="span border-football">圈主</view>
-                                    </view>
-                                </view>
-                                <view  class="span groupDescribe text-line-1">{{submission.description}}</view>
-                                <view  class="span groupText">{{submission.subscribers}}人气</view>
-                                <view  class="span groupText">{{submission.articles}}分享</view>
-                                <view  v-if="!submission.public" class="span groupText">
-                  <text class="iconfont icon-simi "></text>
-                  私密
-                </view>
-                            </view>
-                            <view class="i bot"></view>
-                        </view>
-                    </view>
-                    <view class="checkAll" v-if="this.list.group.total > 3" @tap.stop.prevent="$router.replace('/group/search?text=' + searchText)">
-                        <view  class="span font-family-medium">查看全部{{ this.list.group.total }}个圈子</view>
-                    </view>
-                </view>
-
-                <view class="searchComment" v-if="list.review.list.length">
-                    <view class="searchTitle">点评</view>
-                    <view class="" v-for="(submission, index) in list.review.list" :key="index">
-                        <FeedItem
-                                :item="submission"
-                                :isShowLink="true"
-                                :key="'feedItem_' + submission.id"
-                                @showItemMore="showItemMore"
-                        ></FeedItem>
-                    </view>
-                    <view class="checkAll" v-if="this.list.review.total > 3" @tap.stop.prevent="$router.replace('/dianping/search/comments?text=' + searchText)">
-                        <view  class="span font-family-medium">查看全部{{ this.list.review.total }}个点评</view>
-                    </view>
-                </view>
-
-                <view class="searchProduct" v-if="list.product.list.length">
-                    <view class="searchTitle">产品</view>
-                    <view class="" >
-                        <view class="productList">
-                            <view class="comment-product" v-for="(tag, index) in list.product.list" :key="index">
-                                <view class="product-info" @tap.stop.prevent="$uni.navigateTo('/dianping/product/' + encodeURIComponent(tag.name))">
-                                    <view class="product-img border-football">
-                                        <image mode="aspectFill" v-lazy="tag.logo" alt="" class="image lazyImg"/>
-                                    </view>
-                                    <view class="product-detail">
-                                        <view class="productName font-family-medium text-line-1" v-html="getHighlight(tag.name)"></view>
-                                        <view class="productMark">
-                                            <view class="stars">
-                                                <StarView :rating="tag.review_average_rate"></StarView>
-                                            </view>
-                                            <view class="starsText">
-                                                <view class='span' >{{ tag.review_average_rate }}分</view>
-                                                <view></view><view class='span' >{{ tag.review_count }}条评论</view>
-                                            </view>
-                                        </view>
-                                    </view>
-                                </view>
-                                <view class="line-river-after line-river-after-top"></view>
-                            </view>
-                        </view>
-                    </view>
-                    <view class="checkAll" v-if="this.list.product.total > 3" @tap.stop.prevent="$router.replace('/dianping/search/products?text=' + searchText)">
-                        <view  class="span font-family-medium">查看全部{{ this.list.product.total }}个产品</view>
-                    </view>
-                </view>
-
-                <view class="river"></view>
-                <view class="noTime">
-                    <view class='span' >暂无更多</view>
-                </view>
-
-            </RefreshList>
-
+        <view v-if="list.submission.list.length" class="searchSubmission">
+          <view class="searchTitle">分享</view>
+          <view v-for="(submission, index) in list.submission.list" :key="index" class="">
+            <FeedItem
+              :item="submission"
+              @showPageMore="showItemMore"
+            />
+          </view>
+          <view v-if="list.submission.total > 3" class="checkAll" @tap.stop.prevent="$router.replace('/searchSubmission?text=' + searchText)">
+            <view class="span font-family-medium">查看全部{{ list.submission.total }}个分享</view>
+          </view>
         </view>
 
-        <PageMore
-                ref="share"
-                :shareOption="shareOption"
-                :hideShareBtn="true"
-                :iconMenu="iconMenus"
-                @success="shareSuccess"
-                @fail="shareFail"
-                @clickedItem="iconMenusClickedItem"
-        ></PageMore>
+        <view v-if="list.question.list.length" class="searchQuestion">
+          <view class="searchTitle">问答</view>
+          <view class="">
+
+            <template v-for="(item, index) in list.question.list">
+              <view class="container-list-question" @tap.stop.prevent="toDetail(item.id,item.question_type)">
+                <view class="question text-line-3">
+                  <label v-if="item.price>0" class="component-label">{{ item.status_description }}</label><view class="span" v-html="textToLink(item.description)" />
+                </view>
+                <view v-if="item.question_type == 2" class="statistics">{{ item.answer_number }}回答<view class="span line-wall" />{{ item.follow_number }}关注</view>
+                <view v-if="item.question_type == 1" class="statistics">{{ item.comment_number }}评论<view class="span line-wall" />{{ item.support_number }}点赞<view v-if="item.average_rate" class="span line-wall" />{{ item.average_rate?item.average_rate:'' }}</view>
+              </view>
+              <view v-if="index === 2 && index === list.question.list.length-1" class="line-river-after line-river-after-top" />
+              <view v-if="index !== 3 && index !== list.question.list.length-1" class="line-river-big" />
+            </template>
+
+          </view>
+          <view v-if="list.question.total > 3" class="checkAll" @tap.stop.prevent="$router.replace('/searchQuestion?text=' + searchText)">
+            <view class="span font-family-medium">查看全部{{ list.question.total }}个问答</view>
+          </view>
+        </view>
+
+        <view v-if="list.group.list.length" class="searchGroup">
+          <view class="searchTitle">圈子</view>
+          <view v-for="(submission, index) in list.group.list" :key="index" class="">
+            <view class="component-group" @tap.stop.prevent="$uni.navigateTo('/group/detail/' + submission.id)">
+              <view class="groupLogo">
+                <image mode="aspectFill" class="image" :src="submission.logo" width="44" height="44" />
+              </view>
+              <view class="groupContent">
+                <view class="groupName">
+                  <view class="font-family-medium groupOwnerWrapper">
+                    <view class="span text-line-1" v-html="getHighlight(submission.name)" /><view v-if="submission.is_joined === 3" class="span border-football">圈主</view>
+                  </view>
+                </view>
+                <view class="span groupDescribe text-line-1">{{ submission.description }}</view>
+                <view class="span groupText">{{ submission.subscribers }}人气</view>
+                <view class="span groupText">{{ submission.articles }}分享</view>
+                <view v-if="!submission.public" class="span groupText">
+                  <text class="iconfont icon-simi " />
+                  私密
+                </view>
+              </view>
+              <view class="i bot" />
+            </view>
+          </view>
+          <view v-if="list.group.total > 3" class="checkAll" @tap.stop.prevent="$router.replace('/group/search?text=' + searchText)">
+            <view class="span font-family-medium">查看全部{{ list.group.total }}个圈子</view>
+          </view>
+        </view>
+
+        <view v-if="list.review.list.length" class="searchComment">
+          <view class="searchTitle">点评</view>
+          <view v-for="(submission, index) in list.review.list" :key="index" class="">
+            <FeedItem
+              :key="'feedItem_' + submission.id"
+              :item="submission"
+              :is-show-link="true"
+              @showItemMore="showItemMore"
+            />
+          </view>
+          <view v-if="list.review.total > 3" class="checkAll" @tap.stop.prevent="$router.replace('/dianping/search/comments?text=' + searchText)">
+            <view class="span font-family-medium">查看全部{{ list.review.total }}个点评</view>
+          </view>
+        </view>
+
+        <view v-if="list.product.list.length" class="searchProduct">
+          <view class="searchTitle">产品</view>
+          <view class="">
+            <view class="productList">
+              <view v-for="(tag, index) in list.product.list" :key="index" class="comment-product">
+                <view class="product-info" @tap.stop.prevent="$uni.navigateTo('/dianping/product/' + encodeURIComponent(tag.name))">
+                  <view class="product-img border-football">
+                    <image :src="tag.logo" mode="aspectFill" alt="" class="image lazyImg" />
+                  </view>
+                  <view class="product-detail">
+                    <view class="productName font-family-medium text-line-1" v-html="getHighlight(tag.name)" />
+                    <view class="productMark">
+                      <view class="stars">
+                        <StarView :rating="tag.review_average_rate" />
+                      </view>
+                      <view class="starsText">
+                        <view class="span">{{ tag.review_average_rate }}分</view>
+                        <view /><view class="span">{{ tag.review_count }}条评论</view>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+                <view class="line-river-after line-river-after-top" />
+              </view>
+            </view>
+          </view>
+          <view v-if="list.product.total > 3" class="checkAll" @tap.stop.prevent="$router.replace('/dianping/search/products?text=' + searchText)">
+            <view class="span font-family-medium">查看全部{{ list.product.total }}个产品</view>
+          </view>
+        </view>
+
+        <view class="river" />
+        <view class="noTime">
+          <view class="span">暂无更多</view>
+        </view>
+
+      </RefreshList>
 
     </view>
+
+    <PageMore
+      ref="share"
+      :share-option="shareOption"
+      :hide-share-btn="true"
+      :icon-menu="iconMenus"
+      @success="shareSuccess"
+      @fail="shareFail"
+      @clickedItem="iconMenusClickedItem"
+    />
+
+  </view>
 </template>
 
 <script type="text/javascript">
-  import { searchText as searchTextFilter } from '@/lib/search'
-  import { postRequest } from '@/lib/request'
-  import RefreshList from '@/components/iw-list/iw-list'
-  import { autoBlur, textToLinkHtml } from '@/lib/dom'
-  import FeedItem from '@/components/iw-feed-item/iw-feed-item.vue'
-  import StarView from '@/components/iw-star/iw-star'
-  // import { getQuestionStateClass } from '@/lib/ask'
-  import PageMore from '@/components/iw-page-more/iw-page-more'
-  import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
+import { searchText as searchTextFilter } from '@/lib/search'
+import { postRequest } from '@/lib/request'
+import RefreshList from '@/components/iw-detail-refresh/iw-detail-refresh'
+import { autoBlur, textToLinkHtml } from '@/lib/dom'
+import FeedItem from '@/components/iw-feed-item/iw-feed-item.vue'
+import StarView from '@/components/iw-star/iw-star'
+// import { getQuestionStateClass } from '@/lib/ask'
+import PageMore from '@/components/iw-page-more/iw-page-more'
+import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
 
-  export default {
-    data () {
-      return {
-        pageOption: {},
-        searchText: '',
-        confirmSearchText: '',
-        isShowCancelButton: false,
-        shareOption: {},
-        iconMenus: [],
-        list: {
-          submission: {
-            list: []
-          },
-          question: {
-            list: []
-          },
-          group: {
-            list: []
-          },
-          review: {
-            list: []
-          },
-          product: {
-            list: []
-          }
+export default {
+  components: {
+    RefreshList,
+    FeedItem,
+    StarView,
+    PageMore
+  },
+  data() {
+    return {
+      pageOption: {},
+      searchText: '',
+      confirmSearchText: '',
+      isShowCancelButton: false,
+      shareOption: {},
+      iconMenus: [],
+      list: {
+        submission: {
+          list: []
         },
-        searchAdviceList: [],
-        resultLoading: 1,
-        hotSearchHistory: {
-          history: [],
-          top: []
-        }
-      }
-    },
-    computed: {
-      dataList () {
-        return {search_word: this.confirmSearchText}
-      },
-      getCurrentMode () {
-        if (this.searchText === '') {
-          return 'history'
-        }
-
-        if (this.searchText !== this.confirmSearchText) {
-          return 'match'
-        }
-
-        setTimeout(() => {
-          autoBlur()
-        }, 100)
-
-        return 'result'
-      }
-    },
-    components: {
-      RefreshList,
-      FeedItem,
-      StarView,
-      PageMore
-    },
-    created () {
-      this.refreshPageData()
-    },
-    activated () {
-      this.refreshPageData()
-    },
-    watch: {
-      searchText: function (newValue, oldValue) {
-        searchTextFilter(newValue, (text) => {
-          if (newValue) {
-            this.isShowCancelButton = true
-            this.searchAdvice(newValue)
-
-            if (newValue !== this.confirmSearchText) {
-              this.initList()
-            }
-          }
-        })
-      }
-    },
-    mounted () {
-    },
-    onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-        this.pageOption = option
-    },
-    methods: {
-      iconMenusClickedItem (item) {
-        iconMenusClickedItem(this, this.itemOptionsObj, item, () => {
-          this.iconMenus = getIconMenus(this.itemOptionsObj)
-        })
-      },
-      shareFail () {
-
-      },
-      shareSuccess () {
-
-      },
-      showItemMore (shareOption, item) {
-        this.iconMenus = getIconMenus(item)
-        this.itemOptionsObj = item
-        this.shareOption = shareOption
-        this.$refs.share.share()
-      },
-      toDetail (id, type) {
-        uni.navigateTo('/ask/offer/answers/' + id, 'list-detail-page', true, 'pop-in', 'hide', true)
-      },
-      initList () {
-        this.list = {
-          submission: {
-            list: []
-          },
-          question: {
-            list: []
-          },
-          group: {
-            list: []
-          },
-          review: {
-            list: []
-          },
-          product: {
-            list: []
-          }
+        question: {
+          list: []
+        },
+        group: {
+          list: []
+        },
+        review: {
+          list: []
+        },
+        product: {
+          list: []
         }
       },
-      enterKeyCode: function (ev) {
-        if (ev.keyCode === 13) {
-          this.selectConfirmSearchText(this.searchText)
-        }
-      },
-      getStateClass (state) {
-        return getQuestionStateClass(state)
-      },
-      textToLink (text) {
-        return textToLinkHtml(' ' + text)
-      },
-      prevSuccessCallback: function () {
-        this.resultLoading = 0
-        this.list = this.$refs.refreshlist.getResponse().data
-      },
-      refreshPageData: function () {
-        var text = this.pageOption.text
-        if (text) {
-          this.searchText = text
-          this.selectConfirmSearchText(text)
-          setTimeout(() => {
-            this.$refs.refreshlist.refreshPageData(this.dataList)
-          }, 200)
-        }
-        this.hotSearch()
-      },
-      focus: function () {
-        this.confirmSearchText = ''
-        // this.list = []
-        if (this.searchText) {
-          this.searchAdvice(this.searchText)
-        }
-      },
-      selectConfirmSearchText (text) {
-        this.searchText = text
-        if (text) {
-          this.resultLoading = 1
-          this.confirmSearchText = text
-        }
-        this.searchAdviceList = []
-      },
-      hotSearch () {
-        postRequest(`search/topInfo`, {}).then(response => {
-          var code = response.code
-          if (code !== 1000) {
-            ui.alert(response.message)
-            return
-          }
-          this.hotSearchHistory = response.data
-        })
-      },
-      searchAdvice (searchText) {
-        postRequest(`search/suggest`, {
-          search_word: searchText
-        }).then(response => {
-          var code = response.code
-          if (code !== 1000) {
-            ui.alert(response.message)
-            return
-          }
-          this.searchAdviceList = response.data.suggest
-        })
-      },
-      toResume (uuid) {
-        if (!uuid) {
-          return false
-        }
-        uni.navigateTo('/share/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime()))
-      },
-      back () {
-        this.empty()
-        uni.navigateBack()
-        return
-      },
-      // 文字高亮
-      getHighlight (content) {
-        var reg = new RegExp('(' + this.searchText + ')', 'gi')  // 正则验证匹配
-        var newstr = content.replace(reg, '<view class=\'span\'  style="color: #03aef9">$1</view>')  // 动态添加颜色
-        return newstr
-      },
-      // 时间处理；
-      timeago (time) {
-        let newDate = new Date()
-        newDate.setTime(Date.parse(time.replace(/-/g, '/')))
-        return newDate
-      },
-      //  点击清空输入框
-      empty () {
-        this.searchText = ''
+      searchAdviceList: [],
+      resultLoading: 1,
+      hotSearchHistory: {
+        history: [],
+        top: []
       }
     }
+  },
+  computed: {
+    dataList() {
+      return { search_word: this.confirmSearchText }
+    },
+    getCurrentMode() {
+      if (this.searchText === '') {
+        return 'history'
+      }
+
+      if (this.searchText !== this.confirmSearchText) {
+        return 'match'
+      }
+
+      setTimeout(() => {
+        autoBlur()
+      }, 100)
+
+      return 'result'
+    }
+  },
+  watch: {
+    searchText: function(newValue, oldValue) {
+      searchTextFilter(newValue, (text) => {
+        if (newValue) {
+          this.isShowCancelButton = true
+          this.searchAdvice(newValue)
+
+          if (newValue !== this.confirmSearchText) {
+            this.initList()
+          }
+        }
+      })
+    }
+  },
+  created() {
+    this.refreshPageData()
+  },
+  activated() {
+    this.refreshPageData()
+  },
+  mounted() {
+  },
+  onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
+    this.pageOption = option
+  },
+  methods: {
+    to (url) {
+      uni.navigateTo({url : $url})
+    },
+    iconMenusClickedItem(item) {
+      iconMenusClickedItem(this, this.itemOptionsObj, item, () => {
+        this.iconMenus = getIconMenus(this.itemOptionsObj)
+      })
+    },
+    shareFail() {
+
+    },
+    shareSuccess() {
+
+    },
+    showItemMore(shareOption, item) {
+      this.iconMenus = getIconMenus(item)
+      this.itemOptionsObj = item
+      this.shareOption = shareOption
+      this.$refs.share.share()
+    },
+    toDetail(id, type) {
+      uni.navigateTo('/ask/offer/answers/' + id, 'list-detail-page', true, 'pop-in', 'hide', true)
+    },
+    initList() {
+      this.list = {
+        submission: {
+          list: []
+        },
+        question: {
+          list: []
+        },
+        group: {
+          list: []
+        },
+        review: {
+          list: []
+        },
+        product: {
+          list: []
+        }
+      }
+    },
+    enterKeyCode: function(ev) {
+      if (ev.keyCode === 13) {
+        this.selectConfirmSearchText(this.searchText)
+      }
+    },
+    getStateClass(state) {
+      return getQuestionStateClass(state)
+    },
+    textToLink(text) {
+      return textToLinkHtml(' ' + text)
+    },
+    prevSuccessCallback: function() {
+      this.resultLoading = 0
+      this.list = this.$refs.refreshlist.getResponse().data
+    },
+    refreshPageData: function() {
+      var text = this.pageOption.text
+      if (text) {
+        this.searchText = text
+        this.selectConfirmSearchText(text)
+        setTimeout(() => {
+          this.$refs.refreshlist.refreshPageData(this.dataList)
+        }, 200)
+      }
+      this.hotSearch()
+    },
+    focus: function() {
+      this.confirmSearchText = ''
+      // this.list = []
+      if (this.searchText) {
+        this.searchAdvice(this.searchText)
+      }
+    },
+    selectConfirmSearchText(text) {
+      this.searchText = text
+      if (text) {
+        this.resultLoading = 1
+        this.confirmSearchText = text
+      }
+      this.searchAdviceList = []
+    },
+    hotSearch() {
+      postRequest(`search/topInfo`, {}).then(response => {
+        var code = response.code
+        if (code !== 1000) {
+          ui.alert(response.message)
+          return
+        }
+        this.hotSearchHistory = response.data
+      })
+    },
+    searchAdvice(searchText) {
+      postRequest(`search/suggest`, {
+        search_word: searchText
+      }).then(response => {
+        var code = response.code
+        if (code !== 1000) {
+          ui.alert(response.message)
+          return
+        }
+        this.searchAdviceList = response.data.suggest
+      })
+    },
+    toResume(uuid) {
+      if (!uuid) {
+        return false
+      }
+      uni.navigateTo('/share/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime()))
+    },
+    back() {
+      this.empty()
+      uni.navigateBack()
+      return
+    },
+    // 文字高亮
+    getHighlight(content) {
+      var reg = new RegExp('(' + this.searchText + ')', 'gi') // 正则验证匹配
+      var newstr = content.replace(reg, '<view class=\'span\'  style="color: #03aef9">$1</view>') // 动态添加颜色
+      return newstr
+    },
+    // 时间处理；
+    timeago(time) {
+      const newDate = new Date()
+      newDate.setTime(Date.parse(time.replace(/-/g, '/')))
+      return newDate
+    },
+    //  点击清空输入框
+    empty() {
+      this.searchText = ''
+    }
   }
+}
 </script>
 
 <style scoped lang="less">
@@ -508,6 +512,7 @@
             display: flex;
             flex-direction: row;
             position: relative;
+            z-index:7;
             margin-top: -7.96upx;
             .span {
                 display: flex;

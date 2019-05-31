@@ -42,12 +42,12 @@
 
             <view v-for="(item, index) in tabItem.newsList" :key="index" class="news-item" @click="navToDetails(item)">
               <view class="container-wrapper">
-                <view class="dateWrapper" v-if="isShowDate(item, index, tabItem.newsList)">
+                <view v-if="isShowDate(item, index, tabItem.newsList)" class="dateWrapper" @tap.stop.prevent="toReport(item)">
                   <view class="LeftDate">
                     <text class="iconfont icon-rili" />
                     <text class="text">{{ timeToHumanText(item.created_at) }}</text>
                   </view>
-                  <view v-if="tabCurrentIndex === 0" class="rightDaily" @tap.stop.prevent="toReport(item.created_at.split(' ')[0])">
+                  <view v-if="tabCurrentIndex === 0" class="rightDaily">
                     <text class="iconfont icon-fenxiang1" />
                     <text>日报</text>
                   </view>
@@ -98,23 +98,23 @@
     </mix-pulldown-refresh>
 
     <BottomActions
-            ref="BottomActions"
-            v-model="activeItem"
-            :regions="regions"
-            @clickDelete="clickDelete"
-            @startAnimation="startAnimationEvent"
-            @showItemMore="showItemMore"
+      ref="BottomActions"
+      v-model="activeItem"
+      :regions="regions"
+      @clickDelete="clickDelete"
+      @startAnimation="startAnimationEvent"
+      @showItemMore="showItemMore"
     />
 
     <PageMore
-            ref="share"
-            :shareOption="shareOption"
-            :hideShareBtn="true"
-            :iconMenu="shareIconMenus"
-            @success="shareSuccess"
-            @fail="shareFail"
-            @clickedItem="iconMenusClickedItem"
-    ></PageMore>
+      ref="share"
+      :share-option="shareOption"
+      :hide-share-btn="true"
+      :icon-menu="shareIconMenus"
+      @success="shareSuccess"
+      @fail="shareFail"
+      @clickedItem="iconMenusClickedItem"
+    />
 
   </view>
 </template>
@@ -127,17 +127,17 @@ import { timeToHumanText, getTimestampByDateStr } from '@/lib/time'
 import { urlencode } from '@/lib/string'
 import tabsListMixin from '@/lib/tabsListMixin.js'
 import BottomActions from '@/components/iw-article-bottomaction/iw-article-bottomaction'
-import PageMore from "@/components/iw-page-more/iw-page-more"
+import PageMore from '@/components/iw-page-more/iw-page-more'
 import { getHomeDetail } from '@/lib/shareTemplate'
 
 export default {
-  mixins: [tabsListMixin],
   components: {
     mixPulldownRefresh,
     mixLoadMore,
     BottomActions,
     PageMore
   },
+  mixins: [tabsListMixin],
   data() {
     return {
       activeItem: {},
@@ -177,7 +177,7 @@ export default {
   onReady() {
   },
   methods: {
-    showItemMore (item) {
+    showItemMore(item) {
       item.feed_type = 16
       item.user = {
         id: 0
@@ -197,31 +197,30 @@ export default {
       this.shareOption.targetType = 'submission'
       this.$refs.share.share()
     },
-    addHeat (item, itemIndex, listIndex) {
+    addHeat(item, itemIndex, listIndex) {
       this.activeItem = item
       this.activeItemIndex = itemIndex
       this.activeListIndex = listIndex
       this.$refs.BottomActions.show()
     },
-    startAnimationEvent (num) {
+    startAnimationEvent(num) {
 
     },
-    isShowDate (item, index, list) {
-      let itemTime = item.created_at.split(' ')[0]
-      let currentData = timeToHumanText(getTimestampByDateStr(itemTime))
+    isShowDate(item, index, list) {
+      const itemTime = item.created_at.split(' ')[0]
+      const currentData = timeToHumanText(getTimestampByDateStr(itemTime))
 
-
-      let prevItem = list[index - 1]
+      const prevItem = list[index - 1]
       if (!prevItem) return true
 
-      let prevData = timeToHumanText(getTimestampByDateStr(prevItem.created_at.split(' ')[0]))
+      const prevData = timeToHumanText(getTimestampByDateStr(prevItem.created_at.split(' ')[0]))
       return currentData !== prevData
     },
     toSearch() {
       uni.navigateTo({ url: '/pages/search/index' })
     },
-    toReport(time) {
-      uni.navigateTo({ url: '/pages/report/daily?date=' + time })
+    toReport(item) {
+      uni.navigateTo({ url: '/pages/report/daily?date=' + item.created_at.split(' ')[0] })
     },
     toRoute(url) {
       uni.navigateTo({ url: url })
@@ -232,12 +231,12 @@ export default {
     timeToHumanText(time) {
       return timeToHumanText(getTimestampByDateStr(time))
     },
-    loadTabs (successCallback) {
+    loadTabs(successCallback) {
       getHomeData((data) => {
         successCallback(data.regions)
       })
     },
-    loadListData (tabItem, successCallback) {
+    loadListData(tabItem, successCallback) {
       getListData(tabItem.page + 1, tabItem.value, (res) => {
         successCallback(res)
       })

@@ -10,7 +10,7 @@
 		</view>
 
 		<view class="mui-content">
-			<view class="my-top" @tap.stop.prevent="$router.pushPlus('/my/resume')">
+			<view class="my-top" @tap.stop.prevent="toRoute('/pages/my/resume')">
 				<view class="account_info">
 					<text class="iconfont icon-jinru"></text>
 				</view>
@@ -49,10 +49,6 @@
 					<text class="font-family-medium">{{collections}}</text>
 					<text class="listText">收藏</text>
 				</view>
-				<!-- <view class="liList" @tap.stop.prevent="toRoute('/pages/group/my')">
-					<text class="font-family-medium">{{groups}}</text>
-					<text class="listText">圈子</text>
-				</view> -->
 			</view>
 			<view class="gray"></view>
 
@@ -76,14 +72,29 @@
 </template>
 
 <script>
+	import localEvent from '@/lib/localstorage'
+	const currentUser = localEvent.get('UserInfo')
+  
 	export default {
+		data () {
+			return {
+				name: currentUser.name,
+				avatar: currentUser.avatar_url,
+				user_level: '',
+				collections: '',
+				attention: '',
+				publishes: '',
+				popularity: '',
+				followed_number: '',
+				expert_apply_status: ''
+			}
+		},
 		onLoad() {
-
 		},
 		methods: {
-		  toRoute (url) {
-			uni.navigateTo({url: url})
-		  }
+			toRoute (url) {
+				uni.navigateTo({url: url})
+			}
 		}
 	}
 </script>

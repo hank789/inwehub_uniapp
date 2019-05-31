@@ -1,7 +1,7 @@
 <template>
 	<view>
 		  <view @tap.stop.prevent="login" v-show="isShowBtn">{{ content }}</view>
-			<wechat-bind-dialog ref="wechatBindDialog" :showPopup="showPopup" :title="dialogTitle" :phone="dialogPhone" :avatar="dialogAvatar" :name="dialogName" :codeType="dialogCodeType" :isVip="dialogVip" :buttonText="dialogButtonText" @clickButton="clickDialogButton"></phone-bind-dialog>
+			<wechat-bind-dialog ref="wechatBindDialog" :showPopup="showPopup" :title="dialogTitle" :phone="dialogPhone" :avatar="dialogAvatar" :name="dialogName" :codeType="dialogCodeType" :isVip="dialogVip" :buttonText="dialogButtonText" @clickButton="clickDialogButton"></wechat-bind-dialog>
 	</view>
 </template>
 
