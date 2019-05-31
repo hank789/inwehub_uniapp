@@ -58,8 +58,7 @@
 
       <view class="protocol">注册即同意<text class="span" @tap.stop.prevent="navToProtocol">《用户注册服务协议》</text></view>
 		</view>
-		<oauth ref="oauth" :isShowBtn="false" @success="wechatLoginSuccess" @fail="wechatLoginFail"
-             style="display:none"></oauth>
+		<oauth ref="oauth" serviceId="weixin" :isShowBtn="false" @success="wechatLoginSuccess" @fail="wechatLoginFail"></oauth>
   </view>
 </template>
 
@@ -171,17 +170,18 @@ export default {
 		wechatLoginSuccess (token, openid, nickname = '', isNewUser = '') {
 			console.log(token)
 			console.log(openid)
-			uni.hideLoading()
 			if (token) {
 				this.$ls.set('token', token)
+				allPlatform.saveLocationInfo()
 				this.$request.get('profile/info').then(response => {
 					this.$ls.set('UserInfo', response.data)
-					allPlatform.saveLocationInfo()
+					uni.hideLoading()
 					uni.switchTab({
 						url: '/pages/index/index'
 					})
 				})
 			} else {
+				uni.hideLoading()
 				uni.showToast({
 					title: '登陆失败',
 					icon: 'none'
@@ -199,7 +199,7 @@ export default {
 			uni.showLoading({
 					title: ''
 			})
-			this.$refs.oauth.login('weixin')
+			this.$refs.oauth.login()
 		},
 		navToProtocol () {
 			uni.navigateTo({
