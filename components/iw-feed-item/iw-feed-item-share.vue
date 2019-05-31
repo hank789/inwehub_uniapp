@@ -24,7 +24,7 @@
       <!--链接-->
       <view v-if="item.feed.submission_type === 'link'" class="container-feed-link-box" @tap.stop.prevent="goArticle()">
         <view class="feed-link-box">
-          <view class="linkImg"><image class="image" mode="aspectFill" :src="item.feed.img" :is-lazyload="true" width="44" height="44" /></view>
+          <view class="linkImg"><image class="image" mode="aspectFill" :src="item.feed.img" width="44" height="44" /></view>
           <view class="linkText">
             <view class="span firstSpan font-family-medium text-line-2">{{ item.feed.article_title }}</view>
             <view class="span twoSpan">{{ item.feed.domain }}</view>
@@ -102,7 +102,8 @@ export default {
   },
   data() {
     return {
-      showUpvo: false
+      showUpvo: false,
+      shareOption: {}
     }
   },
   computed: {
@@ -169,7 +170,7 @@ export default {
 
     },
     showItemMore() {
-      this.$emit('showPageMore')
+      this.$emit('showPageMore', this.shareOption)
     }
   }
 }

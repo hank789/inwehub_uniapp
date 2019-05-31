@@ -1,16 +1,16 @@
 {
   "pages": [
-		// #ifdef APP-PLUS
-		{
-			"path" : "pages/guide/guide",
-			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"titleNView": false
-				}
-			}
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/guide/guide",
+      "style": {
+        "navigationBarTitleText": "",
+        "app-plus": {
+          "titleNView": false
+        }
+      }
     },
-		// #endif
+    // #endif
     {
       "path": "pages/index/index",
       "style": {
@@ -153,18 +153,19 @@
     },
     {
       "path": "pages/my/resume",
-      "style" : {
-			"navigationBarTitleText" : "",
-			"navigationBarBackgroundColor":"#f1f1f1",
-			"onReachBottomDistance":50,
-			"h5":{
-				"titleNView":false
-			},
-			"app-plus": {
-				"titleNView": false ,//禁用原生导航栏
-				"bounce":"none"
-			}
-		}
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationBarBackgroundColor": "#f1f1f1",
+        "onReachBottomDistance": 50,
+        "h5": {
+          "titleNView": false
+        },
+        "app-plus": {
+          "titleNView": false,
+          //禁用原生导航栏
+          "bounce": "none"
+        }
+      }
     },
     {
       "path": "pages/my/contactUs",
@@ -260,15 +261,15 @@
     {
       "path": "pages/login/login",
       "style": {
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": false,
-					"animationType": "slide-in-bottom"
-				},
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "animationType": "slide-in-bottom"
+        },
         "navigationBarTitleText": "登录"
       }
     },
-		{
+    {
       "path": "pages/wechat/register",
       "style": {
         "navigationBarTitleText": "登录验证"
@@ -342,16 +343,22 @@
       }
     },
     {
+      "path": "pages/search/discover",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    {
       "path": "pages/chat/chat",
       "style": {}
+    },
+    {
+      "path": "pages/protocol/register",
+      "style": {
+        "navigationBarTitleText": "注册协议"
+      }
     }
-		,{
-				"path" : "pages/protocol/register",
-				"style" : {
-					"navigationBarTitleText": "注册协议"
-				}
-		}
-    ],
+  ],
   "tabBar": {
     "color": "#B4B4B6",
     "selectedColor": "#444",

@@ -13,8 +13,6 @@
       <view v-if="getCurrentMode === 'result' && searchText !== ''" class="menu">
         <view class="span font-family-medium">综合<view /></view>
         <view class="span" @tap.stop.prevent="to('/pages/search/discover?text=' + searchText)">分享</view>
-        <view class="span" @tap.stop.prevent="$router.replace('/searchQuestion?text=' + searchText)">问答</view>
-        <view class="span" @tap.stop.prevent="$router.replace('/group/search?text=' + searchText)">圈子</view>
         <view class="span" @tap.stop.prevent="$router.replace('/dianping/search/products?text=' + searchText)">产品</view>
         <view class="span " @tap.stop.prevent="$router.replace('/dianping/search/comments?text=' + searchText)">点评</view>
         <view class="i bot" />
@@ -288,7 +286,7 @@ export default {
   },
   methods: {
     to (url) {
-      uni.navigateTo({url : $url})
+      uni.navigateTo({url : url})
     },
     iconMenusClickedItem(item) {
       iconMenusClickedItem(this, this.itemOptionsObj, item, () => {
