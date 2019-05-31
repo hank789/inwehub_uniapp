@@ -11,7 +11,7 @@
       </view>
       <!--导航栏-->
       <view v-if="getCurrentMode === 'result' && searchText !== ''" class="menu">
-        <view class="span font-family-medium">综合<view /></view>
+        <view class="span font-family-medium">综合<view class="i" /></view>
         <view class="span" @tap.stop.prevent="to('/pages/search/discover?text=' + searchText)">分享</view>
         <view class="span" @tap.stop.prevent="$router.replace('/dianping/search/products?text=' + searchText)">产品</view>
         <view class="span " @tap.stop.prevent="$router.replace('/dianping/search/comments?text=' + searchText)">点评</view>
@@ -347,9 +347,6 @@ export default {
       if (text) {
         this.searchText = text
         this.selectConfirmSearchText(text)
-        setTimeout(() => {
-          this.$refs.refreshlist.refreshPageData(this.dataList)
-        }, 200)
       }
       this.hotSearch()
     },

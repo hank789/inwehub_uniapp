@@ -40,6 +40,14 @@
           >
             <view class="download-tip" :style="{top: downloadTipTop}">{{ downloadTipalertMsg }}</view>
 
+            <view v-if="tabCurrentIndex === 1" class="everyDayWrapper" @tap.stop.prevent="sharHotspot">
+              <view class="everyDay">
+                <text class="iconfont icon-dingyue-" />
+                <view class="textImg">
+                  <image mode="aspectFill" class="image" src="../../static/images/everyDay@3x.png" alt="" /></view>
+              </view>
+            </view>
+
             <view v-for="(item, index) in tabItem.newsList" :key="index" class="news-item" @click="navToDetails(item)">
               <view class="container-wrapper">
                 <view v-if="isShowDate(item, index, tabItem.newsList)" class="dateWrapper" @tap.stop.prevent="toReport(item)">
@@ -47,7 +55,7 @@
                     <text class="iconfont icon-rili" />
                     <text class="text">{{ timeToHumanText(item.created_at) }}</text>
                   </view>
-                  <view v-if="tabCurrentIndex === 0" class="rightDaily">
+                  <view v-if="tabCurrentIndex === 1" class="rightDaily">
                     <text class="iconfont icon-fenxiang1" />
                     <text>日报</text>
                   </view>
@@ -58,7 +66,7 @@
                     <text class="splitLine" />
                   </view>
                   <view v-if="tabCurrentIndex !== 0" class="pointLine">
-                    <text class="number">1.</text>
+                    <text class="number">{{ getLiIndex(index, tabIndex) }}.</text>
                   </view>
                   <view class="content">
                     <view class="top-time">
@@ -146,6 +154,7 @@ export default {
       regions: [],
       shareOption: {},
       itemOptionsObj: {},
+      liIndexConfig: [],
       shareIconMenus: [
         {
           icon: '#icon-shoucangdilantongyi',
@@ -177,6 +186,35 @@ export default {
   onReady() {
   },
   methods: {
+    sharHotspot () {
+      // this.$refs.HotBottomActions.show()
+    },
+    getLiIndex(itemIndex, listDataIndex) {
+      if (!this.liIndexConfig[listDataIndex]) {
+        this.liIndexConfig[listDataIndex] = 1
+      } else {
+        this.liIndexConfig[listDataIndex]++
+      }
+
+      if (!this.isShowSplitLine(itemIndex - 1, listDataIndex)) {
+        this.liIndexConfig[listDataIndex] = 1
+      }
+
+      return this.liIndexConfig[listDataIndex]
+    },
+    isShowSplitLine(itemIndex, listDataIndex) {
+      if (itemIndex >= this.tabBars[listDataIndex].newsList.length - 1) {
+        return false
+      }
+
+      var nextItemIndex = itemIndex + 1
+      var isNextDate = this.isShowDate(this.tabBars[listDataIndex].newsList[nextItemIndex], nextItemIndex, this.tabBars[listDataIndex].newsList)
+      if (isNextDate) {
+        return false
+      }
+
+      return true
+    },
     showItemMore(item) {
       item.feed_type = 16
       item.user = {
@@ -233,6 +271,7 @@ export default {
     },
     loadTabs(successCallback) {
       getHomeData((data) => {
+        data.regions.unshift({ value: '', text: '全部' })
         successCallback(data.regions)
       })
     },
@@ -269,24 +308,24 @@ export default {
   .nav-bar{
     position: relative;
     z-index: 10;
-    height: 90upx;
+    height: 68upx;
     white-space: nowrap;
     box-shadow: 0 2upx 8upx rgba(0,0,0,.06);
     background-color: #fff;
     .nav-item{
       display: inline-block;
-      width: 150upx;
-      height: 90upx;
+      width: 94upx;
+      height: 68upx;
       text-align: center;
-      line-height: 90upx;
+      line-height: 68upx;
       font-size: 30upx;
-      color: #303133;
+      color: #808080;
       position: relative;
       &:after{
         content: '';
-        width: 0;
-        height: 0;
-        border-bottom: 4upx solid #007aff;
+        width: 31.96upx;
+        height: 7.96upx;
+        border-radius: 49.96upx;
         position: absolute;
         left: 50%;
         bottom: 0;
@@ -295,9 +334,11 @@ export default {
       }
     }
     .current{
-      color: #007aff;
+      color: #444;
+      font-family: PingFangSC-Medium;
+      font-size:30upx;
       &:after{
-        width: 50%;
+        background: #03AEF9;
       }
     }
   }
@@ -319,6 +360,15 @@ export default {
 </style>
 
 <style scoped lang="less">
+  .splitCircle {
+    display: inline-block;
+    position: relative;
+    top: -3.98upx;
+    border-radius: 50%;
+    width: 3.98upx;
+    height: 3.98upx;
+    background: #B4B4B6;
+  }
   .uni-tab-bar{
     height:100%;
   }
@@ -338,6 +388,7 @@ export default {
       .iconfont {
         font-size: 30upx;
         color:rgb(3, 174, 249);
+        margin-right:10upx;
       }
       text {
         color: #444444;
@@ -497,6 +548,38 @@ export default {
               object-fit: cover;
             }
           }
+        }
+      }
+    }
+  }
+
+  .everyDayWrapper {
+    padding: 0 31.96upx;
+    margin-top: 19.96upx;
+    .everyDay {
+      height: 87.98upx;
+      line-height: 87.98upx;
+      text-align: center;
+      border-radius: 7.96upx;
+      display: flex;
+      justify-content: center;
+      border: 1.96upx solid #E8E8E8;
+      background: #ffffff;
+      .iconfont{
+        font-size: 27.98upx;
+        color: #C8C8C8;
+        position: relative;
+        top: 27.98upx;
+        line-height: 1;
+      }
+      .textImg {
+        width: 199.96upx;
+        height: 24.98upx;
+        line-height: 87.98upx;
+        margin-left: 9.98upx;
+        .image {
+          width: 100%;
+          height: 100%;
         }
       }
     }

@@ -11,8 +11,8 @@
       </view>
       <view v-if="list.length || getCurrentMode === 'result' && searchText !== ''" class="menu">
 
-        <view class="span" @tap.stop.prevent="$router.replace('/pages/search/index?text=' + searchText)">综合</view>
-        <view class="span spanSecond font-family-medium">分享<view /></view>
+        <view class="span" @tap.stop.prevent="to('/pages/search/index?text=' + searchText)">综合</view>
+        <view class="span spanSecond font-family-medium">分享<view class="i" /></view>
         <view class="span" @tap.stop.prevent="$router.replace('/dianping/search/products?text=' + searchText)">产品</view>
         <view class="span " @tap.stop.prevent="$router.replace('/dianping/search/comments?text=' + searchText)">点评</view>
 
