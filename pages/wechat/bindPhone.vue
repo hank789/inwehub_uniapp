@@ -44,12 +44,15 @@
 				</button>
 			</view>
 		</view>
+		<wechat-bind-dialog ref="wechatBindDialog" :showPopup="showPopup" :title="dialogTitle" :phone="dialogPhone" :avatar="dialogAvatar" :name="dialogName" :codeType="dialogCodeType" :isVip="dialogVip" :buttonText="dialogButtonText" @clickButton="clickDialogButton"></phone-bind-dialog>
 
 	</view>
 </template>
 
 <script>
-	import {getLocalUserInfo} from '@/lib/user.js'
+	import {getLocalUserInfo, getAndUpdateUserInfo} from '@/lib/user.js'
+	import wechatBindDialog from "@/components/iw-dialog/wechat-bind-dialog"
+
 	export default {
 		data() {
 			return {
@@ -66,7 +69,15 @@
 				loading: true,
 				bindedPhone: '',
 				yzmFocus: false,
-				getCodeText: '发送验证'
+				getCodeText: '发送验证',
+				dialogTitle: '',
+				dialogPhone: '',
+				dialogAvatar: '',
+				dialogName: '',
+				dialogCodeType: 0,
+				dialogVip: '',
+				dialogButtonText: '',
+				showPopup: false
 			}
 		},
 		computed: {
@@ -76,6 +87,9 @@
 			if (user && user.info.mobile) {
 				this.bindedPhone = user.info.mobile
 			}
+		},
+		components: {
+			wechatBindDialog
 		},
 		methods: {
 			timer() {
@@ -89,7 +103,17 @@
 					setTimeout(this.timer, 1000)
 				}
 			},
-
+			clickDialogButton() {
+				console.log(this.dialogCodeType)
+				switch (this.dialogCodeType) {
+					case 1127:
+						this.type = 2
+						this.register()
+						break;
+					case 1113:
+						break;
+				}
+			},
 			getCode() {
 				if (!this.phone) {
 					uni.showToast({
@@ -140,50 +164,36 @@
             if (code !== 1000) {
               switch (code) {
                 case 1127:
-                  alertPhoneBindWarning(
-                    this,
-                    '此手机号已注册',
-                    response.data.data.mobile,
-                    response.data.data.avatar,
-                    response.data.data.is_expert,
-                    response.data.data.name,
-                    '合并账号并绑定',
-                    () => {
-                      this.type = 2
-                      this.register()
-                    }
-                  )
+									this.dialogTitle = '此手机号已注册'
+									this.dialogPhone = response.data.mobile
+									this.dialogAvatar = response.data.avatar
+									this.dialogVip = response.data.is_expert
+									this.dialogName = response.data.name
+									this.dialogCodeType = code
+									this.dialogButtonText = '合并账号并绑定'
+									this.$refs.wechatBindDialog.showDialog()
                   return
                 case 1128:
-                  alertPhoneBindWarning(
-                    this,
-                    '此手机号已绑定其他微信',
-                    response.data.data.mobile,
-                    response.data.data.avatar,
-                    response.data.data.is_expert,
-                    response.data.data.name,
-                    '联系管理员',
-                    () => {
-                      this.$router.pushPlus('/chat/79')
-                    }
-                  )
+									this.dialogTitle = '此手机号已绑定其他微信'
+									this.dialogPhone = response.data.mobile
+									this.dialogAvatar = response.data.avatar
+									this.dialogVip = response.data.is_expert
+									this.dialogName = response.data.name
+									this.dialogCodeType = code
+									this.dialogButtonText = '联系管理员微信：hiinwe'
+									this.$refs.wechatBindDialog.showDialog()
                   return
                 default:
-                  window.mui.toast(response.data.message)
+									uni.showToast({
+										title: response.message
+									})
                   return
               }
             }
-
-            var data = {
-              token: response.data.data.token
-            }
-            localEvent.setLocalItem('UserLoginInfo', data)
-
-            this.$store.dispatch(USERS_APPEND, cb => getUserInfo(null, user => {
-              cb(user)
-              window.mixpanelIdentify()
-              window.mui.back()
-            }))
+						this.$ls.set('token',response.data.token)
+						getAndUpdateUserInfo(()=>{
+							uni.navigateBack({})
+						})
           })
       }
 		}
