@@ -321,6 +321,12 @@
       }
     },
     {
+      "path": "pages/search/index",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    {
       "path": "pages/chat/chat",
       "style": {}
     }

@@ -51,14 +51,16 @@
       this.init()
     },
     created () {
-      this.cacheKey = this.$route.name + '_comment_textarea'
+      this.cacheKey = '_comment_textarea'
     },
     methods: {
       onTap (event) {
-        if (this.alwaysshow && !window.mui.os.plus) {
+        if (this.alwaysshow) {
+          // #ifndef APP-PLUS
           event.preventDefault()
           event.stopPropagation()
           this.$emit('onTap')
+          // #endif
         }
       },
       refreshPageData () {
@@ -188,7 +190,7 @@
         this.text = editor.text
       },
       onEditorBlur (editor) {
-        window.mui.closeWaitingBlank()
+        // window.mui.closeWaitingBlank()
         console.log('comment blur')
         this.showTextarea = false
 
@@ -229,7 +231,7 @@
           this.focusCallback()
         }
 
-        window.mui.waitingBlank()
+        // window.mui.waitingBlank()
         console.log('comment focus')
       },
       onEditorReady (editor) {
@@ -262,6 +264,7 @@
         }
 
         if (this.showTextarea) {
+          // #ifdef H5
           console.log('bind comment事件')
           window.document.addEventListener('tap', (e) => {
             console.log('document tap 事件被触发')
@@ -273,6 +276,7 @@
               this.editorObj.focus()
             }, 500)
           }
+          // #endif
         } else {
           this.editorObj.blur()
         }
@@ -314,20 +318,6 @@
           commentData: this.commentData
         }
         this.$emit('sendMessage', data)
-        if (process.env.NODE_ENV === 'production' && window.mixpanel) {
-          // mixpanel
-          window.mixpanel.track(
-            'inwehub:comment:success',
-            {
-              'app': 'inwehub',
-              'user_device': window.getUserAppDevice(),
-              'page': this.$route.fullPath,
-              'page_name': this.$route.name,
-              'page_title': this.$route.meta.title,
-              'referrer_page': ''
-            }
-          )
-        }
         this.editorObj.blur()
       }
     }
