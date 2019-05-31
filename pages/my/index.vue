@@ -73,23 +73,54 @@
 
 <script>
 	import localEvent from '@/lib/localstorage'
-	const currentUser = localEvent.get('UserInfo')
+	import {getLocalUserInfo, getAndUpdateUserInfo} from '@/lib/user.js'
   
 	export default {
 		data () {
 			return {
-				name: currentUser.name,
-				avatar: currentUser.avatar_url,
-				user_level: '',
-				collections: '',
-				attention: '',
-				publishes: '',
-				popularity: '',
-				followed_number: '',
-				expert_apply_status: ''
+        attention: '',
+        expert_apply_status: '',
+        collections: '',
+        publishes: '',
+        groups: '',
+        followed_number: '',
+        popularity: '',
+        name: '',
+        avatar: '',
+        title: '',
+        user_level: '',
+        user_id: '',
+        uuid: '',
+        answers: '',
+        show_my_wallet: false,
+        my: '',
+        current_day_signed: ''
 			}
 		},
 		onLoad() {
+			getAndUpdateUserInfo((user) => {
+					this.user_level = user.info.user_level
+          this.user_id = user.info.id
+          this.uuid = user.info.uuid
+          this.answers = user.info.answers
+          this.show_my_wallet = user.info.show_my_wallet
+          this.expert_apply_status = user.info.expert_apply_status
+          this.avatar = user.info.avatar_url
+          this.name = user.info.name
+          this.title = user.info.title
+          this.publishes = user.info.publishes
+          this.collections = user.info.collections
+          this.groups = user.info.groups
+          this.followed_number = user.info.followed_number
+          this.popularity = user.info.popularity
+          this.current_day_signed = user.info.current_day_signed
+          this.attention = user.info.followers
+					//#ifdef APP-PLUS
+          if (plus.os.name == 'Android') {
+            this.show_my_wallet = true
+          }
+					//#endif
+			})
 		},
 		methods: {
 			toRoute (url) {
