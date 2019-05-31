@@ -9,12 +9,13 @@
         <input
           ref="phone"
           v-model="phone"
+					focus=true
           class="inputPhone text"
           placeholder="请输入手机号"
           pattern="\d*"
           autofocus="autofocus"
           placeholder-class="inputPlaceholder"
-          type="text"
+          type="number"
           name="phone"
           autocomplete="off"
         >
@@ -30,7 +31,7 @@
           placeholder="请输入验证码"
           :focus="yzmFocus"
           class="text"
-          type="text"
+          type="number"
           name="code"
           autocomplete="off"
         >
@@ -44,8 +45,8 @@
       >登录
       </button>
       <view class="registerPassword">
-        <text class="firstSpan">未注册验证即自动创建账号</text>
-        <text class="twoSpan font-family-medium" @tap.stop.prevent="">密码登录</text>
+        <text class="firstSpan"></text>
+        <text class="firstSpan">验证即可登录，未注册用户将根据手机号自动创建账号</text>
       </view>
 
       <view class="weChat" @tap.stop.prevent="wechatLogin()">
@@ -55,10 +56,9 @@
         <text class="span">微信授权登录</text>
       </view>
 
-      <view class="protocol">注册即同意<text class="span" @tap.stop.prevent="$router.pushPlus('/protocol/register')">《用户注册服务协议》</text></view>
+      <view class="protocol">注册即同意<text class="span" @tap.stop.prevent="navToProtocol">《用户注册服务协议》</text></view>
 		</view>
-		<oauth ref="oauth" :isShowBtn="false" @success="wechatLoginSuccess" @fail="wechatLoginFail"
-             style="display:none"></oauth>
+		<oauth ref="oauth" serviceId="weixin" :isShowBtn="false" @success="wechatLoginSuccess" @fail="wechatLoginFail"></oauth>
   </view>
 </template>
 
@@ -154,10 +154,9 @@ export default {
           this.setUser(res.data)
           this.setToken(res.data.token)
           this.$ls.set('token', res.data.token)
-          this.$ls.set('UserLoginInfo', res.data)
           this.$ls.set('UserInfo', res.data)
 					allPlatform.saveLocationInfo()
-          uni.reLaunch({
+          uni.switchTab({
               url: '/pages/index/index'
           })
         } else {
@@ -172,22 +171,40 @@ export default {
 			console.log(token)
 			console.log(openid)
 			if (token) {
-				uni.switchTab({
-					url: '/pages/index/index'
-				});
-				//this.$router.pushPlus('/wechat/register?newUser=' + isNewUser + '&token=' + token + '&openid=' + openid)
+				this.$ls.set('token', token)
+				allPlatform.saveLocationInfo()
+				this.$request.get('profile/info').then(response => {
+					this.$ls.set('UserInfo', response.data)
+					uni.hideLoading()
+					uni.switchTab({
+						url: '/pages/index/index'
+					})
+				})
 			} else {
-				//this.$router.pushPlus('/wechat/register?openid=' + openid)
+				uni.hideLoading()
+				uni.showToast({
+					title: '登陆失败',
+					icon: 'none'
+				})
 			}
 		},
 		wechatLoginFail (errorMessage) {
 			console.log(errorMessage)
+			uni.hideLoading()
 			uni.showToast({
 				title: errorMessage
 			})
 		},
 		wechatLogin () {
-			this.$refs.oauth.login('weixin')
+			uni.showLoading({
+					title: ''
+			})
+			this.$refs.oauth.login()
+		},
+		navToProtocol () {
+			uni.navigateTo({
+				url: '/pages/protocol/register'
+			})
 		}
   }
 }
@@ -308,7 +325,7 @@ export default {
 	.logo .iconfont {
 		font-size: 295.96upx;
 		position: relative;
-		top:-30upx;
+		top:-120upx;
 	}
 
 	/*输入框的内容*/

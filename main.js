@@ -8,6 +8,7 @@ import localstorage from "./lib/localstorage.js"
 import ui from './lib/ui.js'
 import ajax from './lib/ajaxRequest.js'
 import timeago from './lib/timeComponent.js'
+import globalFilter from './lib/globalFilter.js'
 
 Vue.config.productionTip = false
 
@@ -22,8 +23,15 @@ App.mpType = 'app'
 
 Vue.use(timeago)
 
+Object.keys(globalFilter).forEach(key => {
+  Vue.filter(key, globalFilter[key])
+})
+
 const app = new Vue({
 	store,
     ...App
 })
+
+console.log(App)
+
 app.$mount()
