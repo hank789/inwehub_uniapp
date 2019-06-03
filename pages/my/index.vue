@@ -97,7 +97,7 @@
         current_day_signed: ''
 			}
 		},
-		onLoad() {
+		onShow() {
 			getAndUpdateUserInfo((user) => {
 					this.user_level = user.info.user_level
           this.user_id = user.info.id
@@ -121,6 +121,9 @@
           }
 					//#endif
 			})
+		},
+		onLoad() {
+
 		},
 		methods: {
 			toRoute (url) {

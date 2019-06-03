@@ -1,135 +1,141 @@
 <template>
 	<view class="resume">
-		<view class="header">
-			<!-- 头部-默认显示 -->
-			<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
-				<view class="back">
-					<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
+		
+			<view class="header">
+				<!-- 头部-默认显示 -->
+				<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
+					<view class="back">
+						<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
+					</view>
+					<view class="middle font-family-medium">个人名片</view>
+					<view class="icon-btn">
+						<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
+					</view>
 				</view>
-				<view class="middle font-family-medium">个人名片</view>
-				<view class="icon-btn">
-					<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
+
+				<view class="after" :style="{ opacity: afterHeaderOpacity, zIndex: afterHeaderzIndex }">
+					<view class="back">
+						<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
+					</view>
+					<view class="middle font-family-medium">个人名片</view>
+					<view class="icon-btn">
+						<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
+					</view>
 				</view>
+
+			</view>
+			<iwList v-model="list" :api="'feed/list'" :cssTop="cssTop" :requestData="{search_type: 2}">
+
+			<view class="infoBg">
+				<image :src="resume.info.avatar_url" class="avatar bigImg"></image>
+				<view class="backMask"></view>
 			</view>
 
-			<view class="after" :style="{ opacity: afterHeaderOpacity, zIndex: afterHeaderzIndex }">
-				<view class="back">
-					<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
-				</view>
-				<view class="middle font-family-medium">个人名片</view>
-				<view class="icon-btn">
-					<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
-				</view>
-			</view>
+			<view class="content">
 
-		</view>
+				<view class="header-wrapper">
+					<view class="headers">
 
-		<view class="infoBg">
-			<image :src="resume.info.avatar_url" class="avatar bigImg"></image>
-			<view class="backMask"></view>
-		</view>
-
-		<view class="content">
-
-			<view class="header-wrapper">
-				<view class="headers">
-
-					<view class="headPhotowrapper">
-						<view class="headImages">
-							<image class="avatar avatarImg" :src="resume.info.avatar_url"></image>
-						</view>
-						<view class="personalInfo">
-							<view class="nameAndLevel">
-								<text class="name font-family-medium">{{ resume.info.name }}</text>
-								<text class="level">L{{resume.info.user_level}}</text>
+						<view class="headPhotowrapper">
+							<view class="headImages">
+								<image class="avatar avatarImg" :src="resume.info.avatar_url"></image>
 							</view>
-							<view class="detailInfo">
-								<text class="text">被赞</text><text class="number font-family-medium">{{resume.info.supports}}</text> <text class="spot"></text>
-								<text class="text">{{resume.info.total_score}}</text>
-							</view>
-							<view class="consultWrapper">
-								<view class="leftButton">
-									<view class="border-football font-family-medium" v-show="uuid == cuuid" @tap.stop.prevent="$router.pushPlus('/my/detailInfo/' + resume.info.uuid)">详细资料</view>
-									<view class="border-football font-family-medium letter" v-if="uuid !== cuuid" @tap.stop.prevent="goChat()">发私信</view>
-									<view class="border-football font-family-medium" v-if="uuid !== cuuid" @tap.stop.prevent="goAsk('/ask/'+uuid)">提问题</view>
+							<view class="personalInfo">
+								<view class="nameAndLevel">
+									<text class="name font-family-medium">{{ resume.info.name }}</text>
+									<text class="level">L{{resume.info.user_level}}</text>
 								</view>
-								<view class="rightDetailInfo" v-if="uuid !== cuuid">
-									<text class="font-family-medium" @tap.stop.prevent="$router.pushPlus('/my/detailInfo/' + resume.info.uuid)">详细资料</text>
-									<text class="iconfont icon-jinru"></text>
+								<view class="detailInfo">
+									<text class="text">被赞</text><text class="number font-family-medium">{{resume.info.supports}}</text> <text class="spot"></text>
+									<text class="text">{{resume.info.total_score}}</text>
 								</view>
-							</view>
-							<view class="operationWrapper">
-								<view class="code iconAndText" @tap.stop.prevent="$router.pushPlus('/my/qrcode?id=' + resume.info.uuid)">
-									<text class="iconfont icon-erweima"></text>
-									<view class="word">个人码</view>
+								<view class="consultWrapper">
+									<view class="leftButton">
+										<view class="border-football font-family-medium" v-show="uuid == cuuid" @tap.stop.prevent="$router.pushPlus('/my/detailInfo/' + resume.info.uuid)">详细资料</view>
+										<view class="border-football font-family-medium letter" v-if="uuid !== cuuid" @tap.stop.prevent="goChat()">发私信</view>
+										<view class="border-football font-family-medium" v-if="uuid !== cuuid" @tap.stop.prevent="goAsk('/ask/'+uuid)">提问题</view>
+									</view>
+									<view class="rightDetailInfo" v-if="uuid !== cuuid">
+										<text class="font-family-medium" @tap.stop.prevent="$router.pushPlus('/my/detailInfo/' + resume.info.uuid)">详细资料</text>
+										<text class="iconfont icon-jinru"></text>
+									</view>
 								</view>
-								<view class="iconAndText isFollowed" v-show="uuid !== cuuid && !resume.is_followed" @tap.stop.prevent="collectProfessor">
-									<svg class="icon" aria-hidden="true">
-										<use xlink:href="#icon-shoucang"></use>
-									</svg>
-									<view class="word">关注</view>
-								</view>
-								<view class="active iconAndText isFollowed" @tap.stop.prevent="collectProfessor" v-show="uuid !== cuuid && resume.is_followed">
-									<text class="iconfont icon-shoucanghover"></text>
-									<view class="word">已关注</view>
+								<view class="operationWrapper">
+									<view class="code iconAndText" @tap.stop.prevent="$router.pushPlus('/my/qrcode?id=' + resume.info.uuid)">
+										<text class="iconfont icon-erweima"></text>
+										<view class="word">个人码</view>
+									</view>
+									<view class="iconAndText isFollowed" v-show="uuid !== cuuid && !resume.is_followed" @tap.stop.prevent="collectProfessor">
+										<svg class="icon" aria-hidden="true">
+											<use xlink:href="#icon-shoucang"></use>
+										</svg>
+										<view class="word">关注</view>
+									</view>
+									<view class="active iconAndText isFollowed" @tap.stop.prevent="collectProfessor" v-show="uuid !== cuuid && resume.is_followed">
+										<text class="iconfont icon-shoucanghover"></text>
+										<view class="word">已关注</view>
+									</view>
 								</view>
 							</view>
-						</view>
 
-						<view class="counter">
-							<view class="counterList" @tap.stop.prevent="$router.pushPlus('/my/focus/'+uuid)">
-								<view class="font-family-medium">{{resume.info.followed_number}}</view>
-								<view class="script">谁关注Ta</view>
+							<view class="counter">
+								<view class="counterList" @tap.stop.prevent="$router.pushPlus('/my/focus/'+uuid)">
+									<view class="font-family-medium">{{resume.info.followed_number}}</view>
+									<view class="script">谁关注Ta</view>
+								</view>
+
+								<view class="counterList" @tap.stop.prevent="$router.pushPlus('/followed/'+uuid)">
+									<view class="font-family-medium">{{resume.info.follow_user_number}}</view>
+									<view class="script">Ta关注谁</view>
+								</view>
+
+								<view class="counterList" @tap.stop.prevent="$router.pushPlus('/my/publishAnswers/'+uuid)">
+									<view class="font-family-medium">{{resume.info.publishes}}</view>
+									<view class="script">发布</view>
+								</view>
+
+								<view class="counterList" @tap.stop.prevent="$router.pushPlus('/group/my/'+uuid)">
+									<view class="font-family-medium">{{resume.info.group_number}}</view>
+									<view class="script">圈子</view>
+								</view>
 							</view>
 
-							<view class="counterList" @tap.stop.prevent="$router.pushPlus('/followed/'+uuid)">
-								<view class="font-family-medium">{{resume.info.follow_user_number}}</view>
-								<view class="script">Ta关注谁</view>
-							</view>
-
-							<view class="counterList" @tap.stop.prevent="$router.pushPlus('/my/publishAnswers/'+uuid)">
-								<view class="font-family-medium">{{resume.info.publishes}}</view>
-								<view class="script">发布</view>
-							</view>
-
-							<view class="counterList" @tap.stop.prevent="$router.pushPlus('/group/my/'+uuid)">
-								<view class="font-family-medium">{{resume.info.group_number}}</view>
-								<view class="script">圈子</view>
-							</view>
 						</view>
 
 					</view>
-
 				</view>
+				
+				<view class="domainWrapper" v-if="resume.info.skill_tags.length > 0 || uuid === cuuid">
+					<view class="skilledTags">
+						<text class="iconfont icon-shanchang"></text>
+						<text class="tipTitle">擅长领域</text>
+					</view>
+					<template v-for="(industry, index) in resume.info.skill_tags">
+						<view class="tags" @tap.stop.prevent="toTagDetail(industry.text)"><text class="text">{{industry.text}}</text></view>
+					</template>
+					<view class="addTags" v-show="uuid == cuuid" @tap.stop.prevent="$router.pushPlus('/my/advantage')">
+						<text class="iconfont icon-plus--"></text>{{ resume.info.skill_tags.length < 1 ? '添加专业形象，对接更多机遇':'添加' }}
+					</view>
+					<view class="bot" v-if="resume.info.article_count || uuid === cuuid"></view>
+				</view>
+
+				<view class="specialColumn" v-if="resume.info.article_count || uuid === cuuid" @tap.stop.prevent="$router.pushPlus('/article/list/' + resume.info.uuid )">
+					<view class="titleText">
+						<text class="iconfont icon-zhuanlan"></text>
+						<text class="tipTitle">文章专栏</text>
+					</view>
+					<view class="intoIcon">
+						<text class="iconfont icon-jinru"></text>
+					</view>
+				</view>
+				<view class="gray" v-if="resume.info.article_count || resume.info.skill_tags.length > 0 || uuid === cuuid"></view>
+				
+			</view>
+			<view v-for="(item, index) in list" :key="index" class="iwItem">
+				<iw-feed-item :item="item" @showPageMore="showPageMore"></iw-feed-item>
 			</view>
 			
-			<view class="domainWrapper" v-if="resume.info.skill_tags.length > 0 || uuid === cuuid">
-				<view class="skilledTags">
-					<text class="iconfont icon-shanchang"></text>
-					<text class="tipTitle">擅长领域</text>
-				</view>
-				<template v-for="(industry, index) in resume.info.skill_tags">
-					<view class="tags" @tap.stop.prevent="toTagDetail(industry.text)"><text class="text">{{industry.text}}</text></view>
-				</template>
-				<view class="addTags" v-show="uuid == cuuid" @tap.stop.prevent="$router.pushPlus('/my/advantage')">
-					<text class="iconfont icon-plus--"></text>{{ resume.info.skill_tags.length < 1 ? '添加专业形象，对接更多机遇':'添加' }}
-				</view>
-				<view class="bot" v-if="resume.info.article_count || uuid === cuuid"></view>
-			</view>
-
-			<view class="specialColumn" v-if="resume.info.article_count || uuid === cuuid" @tap.stop.prevent="$router.pushPlus('/article/list/' + resume.info.uuid )">
-				<view class="titleText">
-					<text class="iconfont icon-zhuanlan"></text>
-					<text class="tipTitle">文章专栏</text>
-				</view>
-				<view class="intoIcon">
-					<text class="iconfont icon-jinru"></text>
-				</view>
-			</view>
-			<view class="gray" v-if="resume.info.article_count || resume.info.skill_tags.length > 0 || uuid === cuuid"></view>
-
-		</view>
-
+		</iwList>
 
 	</view>
 </template>
@@ -138,17 +144,25 @@
 	import {
 		postRequest
 	} from '@/lib/request'
+	import iwList from '@/components/iw-list/iw-list'
+	import iwFeedItem from '@/components/iw-feed-item/iw-feed-item'
 
 	export default {
+		components: {
+			iwList,
+			iwFeedItem
+		},
 		data() {
 			return {
 				uuid: '',
 				cuuid: '',
+				cssTop: 88,
 				afterHeaderOpacity: 0,
 				afterHeaderzIndex: 11,
 				beforeHeaderzIndex: 1,
 				anchorlist: [],
 				showBack: true,
+				list: [],
 				resume: {
 					groups: [],
 					info: {
@@ -181,7 +195,7 @@
 		},
 		onLoad() {
 			this.getUserInfo()
-			this.calcAnchor()
+			// this.calcAnchor()
 		},
 		onPageScroll(e) {
 			//导航栏渐变
@@ -194,20 +208,20 @@
 			back() {
 				uni.navigateBack();
 			},
-			calcAnchor() {
-				let commentsView = uni.createSelectorQuery().select("#comments");
-				commentsView.boundingClientRect((data) => {
-					let statusbarHeight = 0;
-					//APP内还要计算状态栏高度
-					// #ifdef APP-PLUS
-					statusbarHeight = plus.navigator.getStatusbarHeight()
-					// #endif
-					let headerHeight = uni.upx2px(100);
-					this.anchorlist[1].top = data.top - headerHeight - statusbarHeight;
-					this.anchorlist[2].top = data.bottom - headerHeight - statusbarHeight;
-
-				}).exec();
-			},
+// 			calcAnchor() {
+// 				let commentsView = uni.createSelectorQuery().select("#comments");
+// 				commentsView.boundingClientRect((data) => {
+// 					let statusbarHeight = 0;
+// 					//APP内还要计算状态栏高度
+// 					// #ifdef APP-PLUS
+// 					statusbarHeight = plus.navigator.getStatusbarHeight()
+// 					// #endif
+// 					let headerHeight = uni.upx2px(100);
+// 					this.anchorlist[1].top = data.top - headerHeight - statusbarHeight;
+// 					this.anchorlist[2].top = data.bottom - headerHeight - statusbarHeight;
+// 
+// 				}).exec();
+// 			},
 			getUserInfo() {
 				postRequest(`profile/info`, {}).then(res => {
 					this.userInfo = res.data
