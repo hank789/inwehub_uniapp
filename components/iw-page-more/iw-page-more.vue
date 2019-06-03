@@ -8,7 +8,7 @@
       @hidePopup="hidePopup"
     >
 
-      <view id="sharePageMoreWrapper" class="sharePageMoreWrapper">
+      <view class="sharePageMoreWrapper">
         <view class="title">
           分享到
         </view>
@@ -46,11 +46,29 @@
         </view>
         <view class="cancel" @tap.stop.prevent="hidePopup()"><text class="text font-family-medium">取消</text></view>
       </view>
+    </uni-popup>
 
-    </uni-popup></view>
+    <uni-popup
+      :show="isShowH5Guide"
+      :position="'top'"
+      type="top"
+      :h5-top="true"
+      @hidePopup="isShowH5Guide = false"
+    >
+      <view
+        class="shareShowWrapper mui-popover mui-popover-action mui-popover-top"
+        @tap.stop.prevent="toggleShareNav()"
+      >
+        <text class="iconfont icon-dianzheli " />
+      </view>
+
+    </uni-popup>
+  </view>
 </template>
 <script>
 import uniPopup from '@/components/uni-popup/uni-popup.vue'
+import Share from '@/lib/share'
+import { getLocalUserId } from '@/lib/user'
 
 export default {
   components: {
@@ -72,6 +90,7 @@ export default {
   },
   data() {
     return {
+      isShowH5Guide: false,
       showPopupBottomShare: false,
       isHaveNavigationBar: false
     }
@@ -80,6 +99,9 @@ export default {
 
   },
   methods: {
+    toggleShareNav() {
+      this.isShowH5Guide = true
+    },
     clickItem(item) {
       this.$emit('clickedItem', item)
     },
@@ -103,9 +125,48 @@ export default {
       this.hidePopup()
     },
     shareToHaoyou() {
+      // #ifdef H5 || MP-WEIXIN
+      this.hidePopup()
+      this.isShowH5Guide = true
+      // #endif
+
+      var shareParams = 'isShare=1&fromUser=' + getLocalUserId()
+      if (this.shareOption.link.indexOf('?') < 0) {
+        shareParams = '?' + shareParams
+      } else {
+        shareParams = '&' + shareParams
+      }
+
+      var data = {
+        title: this.shareOption.title,
+        link: this.shareOption.link + shareParams,
+        content: this.shareOption.content,
+        imageUrl: this.shareOption.imageUrl,
+        thumbUrl: this.shareOption.thumbUrl,
+        pyqTitle: this.shareOption.pyqTitle,
+        pyqContent: this.shareOption.pyqContent
+      }
+
+//      Share.bindShare(
+//        this,
+//        data,
+//        this.successCallback,
+//        this.failCallback
+//      )
+//
+//      setTimeout(() => {
+//        if (this.sendHaoyou) {
+//          this.sendHaoyou()
+//        }
+//      }, 500)
+    },
+    successCallback () {
 
     },
-    toggle () {
+    failCallback (error) {
+
+    },
+    toggle() {
       this.isHaveNavigationBar = !this.isHaveNavigationBar
     },
     share(isHaveNavigationBar) {
@@ -130,6 +191,33 @@ export default {
     },
     shareToPengyouQuan() {
 
+      var shareParams = 'isShare=1&fromUser=' + getLocalUserId()
+      if (this.shareOption.link.indexOf('?') < 0) {
+        shareParams = '?' + shareParams
+      } else {
+        shareParams = '&' + shareParams
+      }
+
+      var data = {
+        title: this.shareOption.title,
+        link: this.shareOption.link + shareParams,
+        content: this.shareOption.content,
+        imageUrl: this.shareOption.imageUrl,
+        thumbUrl: this.shareOption.thumbUrl,
+        pyqTitle: this.shareOption.pyqTitle,
+        pyqContent: this.shareOption.pyqContent
+      }
+
+//      Share.bindShare(
+//        this,
+//        data,
+//        this.successCallback,
+//        this.failCallback
+//      )
+//
+//      if (this.sendPengYouQuan) {
+//        this.sendPengYouQuan()
+//      }
     }
   }
 }
@@ -244,5 +332,18 @@ export default {
             color: #444444;
             font-size: 31.96upx;
         }
+    }
+
+    .shareShowWrapper {
+      position: absolute;
+      right: 0;
+      top: 0;
+      .iconfont{
+        color: #fff;
+        position: absolute;
+        right: 30upx;
+        top: 19.96upx;
+        font-size: 139.96upx;
+      }
     }
 </style>

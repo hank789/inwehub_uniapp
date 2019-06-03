@@ -122,7 +122,6 @@ export default {
 	.uni-popup {
 		position: fixed;
 		z-index: 999;
-		background-color: #ffffff;
 	}
 
 	.uni-popup-middle {

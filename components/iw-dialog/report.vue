@@ -61,6 +61,10 @@ export default {
   },
   computed: {},
   methods: {
+    resetData() {
+      this.type = ''
+      this.content = ''
+    },
     selectItem(item) {
       this.type = item.text
     },
@@ -75,7 +79,10 @@ export default {
         ui.toast('请输入举报内容')
       } else {
         const content = '举报类型:' + this.type + '/举报内容:' + this.content + '/链接:' + link
-        feedback('举报内容', content)
+        feedback('举报内容', content, () => {
+          this.resetData()
+          this.hide()
+        })
       }
     },
     show() {
