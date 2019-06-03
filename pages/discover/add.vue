@@ -1,32 +1,32 @@
 <template>
   <view class="content">
-    <textarea :class="{hasFile: waitUploadImages.length, hasLink: links.length}" v-model="description" class="textarea" :placeholder="placeholder" />
+    <textarea v-model="description" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
 
     <scroll-view>
-      <view class="container-upload-images" v-for="(image, index) in waitUploadImages" :key="index">
+      <view v-for="(image, index) in waitUploadImages" :key="index" class="container-upload-images">
         <view class="imageItem">
-          <image class="image" :mode="'aspectFill'" :src="image.path"></image>
-          <text class="iconfont icon-times1" @tap.stop.prevent="delImg(index)"></text>
+          <image class="image" :mode="'aspectFill'" :src="image.path" />
+          <text class="iconfont icon-times1" @tap.stop.prevent="delImg(index)" />
         </view>
       </view>
     </scroll-view>
 
-    <view class="link" v-if="links.length" v-for="(link, index) in links" :key="index">
+    <view v-for="(link, index) in links" v-if="links.length" :key="index" class="link">
       <view class="linkBox">
         <!-- 没有图片的样式 -->
-        <view class="linkIimg" v-if="!link.img_url">
-              <text class="iconfont icon-biaozhunlogoshangxiayise"></text>
-            </view>
+        <view v-if="!link.img_url" class="linkIimg">
+          <text class="iconfont icon-biaozhunlogoshangxiayise" />
+        </view>
         <!-- 有图片的样式 -->
-        <image class="image" :mode="'aspectFill'" v-else :src="link.img_url" alt=""></image>
+        <image v-else class="image" :mode="'aspectFill'" :src="link.img_url" alt="" />
         <view class="linkContent">
-          <view v-if="link.title" class="text-line-2">{{link.title}}</view>
-          <view v-else class="seat"></view>
-          <view class="div text-line-1">{{link.url}}</view>
+          <view v-if="link.title" class="text-line-2">{{ link.title }}</view>
+          <view v-else class="seat" />
+          <view class="div text-line-1">{{ link.url }}</view>
         </view>
       </view>
       <view class="linkClose" @tap.stop.prevent="linkClose">
-        <text class="iconfont icon-times1"></text>
+        <text class="iconfont icon-times1" />
       </view>
     </view>
 
@@ -62,14 +62,14 @@
 
     </view>
 
-    <prompt :visible.sync="promptVisible"
-            title="插入链接卡片"
-            placeholder="输入链接地址"
-            defaultValue=""
-            mainColor="#007aff"
-            @confirm="addLink"
-    >
-    </prompt>
+    <prompt
+      :visible.sync="promptVisible"
+      title="插入链接卡片"
+      placeholder="输入链接地址"
+      default-value=""
+      main-color="#007aff"
+      @confirm="addLink"
+    />
   </view>
 
 </template>
@@ -81,7 +81,7 @@ import Prompt from '@/components/zz-prompt/index.vue'
 import { fetchArticle } from '@/lib/url'
 
 export default {
-  components: {Prompt},
+  components: { Prompt },
   data() {
     return {
       swiperOption: {
@@ -101,56 +101,60 @@ export default {
       waitUploadImages: [],
       selectedAddress: '所在位置',
       promptVisible: false,
-      links: [],
+      links: []
     }
   },
   onNavigationBarButtonTap(e) {
     this.addDiscover()
   },
-  onShow: function () {
+  onShow: function() {
     this.readSelectUsers()
     this.readSelectTags()
+    this.readSelectPosition()
   },
-  onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-        this.pageOption = option
+  onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
+    this.pageOption = option
+  },
+  methods: {
+    toAddress() {
+      uni.navigateTo({ url: '/pages/position/select?from=discover' })
     },
-    methods: {
-      uploadPdf () {
-        
-      },
-      linkClose () {
-        this.links = []
-      },
-      addLink (url) {
-        fetchArticle(url, (data) => {
-          this.links = [{
-            url: url,
-            title: data.title,
-            img_url: data.img_url
-          }]
+    uploadPdf() {
 
-          this.promptVisible = false
-        })
-      },
-    uploadImage: function () {
+    },
+    linkClose() {
+      this.links = []
+    },
+    addLink(url) {
+      fetchArticle(url, (data) => {
+        this.links = [{
+          url: url,
+          title: data.title,
+          img_url: data.img_url
+        }]
+
+        this.promptVisible = false
+      })
+    },
+    uploadImage: function() {
       const that = this
       uni.chooseImage({
         count: 9,
-        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-        sourceType: ['album'], //从相册选择
-        success: function (res) {
+        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album'], // 从相册选择
+        success: function(res) {
           that.waitUploadImages = res.tempFiles
         }
       })
     },
-    promptUrl () {
+    promptUrl() {
       if (!this.isUploadLink) {
         return
       }
 
       this.promptVisible = true
     },
-    readSelectUsers () {
+    readSelectUsers() {
       const selectUsers = this.$ls.get(localStorageKey.discover_select_user)
       if (selectUsers) {
         selectUsers.forEach((item) => {
@@ -159,10 +163,16 @@ export default {
         this.$ls.remove(localStorageKey.discover_select_user)
       }
     },
-    delImg (index) {
+    readSelectPosition() {
+      const address = this.$ls.get(localStorageKey.discover_select_position)
+      if (address.toString()) {
+        this.selectedAddress = address
+      }
+    },
+    delImg(index) {
       this.waitUploadImages.splice(index, 1)
     },
-    readSelectTags () {
+    readSelectTags() {
       const values = this.$ls.get(localStorageKey.discover_select_tag)
       if (values) {
         values.forEach((item) => {
@@ -174,11 +184,11 @@ export default {
     addDiscover() {
       if (this.links.length) {
         addLink(this.description, this.links[0].url, (res) => {
-          uni.redirectTo({ url:'/pages/discover/detail?slug=' + res.data.slug })
+          uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
         })
       } else {
         addDiscover(this.description, (res) => {
-          uni.redirectTo({ url:'/pages/discover/detail?slug=' + res.data.slug })
+          uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
         })
       }
     },

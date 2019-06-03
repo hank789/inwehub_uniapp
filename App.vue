@@ -1,7 +1,7 @@
 <script>
 	import notice from './lib/notice.js'
 	import html5plus from './lib/html5plus.js'
-	import allPlatform from './lib/allPlatform.js'
+	import { appShowNotify } from './lib/allPlatform.js'
 	export default {
 		onLaunch: function () {
 			console.log('App Launch');
@@ -16,7 +16,7 @@
 		onShow: function () {
 			console.log('App Show')
 			this.$store.commit('setAppHide', false)
-			allPlatform.appShowNotify()
+			appShowNotify()
 		},
 		onHide: function () {
 			console.log('App Hide')

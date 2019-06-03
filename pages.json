@@ -357,6 +357,12 @@
       "style": {
         "navigationBarTitleText": "注册协议"
       }
+    },
+    {
+      "path": "pages/position/select",
+      "style": {
+        "navigationBarTitleText": "所在位置"
+      }
     }
   ],
   "tabBar": {
