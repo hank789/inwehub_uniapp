@@ -12,7 +12,7 @@
           </view>
           <view class="text">
             <text>联系邮箱：hi@inwehub.com</text>
-            <text class="textColor" v-clipboard="'hi@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
+            <text class="textColor" @click="setClipboardData('hi@inwehub.com')">复制</text>
           </view>
         </view>
         <view class="bot"></view>
@@ -23,7 +23,7 @@
         <view class="textWrapper">
           <view class="text">
             <text>联系邮箱：Ad@inwehub.com</text>
-            <text class="textColor" v-clipboard="'Ad@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
+            <text class="textColor" @click="setClipboardData('Ad@inwehub.com')">复制</text>
           </view>
         </view>
         <view class="bot"></view>
@@ -34,7 +34,7 @@
         <view class="textWrapper">
           <view class="text">
             <text>联系邮箱：BD@inwehub.com</text>
-            <text class="textColor" v-clipboard="'BD@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
+            <text class="textColor" @click="setClipboardData('BD@inwehub.com')">复制</text>
           </view>
         </view>
         <view class="bot"></view>
@@ -45,7 +45,7 @@
         <view class="textWrapper">
           <view class="text">
             <text>联系邮箱：Hi@inwehub.com</text>
-            <text class="textColor" v-clipboard="'Hi@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
+            <text class="textColor" @click="setClipboardData('Hi@inwehub.com')">复制</text>
           </view>
         </view>
         <view class="bot"></view>
@@ -56,18 +56,47 @@
         <view class="textWrapper">
           <view class="text">
             <text>联系邮箱：HR@inwehub.com</text>
-            <text class="textColor" v-clipboard="'HR@inwehub.com'" @success="shareEmail()" @error="clipboardError">复制</text>
+            <text class="textColor" @click="setClipboardData('HR@inwehub.com')">复制</text>
           </view>
         </view>
         <!--<view class="bot"></view>-->
       </view>
-
     </view>
-		
+		<add-inwehub-dialog ref="addInwehubDialog" :showPopup="showPopup" @clickButton="clickDialogButton"></add-inwehub-dialog>
 	</view>
 </template>
 
 <script>
+	import addInwehubDialog from "@/components/iw-dialog/add-inwehub.vue"
+	export default {
+		data() {
+			return {
+				showPopup: false
+			}
+		},
+		components: {
+			addInwehubDialog
+		},
+		methods: {
+			clickDialogButton() {
+				this.$refs.addInwehubDialog.hidePopup()
+			},
+			showWeChat() {
+				this.$refs.addInwehubDialog.showDialog()
+			},
+			setClipboardData(msg) {
+				uni.setClipboardData({
+					data: msg,
+					success: function () {
+							uni.showToast({
+								title: '复制成功',
+								icon: 'success'
+							})
+					}
+				});
+			}
+		},
+	}
 </script>
 
 <style lang="less">
