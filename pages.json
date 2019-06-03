@@ -363,6 +363,12 @@
       "style": {
         "navigationBarTitleText": "所在位置"
       }
+    },
+		{
+      "path": "pages/protocol/aboutus",
+      "style": {
+        "navigationBarTitleText": "关于我们"
+      }
     }
   ],
   "tabBar": {

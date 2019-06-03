@@ -67,6 +67,8 @@
 			</view>
 
 		</view>
+		<oauth ref="oauth" serviceId="weixin" :isShowBtn="false" @success="wechatLoginSuccess" @fail="wechatLoginFail"></oauth>
+		<notify-wechat-bind ref="notifyWechatBindDialog" :showPopup="showPopup" @clickButton="clickDialogButton"></notify-wechat-bind>
 
 	</view>
 </template>
@@ -74,10 +76,13 @@
 <script>
 	import localEvent from '@/lib/localstorage'
 	import {getLocalUserInfo, getAndUpdateUserInfo} from '@/lib/user.js'
-  
+  import notifyWechatBind from "@/components/iw-dialog/notify-wechat-bind.vue"
+	import oauth from '@/components/oauth/oauth.vue'
+
 	export default {
 		data () {
 			return {
+				showPopup: false,
         attention: '',
         expert_apply_status: '',
         collections: '',
@@ -97,38 +102,65 @@
         current_day_signed: ''
 			}
 		},
+		components: {
+			notifyWechatBind,
+			oauth
+		},
 		onShow() {
-			getAndUpdateUserInfo((user) => {
-					this.user_level = user.info.user_level
-          this.user_id = user.info.id
-          this.uuid = user.info.uuid
-          this.answers = user.info.answers
-          this.show_my_wallet = user.info.show_my_wallet
-          this.expert_apply_status = user.info.expert_apply_status
-          this.avatar = user.info.avatar_url
-          this.name = user.info.name
-          this.title = user.info.title
-          this.publishes = user.info.publishes
-          this.collections = user.info.collections
-          this.groups = user.info.groups
-          this.followed_number = user.info.followed_number
-          this.popularity = user.info.popularity
-          this.current_day_signed = user.info.current_day_signed
-          this.attention = user.info.followers
-					//#ifdef APP-PLUS
-          if (plus.os.name == 'Android') {
-            this.show_my_wallet = true
-          }
-					//#endif
-			})
+			this.getUserData()
 		},
 		onLoad() {
-
+			var userInfo = getLocalUserInfo()
+			if (userInfo && userInfo.name && /^手机用户/.test(userInfo.name)) {
+				this.showPopup = true
+			}
 		},
 		methods: {
 			toRoute (url) {
 				uni.navigateTo({url: url})
-			}
+			},
+			getUserData() {
+				getAndUpdateUserInfo((user) => {
+						this.user_level = user.info.user_level
+						this.user_id = user.info.id
+						this.uuid = user.info.uuid
+						this.answers = user.info.answers
+						this.show_my_wallet = user.info.show_my_wallet
+						this.expert_apply_status = user.info.expert_apply_status
+						this.avatar = user.info.avatar_url
+						this.name = user.info.name
+						this.title = user.info.title
+						this.publishes = user.info.publishes
+						this.collections = user.info.collections
+						this.groups = user.info.groups
+						this.followed_number = user.info.followed_number
+						this.popularity = user.info.popularity
+						this.current_day_signed = user.info.current_day_signed
+						this.attention = user.info.followers
+						//#ifdef APP-PLUS
+						if (plus.os.name == 'Android') {
+							this.show_my_wallet = true
+						}
+						//#endif
+				})
+			},
+			clickDialogButton() {
+				this.$refs.oauth.setBindType(3)
+				this.$refs.oauth.login()
+			},
+			wechatLoginSuccess (token, openid, nickname = '', isNewUser = '') {
+        console.log(token)
+        console.log(openid)
+        if (token) {
+					this.$ls.set('token', token)
+					this.getUserData()
+        }
+      },
+      wechatLoginFail (errorMessage) {
+				uni.showToast({
+					title: errorMessage
+				})
+      },
 		}
 	}
 </script>
