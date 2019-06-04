@@ -825,7 +825,7 @@ export default {
           }
         }
 
-        var shareOption = getTextDiscoverDetail('/c/' + this.detail.category_id + '/' + this.detail.slug, this.detail.title, this.detail.owner.avatar, this.detail.owner.name, this.detail.group.name)
+        var shareOption = getTextDiscoverDetail('/pages/discover/detail?slug=' + this.detail.slug, this.detail.title, this.detail.owner.avatar, this.detail.owner.name, this.detail.group.name)
         this.shareOption = Object.assign(this.shareOption, shareOption)
         if (this.detail.type === 'article') {
           this.title = this.detail.title
