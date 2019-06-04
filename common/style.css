@@ -149,3 +149,13 @@
   color: #444;
   border: none;
   font-family:PingFangSC-Medium; }
+	
+.uni-article-title {
+    word-break: break-all;
+    display: -webkit-box;
+    overflow: hidden;
+	  line-height:1.5;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
