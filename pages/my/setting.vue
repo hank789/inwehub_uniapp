@@ -90,10 +90,11 @@
 						break;
 					case 'starApp':
 						var appDeviceInfo = this.$ls.get('appDeviceInfo')
-						this.$request.get(`system/app_market_url`, {}).then(responseData => {
+						this.$request.post(`system/app_market_url`, {}).then(responseData => {
 							if (responseData.data !== false) {
 								this.ios_market_url = responseData.data.ios_url
 								this.android_market_url = responseData.data.android_url
+								//#ifdef APP-PLUS
 								if (appDeviceInfo.platform == 'ios') {
 									plus.runtime.openURL(this.ios_market_url)
 								} else if (appDeviceInfo.platform == 'android') {
@@ -105,6 +106,10 @@
 								} else {
 									window.location.href = this.ios_market_url
 								}
+								//#endif
+								//#ifdef H5
+								window.location.href = this.ios_market_url
+								//#endif
 							}
 						})
 						break;

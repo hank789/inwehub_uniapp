@@ -65,6 +65,24 @@
 				</view>
 				<view class="gray"></view>
 			</view>
+			
+			<view class="guessLike">
+				<view class="component-block-title">猜您喜欢</view>
+				<view class="uni-list">
+					<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in recommendList" :key="key" @click="goDetail(value)">
+						<view class="uni-media-list" v-if="value.read_type == 1">
+							<image class="uni-media-list-logo" :src="value.data.img"></image>
+							<view class="uni-media-list-body">
+								<view class="uni-media-list-text-top uni-article-title">{{ value.data.title }}</view>
+								<view class="uni-media-list-text-bottom">
+									<text>{{ value.data.domain }}</text>
+									<text></text>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
 
 		</view>
 		<oauth ref="oauth" serviceId="weixin" :isShowBtn="false" @success="wechatLoginSuccess" @fail="wechatLoginFail"></oauth>
@@ -99,7 +117,8 @@
         answers: '',
         show_my_wallet: false,
         my: '',
-        current_day_signed: ''
+        current_day_signed: '',
+				recommendList: []
 			}
 		},
 		components: {
@@ -114,11 +133,40 @@
 			if (userInfo && userInfo.name && /^手机用户/.test(userInfo.name)) {
 				this.showPopup = true
 			}
+			this.$request.post('getRelatedRecommend',{source_id: 0, source_type: 0}).then(res => {
+				this.recommendList = res.data.data
+			})
 		},
 		methods: {
 			toRoute (url) {
 				uni.navigateTo({url: url})
 			},
+			goDetail (item) {
+        switch (item.read_type) {
+          case 1:
+						uni.navigateTo({
+							url: '/pages/discover/detail?slug=' + item.data.slug
+						})
+            //this.$router.pushPlus('/c/' + item.data.category_id + '/' + item.data.slug)
+            break
+          case 2:
+            //this.$router.pushPlus('/askCommunity/major/' + item.source_id)
+            break
+          case 3:
+            //this.$router.pushPlus('/ask/offer/answers/' + item.source_id)
+            break
+          case 4:
+            //this.$router.pushPlus('/EnrollmentStatus/' + item.source_id)
+            break
+          case 5:
+            //this.$router.pushPlus('/EnrollmentStatus/' + item.source_id)
+            break
+          case 6:
+            //this.$router.pushPlus('/ask/offer/' + item.source_id)
+            break
+          default:
+        }
+      },
 			getUserData() {
 				getAndUpdateUserInfo((user) => {
 						this.user_level = user.info.user_level
@@ -195,7 +243,7 @@
 		display: flex;
 		justify-content: space-between;
 
-		.icon {
+		.iconfont {
 			font-size: 42upx;
 			color: #444444;
 		}
