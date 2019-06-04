@@ -195,7 +195,7 @@
 		display: flex;
 		justify-content: space-between;
 
-		.icon {
+		.iconfont {
 			font-size: 42upx;
 			color: #444444;
 		}

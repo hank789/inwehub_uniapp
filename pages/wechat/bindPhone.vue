@@ -19,8 +19,6 @@
 					autocomplete="off"
 				>
 
-
-				<text class="getYzm disabled" @tap.stop.prevent="" v-if="!isCanGetCode">{{getCodeText}}</text>
 				<text class="getYzm" @tap.stop.prevent="getCode" >{{getCodeText}}</text>
 			</view>
 
@@ -57,12 +55,9 @@
 		data() {
 			return {
 				phone: '', // 手机号码
-				isCanGetCode: false,
-				time: 0, // 时间倒计时
+				isCanGetCode: true,
 				openid: '',
 				code: '', // 手机验证码,
-				disableRegister: true,
-				disableSendCode: true,
 				errorMsg: '',
 				redirect: '',
 				type: 1, // 1不合并账户 2合并微信账户, 默认1
@@ -70,6 +65,7 @@
 				bindedPhone: '',
 				yzmFocus: false,
 				getCodeText: '发送验证',
+				get_msg_second: 60,
 				dialogTitle: '',
 				dialogPhone: '',
 				dialogAvatar: '',
@@ -92,17 +88,6 @@
 			wechatBindDialog
 		},
 		methods: {
-			timer() {
-				if (this.time > 0) {
-					this.isCanGetCode = false
-					this.time -= 1
-					if (this.time === 0) {
-						this.isCanGetCode = true
-						return
-					}
-					setTimeout(this.timer, 1000)
-				}
-			},
 			clickDialogButton() {
 				console.log(this.dialogCodeType)
 				switch (this.dialogCodeType) {
@@ -122,7 +107,8 @@
 					})
 					return
 				}
-				
+				if (!this.isCanGetCode) return
+				this.isCanGetCode = false
 				this.$request.post('auth/sendPhoneCode', {
 				  mobile: this.phone,
 				  type: 'change_phone',
@@ -134,15 +120,19 @@
 								title: '验证码发送成功'
 							})
 							this.yzmFocus = true
-							this.getCodeText = 59
+							this.get_msg_second = 59
+							this.getCodeText = '验证码(' + this.get_msg_second + '秒)'
 							const timer = setInterval(() => {
-								this.getCodeText--
-								if (this.getCodeText == 0) {
+								this.get_msg_second--
+								this.getCodeText = '验证码(' + this.get_msg_second + '秒)'
+								if (this.get_msg_second == 0) {
 									this.getCodeText = '获取验证码'
+									this.isCanGetCode = true
 									clearInterval(timer)
 								}	
 							}, 1000)
 						} else {
+							this.isCanGetCode = true
 							uni.showToast({
 								title: res.message,
 								icon: 'none'
