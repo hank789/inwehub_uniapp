@@ -17,7 +17,10 @@
         <view class="topTitle font-family-medium">热门专题</view>
         <view class="heatAlbum">
 
-          <view v-for="(item, indexAlbum) in hotAlbum" :key="indexAlbum" class="albumList" @tap.stop.prevent="$uni.navigateTo('/dianping/products/' + item.id + '/' + encodeURIComponent(item.name))">
+          <view v-for="(item, indexAlbum) in hotAlbum" :key="indexAlbum"
+          class="albumList"
+          @tap.stop.prevent="toRoute('/pages/dianping/products?id=' + item.id +
+          '&name=' + encodeURIComponent(item.name))">
             <view class="componentCarAlbum">
               <view class="albumName font-family-medium">{{ item.name }}</view>
               <view class="tags"><label>{{ item.tips }}</label></view>
