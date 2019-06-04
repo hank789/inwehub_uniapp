@@ -147,18 +147,20 @@ export default {
         pyqContent: this.shareOption.pyqContent
       }
 
-//      Share.bindShare(
-//        this,
-//        data,
-//        this.successCallback,
-//        this.failCallback
-//      )
-//
-//      setTimeout(() => {
-//        if (this.sendHaoyou) {
-//          this.sendHaoyou()
-//        }
-//      }, 500)
+
+
+      Share.bindShare(
+        this,
+        data,
+        this.successCallback,
+        this.failCallback
+      )
+
+      setTimeout(() => {
+        if (this.sendHaoyou) {
+          this.sendHaoyou()
+        }
+      }, 500)
     },
     successCallback () {
 
@@ -208,16 +210,16 @@ export default {
         pyqContent: this.shareOption.pyqContent
       }
 
-//      Share.bindShare(
-//        this,
-//        data,
-//        this.successCallback,
-//        this.failCallback
-//      )
-//
-//      if (this.sendPengYouQuan) {
-//        this.sendPengYouQuan()
-//      }
+      Share.bindShare(
+        this,
+        data,
+        this.successCallback,
+        this.failCallback
+      )
+
+      if (this.sendPengYouQuan) {
+        this.sendPengYouQuan()
+      }
     }
   }
 }
