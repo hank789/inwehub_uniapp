@@ -23,7 +23,6 @@
         :api="'location/nearbySearch'"
         :page-mode="true"
         :request-data="dataList"
-        :is-show-up-to-refresh-description="true"
         class="listWrapper"
       >
         <view class="ul">
