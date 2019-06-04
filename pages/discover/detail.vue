@@ -62,7 +62,7 @@
                 <image
                   :id="'image_' + index"
                   :key="image"
-                  v-lazy="image"
+                  :src="image"
                   class="discover_img lazyImg"
                   :data-preview-src="image"
                   :data-preview-group="1"
@@ -268,11 +268,13 @@
     </view>
 
     <AlertTextarea ref="AlertTextarea" />
+
+    <iwDialogReport ref="alertReport"></iwDialogReport>
   </view>
 </template>
 
 <script>
-import allPlatform from '@/lib/allPlatform'
+import { getCurrentRoute } from '@/lib/allPlatform'
 import ui from '@/lib/ui'
 import { postRequest } from '@/lib/request'
 import UserInfo from '@/components/iw-discover/user-info.vue'
@@ -297,8 +299,10 @@ import {
 } from '@/lib/discover'
 import DetailMenu from '@/components/iw-menu-detail/iw-menu-detail.vue'
 import StarView from '@/components/iw-star/iw-star.vue'
+import iwDialogReport from '@/components/iw-dialog/report.vue'
 import { textToLinkHtml, transferTagToLink, addPreviewAttrForImg } from '@/lib/dom'
 import { showComment } from '@/lib/comment'
+
 
 export default {
   components: {
@@ -308,7 +312,8 @@ export default {
     commentTextarea,
     DetailMenu,
     StarView,
-    AlertTextarea
+    AlertTextarea,
+    iwDialogReport
   },
   data() {
     return {
@@ -405,19 +410,19 @@ export default {
 
       if (this.userId === this.detail.owner.id) {
         iconMenus.push({
-          icon: '#icon-shanchu1',
+          icon: 'icon-shanchu1',
           text: '删除'
         })
       }
       if (this.detail.is_bookmark) {
         iconMenus.push({
-          icon: '#icon-shoucangdilantongyi',
+          icon: 'icon-shoucangdilantongyi',
           text: '已收藏',
           isBookMark: 1
         })
       } else {
         iconMenus.push({
-          icon: '#icon-shoucangdilantongyi',
+          icon: 'icon-shoucangdilantongyi',
           text: '收藏',
           isBookMark: 0
         })
@@ -426,31 +431,31 @@ export default {
       if (this.detail.group && this.detail.group.is_joined === 3) {
         if (this.detail.is_recommend) {
           iconMenus.push({
-            icon: '#icon-sheweijingxuan',
+            icon: 'icon-sheweijingxuan',
             text: '取消加精'
           })
         } else {
           iconMenus.push({
-            icon: '#icon-sheweijingxuan',
+            icon: 'icon-sheweijingxuan',
             text: '设为精选'
           })
         }
 
         if (this.detail.top) {
           iconMenus.push({
-            icon: '#icon-zhiding',
+            icon: 'icon-zhiding',
             text: '取消置顶'
           })
         } else {
           iconMenus.push({
-            icon: '#icon-zhiding',
+            icon: 'icon-zhiding',
             text: '置顶'
           })
         }
       }
 
       iconMenus.push({
-        icon: '#icon-jubao',
+        icon: 'icon-jubao',
         text: '举报'
       })
       return iconMenus
@@ -790,7 +795,7 @@ export default {
       this.slug = this.pageOption.slug
       this.shareOption.targetId = this.slug
       this.noback = !!this.pageOption.noback
-      this.link = allPlatform.getCurrentRoute()
+      this.link = getCurrentRoute()
 
       if (!this.slug) {
         this.$router.back()
@@ -820,7 +825,7 @@ export default {
           }
         }
 
-        var shareOption = getTextDiscoverDetail('/c/' + this.detail.category_id + '/' + this.detail.slug, this.detail.title, this.detail.owner.avatar, this.detail.owner.name, this.detail.group.name)
+        var shareOption = getTextDiscoverDetail('/pages/discover/detail?slug=' + this.detail.slug, this.detail.title, this.detail.owner.avatar, this.detail.owner.name, this.detail.group.name)
         this.shareOption = Object.assign(this.shareOption, shareOption)
         if (this.detail.type === 'article') {
           this.title = this.detail.title
@@ -1287,11 +1292,11 @@ export default {
             .shareList {
                 margin-top: -30upx;
                 text-align: center;
-                ul {
+                .ul {
                     width: 100%;
                     padding: 0;
                     display: inline-block;
-                    li {
+                    .li {
                         margin: 0 25.96upx;
                         display: inline-block;
                         &:nth-of-type(1) {

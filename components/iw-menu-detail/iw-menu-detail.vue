@@ -1,61 +1,61 @@
 <template>
-    <view class="container-footer">
-        <view class="footerLeft" @tap.stop.prevent="WriteComment()">
-            <view class="footerMenuOne">说点什么</view>
-        </view>
-        <view class="footerRight">
-
-            <view class="collectionComment" :class="[{showNumer: menuItem.showNumber || menuItem.ShowIsUpVote }]" v-for="(menuItem, index) in iconOptions" :key="index" @tap.stop.prevent="detailMenuIcon(menuItem)" :title="menuItem.text">
-                <view class="iconWrapper"  :class="{active: menuItem.showClass}" :title="menuItem.text">
-                    <text class="iconfont" :class="menuItem.icon"></text>
-                </view>
-                <view v-if="menuItem.number">{{ menuItem.number }}</view>
-            </view>
-
-            <view class="detailFollwers" v-show="isDetailUpVote" @tap.click.prevent="clickUpVote"></view>
-            <view class="collectProduct" v-if="isNumUpVote" @tap.click.prevent="clickUpVote">
-                <text class="iconfont icon-yizan"></text>
-            </view>
-        </view>
+  <view class="container-footer">
+    <view class="footerLeft" @tap.stop.prevent="WriteComment()">
+      <view class="footerMenuOne">说点什么</view>
     </view>
+    <view class="footerRight">
+
+      <view v-for="(menuItem, index) in iconOptions" :key="index" class="collectionComment" :class="[{showNumer: menuItem.showNumber || menuItem.ShowIsUpVote }]" :title="menuItem.text" @tap.stop.prevent="detailMenuIcon(menuItem)">
+        <view class="iconWrapper" :class="{active: menuItem.showClass}" :title="menuItem.text">
+          <text class="iconfont" :class="menuItem.icon" />
+        </view>
+        <view v-if="menuItem.number">{{ menuItem.number }}</view>
+      </view>
+
+      <view v-show="isDetailUpVote" class="detailFollwers" @tap.click.prevent="clickUpVote" />
+      <view v-if="isNumUpVote" class="collectProduct" @tap.click.prevent="clickUpVote">
+        <text class="iconfont icon-yizan" />
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-      }
+export default {
+  props: {
+    detail: {
+      type: Object,
+      default: {}
     },
-    props: {
-      detail: {
-        type: Object,
-        default: {}
-      },
-      iconOptions: {
-        type: Array,
-        default: []
-      },
-      isDetailUpVote: {
-        type: Boolean,
-        default: false
-      },
-      isNumUpVote: {
-        type: Number,
-        default: 0
-      }
+    iconOptions: {
+      type: Array,
+      default: []
     },
-    methods: {
-      detailMenuIcon (item) {
-        this.$emit('detailMenuIcon', item)
-      },
-      WriteComment () {
-        this.$emit('WriteComment')
-      },
-      clickUpVote () {
-        this.$emit('clickUpVote')
-      }
+    isDetailUpVote: {
+      type: Boolean,
+      default: false
+    },
+    isNumUpVote: {
+      type: Number,
+      default: 0
+    }
+  },
+  data() {
+    return {
+    }
+  },
+  methods: {
+    detailMenuIcon(item) {
+      this.$emit('detailMenuIcon', item)
+    },
+    WriteComment() {
+      this.$emit('WriteComment')
+    },
+    clickUpVote() {
+      this.$emit('clickUpVote')
     }
   }
+}
 </script>
 
 <style scoped lang="less">
@@ -83,7 +83,7 @@
             display: flex;
             font-size: 27.98upx;
             float: left;
-            padding: 9.98upx 0 9.98upx 31.96upx;
+            padding: 18upx 0 9.98upx 31.96upx;
             .footerMenuTwo {
                 display: flex;
                 .containerBtn {
@@ -143,10 +143,10 @@
                     .iconfont{
                         color: #ffffff;
                     }
-                    span {
+                    .span {
                     }
                 }
-                span {
+                .span {
                     position: absolute;
                     top: 21.98upx;
                     left: 61.96upx;

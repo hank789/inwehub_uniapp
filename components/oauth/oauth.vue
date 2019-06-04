@@ -45,6 +45,7 @@
         this.bindType = type
       },
 			clickDialogButton() {
+				this.$refs.wechatBindDialog.hidePopup()
 				console.log(this.dialogCodeType)
 				switch (this.dialogCodeType) {
 					case 1131:

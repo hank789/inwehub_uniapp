@@ -54,7 +54,7 @@
 
 			<!--列表内容-->
 			<view class="component-option">
-				<view class="optionList" @tap.stop.prevent="$router.pushPlus('/feedback/advise')">
+				<view class="optionList" @tap.stop.prevent="toRoute('/pages/help/help')">
 					<text class="optionText">意见反馈</text>
 					<text class="iconfont icon-jinru"></text>
 					<i class="bot"></i>
@@ -65,8 +65,28 @@
 				</view>
 				<view class="gray"></view>
 			</view>
+			
+			<view class="guessLike">
+				<view class="component-block-title">猜您喜欢</view>
+				<view class="uni-list">
+					<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in recommendList" :key="key" @click="goDetail(value)">
+						<view class="uni-media-list" v-if="value.read_type == 1">
+							<image class="uni-media-list-logo" :src="value.data.img"></image>
+							<view class="uni-media-list-body">
+								<view class="uni-media-list-text-top uni-article-title">{{ value.data.title }}</view>
+								<view class="uni-media-list-text-bottom">
+									<text>{{ value.data.domain }}</text>
+									<text></text>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
 
 		</view>
+		<oauth ref="oauth" serviceId="weixin" :isShowBtn="false" @success="wechatLoginSuccess" @fail="wechatLoginFail"></oauth>
+		<notify-wechat-bind ref="notifyWechatBindDialog" :showPopup="showPopup" @clickButton="clickDialogButton"></notify-wechat-bind>
 
 	</view>
 </template>
@@ -74,10 +94,13 @@
 <script>
 	import localEvent from '@/lib/localstorage'
 	import {getLocalUserInfo, getAndUpdateUserInfo} from '@/lib/user.js'
-  
+  import notifyWechatBind from "@/components/iw-dialog/notify-wechat-bind.vue"
+	import oauth from '@/components/oauth/oauth.vue'
+
 	export default {
 		data () {
 			return {
+				showPopup: false,
         attention: '',
         expert_apply_status: '',
         collections: '',
@@ -94,38 +117,98 @@
         answers: '',
         show_my_wallet: false,
         my: '',
-        current_day_signed: ''
+        current_day_signed: '',
+				recommendList: []
 			}
 		},
+		components: {
+			notifyWechatBind,
+			oauth
+		},
+		onShow() {
+			this.getUserData()
+		},
 		onLoad() {
-			getAndUpdateUserInfo((user) => {
-					this.user_level = user.info.user_level
-          this.user_id = user.info.id
-          this.uuid = user.info.uuid
-          this.answers = user.info.answers
-          this.show_my_wallet = user.info.show_my_wallet
-          this.expert_apply_status = user.info.expert_apply_status
-          this.avatar = user.info.avatar_url
-          this.name = user.info.name
-          this.title = user.info.title
-          this.publishes = user.info.publishes
-          this.collections = user.info.collections
-          this.groups = user.info.groups
-          this.followed_number = user.info.followed_number
-          this.popularity = user.info.popularity
-          this.current_day_signed = user.info.current_day_signed
-          this.attention = user.info.followers
-					//#ifdef APP-PLUS
-          if (plus.os.name == 'Android') {
-            this.show_my_wallet = true
-          }
-					//#endif
+			var userInfo = getLocalUserInfo()
+			if (userInfo && userInfo.name && /^手机用户/.test(userInfo.name)) {
+				this.showPopup = true
+			}
+			this.$request.post('getRelatedRecommend',{source_id: 0, source_type: 0}).then(res => {
+				this.recommendList = res.data.data
 			})
 		},
 		methods: {
 			toRoute (url) {
 				uni.navigateTo({url: url})
-			}
+			},
+			goDetail (item) {
+        switch (item.read_type) {
+          case 1:
+						uni.navigateTo({
+							url: '/pages/discover/detail?slug=' + item.data.slug
+						})
+            //this.$router.pushPlus('/c/' + item.data.category_id + '/' + item.data.slug)
+            break
+          case 2:
+            //this.$router.pushPlus('/askCommunity/major/' + item.source_id)
+            break
+          case 3:
+            //this.$router.pushPlus('/ask/offer/answers/' + item.source_id)
+            break
+          case 4:
+            //this.$router.pushPlus('/EnrollmentStatus/' + item.source_id)
+            break
+          case 5:
+            //this.$router.pushPlus('/EnrollmentStatus/' + item.source_id)
+            break
+          case 6:
+            //this.$router.pushPlus('/ask/offer/' + item.source_id)
+            break
+          default:
+        }
+      },
+			getUserData() {
+				getAndUpdateUserInfo((user) => {
+						this.user_level = user.info.user_level
+						this.user_id = user.info.id
+						this.uuid = user.info.uuid
+						this.answers = user.info.answers
+						this.show_my_wallet = user.info.show_my_wallet
+						this.expert_apply_status = user.info.expert_apply_status
+						this.avatar = user.info.avatar_url
+						this.name = user.info.name
+						this.title = user.info.title
+						this.publishes = user.info.publishes
+						this.collections = user.info.collections
+						this.groups = user.info.groups
+						this.followed_number = user.info.followed_number
+						this.popularity = user.info.popularity
+						this.current_day_signed = user.info.current_day_signed
+						this.attention = user.info.followers
+						//#ifdef APP-PLUS
+						if (plus.os.name == 'Android') {
+							this.show_my_wallet = true
+						}
+						//#endif
+				})
+			},
+			clickDialogButton() {
+				this.$refs.oauth.setBindType(3)
+				this.$refs.oauth.login()
+			},
+			wechatLoginSuccess (token, openid, nickname = '', isNewUser = '') {
+        console.log(token)
+        console.log(openid)
+        if (token) {
+					this.$ls.set('token', token)
+					this.getUserData()
+        }
+      },
+      wechatLoginFail (errorMessage) {
+				uni.showToast({
+					title: errorMessage
+				})
+      },
 		}
 	}
 </script>
@@ -160,7 +243,7 @@
 		display: flex;
 		justify-content: space-between;
 
-		.icon {
+		.iconfont {
 			font-size: 42upx;
 			color: #444444;
 		}

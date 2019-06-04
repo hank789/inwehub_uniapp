@@ -76,6 +76,7 @@ export default {
 			  phone: '',
 			  yzm: '',
 			  get_msg_btn: '获取验证码',
+				get_msg_second: 60,
 			  can_send_msg: true,
 			  btnDisabled: false,
 			  yzmFocus: false
@@ -108,11 +109,13 @@ export default {
             title: '验证码发送成功'
           })
           this.can_send_msg = false
-          this.get_msg_btn = 59
+          this.get_msg_second = 59
+					this.get_msg_btn = '验证码(' + this.get_msg_second + '秒)'
           this.yzmFocus = true
           const timer = setInterval(() => {
-            this.get_msg_btn--
-            if (this.get_msg_btn == 0) {
+            this.get_msg_second--
+						this.get_msg_btn = '验证码(' + this.get_msg_second + '秒)'
+            if (this.get_msg_second == 0) {
               this.get_msg_btn = '获取验证码'
               this.can_send_msg = true
               clearInterval(timer)

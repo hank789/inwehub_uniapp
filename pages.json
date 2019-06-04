@@ -370,8 +370,26 @@
       "style": {
         "navigationBarTitleText": "注册协议"
       }
+    },
+    {
+      "path": "pages/position/select",
+      "style": {
+        "navigationBarTitleText": "所在位置"
+      }
+    },
+		{
+      "path": "pages/protocol/aboutus",
+      "style": {
+        "navigationBarTitleText": "关于我们"
+      }
     }
-  ],
+      ,{
+            "path" : "pages/help/help",
+            "style" : {
+							"navigationBarTitleText": "帮助与反馈"
+						}
+        }
+    ],
   "tabBar": {
     "color": "#B4B4B6",
     "selectedColor": "#444",
