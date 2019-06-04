@@ -152,6 +152,19 @@
       }
     },
     {
+      "path": "pages/my/advantage",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的擅长",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
       "path": "pages/my/resume",
       "style": {
         "navigationBarTitleText": "",
