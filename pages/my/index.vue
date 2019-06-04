@@ -144,6 +144,9 @@
 			goDetail (item) {
         switch (item.read_type) {
           case 1:
+						uni.navigateTo({
+							url: '/pages/discover/detail?slug=' + item.data.slug
+						})
             //this.$router.pushPlus('/c/' + item.data.category_id + '/' + item.data.slug)
             break
           case 2:
