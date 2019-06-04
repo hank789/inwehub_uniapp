@@ -3,7 +3,7 @@
 		<cmd-item title="绑定手机" @click="fnClick('modify')" :addon="phone" arrow></cmd-item>
 		<cmd-item title="绑定微信" @click="fnClick('bindWechat')" :addon="bindWeixinNickname"></cmd-item>
 		<cmd-item title="推送设置" @click="fnClick('pushSetting')" addon="" arrow></cmd-item>
-		<cmd-item title="常见问题" @click="fnClick('')" addon="" arrow></cmd-item>
+		<cmd-item title="常见问题" @click="fnClick('help')" addon="" arrow></cmd-item>
 		<cmd-item title="关于我们" @click="fnClick('aboutus')" addon="" arrow></cmd-item>
 		<cmd-item title="前往评价" @click="fnClick('starApp')" addon="" arrow></cmd-item>
 		<cmd-item title="清楚缓存" @click="fnClick('clearCache')" addon="" arrow></cmd-item>
@@ -87,6 +87,9 @@
 						break;
 					case 'aboutus':
 						uni.navigateTo({ url: '/pages/protocol/aboutus' })
+						break;
+					case 'help':
+						uni.navigateTo({ url: '/pages/help/help' })
 						break;
 					case 'starApp':
 						var appDeviceInfo = this.$ls.get('appDeviceInfo')

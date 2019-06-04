@@ -370,7 +370,13 @@
         "navigationBarTitleText": "关于我们"
       }
     }
-  ],
+      ,{
+            "path" : "pages/help/help",
+            "style" : {
+							"navigationBarTitleText": "帮助与反馈"
+						}
+        }
+    ],
   "tabBar": {
     "color": "#B4B4B6",
     "selectedColor": "#444",
