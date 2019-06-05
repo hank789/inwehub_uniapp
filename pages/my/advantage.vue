@@ -51,6 +51,7 @@
 	import { postRequest, getRequest } from '@/lib/request'
 	import { search } from '@/lib/search'
 	import { getIndexByIdArray } from "@/lib/array"
+	import { searchText as searchTextFilter } from '@/lib/search'
 	export default {
 		data() {
 			return {
@@ -137,7 +138,7 @@
 				  this.TagValue.push(list.value)
 				}
 				uni.showToast({
-					title: '添加成功'
+					title: '添加成功',
 				})
 				this.searchText = ''
 			  } else {
@@ -226,20 +227,18 @@
 		},
 
 		watch: {
-			searchText: function(newValue) {
-				if (!newValue) {
-					// 当无搜索内容时候
-					//          this.list = []
-					this.sort = 1
-					setTimeout(() => {
-						this.search()
-					}, 1100)
-					return
-				}
-				this.sort = 0
-				// searchText(newValue, (text) => {
-				// 	this.search(newValue)
-				// })
+			searchText: function(newValue,oldValue) {
+				searchTextFilter(newValue, (text)=>{
+					if (!newValue) {
+						this.sort = 1
+						setTimeout(() => {
+							this.search(newValue)
+						}, 1100)
+						return
+					}
+					this.sort = 0
+					this.search(newValue)
+				})
 			}
 		}
 	}
