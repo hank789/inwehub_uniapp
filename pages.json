@@ -399,12 +399,18 @@
         "navigationBarTitleText": "关于我们"
       }
     }
-      ,{
-            "path" : "pages/help/help",
-            "style" : {
-							"navigationBarTitleText": "帮助与反馈"
-						}
-        }
+		,{
+					"path" : "pages/help/help",
+					"style" : {
+						"navigationBarTitleText": "帮助与反馈"
+					}
+			},
+			{
+					"path" : "pages/my/qrcode",
+					"style" : {
+						"navigationBarTitleText": "我的二维码"
+					}
+			}
     ],
   "tabBar": {
     "color": "#B4B4B6",

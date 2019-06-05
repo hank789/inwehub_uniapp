@@ -46,3 +46,6 @@
     + 不能出现div, span, i, img等html标签
     + 不能用ID
 
++ 二维码组件
+	+ 使用：https://ext.dcloud.net.cn/plugin?id=39
+	
