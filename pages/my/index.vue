@@ -4,7 +4,7 @@
 			<view class="setUp" @tap.stop.prevent="toRoute('/pages/my/setting')">
 				<text class="iconfont icon-shezhi"></text>
 			</view>
-			<view class="code" @tap.stop.prevent="$router.pushPlus('/my/qrcode')">
+			<view class="code" @tap.stop.prevent="toRoute('/pages/my/qrcode')">
 				<text class="iconfont icon-erweima"></text>
 			</view>
 		</view>
