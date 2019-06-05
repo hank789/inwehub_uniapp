@@ -73,7 +73,7 @@
 
       },
       showPageMore (shareOption) {
-        this.$emit('showPageMore', shareOption, this.item)
+        this.$emit('showPageMore', {shareOption: shareOption, item: this.item})
       }
     }
   }
