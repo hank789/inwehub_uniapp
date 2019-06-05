@@ -85,6 +85,7 @@
           this.loadMoreStatus = res.data.next_page_url ? 0 : 2
 
           this.$emit('input', this.detail)
+          this.$emit('finish', this.detail)
         })
       },
       setEnableScroll(enable) {

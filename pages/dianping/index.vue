@@ -36,7 +36,7 @@
         <view class="topTitle font-family-medium">热门产品</view>
         <view class="heatProduct">
 
-          <view v-for="(item, index) in hotProductList" :key="index" class="productList" @tap.stop.prevent="$uni.navigateTo('/dianping/product/' + encodeURIComponent(item.name))">
+          <view v-for="(item, index) in hotProductList" :key="index" class="productList" @tap.stop.prevent="toRoute('/pages/dianping/product?name=' + encodeURIComponent(item.name))">
             <view class="componentCarProduct">
               <view class="topInfo">
                 <view class="left">

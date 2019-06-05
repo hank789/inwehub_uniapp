@@ -158,6 +158,13 @@
       }
     },
     {
+      "path": "pages/dianping/product",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "产品服务"
+      }
+    },
+    {
       "path": "pages/my/index",
       "style": {
         "navigationStyle": "default",
