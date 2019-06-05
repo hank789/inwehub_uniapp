@@ -11,8 +11,11 @@
 
 		<view class="mui-content">
 			<view class="my-top" @tap.stop.prevent="toRoute('/pages/my/resume')">
+				<view class="account_info">
+					<text class="iconfont icon-jinru"></text>
+				</view>
 				<view class="professor">
-					<view class="my-img" @tap.stop.prevent="$router.pushPlus('/my/resume')">
+					<view class="my-img" @tap.stop.prevent="toRoute('/pages/my/resume')">
 						<image :src="avatar" width="59" height="59" class="avatar"></image>
 						<view class="expert" v-if="expert_apply_status =='2'">
 							<text class="iconfont icon-zhuanjiabiaozhishixin"></text>

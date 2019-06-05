@@ -62,7 +62,7 @@
 									</view>
 								</view>
 								<view class="operationWrapper">
-									<view class="code iconAndText" @tap.stop.prevent="$router.pushPlus('/my/qrcode?id=' + resume.info.uuid)">
+									<view class="code iconAndText" @tap.stop.prevent="toRoute('/pages/my/qrcode')">
 										<text class="iconfont icon-erweima"></text>
 										<view class="word">个人码</view>
 									</view>
