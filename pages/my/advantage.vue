@@ -35,7 +35,7 @@
 					<text class="bot"></text>
 				</view>
 
-				<view v-for="(item, index) in list" @tap.stop.prevent="addSkillTag(item)" v-if="!(isNewTag && index === 0)">
+				<view class="tagsList" v-for="(item, index) in list" @tap.stop.prevent="addSkillTag(item)" v-if="!(isNewTag && index === 0)">
 					{{item.text}}
 					<text class="bot"></text>
 				</view>
@@ -48,9 +48,9 @@
 </template>
 
 <script>
-	import {
-		postRequest
-	} from '@/lib/request'
+	import { postRequest, getRequest } from '@/lib/request'
+	import { search } from '@/lib/search'
+	import { getIndexByIdArray } from "@/lib/array"
 	export default {
 		data() {
 			return {
@@ -60,7 +60,8 @@
 				sort: 1,
 				list: [],
 				searchText: '',
-				tagName: []
+				tagName: [],
+				isupload: 1
 			}
 		},
 		onLoad() {
@@ -69,11 +70,83 @@
 			} else {
 				this.type = 0
 			}
+			
+			this.skillTags()
+			this.search()
 		},
 		onReady() {
-			this.skillTags()
+		},
+		computed: {
+		  isNewTag () {
+			if (this.list[0] && typeof (this.list[0].value) === 'string') {
+			  return true
+			}
+			return false
+		  }
 		},
 		methods: {
+		  // 保存擅长标签；
+		  keepTags () {
+			if (this.type) {
+			  // 关注标签
+			  var url = 'follow/batchTags'
+			  var data = {
+				'ids': this.TagValue
+			  }
+			} else {
+			  // 我的擅长
+			  url = 'profile/addSkillTag'
+			  data = {
+				'tags': this.TagValue,
+				'new_tags': this.newTagName
+			  }
+			}
+			postRequest(url, data).then(response => {
+			  var code = response.code
+			  if (code !== 1000) {
+				console.log(response.message)
+				return
+			  }
+				uni.showToast({
+					title: '保存成功'
+				})
+			})
+		  },
+				
+		  // 添加擅长标签；
+		  addSkillTag (item) {
+			this.isupload = 0
+			var index = getIndexByIdArray(this.skill_tags, item.value, 'value')
+			if (index >= 0) {
+				uni.showToast({
+					title: '重复添加'
+				})
+			} else {
+			  var list = {
+				id: item.value,
+				value: item.value,
+				text: item.text
+			  }
+	//          选中的标签添加到数组中
+			  if (this.skill_tags.length < 20) {
+				this.skill_tags.push(list)
+				 // 筛选新标签
+				if (typeof (list.value) === 'string') {
+				  this.newTagName.push(list.value)
+				} else {
+				  this.TagValue.push(list.value)
+				}
+				uni.showToast({
+					title: '添加成功'
+				})
+				this.searchText = ''
+			  } else {
+				uni.showToast({
+					title: '最多添加20个标签'
+				})
+			  }
+			}
+		  },
 			search(text, sort) {
 				// 判断是否为空；
 				postRequest('tags/load', {
@@ -81,12 +154,12 @@
 					word: text,
 					sort: this.sort
 				}).then(response => {
-					var code = response.data.code
+					var code = response.code
 					if (code !== 1000) {
 						return
 					}
-					if (response.data.data.tags.length > 0) {
-						this.list = response.data.data.tags
+					if (response.data.tags.length > 0) {
+						this.list = response.data.tags
 						for (var i = 0; i < this.list.length; i++) {
 							this.tagName.push(this.list[i].text)
 						}
@@ -122,17 +195,15 @@
 					data = {}
 				}
 				getRequest(url, data).then(response => {
-					var code = response.data.code
+					var code = response.code
 					if (code !== 1000) {
-						window.mui.alert(response.data.message)
-						window.mui.back()
 						return
 					}
-					if (this.type && response.data.data.data.length >= 0) {
+					if (this.type && response.data.data.length >= 0) {
 						this.skill_tags = response.data.data.data
 					}
-					if (!this.type && response.data.data.info.skill_tags.length >= 0) {
-						this.skill_tags = response.data.data.info.skill_tags
+					if (!this.type && response.data.info.skill_tags.length >= 0) {
+						this.skill_tags = response.data.info.skill_tags
 					}
 					for (var i = 0; i < this.skill_tags.length; i++) {
 						this.TagValue.push(this.skill_tags[i].value)
@@ -152,11 +223,40 @@
 					this.newTagName.splice(index, 1)
 				}
 			}
+		},
+
+		watch: {
+			searchText: function(newValue) {
+				if (!newValue) {
+					// 当无搜索内容时候
+					//          this.list = []
+					this.sort = 1
+					setTimeout(() => {
+						this.search()
+					}, 1100)
+					return
+				}
+				this.sort = 0
+				// searchText(newValue, (text) => {
+				// 	this.search(newValue)
+				// })
+			}
 		}
 	}
 </script>
 
 <style lang="less" scoped="scoped">
+	
+  .bot {
+    position: absolute;
+    right: 0upx;
+    bottom: 0;
+    left: 0upx;
+    height: 2upx;
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: rgb(220, 220, 220);
+  }
 	.myLabel {
 		width: 100%;
 		overflow: hidden;
@@ -207,16 +307,19 @@
 		width: 100%;
 		background: #FFFFFF;
 		padding: 30upx 4% 0 4%;
+
 		.title {
 			font-size: 26upx;
 			color: #808080;
 		}
+
 		.search {
 			width: 100%;
 			height: 76upx;
 			margin-top: 18upx;
 			background: #F3F4F5;
 			border-radius: 200upx;
+
 			.iconfont {
 				font-size: 34upx;
 				color: #c8c8c8;
@@ -224,6 +327,7 @@
 				margin-left: 32upx;
 				float: left;
 			}
+
 			input {
 				background: #F3F4F5;
 				width: 80%;
@@ -235,10 +339,12 @@
 				color: #444444;
 			}
 		}
+
 		.tags {
 			width: 100%;
 			overflow: hidden;
 			margin-top: 44upx;
+
 			.tagsList {
 				width: 100%;
 				height: 88upx;
@@ -249,20 +355,23 @@
 				color: #808080;
 			}
 		}
+
 		.hotTags {
 			width: 100%;
 			overflow: hidden;
 			margin-top: 43.96upx;
+
 			.title {
 				font-size: 26upx;
-				color:rgba(128,128,128,1);
+				color: rgba(128, 128, 128, 1);
 				margin-bottom: 20upx;
 			}
+
 			.hotTagsList {
-				font-size:27.98upx;
-				color:rgba(68,68,68,1);
+				font-size: 27.98upx;
+				color: rgba(68, 68, 68, 1);
 				padding: 9.98upx 19.96upx;
-				border:1.96upx solid RGBA(220, 220, 220, 1);
+				border: 1.96upx solid RGBA(220, 220, 220, 1);
 				border-radius: 7.96upx;
 				float: left;
 				margin-bottom: 19.96upx;
