@@ -11,9 +11,6 @@
 
 		<view class="mui-content">
 			<view class="my-top" @tap.stop.prevent="toRoute('/pages/my/resume')">
-				<view class="account_info">
-					<text class="iconfont icon-jinru"></text>
-				</view>
 				<view class="professor">
 					<view class="my-img" @tap.stop.prevent="$router.pushPlus('/my/resume')">
 						<image :src="avatar" width="59" height="59" class="avatar"></image>
@@ -67,7 +64,7 @@
 			</view>
 			
 			<view class="guessLike">
-				<view class="component-block-title">猜您喜欢</view>
+				<view class="component-block-title" style="font-size: 32upx;">猜您喜欢</view>
 				<view class="uni-list">
 					<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in recommendList" :key="key" @click="goDetail(value)">
 						<view class="uni-media-list" v-if="value.read_type == 1">
@@ -75,7 +72,7 @@
 							<view class="uni-media-list-body">
 								<view class="uni-media-list-text-top uni-article-title">{{ value.data.title }}</view>
 								<view class="uni-media-list-text-bottom">
-									<text>{{ value.data.domain }}</text>
+									<text style="color: #8f8f94;">{{ value.data.domain }}</text>
 									<text></text>
 								</view>
 							</view>
@@ -217,8 +214,6 @@
 	.mui-content {
 		background: #fff;
 		top: 100upx;
-		bottom: 50px;
-		/* px不转换 */
 	}
 
 	.gray {
@@ -239,9 +234,10 @@
 	}
 
 	.mui-bar {
-		padding: 22.96upx 32upx 0;
+		padding: 28upx 32upx 0;
 		display: flex;
 		justify-content: space-between;
+		margin-top: 10upx;
 
 		.iconfont {
 			font-size: 42upx;

@@ -2,11 +2,11 @@
 	<view class="">
 		<cmd-item title="绑定手机" @click="fnClick('modify')" :addon="phone" arrow></cmd-item>
 		<cmd-item title="绑定微信" @click="fnClick('bindWechat')" :addon="bindWeixinNickname"></cmd-item>
-		<cmd-item title="推送设置" @click="fnClick('pushSetting')" addon="" arrow></cmd-item>
-		<cmd-item title="常见问题" @click="fnClick('help')" addon="" arrow></cmd-item>
-		<cmd-item title="关于我们" @click="fnClick('aboutus')" addon="" arrow></cmd-item>
-		<cmd-item title="前往评价" @click="fnClick('starApp')" addon="" arrow></cmd-item>
-		<cmd-item title="清楚缓存" @click="fnClick('clearCache')" addon="" arrow></cmd-item>
+		<cmd-item title="推送设置" @click="fnClick('pushSetting')" arrow></cmd-item>
+		<cmd-item title="常见问题" @click="fnClick('help')" arrow></cmd-item>
+		<cmd-item title="关于我们" @click="fnClick('aboutus')" arrow></cmd-item>
+		<cmd-item title="前往评价" @click="fnClick('starApp')" arrow></cmd-item>
+		<cmd-item title="清楚缓存" @click="fnClick('clearCache')" arrow></cmd-item>
 		<button type="button" class="btn-logout" @tap.stop.prevent="logOut">退出应用</button>
 		<view class="foot">
 			<view class="logo">
