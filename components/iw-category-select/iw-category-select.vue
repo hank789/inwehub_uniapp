@@ -1,4 +1,11 @@
 <template>
+  <uni-popup
+          :show="isShow"
+          :position="'top'"
+          type="bottom"
+          :h5-top="true"
+          @hidePopup="hide"
+  >
   <view id="dropDownMenuWrapper" :class="positionClass" class="shareWrapper mui-popover">
     <slot name="dropDownMenuHeader" />
     <view class="container-select">
@@ -36,15 +43,18 @@
       <view class="bot" />
     </view>
   </view>
+  </uni-popup>
 </template>
 
 <script>
 import DropDownMenuChild from
 '@/components/iw-category-select/iw-category-select-children.vue'
+import uniPopup from '@/components/uni-popup/uni-popup.vue'
 
 export default {
   components: {
-    DropDownMenuChild
+    DropDownMenuChild,
+    uniPopup
   },
   props: {
     positionClass: {
@@ -68,20 +78,16 @@ export default {
   },
   data() {
     return {
-      selectedIterms: []
+      selectedIterms: [],
+      isShow: false
     }
   },
   mounted() {
-    setTimeout(() => {
-      window.mui('.dropDownScrollWrapper').scroll({
-        scrollY: true,
-        scrollX: false,
-        indicators: true,
-        bounce: false
-      })
-    }, 100)
   },
   methods: {
+    hide () {
+      this.isShow = false
+    },
     ProductAddBack() {
       window.mui('#dropDownMenuWrapper').popover('toggle')
     },
@@ -150,15 +156,7 @@ export default {
       document.querySelector('.container-select').style.height = height + 'px'
     },
     show() {
-      window.mui('#dropDownMenuWrapper').popover('toggle')
-      this.autoScrollWrapperHeight()
-      if (this.showSelectTop) {
-        var backdrop = document.querySelector('.mui-backdrop')
-        if (backdrop) {
-          var offsetTop = document.querySelector('#dropDownMenuWrapper').offsetTop
-          document.querySelector('.mui-backdrop').style.top = offsetTop + 'px'
-        }
-      }
+      this.isShow = true
     }
   }
 }
@@ -193,7 +191,6 @@ export default {
     width: 100%;
 
     .select-top {
-      height: 67.96upx;
       font-size: 25.96upx;
       line-height: 67.96upx;
       padding: 0 31.96upx;
@@ -233,6 +230,7 @@ export default {
     border-bottom-left-radius: 36upx !important;
   }
   .dropDownMenuRoot .shareWrapper {
+    display: none;
     border-bottom-right-radius: 36upx;
     border-bottom-left-radius: 36upx;
   }
@@ -259,7 +257,9 @@ export default {
 </style>
 
 <style>
+  .dropDownScrollWrapper{
 
+  }
   .dropDownScrollWrapper .list .listChildren {
     display: none;
   }

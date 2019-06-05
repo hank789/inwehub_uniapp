@@ -83,6 +83,7 @@
 
 import { upvote, downVote } from '@/lib/discover'
 import UserInfo from '@/components/iw-discover/user-info.vue'
+import { getTextDiscoverDetail } from '@/lib/shareTemplate'
 
 export default {
   components: {
@@ -170,6 +171,13 @@ export default {
 
     },
     showItemMore() {
+      this.shareOption = getTextDiscoverDetail(
+        this.item.feed.comment_url,
+        this.item.feed.title,
+        this.item.user.avatar,
+        this.item.user.name,
+        this.item.feed.group.name
+      )
       this.$emit('showPageMore', this.shareOption)
     }
   }
