@@ -67,8 +67,10 @@ import {
   mapState,
   mapMutations
 } from 'vuex'
-import allPlatform from '@/lib/allPlatform.js'
+import {saveLocationInfo} from '@/lib/allPlatform.js'
 import oauth from '@/components/oauth/oauth.vue'
+import html5plus from '@/lib/html5plus.js'
+
 export default {
   data() {
     return {
@@ -158,7 +160,8 @@ export default {
           this.setToken(res.data.token)
           this.$ls.set('token', res.data.token)
           this.$ls.set('UserInfo', res.data)
-					allPlatform.saveLocationInfo()
+					html5plus.saveDeviceInfo(this)
+					saveLocationInfo()
           uni.switchTab({
               url: '/pages/index/index'
           })
@@ -175,7 +178,7 @@ export default {
 			console.log(openid)
 			if (token) {
 				this.$ls.set('token', token)
-				allPlatform.saveLocationInfo()
+				saveLocationInfo()
 				this.$request.get('profile/info').then(response => {
 					this.$ls.set('UserInfo', response.data)
 					uni.hideLoading()

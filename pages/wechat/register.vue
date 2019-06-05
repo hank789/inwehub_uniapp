@@ -48,7 +48,7 @@
 
 
 <script>
-  import allPlatform from '@/lib/allPlatform.js'
+  import {saveLocationInfo} from '@/lib/allPlatform.js'
 
   export default {
     data: () => ({
@@ -112,7 +112,7 @@
           this.$ls.set('token', this.token)
 					this.$request.get('profile/info').then(response => {
 						this.$ls.set('UserInfo', response.data)
-						allPlatform.saveLocationInfo()
+						saveLocationInfo()
 						uni.switchTab({
 							url: '/pages/index/index'
 						})
