@@ -71,7 +71,7 @@
     {
       "path": "pages/discover/index",
       "style": {
-				"navigationBarTitleText": "",
+        "navigationBarTitleText": "",
         "navigationStyle": "default",
         "app-plus": {
           "titleNView": false
@@ -143,9 +143,9 @@
     {
       "path": "pages/dianping/index",
       "style": {
-				"navigationBarTitleText": "",
+        "navigationBarTitleText": "",
         "navigationStyle": "custom",
-				"app-plus": {
+        "app-plus": {
           "titleNView": false
         }
       }
@@ -168,8 +168,8 @@
       "path": "pages/my/index",
       "style": {
         "navigationStyle": "default",
-				"navigationBarTitleText": "",
-				"app-plus": {
+        "navigationBarTitleText": "",
+        "app-plus": {
           "titleNView": false
         }
       }
@@ -400,32 +400,39 @@
         "navigationBarTitleText": "所在位置"
       }
     },
-		{
+    {
       "path": "pages/protocol/aboutus",
       "style": {
         "navigationBarTitleText": "关于我们"
       }
+    },
+    {
+      "path": "pages/help/help",
+      "style": {
+        "navigationBarTitleText": "帮助与反馈"
+      }
+    },
+    {
+      "path": "pages/my/qrcode",
+      "style": {
+        "navigationBarTitleText": "我的二维码"
+      }
+    },
+    {
+      "path": "pages/my/visitors",
+      "style": {
+        "enablePullDownRefresh": true,
+        "navigationBarTitleText": "我的人气"
+      }
+    },
+    {
+      "path": "pages/icon/index",
+      "style": {
+        "enablePullDownRefresh": true,
+        "navigationBarTitleText": "我的人气"
+      }
     }
-		,{
-					"path" : "pages/help/help",
-					"style" : {
-						"navigationBarTitleText": "帮助与反馈"
-					}
-			},
-			{
-					"path" : "pages/my/qrcode",
-					"style" : {
-						"navigationBarTitleText": "我的二维码"
-					}
-			},
-			{
-					"path" : "pages/my/visitors",
-					"style" : {
-						"enablePullDownRefresh": true,
-						"navigationBarTitleText": "我的人气"
-					}
-			}
-    ],
+  ],
   "tabBar": {
     "color": "#B4B4B6",
     "selectedColor": "#444",
