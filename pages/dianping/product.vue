@@ -32,7 +32,7 @@
         </view>
         <view class="optionlList">
           <template v-for="(category, index) in detail.categories">
-            <view class="list" @tap.stop.prevent="$uni.navigateTo('/dianping/products/' + category.id + '/' + encodeURIComponent(category.name))">
+            <view class="list" @tap.stop.prevent="toRoute('/pages/dianping/products?id=' + category.id + '&name=' + encodeURIComponent(category.name))">
               <view class="span">{{ category.name }}</view>
               <view class="span ranking">No.{{ category.rate }}</view>
               <text class="iconfont icon-jinru " />
@@ -109,7 +109,7 @@
 
         <view class="productList">
           <view v-for="(tag, index) in detail.related_tags" :key="index" class="comment-product">
-            <view class="product-info" @tap.stop.prevent="$uni.navigateTo('/dianping/product/' + encodeURIComponent(tag.name))">
+            <view class="product-info" @tap.stop.prevent="toRoute('/pages/dianping/product?name=' + encodeURIComponent(tag.name))">
               <view class="product-img border-football">
                 <image mode="aspectFill" :src="tag.logo" alt="" class="image lazyImg" /></view>
               <view class="product-detail">
@@ -269,6 +269,7 @@ export default {
   },
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
     this.pageOption = option
+    this.refreshPageData()
   },
   watch: {
     '$route'(to, from) {
@@ -279,10 +280,10 @@ export default {
   },
   mounted() {
   },
-  created() {
-    this.refreshPageData()
-  },
   methods: {
+    toRoute(url) {
+      uni.navigateTo({ url: url })
+    },
     finish () {
       this.loading = 0
       this.title = '产品服务'
@@ -412,10 +413,10 @@ export default {
             height: 120upx;
             margin: 0 auto 19.96upx;
             overflow: hidden;
+            border-radius: 7.96upx;
             .image {
                 width: 100%;
                 height: 100%;
-                border-radius: 7.96upx;
                 object-fit: contain;
             }
         }
