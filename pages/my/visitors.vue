@@ -12,7 +12,7 @@
 		<view class="component-title-home">
 			<text class="left">最近访客</text>
 		</view>
-		<view class="line-river"></view>
+		
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(item,key) in list" :key="key" @tap.stop.prevent="toResume(item.uuid)">
 				<view class="uni-media-list">
