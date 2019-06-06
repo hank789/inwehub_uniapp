@@ -73,7 +73,7 @@
 
           <view>
             <template v-for="(comment, index) in productComments">
-              <feedDianping :item="comment" :index="index" @showItemMore="showItemMore" />
+              <feedDianping :item="comment" :index="index" @showPageMore="showItemMore" />
             </template>
           </view>
 
@@ -304,9 +304,9 @@ export default {
     toResume(uuid) {
       uni.navigateTo('/share/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime()))
     },
-    showItemMore(shareOption, item) {
+    showItemMore(data) {
       this.iconMenus = []
-      this.shareOption = shareOption
+      this.shareOption = data.shareOption
       this.$refs.share.share()
     },
     joinShare() {
@@ -486,6 +486,7 @@ export default {
             padding: 24upx 31.96upx;
             display: flex;
             position: relative;
+            line-height: 18px;
             justify-content: space-between;
             .ranking {
                 color: #B4B4B6;

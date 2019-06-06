@@ -24,7 +24,7 @@
       >{{ item.name }}</view>
     </scroll-view>
 
-    <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="176" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
+    <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="148" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
       <swiper
         id="swiper"
         class="swiper-box"
