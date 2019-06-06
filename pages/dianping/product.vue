@@ -271,13 +271,6 @@ export default {
     this.pageOption = option
     this.refreshPageData()
   },
-  watch: {
-    '$route'(to, from) {
-      if (to.name === from.name) {
-        this.refreshPageData()
-      }
-    }
-  },
   mounted() {
   },
   methods: {
