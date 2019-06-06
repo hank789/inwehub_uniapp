@@ -52,7 +52,7 @@
 								</view>
 								<view class="consultWrapper">
 									<view class="leftButton">
-										<view class="border-football font-family-medium" v-show="uuid == cuuid" @tap.stop.prevent="$router.pushPlus('/my/detailInfo/' + resume.info.uuid)">详细资料</view>
+										<view class="border-football font-family-medium" v-show="uuid == cuuid" @tap.stop.prevent="toRoute('/pages/my/detailInfo')">详细资料</view>
 										<view class="border-football font-family-medium letter" v-if="uuid !== cuuid" @tap.stop.prevent="goChat()">发私信</view>
 										<view class="border-football font-family-medium" v-if="uuid !== cuuid" @tap.stop.prevent="goAsk('/ask/'+uuid)">提问题</view>
 									</view>
