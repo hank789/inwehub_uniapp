@@ -149,6 +149,10 @@
 			</template>
 
 		</view>
+		
+		<div class="buttonWrapper">
+			<div class="edit" @tap.stop.prevent="toRoute('/pages/my/info')">继续编辑</div>
+		</div>
 
 	</view>
 </template>
@@ -203,6 +207,9 @@
 			}
 		},
 		methods: {
+			toRoute (url) {
+				uni.navigateTo({url: url})
+			},
 			getData() {
 				this.uuid = getLocalUuid()
 				// this.cuuid = currentUser.uuid
@@ -586,4 +593,35 @@
 			}
 		}
 	}
+	
+	
+  .buttonWrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 99.98upx;
+    overflow: hidden;
+    background: #FFFFFF;
+	z-index: 999;
+    &:before {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 2upx;
+      content: '';
+      transform: scaleY(0.5);
+      background-color: #dcdcdc;
+    }
+    .edit {
+      width: 685.96upx;
+      height: 72upx;
+      color: #ffffff;
+      font-size: 31.96upx;
+      line-height: 72upx;
+      text-align: center;
+      border-radius: 15.98upx;
+      background: #03AEF9;
+      margin: 15.98upx auto 0;
+    }
+  }
 </style>
