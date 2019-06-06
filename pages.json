@@ -417,6 +417,13 @@
 					"style" : {
 						"navigationBarTitleText": "我的二维码"
 					}
+			},
+			{
+					"path" : "pages/my/visitors",
+					"style" : {
+						"enablePullDownRefresh": true,
+						"navigationBarTitleText": "我的人气"
+					}
 			}
     ],
   "tabBar": {
