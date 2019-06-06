@@ -21,8 +21,10 @@
 						<view class="uni-media-list-text-top">{{item.user_name}}</view>
 						<view class="uni-media-list-text-bottom">
 							<view><text>{{item.description}}</text></view>
-							<view><text>{{item.visited_time}}</text></view>
 						</view>
+					</view>
+					<view class="uni-triplex-right" style="line-height: 36upx;">
+							<text class="uni-h5">{{item.visited_time}}</text>
 					</view>
 				</view>
 			</view>
