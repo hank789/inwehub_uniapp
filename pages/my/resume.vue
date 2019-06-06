@@ -1,7 +1,8 @@
 <template>
 	<view class="resume">
-		
+		<view class="status" :style="{ opacity: afterHeaderOpacity }"></view>
 			<view class="header">
+				
 				<!-- 头部-默认显示 -->
 				<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
 					<view class="back">
@@ -31,7 +32,7 @@
 				<view class="backMask"></view>
 			</view>
 
-			<view class="content">
+			<view class="content" id="comments">
 
 				<view class="header-wrapper">
 					<view class="headers">
@@ -61,7 +62,7 @@
 									</view>
 								</view>
 								<view class="operationWrapper">
-									<view class="code iconAndText" @tap.stop.prevent="$router.pushPlus('/my/qrcode?id=' + resume.info.uuid)">
+									<view class="code iconAndText" @tap.stop.prevent="toRoute('/pages/my/qrcode')">
 										<text class="iconfont icon-erweima"></text>
 										<view class="word">个人码</view>
 									</view>
@@ -157,11 +158,14 @@
 				uuid: '',
 				cuuid: '',
 				cssTop: 88,
+				beforeHeaderOpacity: 1,
 				afterHeaderOpacity: 0,
 				afterHeaderzIndex: 11,
 				beforeHeaderzIndex: 1,
 				anchorlist: [],
-				showBack: true,
+				// #ifndef MP
+				showBack:true,
+				// #endif
 				list: [],
 				resume: {
 					groups: [],
@@ -193,16 +197,23 @@
 				userInfo: {}
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			// #ifdef MP
+			//小程序隐藏返回按钮
+			this.showBack = false;
+			// #endif
+			//option为object类型，会序列化上个页面传递的参数
+			console.log(option.cid); //打印出上个页面传递的参数。
 			this.getUserInfo()
-			// this.calcAnchor()
 		},
 		onPageScroll(e) {
 			//导航栏渐变
-			let tmpY = 375;
-			e.scrollTop = e.scrollTop > tmpY ? 375 : e.scrollTop;
+			let tmpY = 300;
+			e.scrollTop = e.scrollTop > tmpY ? 300 : e.scrollTop;
 			this.afterHeaderOpacity = e.scrollTop * (1 / tmpY);
 			this.beforeHeaderOpacity = 1 - this.afterHeaderOpacity;
+		},
+		onReady(){
 		},
 		methods: {
 			toRoute (url) {
@@ -211,20 +222,6 @@
 			back() {
 				uni.navigateBack();
 			},
-// 			calcAnchor() {
-// 				let commentsView = uni.createSelectorQuery().select("#comments");
-// 				commentsView.boundingClientRect((data) => {
-// 					let statusbarHeight = 0;
-// 					//APP内还要计算状态栏高度
-// 					// #ifdef APP-PLUS
-// 					statusbarHeight = plus.navigator.getStatusbarHeight()
-// 					// #endif
-// 					let headerHeight = uni.upx2px(100);
-// 					this.anchorlist[1].top = data.top - headerHeight - statusbarHeight;
-// 					this.anchorlist[2].top = data.bottom - headerHeight - statusbarHeight;
-// 
-// 				}).exec();
-// 			},
 			getUserInfo() {
 				postRequest(`profile/info`, {}).then(res => {
 					this.userInfo = res.data
@@ -265,6 +262,18 @@
 		transform: scaleY(.5);
 		background-color: rgb(220, 220, 220);
 	}
+
+.status {
+	width: 100%;
+	height: 0;
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	/*  #ifdef  APP-PLUS  */
+	height: var(--status-bar-height); //覆盖样式
+	/*  #endif  */
+	background-color: #f1f1f1;
+}
 
 	.header {
 		width: 100%;
