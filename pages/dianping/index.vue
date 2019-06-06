@@ -71,7 +71,7 @@
             <template v-for="(item, index) in albumList">
               <view class="display">
                 <view v-for="(itemList, itemIndex) in item" :key="itemIndex">
-                  <view v-if="itemList.type === 'product_album'" class="specialList" @tap.stop.prevent="$uni.navigateTo('/dianping/products/' + itemList.id + '/' + encodeURIComponent(itemList.name))">
+                  <view v-if="itemList.type === 'product_album'" class="specialList" @tap.stop.prevent="toRoute('/pages/dianping/products?id=' + itemList.id + '&name=' + encodeURIComponent(itemList.name))">
                     <view class="mask" />
                     <view class="img"><image mode="aspectFill" class="image" :src="itemList.icon" /></view>
                     <view class="text font-family-medium">{{ itemList.name }}</view>

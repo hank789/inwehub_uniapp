@@ -1,161 +1,164 @@
 <template>
-    <div id="hotHomeHeat" class="mui-popover mui-popover-action mui-popover-bottom">
-        <div class="heat-wrapper">
-            <div class="footerMenu">
-                <div class="left">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-dingyue-"></use>
-                    </svg>
-                    <div class="hotRecommend">
-                        <img src="../statics/images/hotrecommend@3x.png" alt="">
-                    </div>
-                </div>
-                <div class="right">
-                    <div class="oneLine"></div>
-                    <div class="menu" @tap.stop.prevent="subscribeApp">
-                <span class="iconCircular one" :class="isOpenAppPush === 1 ? 'grey':''">
-                  <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-xiazaiapp"></use>
-                  </svg>
-                </span>
-                        <div class="text">{{ isOpenAppPush ? '已订阅':'APP推送' }}</div>
-                    </div>
-                    <div class="menu" @tap.stop.prvent="subscribeEmail">
-                <span class="iconCircular two":class="isOpenEmailPush ? 'grey':''">
-                  <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-youxiang"></use>
-                  </svg>
-                </span>
-                        <div class="text">{{ isOpenEmailPush ? '已订阅':'邮件' }}</div>
-                    </div>
-                    <div class="menu" @tap.stop.prevent="subscribeGZH">
-              <span class="iconCircular three" :class="isOpenWeChatPush ? 'grey' : ''">
-                <svg class="icon" aria-hidden="true">
-                  <use xlink:href="#icon-weixinfuwuhao"></use>
-                </svg>
-              </span>
-                        <div class="text">{{ isOpenWeChatPush ? '已订阅':'微信服务号' }}</div>
-                    </div>
-                </div>
-            </div>
+    <view>
+    <uni-popup
+            :show="isShow"
+            :position="'bottom'"
+            type="bottom"
+            :h5-top="true"
+            @hidePopup="hide"
+    >
+  <view class="hotHomeHeat mui-popover mui-popover-action mui-popover-bottom">
+    <view class="heat-wrapper">
+      <view class="footerMenu">
+        <view class="left">
+          <text class="iconfont icon-dingyue- " />
+          <view class="hotRecommend">
+            <image mode="aspectFill" class="image" src="../../static/images/hotrecommend@3x.png" alt="" /></view>
+        </view>
+        <view class="right">
+          <view class="oneLine" />
+          <view class="menu" @tap.stop.prevent="subscribeApp">
+            <view :class="isOpenAppPush === 1 ? 'grey':''" class="span iconCircular one">
+              <text class="iconfont icon-xiazaiapp " />
+            </view>
+            <view class="text">{{ isOpenAppPush ? '已订阅':'APP推送' }}</view>
+          </view>
+          <view class="menu" @tap.stop.prvent="subscribeEmail">
+            <view :class="isOpenEmailPush ? 'grey':''" class="span iconCircular two">
+              <text class="iconfont icon-youxiang " />
+            </view>
+            <view class="text">{{ isOpenEmailPush ? '已订阅':'邮件' }}</view>
+          </view>
+          <view class="menu" @tap.stop.prevent="subscribeGZH">
+            <view :class="isOpenWeChatPush ? 'grey' : ''" class="span iconCircular three">
+              <text class="iconfont icon-weixinfuwuhao " />
+            </view>
+            <view class="text">{{ isOpenWeChatPush ? '已订阅':'微信服务号' }}</view>
+          </view>
+        </view>
+      </view>
 
-            <div class="cancelW" @tap.stop.prevent="cancelShare">
-                <div class="bot"></div>
-                <span>取消</span>
-            </div>
-        </div>
-    </div>
+      <view class="cancelW" @tap.stop.prevent="cancelShare">
+        <view class="bot" />
+        <view class="span">取消</view>
+      </view>
+    </view>
+  </view>
+    </uni-popup>
+
+    <alertEmailSubscribe ref="alertEmailSubscribe" @emailChange="emailChange"></alertEmailSubscribe>
+    </view>
 </template>
 
 <script type="text/javascript">
-  import { postRequest } from '../utils/request'
-  import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus } from '../utils/push'
-  import { alertSubscribeGZH, alertEmailSubscribe } from '../utils/dialogList'
+import { postRequest } from '@/lib/request'
+import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus } from '@/lib/push'
+import uniPopup from '@/components/uni-popup/uni-popup.vue'
+import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe'
 
-  export default {
-    data () {
-      return {
-        isOpenAppPush: -1,
-        isOpenEmailPush: -1,
-        isOpenWeChatPush: -1,
-        emailText: ''
-      }
+export default {
+  components: {
+    uniPopup,
+    alertEmailSubscribe
+  },
+  props: {
+  },
+  data() {
+    return {
+      isOpenAppPush: -1,
+      isOpenEmailPush: -1,
+      isOpenWeChatPush: -1,
+      emailText: '',
+      isShow: false
+    }
+  },
+  computed: {
+  },
+  watch: {
+  },
+  created() {
+    this.refreshPageData()
+  },
+  methods: {
+    hide () {
+      this.isShow = false
     },
-    props: {
-    },
-    computed: {
-    },
-    created () {
-      this.refreshPageData()
-    },
-    watch: {
-    },
-    methods: {
-      subscribeApp () {
-        if (!this.isOpenAppPush) {
-          setHotRecommendAppPushStatus(this, 1, () => {
-            this.isOpenAppPush = 1
-            // window.mui.toast('“APP订阅”成功')
-          }, () => {
-          })
-        }
-      },
-      subscribeEmail () {
-        if (!this.isOpenEmailPush) {
-          if (!this.emailText) {
-            this.cancelShare()
-            alertEmailSubscribe(this, (num, text) => {
-              if (num === 0) {
-                this.emailText = text
-                setHotRecommendEmailStatus(1, this.emailText, () => {
-                  this.isOpenEmailPush = 1
-                  // window.mui.toast('订阅成功，可前往设置进行订阅管理')
-                }, () => {
-                })
-              }
-            })
-            return
-          }
-        }
-      },
-      subscribeGZH () {
-        this.cancelShare()
-        alertSubscribeGZH(this)
-        // setHotRecommendWechatStatus(this.isOpenWeChatPush, () => {
-        //   if (!this.isOpenWeChatPush) {
-        //     this.cancelShare()
-        //   } else {
-        //     this.isOpenWeChatPush = 0
-        //     // window.mui.toast('已关闭“微信订阅”')
-        //   }
-        // }, () => {
-        //   this.isOpenWeChatPush = 0
-        // })
-      },
-      getNotification () {
-        postRequest(`notification/push/info`, {}, false, {}, 0, false).then(response => {
-          var code = response.data.code
-          if (code !== 1000) {
-            window.mui.alert(response.data.message)
-            return
-          }
-          var res = response.data.data
-
-          this.isOpenAppPush = res.push_daily_subscribe
-          this.emailText = res.email_daily_subscribe
-          this.isOpenWeChatPush = res.wechat_daily_subscribe
-          this.isOpenEmailPush = res.email_daily_subscribe
-          if (this.emailText) {
-            this.isOpenEmailPush = 1
-          }
+    subscribeApp() {
+      if (!this.isOpenAppPush) {
+        setHotRecommendAppPushStatus(this, 1, () => {
+          this.isOpenAppPush = 1
+          // ui.toast('“APP订阅”成功')
+        }, () => {
         })
-      },
-      refreshPageData () {
-        this.getNotification()
-      },
-      cancelShare () {
-        window.mui('#hotHomeHeat').popover('toggle')
-        this.hide()
-      },
-      hide () {},
-      show () {
-        setTimeout(() => {
-          window.mui('#hotHomeHeat').popover('toggle')
-          window.mui('body').on('tap', '.mui-backdrop', () => {
-            this.hide()
-          })
-        }, 150)
       }
+    },
+    subscribeEmail() {
+      if (!this.isOpenEmailPush) {
+        if (!this.emailText) {
+          this.cancelShare()
+          this.$refs.alertEmailSubscribe.show()
+          return
+        }
+      }
+    },
+    emailChange(email){
+      setHotRecommendEmailStatus(1, email, () => {
+        this.isOpenEmailPush = 1
+        this.$refs.alertEmailSubscribe.hide()
+      }, () => {
+      })
+    },
+    subscribeGZH() {
+      this.cancelShare()
+      alertSubscribeGZH(this)
+      // setHotRecommendWechatStatus(this.isOpenWeChatPush, () => {
+      //   if (!this.isOpenWeChatPush) {
+      //     this.cancelShare()
+      //   } else {
+      //     this.isOpenWeChatPush = 0
+      //     // ui.toast('已关闭“微信订阅”')
+      //   }
+      // }, () => {
+      //   this.isOpenWeChatPush = 0
+      // })
+    },
+    getNotification() {
+      postRequest(`notification/push/info`, {}, false, {}, 0, false).then(response => {
+        var code = response.code
+        if (code !== 1000) {
+          ui.alert(response.message)
+          return
+        }
+        var res = response.data
+
+        this.isOpenAppPush = res.push_daily_subscribe
+        this.emailText = res.email_daily_subscribe
+        this.isOpenWeChatPush = res.wechat_daily_subscribe
+        this.isOpenEmailPush = res.email_daily_subscribe
+        if (this.emailText) {
+          this.isOpenEmailPush = 1
+        }
+      })
+    },
+    refreshPageData() {
+      this.getNotification()
+    },
+    cancelShare() {
+      this.hide()
+    },
+    show() {
+      this.isShow = true
     }
   }
+}
 </script>
 <style lang="less" rel="stylesheet/less" scoped>
     .bot {
         position: absolute;
         right: 0;
         bottom: 0;
-        left: 0rem;
-        height: 0.026rem;
+        left: 0upx;
+        height: 1.96upx;
         -webkit-transform: scaleY(.5);
         transform: scaleY(.5);
         background-color: rgb(220, 220, 220);
@@ -166,43 +169,43 @@
         position: absolute;
         bottom: 0;
         z-index: 999;
-        padding-top: 0.533rem;
+        padding-top: 39.98upx;
         background: #ffffff;
-        border-top-left-radius: 0.48rem;
-        border-top-right-radius: 0.48rem;
+        border-top-left-radius: 36upx;
+        border-top-right-radius: 36upx;
         .cancelW {
             position: relative;
             text-align: center;
             .bot {
                 top: 0 !important;
             }
-            span {
+            .span {
                 color: #444444;
                 font-family: PingFangSC-Medium;
-                font-size: 0.426rem;
+                font-size: 31.96upx;
                 text-align: center;
-                line-height: 1.386rem;
+                line-height: 103.96upx;
             }
         }
     }
     .footerMenu {
         display: flex;
-        padding: 0 0.133rem 0.533rem;
+        padding: 0 9.98upx 39.98upx;
         justify-content: space-between;
         .left {
-            width: 1.226rem;
+            width: 91.96upx;
             text-align: center;
-            margin-left: 0.8rem;
-            .icon {
+            margin-left: 60upx;
+            .iconfont{
                 color: #C8C8C8;
-                font-size: 0.56rem;
+                font-size: 42upx;
                 text-align: center;
             }
             .hotRecommend {
-                width: 1.226rem;
-                height: 0.693rem;
-                margin-top: 0.266rem;
-                img {
+                width: 91.96upx;
+                height: 51.98upx;
+                margin-top: 19.96upx;
+                .image {
                     width: 100%;
                     height: 100%;
                 }
@@ -211,18 +214,18 @@
         .right {
             display: flex;
             .oneLine {
-                width: 0.026rem;
-                height: 1.173rem;
+                width: 1.96upx;
+                height: 87.98upx;
                 background: #DCDCDC;
-                margin-right: 0.4rem;
+                margin-right: 30upx;
                 position: relative;
-                top: 0.266rem;
+                top: 19.96upx;
             }
             .menu {
-                padding: 0 0.4rem;
+                padding: 0 30upx;
                 text-align: center;
                 &:last-child {
-                    padding-right: 0.666rem;
+                    padding-right: 49.96upx;
                 }
                 .one {
                     background: #03AEF9;
@@ -234,12 +237,12 @@
                     background: #77C819;
                 }
                 .iconCircular {
-                    width: 1.173rem;
-                    height: 1.173rem;
+                    width: 87.98upx;
+                    height: 87.98upx;
                     color: #FFFFFF;
-                    font-size: 0.613rem;
+                    font-size: 45.98upx;
                     text-align: center;
-                    line-height: 1.173rem;
+                    line-height: 87.98upx;
                     border-radius: 50%;
                     display: inline-block;
                     &.grey {
@@ -249,9 +252,9 @@
                 }
                 .text {
                     color: #808080;
-                    font-size: 0.293rem;
+                    font-size: 21.98upx;
                     text-align: center;
-                    margin-top: 0.133rem;
+                    margin-top: 9.98upx;
                 }
             }
         }

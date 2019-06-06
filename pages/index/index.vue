@@ -124,6 +124,11 @@
       @clickedItem="iconMenusClickedItem"
     />
 
+    <HotBottomActions
+            ref="HotBottomActions"
+    >
+    </HotBottomActions>
+
   </view>
 </template>
 
@@ -137,17 +142,20 @@ import tabsListMixin from '@/lib/tabsListMixin.js'
 import BottomActions from '@/components/iw-article-bottomaction/iw-article-bottomaction'
 import PageMore from '@/components/iw-page-more/iw-page-more'
 import { getHomeDetail } from '@/lib/shareTemplate'
+import HotBottomActions from '@/components/iw-hot-bottom-action/iw-hot-bottom-action'
 
 export default {
   components: {
     mixPulldownRefresh,
     mixLoadMore,
     BottomActions,
-    PageMore
+    PageMore,
+    HotBottomActions
   },
   mixins: [tabsListMixin],
   data() {
     return {
+      tabCurrentIndex: 1,
       activeItem: {},
       activeItemIndex: 0,
       activeListIndex: 0,
@@ -187,7 +195,7 @@ export default {
   },
   methods: {
     sharHotspot () {
-      // this.$refs.HotBottomActions.show()
+      this.$refs.HotBottomActions.show()
     },
     getLiIndex(itemIndex, listDataIndex) {
       if (!this.liIndexConfig[listDataIndex]) {

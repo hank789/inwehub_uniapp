@@ -12,14 +12,14 @@
       class="uni-popup">
       {{ msg }}
       <slot/>
-      <view
+      <!--view
         v-if="position === 'middle' && mode === 'insert'"
         :class="{
           'uni-close-bottom': buttonMode === 'bottom',
           'uni-close-right': buttonMode === 'right'
         }"
         class=" uni-icon uni-icon-close"
-        @click="closeMask"/>
+        @click="closeMask"/-->
     </view>
   </view>
 </template>
