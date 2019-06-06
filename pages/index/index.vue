@@ -37,6 +37,7 @@
             class="panel-scroll-box"
             :scroll-y="enableScroll"
             @scrolltolower="loadMore"
+            @scroll="scrollList"
           >
             <view class="download-tip" :style="{top: downloadTipTop}">{{ downloadTipalertMsg }}</view>
 
@@ -51,7 +52,7 @@
             <view v-for="(item, index) in tabItem.newsList" :key="index" class="news-item" @click="navToDetails(item)">
               <view class="container-wrapper">
                 <view v-if="isShowDate(item, index, tabItem.newsList)" class="dateWrapper" @tap.stop.prevent="toReport(item)">
-                  <view class="LeftDate">
+                  <view class="LeftDate" :data-text="timeToHumanText(item.created_at)">
                     <text class="iconfont icon-rili" />
                     <text class="text">{{ timeToHumanText(item.created_at) }}</text>
                   </view>
@@ -125,9 +126,13 @@
     />
 
     <HotBottomActions
-            ref="HotBottomActions"
-    >
-    </HotBottomActions>
+      ref="HotBottomActions"
+    />
+
+    <view class="leftTopFixed fixedData nav-sticky" v-show="position">
+      <text class="iconfont icon-rili" />
+      <view class="span indexPosition">{{ position }}</view>
+    </view>
 
   </view>
 </template>
@@ -155,6 +160,8 @@ export default {
   mixins: [tabsListMixin],
   data() {
     return {
+      positionValues: [],
+      position: '',
       tabCurrentIndex: 1,
       activeItem: {},
       activeItemIndex: 0,
@@ -165,12 +172,12 @@ export default {
       liIndexConfig: [],
       shareIconMenus: [
         {
-          icon: '#icon-shoucangdilantongyi',
+          icon: 'icon-shoucangdilantongyi',
           text: '收藏',
           isBookMark: 0
         },
         {
-          icon: '#icon-jubao',
+          icon: 'icon-jubao',
           text: '举报'
         }
       ]
@@ -193,8 +200,31 @@ export default {
   },
   onReady() {
   },
+  updated() {
+    this.$nextTick(function() {
+
+
+      //      views.forEach((view, index) => {
+      //        view.boundingClientRect(data => {
+      //          console.log("得到布局位置信息" + JSON.stringify(data));
+      //          console.log("节点离页面顶部的距离为" + data.top);
+      //        }).exec();
+      //      })
+    })
+  },
   methods: {
-    sharHotspot () {
+    scrollList(e) {
+      const views = uni.createSelectorQuery().selectAll('.LeftDate')
+      views.boundingClientRect(data => {
+        data.forEach((item, index) => {
+          if (item.top <= 100) {
+            this.position = item.dataset.text
+          }
+        })
+        console.log('得到节点信息' + JSON.stringify(data))
+      }).exec()
+    },
+    sharHotspot() {
       this.$refs.HotBottomActions.show()
     },
     getLiIndex(itemIndex, listDataIndex) {
@@ -589,6 +619,62 @@ export default {
           width: 100%;
           height: 100%;
         }
+      }
+    }
+  }
+
+  .nav-sticky {
+    z-index: 9999;
+    position: absolute;
+    top: 80px;
+  }
+
+  .fixedData {
+    color: #FFFFFF;
+    padding-left: 31.96upx;
+    padding-right: 19.96upx;
+    background: #03AEF9;
+    font-size: 24upx;
+    display: block;
+    margin-top: 27.98upx;
+    border-top-right-radius: 99.98upx;
+    border-bottom-right-radius: 99.98upx;
+    box-shadow:0upx 9.98upx 19.96upx -3.98upx rgba(205,215,220,1);
+    &.centerFiexd {
+      height: 57.98upx;
+      line-height: 57.98upx;
+      left: 50%;
+      transform: translateX(-21%);
+      border-radius: 99.98upx;
+    }
+    .iconfont{
+      font-size: 27.98upx;
+      position: relative;
+      top: 0.98upx;
+      color: #CCF2FF;
+    }
+    .upLine {
+      width: 1.96upx;
+      height: 24upx;
+      background: #67CEFB;
+      display: inline-block;
+      position: relative;
+      top: 3.98upx;
+      margin: 0 30upx;
+    }
+    .subscribeText {
+      font-size: 24upx;
+      margin-left: 114upx;
+      .iconfont{
+        font-size: 27.98upx;
+        margin-right: 9.98upx;
+      }
+    }
+    .shareText {
+      font-size: 24upx;
+      .iconfont{
+        font-size: 30upx;
+        margin-right: 9.98upx;
       }
     }
   }
