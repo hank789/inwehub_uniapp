@@ -237,7 +237,7 @@
 	}
 
 	.mui-bar {
-		padding: 28upx 32upx 0;
+		padding: 32upx 32upx 0;
 		display: flex;
 		justify-content: space-between;
 		margin-top: 10upx;
