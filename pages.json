@@ -217,6 +217,39 @@
       }
     },
     {
+      "path": "pages/my/infos/basic",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "基本资料",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/basicName",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "平台昵称",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+			"buttons": [{ 
+				"type": "none",
+                "fontSize": "16px",
+                "text": "保存",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf" 
+			}] 
+          }
+        }
+      }
+    },
+    {
       "path": "pages/my/info",
       "style": {
         "navigationStyle": "default",
