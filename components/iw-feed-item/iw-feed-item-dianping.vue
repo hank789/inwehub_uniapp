@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="commentList" @tap.stop.prevent="toDetail(item)">
+    <view class="commentList" @tap.stop.prevent="toDetail()">
       <view class="commentUser" @tap.stop.prevent="toResume()">
         <view class="userInfo">
           <view class="avatar">
@@ -57,7 +57,7 @@
         <view class="feed-operation">
 
           <view class="first">
-            <view class="span" @tap.stop.prevent="toDetail(item)">
+            <view class="span" @tap.stop.prevent="toDetail()">
               <text class="iconfont icon-pinglun " /><view v-if="item.feed.comment_number" class="i">{{ item.feed.comment_number }}</view>
             </view>
 
@@ -137,6 +137,9 @@ export default {
 
   },
   methods: {
+    toDetail() {
+      uni.navigateTo({url: '/pages/dianping/comment?slug=' + this.item.feed.slug})
+    },
     dianpingDiscoverUp(index) {
       upvote(this, this.item.feed.submission_id, (response) => {
         this.item.feed.support_number++

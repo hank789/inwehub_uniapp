@@ -165,6 +165,13 @@
       }
     },
     {
+      "path": "pages/dianping/comment",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "点评"
+      }
+    },
+    {
       "path": "pages/my/index",
       "style": {
         "navigationStyle": "default",
