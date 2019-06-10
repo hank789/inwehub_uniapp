@@ -46,10 +46,12 @@
 								</view>
 								<!-- 空图片占位 -->
 								<view v-else class="img-empty"></view>
-								<view :class="['bot', 'bot'+item.type]">
+								<view>
 									<text class="author">{{item.domain}}</text>
 									<text class="time">{{timeago(item.created_at)}}</text>
+									<text class="bot"></text>
 								</view>
+								
 							</view>
 							
 							
@@ -390,9 +392,7 @@
 		color: #303133;
 		line-height: 46upx;
 	}
-	.bot{
-		flex-direction: row;
-	}
+
 	.author{
 		font-size: 26upx;
 		color: #aaa;

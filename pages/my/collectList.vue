@@ -37,19 +37,20 @@
 							<iw-feed-item-dianping v-if="tabItem.id == 2" :item="item" @showPageMore="showPageMore"></iw-feed-item-dianping>
 							<view v-if="tabItem.id == 1" @click="navToDetails(item)">
 								<text :class="['title', 'uni-article-title']">{{item.title}}</text>
-								<view v-if="item.img.length > 0" :class="['img-list', item.img.length === 1 && item.type==='link' ? 'img-list-single': '']">
+								<view v-if="item.img.length > 0" :class="['img-list', item.img.length === 1 ? 'img-list-single': '']">
 									<view 
 										v-for="(imgItem, imgIndex) in item.img" :key="imgIndex"
-										:class="['img-wrapper', item.img.length === 1 && item.type==='link' ? 'img-wrapper-single': '']"
+										:class="['img-wrapper', item.img.length === 1 ? 'img-wrapper-single': '']"
 									>
 										<image class="img" :src="imgItem"></image>
 									</view>
 								</view>
 								<!-- 空图片占位 -->
 								<view v-else class="img-empty"></view>
-								<view :class="['bot', 'bot'+item.type]">
+								<view>
 									<text class="author">{{item.domain}}</text>
 									<text class="time">{{timeago(item.created_at)}}</text>
+									<text class="bot"></text>
 								</view>
 							</view>
 						</view>
@@ -364,9 +365,7 @@
 		color: #303133;
 		line-height: 46upx;
 	}
-	.bot{
-		flex-direction: row;
-	}
+
 	.author{
 		font-size: 26upx;
 		color: #aaa;
@@ -455,5 +454,15 @@
 	.video-tip-icon{
 		width: 60upx;
 		height:60upx; 
+	}
+	.bot {
+		position: absolute;
+		right: 0upx;
+		bottom: 0;
+		left: 0upx;
+		height: 2upx;
+		-webkit-transform: scaleY(.5);
+		transform: scaleY(.5);
+		background-color: rgb(220, 220, 220);
 	}
 </style>
