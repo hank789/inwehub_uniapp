@@ -113,6 +113,12 @@
     onLoad (options) {
       // 加载页面请求一次；
 			this.uuid = options.id
+			var currentUuid = getLocalUuid()
+			if (currentUuid != this.uuid) {
+				uni.setNavigationBarTitle({
+						title: '关注Ta的'
+				})
+			}
       this.getList(1)
     }
   }
