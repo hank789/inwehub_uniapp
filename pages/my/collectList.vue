@@ -36,7 +36,7 @@
 						<view v-for="(item, index) in tabItem.newsList" :key="index" class="news-item">
 							<iw-feed-item-dianping v-if="tabItem.id == 2" :item="item" @showPageMore="showPageMore"></iw-feed-item-dianping>
 							<view v-if="tabItem.id == 1" @click="navToDetails(item)">
-								<text :class="['title', 'title'+item.type]">{{item.title}}</text>
+								<text :class="['title', 'uni-article-title']">{{item.title}}</text>
 								<view v-if="item.img.length > 0" :class="['img-list', item.img.length === 1 && item.type==='link' ? 'img-list-single': '']">
 									<view 
 										v-for="(imgItem, imgIndex) in item.img" :key="imgIndex"
@@ -342,10 +342,6 @@
 		}
 	}
 	
-	view{
-		display:flex;
-		flex-direction: column;
-	}
 	.img{
 		width: 100%;
 		height: 100%;

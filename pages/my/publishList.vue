@@ -35,7 +35,7 @@
 						-->
 						<view v-for="(item, index) in tabItem.newsList" :key="index" class="news-item">
 							<view v-if="tabItem.id == 1" @click="navToDetails(item)">
-								<text :class="['title', 'title'+item.type]">{{item.title}}</text>
+								<text :class="['title', 'uni-article-title']">{{item.title}}</text>
 								<view v-if="item.img.length > 0" :class="['img-list', item.img.length === 1 && item.type==='link' ? 'img-list-single': '']">
 									<view 
 										v-for="(imgItem, imgIndex) in item.img" :key="imgIndex"
@@ -55,8 +55,8 @@
 							
 							<view v-if="tabItem.id == 2" class="container-commentWrapper" @tap.stop.prevent="navToDetails(item)">
 								<view class="container-commentList">
-									<view class="title text-line-1" v-html="item.content"></view>
-									<view class="commentWrapper-content text-line-1" v-html="item.origin_title"></view>
+									<view class="title uni-article-title" v-html="item.content"></view>
+									<view class="commentWrapper-content uni-article-title" v-html="item.origin_title"></view>
 									<view class="commentWrapper-time">
 										<text>{{item.created_at}}</text>
 									</view>
@@ -66,8 +66,8 @@
 							
 							<view v-if="tabItem.id == 3" class="container-commentWrapper" @tap.stop.prevent="goToCommentPage(item.type, item.comment_url)">
 								<view class="container-commentList">
-									<view class="title text-line-1" v-html="item.title"></view>
-									<view class="commentWrapper-content text-line-1" v-html="item.category_name"></view>
+									<view class="title uni-article-title" v-html="item.title"></view>
+									<view class="commentWrapper-content uni-article-title" v-html="item.category_name"></view>
 									<view class="commentWrapper-time">
 										<text>{{item.created_at}}</text>
 									</view>
@@ -368,10 +368,6 @@
 		}
 	}
 	
-	view{
-		display:flex;
-		flex-direction: column;
-	}
 	.img{
 		width: 100%;
 		height: 100%;
@@ -509,5 +505,15 @@
 			margin-top: 12upx;
 		}
 		}
+	}
+	.bot {
+		position: absolute;
+		right: 0upx;
+		bottom: 0;
+		left: 0upx;
+		height: 2upx;
+		-webkit-transform: scaleY(.5);
+		transform: scaleY(.5);
+		background-color: rgb(220, 220, 220);
 	}
 </style>
