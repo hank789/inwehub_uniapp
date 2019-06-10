@@ -679,4 +679,8 @@ input, textarea, select{
     width: 100%;
     height: 100%;}
 
-
+.container-noMore {
+    padding: 24.98upx 0 55.96upx;
+    color: #C8C8C8;
+    font-size: 24upx;
+    text-align: center;}

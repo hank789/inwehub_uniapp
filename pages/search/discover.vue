@@ -13,8 +13,8 @@
 
         <view class="span" @tap.stop.prevent="to('/pages/search/index?text=' + searchText)">综合</view>
         <view class="span spanSecond font-family-medium">分享<view class="i" /></view>
-        <view class="span" @tap.stop.prevent="$router.replace('/dianping/search/products?text=' + searchText)">产品</view>
-        <view class="span " @tap.stop.prevent="$router.replace('/dianping/search/comments?text=' + searchText)">点评</view>
+        <view class="span" @tap.stop.prevent="to('/pages/search/product?text=' + searchText)">产品</view>
+        <view class="span" @tap.stop.prevent="to('/pages/search/comment?text=' + searchText)">点评</view>
 
         <view class="i bot" />
       </view>
@@ -317,7 +317,7 @@ export default {
         right: 0;
         bottom: 0;
         left: 0;
-        height: 1.96upx;
+        height: 2upx;
         -webkit-transform: scaleY(.5);
         transform: scaleY(.5);
         background-color: rgb(220, 220, 220);
