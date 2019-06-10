@@ -24,7 +24,7 @@
       >{{ item.name }}</view>
     </scroll-view>
 
-    <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="148" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
+    <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="160" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
       <swiper
         id="swiper"
         class="swiper-box"
@@ -352,7 +352,7 @@ export default {
     background-color: #fff;
     .nav-item{
       display: inline-block;
-      width: 94upx;
+      width: 150upx;
       height: 68upx;
       text-align: center;
       line-height: 68upx;
@@ -361,9 +361,9 @@ export default {
       position: relative;
       &:after{
         content: '';
-        width: 31.96upx;
-        height: 7.96upx;
-        border-radius: 49.96upx;
+        width: 0;
+        height: 0;
+				border-bottom: 6upx solid #03AEF9;
         position: absolute;
         left: 50%;
         bottom: 0;
@@ -376,7 +376,7 @@ export default {
       font-family: PingFangSC-Medium;
       font-size:30upx;
       &:after{
-        background: #03AEF9;
+				width: 50%;
       }
     }
   }

@@ -16,9 +16,9 @@
       "style": {
         "navigationBarTitleText": "",
         "enablePullDownRefresh": false,
-        "navigationStyle": "custom",
         "app-plus": {
-          "titleNView": false
+          "titleNView": false,
+					"bounce": "none"
         }
       }
     },
@@ -42,6 +42,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "发布",
         "app-plus": {
+					"animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
@@ -74,6 +75,7 @@
         "navigationBarTitleText": "",
         "navigationStyle": "default",
         "app-plus": {
+					"bounce": "none",
           "titleNView": false
         }
       }
@@ -122,6 +124,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "发布",
         "app-plus": {
+					"animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
@@ -146,6 +149,7 @@
         "navigationBarTitleText": "",
         "navigationStyle": "custom",
         "app-plus": {
+					"bounce": "none",
           "titleNView": false
         }
       }
@@ -177,6 +181,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "",
         "app-plus": {
+					"bounce": "none",
           "titleNView": false
         }
       }
@@ -520,26 +525,38 @@
       "path": "pages/my/visitors",
       "style": {
         "enablePullDownRefresh": true,
-        "navigationBarTitleText": "我的人气"
+        "navigationBarTitleText": "我的人气",
+				"app-plus": {
+					"bounce": "none"
+				}
       }
     },
 		{
       "path": "pages/my/followedMeUser",
       "style": {
         "enablePullDownRefresh": true,
-        "navigationBarTitleText": "关注我的"
+        "navigationBarTitleText": "关注我的",
+				"app-plus": {
+					"bounce": "none"
+				}
       }
     },
 		{
       "path": "pages/my/collectList",
       "style": {
-        "navigationBarTitleText": "我的收藏"
+        "navigationBarTitleText": "我的收藏",
+				"app-plus": {
+					"bounce": "none"
+				}
       }
     },
 		{
       "path": "pages/my/publishList",
       "style": {
-        "navigationBarTitleText": "我的发布"
+        "navigationBarTitleText": "我的发布",
+				"app-plus": {
+					"bounce": "none"
+				}
       }
     },
     {
