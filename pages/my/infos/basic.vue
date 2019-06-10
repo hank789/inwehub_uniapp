@@ -9,7 +9,7 @@
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="$router.push('/my/info/basic/realname')" class="mui-navigate-right">真实姓名<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.realname ? user.info.realname : '必填'
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/realName')" class="mui-navigate-right">真实姓名<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.realname ? user.info.realname : '必填'
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">

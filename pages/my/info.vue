@@ -89,6 +89,9 @@
 		onLoad() {
 			this.getUserInfo()
 		},
+		created () {
+			this.getUserInfo()
+		},
 		methods: {
 			toRoute (url) {
 				uni.navigateTo({url: url})
