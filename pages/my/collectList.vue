@@ -37,10 +37,10 @@
 							<iw-feed-item-dianping v-if="tabItem.id == 2" :item="item" @showPageMore="showPageMore"></iw-feed-item-dianping>
 							<view v-if="tabItem.id == 1" @click="navToDetails(item)">
 								<text :class="['title', 'title'+item.type]">{{item.title}}</text>
-								<view v-if="item.img.length > 0" :class="['img-list', 'img-list'+item.type, item.img.length === 1 && item.type==='link' ? 'img-list-single': '']">
+								<view v-if="item.img.length > 0" :class="['img-list', item.img.length === 1 && item.type==='link' ? 'img-list-single': '']">
 									<view 
 										v-for="(imgItem, imgIndex) in item.img" :key="imgIndex"
-										:class="['img-wrapper', 'img-wrapper'+item.type, item.img.length === 1 && item.type===3 ? 'img-wrapper-single': '']"
+										:class="['img-wrapper', item.img.length === 1 && item.type==='link' ? 'img-wrapper-single': '']"
 									>
 										<image class="img" :src="imgItem"></image>
 									</view>
@@ -51,8 +51,8 @@
 									<text class="author">{{item.domain}}</text>
 									<text class="time">{{timeago(item.created_at)}}</text>
 								</view>
-								</view>
 							</view>
+						</view>
 						
 						<!-- 上滑加载更多组件 -->
 						<mix-load-more :status="tabItem.loadMoreStatus"></mix-load-more>
@@ -270,7 +270,7 @@
 	}
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 	
 	page, .content{
 		background-color: #f8f8f8;
