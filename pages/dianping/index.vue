@@ -92,6 +92,8 @@
 
     </view>
 
+    <iwLoading v-model="loading"></iwLoading>
+
   </view>
 </template>
 
@@ -99,13 +101,16 @@
 import { getRecommandProductList, getCategories, getHotProduct, gethotAlbum, getAlbumList, submitFeedback } from '@/lib/dianping'
 import StarView from '@/components/iw-star/iw-star'
 import localEvent from '@/lib/localstorage'
+import iwLoading from '@/components/iw-loading/iw-loading'
 
 export default {
   components: {
-    StarView
+    StarView,
+    iwLoading
   },
   data() {
     return {
+      loading: true,
       pageOption: {},
       categories: [],
       list: [],
@@ -235,6 +240,7 @@ export default {
     refreshPageData() {
       getRecommandProductList(this, 5, (recommandProductList) => {
         this.recommandProductList = recommandProductList
+        this.loading = false
       })
 
       getCategories(this, (categories) => {

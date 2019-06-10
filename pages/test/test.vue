@@ -1,14 +1,15 @@
 <template>
     <view class="red">
-        test
+        <iwLoading></iwLoading>
     </view>
 </template>
 <script>
 
+  import iwLoading from '@/components/iw-loading/iw-loading'
 
   export default {
     components: {
-
+      iwLoading
     },
     data() {
       return {

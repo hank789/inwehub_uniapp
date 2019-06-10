@@ -25,10 +25,10 @@
 					<view class="my-personal">
 						<view class="my-info">
 							<text class="userName font-family-medium">{{name}}</text>
-							<text class="userLevel" @tap.stop.prevent="$router.pushPlus('/my/Growth')">L{{ user_level }}</text>
+							<text class="userLevel">L{{ user_level }}</text>
 						</view>
 						<view class="my-detail">
-							<text class="followedMy" @tap.stop.prevent="$router.pushPlus('/my/focus/'+uuid)">关注我的人{{followed_number}}</text>
+							<text class="followedMy" @tap.stop.prevent="toRoute('/pages/my/followedMeUser?id='+uuid)">关注我的人{{followed_number}}</text>
 							<view class="spots"></view>
 							<text class="followedMy" @tap.stop.prevent="toRoute('/pages/my/visitors')">访客人气{{popularity}}</text>
 						</view>
@@ -37,7 +37,7 @@
 			</view>
 
 			<view class="part2">
-				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/publish/publishArticle')">
+				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/publishList')">
 					<text class="font-family-medium">{{publishes}}</text>
 					<text class="listText">发布</text>
 				</view>
@@ -45,7 +45,7 @@
 					<text class="font-family-medium">{{attention}}</text>
 					<text class="listText">关注</text>
 				</view>
-				<view class="liList" @tap.stop.prevent="$router.pushPlus('/my/collectedAnswers')">
+				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/collectList')">
 					<text class="font-family-medium">{{collections}}</text>
 					<text class="listText">收藏</text>
 				</view>
