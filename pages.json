@@ -451,6 +451,13 @@
         "navigationBarTitleText": "我的人气"
       }
     },
+		{
+      "path": "pages/my/followedMeUser",
+      "style": {
+        "enablePullDownRefresh": true,
+        "navigationBarTitleText": "关注我的"
+      }
+    },
     {
       "path": "pages/icon/index",
       "style": {

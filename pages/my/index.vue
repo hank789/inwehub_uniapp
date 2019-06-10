@@ -28,7 +28,7 @@
 							<text class="userLevel" @tap.stop.prevent="$router.pushPlus('/my/Growth')">L{{ user_level }}</text>
 						</view>
 						<view class="my-detail">
-							<text class="followedMy" @tap.stop.prevent="$router.pushPlus('/my/focus/'+uuid)">关注我的人{{followed_number}}</text>
+							<text class="followedMy" @tap.stop.prevent="toRoute('/pages/my/followedMeUser?id='+uuid)">关注我的人{{followed_number}}</text>
 							<view class="spots"></view>
 							<text class="followedMy" @tap.stop.prevent="toRoute('/pages/my/visitors')">访客人气{{popularity}}</text>
 						</view>
