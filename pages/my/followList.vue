@@ -35,7 +35,7 @@
 						-->
 						
 						<user-directory v-if="tabItem.id == 1" :phones="tabItem.newsList" @paramClick="paramClick"></user-directory>
-						<view v-if="tabItem.id == 2"  v-for="(item, index) in tabItem.newsList" :key="index" class="news-item">
+						<view v-if="tabItem.id == 2"  v-for="(item, index) in tabItem.newsList" :key="index" class="comment-product">
 							<view class="product-info" @tap.stop.prevent="toRoute('/pages/dianping/product?name=' + encodeURIComponent(item.name))">
 									<view class="product-img border-football">
 										<image mode="aspectFill" :src="item.logo" alt="" class="image lazyImg" /></view>
@@ -50,9 +50,9 @@
 												<view class="i"></view><view class="span">{{ item.review_count }}条评论</view>
 											</view>
 										</view>
-										<view class="line-river-after line-river-after-top" />
 									</view>
 								</view>
+								<text class="bot"></text>
 						</view>
 						
 						<!-- 上滑加载更多组件 -->
@@ -103,6 +103,11 @@
 				console.log(e)
 				uni.navigateTo({
 						url: '/pages/my/resume?id=' + e.uuid
+				})
+			},
+			toRoute(url) {
+				uni.navigateTo({
+					url: url
 				})
 			},
 			/**
@@ -370,4 +375,62 @@
 		transform: scaleY(.5);
 		background-color: rgb(220, 220, 220);
 	}
+	.comment-product {
+    width: 750upx;
+		padding: 24upx 30upx;
+		border-bottom-width: 1px;
+		border-color: #eee;
+		background-color: #fff;
+		position:relative;
+    .product-info {
+      overflow: hidden;
+      padding-bottom: 31.96upx;
+      .product-img {
+        width: 87.98upx;
+        height: 87.98upx;
+        float: left;
+        .image {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          border-radius: 7.96upx;
+        }
+      }
+      .product-detail {
+        float: left;
+        margin-left: 19.96upx;
+        .productName {
+          width: 567.98upx;
+          color: #444444;
+          font-size: 31.96upx;
+          line-height: 45.0upx;
+        }
+        .productMark {
+          display: flex;
+          .iconfont{
+            color: #FCC816;
+            font-size: 24upx;
+          }
+          .span {
+            color: #B4B4B6;
+            font-size: 21.98upx;
+            line-height: 30upx;
+            .spanFirst {
+              color: #FCC816;
+              margin-left: 6upx;
+            }
+          }
+          .i {
+            width: 3.98upx;
+            height: 3.98upx;
+            margin-right: 9.98upx;
+            vertical-align: middle;
+            border-radius: 50%;
+            background: #B4B4B6;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
 </style>
