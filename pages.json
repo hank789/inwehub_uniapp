@@ -482,6 +482,12 @@
       }
     },
     {
+      "path": "pages/search/comment",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    {
       "path": "pages/chat/chat",
       "style": {}
     },
