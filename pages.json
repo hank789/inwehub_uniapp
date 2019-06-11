@@ -559,6 +559,24 @@
 				}
       }
     },
+		{
+      "path": "pages/my/followList",
+      "style": {
+        "navigationBarTitleText": "我的关注",
+				"app-plus": {
+					"bounce": "none"
+				}
+      }
+    },
+		{
+      "path": "pages/my/addressBook",
+      "style": {
+        "navigationBarTitleText": "通讯录好友",
+				"app-plus": {
+					"bounce": "none"
+				}
+      }
+    },
     {
       "path": "pages/icon/index",
       "style": {
