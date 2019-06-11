@@ -86,10 +86,11 @@
 <script>
 import { getDianpingCommentDetail } from '@/lib/shareTemplate'
 import { upvote, downVote } from '@/lib/discover'
+import StarView from '@/components/iw-star/iw-star'
 
 export default {
   components: {
-
+    StarView
   },
   props: {
     item: {
@@ -133,10 +134,12 @@ export default {
       return item
     }
   },
-  created() {
-
+  mounted() {
   },
   methods: {
+    goProductDetail () {
+      uni.navigateTo({url: '/pages/dianping/product?name=' + encodeURIComponent(this.item.feed.tags[0].name)})
+    },
     toResume () {
       var uuid = this.item.user.uuid
       if (!uuid) {
@@ -155,7 +158,7 @@ export default {
     dianpingDiscoverUp(index) {
       upvote(this, this.item.feed.submission_id, (response) => {
         this.item.feed.support_number++
-        this.item.feed.is_upvoted = -1
+        this.item.feed.is_upvoted = 1
         this.showUpvo = true
       }, (response) => {
         this.showUpvo = false
