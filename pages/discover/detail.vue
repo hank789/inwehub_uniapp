@@ -524,7 +524,7 @@ export default {
       }
     },
     openApp() {
-      window.mui.trigger(document.querySelector('.AppOne'), 'tap')
+
     },
     onTap(event) {
       var target = event.target
@@ -633,15 +633,15 @@ export default {
       this.$refs.discuss.rootComment()
     },
     goDetail(item) {
-      if (!window.mui.os.plus) {
+
+      // #ifndef APP-PLUS
         this.openApp()
         return
-      }
+      // #endif
 
       switch (item.read_type) {
         case 1:
-
-          uni.navigateTo({ url: '/c/' + item.data.category_id + '/' + item.data.slug })
+          uni.navigateTo({ url: '/pages/discover/detail?slug=' + item.data.slug })
           break
         case 2:
 
