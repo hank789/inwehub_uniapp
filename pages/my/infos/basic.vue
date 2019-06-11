@@ -20,7 +20,7 @@
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="$router.push('/my/info/basic/position')" class="mui-navigate-right">当前职位<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.title ? user.info.title : '必填'}}</text></text>
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/position')" class="mui-navigate-right">当前职位<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.title ? user.info.title : '必填'}}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
 					<text href="#page_industry_tags" @tap="changeIndustryTagsOwner('user')" class="mui-navigate-right">行业领域<text class="mui-pull-right account-setting-field mui-ellipsis">{{ userIndustryTagsNames ? userIndustryTagsNames : '可多选'
@@ -37,7 +37,7 @@
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="$router.push('/my/info/basic/email')" class="mui-navigate-right">电子邮箱<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.email ? user.info.email : '必填'}}</text></text>
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/email')" class="mui-navigate-right">电子邮箱<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.email ? user.info.email : '必填'}}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
 					<text @tap.stop.prevent="initBirthday" class="mui-navigate-right">出生日期<text class="mui-pull-right account-setting-field mui-ellipsis">{{user.info.birthday ? user.info.birthday : '请选择'}}</text></text>
@@ -46,7 +46,7 @@
 					<text class="mui-navigate-right" @tap.stop.prevent="selectHomeCity">家乡地区<text class="mui-pull-right account-setting-field mui-ellipsis">{{ home_city !== ' ' ? home_city : '请选择' }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="$router.push('/my/info/basic/description')" class="mui-navigate-right">个人签名<text class="mui-pull-right account-setting-field mui-ellipsis">{{user.info.description ? user.info.description : '请填写'}}</text></text>
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/description')" class="mui-navigate-right">个人签名<text class="mui-pull-right account-setting-field mui-ellipsis">{{user.info.description ? user.info.description : '请填写'}}</text></text>
 				</view>
 			</view>
 

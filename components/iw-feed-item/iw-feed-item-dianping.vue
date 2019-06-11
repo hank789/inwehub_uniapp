@@ -69,7 +69,7 @@
           <view class="posiZan">
 
             <view class="span" :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp(index)">
-              <text class="iconfont icon-zan " />
+              <text class="iconfont icon-zan " v-if="item.feed.is_upvoted === 0"/>
               <text v-if="item.feed.is_upvoted === 1" class="iconfont icon-yizan yizan " /><view v-if="item.feed.support_number" class="i numberColor">{{ item.feed.support_number }}</view>
             </view>
             <view v-show="showUpvo" :class="'zan' + index" class="span upvoted" @tap.stop.prevent="dianpingDiscoverUp(index)" />
@@ -86,10 +86,11 @@
 <script>
 import { getDianpingCommentDetail } from '@/lib/shareTemplate'
 import { upvote, downVote } from '@/lib/discover'
+import StarView from '@/components/iw-star/iw-star'
 
 export default {
   components: {
-
+    StarView
   },
   props: {
     item: {
@@ -133,17 +134,31 @@ export default {
       return item
     }
   },
-  created() {
-
+  mounted() {
   },
   methods: {
+    goProductDetail () {
+      uni.navigateTo({url: '/pages/dianping/product?name=' + encodeURIComponent(this.item.feed.tags[0].name)})
+    },
+    toResume () {
+      var uuid = this.item.user.uuid
+      if (!uuid) {
+        return false
+      }
+
+      if (this.isNiming) {
+        return false
+      }
+
+      uni.navigateTo({url: '/pages/my/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime())})
+    },
     toDetail() {
       uni.navigateTo({url: '/pages/dianping/comment?slug=' + this.item.feed.slug})
     },
     dianpingDiscoverUp(index) {
       upvote(this, this.item.feed.submission_id, (response) => {
         this.item.feed.support_number++
-        this.item.feed.is_upvoted = -1
+        this.item.feed.is_upvoted = 1
         this.showUpvo = true
       }, (response) => {
         this.showUpvo = false

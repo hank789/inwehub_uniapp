@@ -176,6 +176,13 @@
       }
     },
     {
+      "path": "pages/dianping/comments",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "点评"
+      }
+    },
+    {
       "path": "pages/my/index",
       "style": {
         "navigationStyle": "default",
@@ -229,19 +236,6 @@
       }
     },
     {
-      "path": "pages/my/infos/basic",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "基本资料",
-        "app-plus": {
-          "titleNView": {
-            "titleSize": "18px",
-            "titleColor": "#3c3e44"
-          }
-        }
-      }
-    },
-    {
       "path": "pages/my/infos/basicName",
       "style": {
         "navigationStyle": "default",
@@ -277,6 +271,79 @@
                 "width": "auto",
                 "fontSrc": "/static/fonts/iconfont.ttf" 
 			}] 
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/position",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "当前职位",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+			"buttons": [{ 
+				"type": "none",
+                "fontSize": "16px",
+                "text": "保存",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf" 
+			}] 
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/email",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "电子邮箱",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+			"buttons": [{ 
+				"type": "none",
+                "fontSize": "16px",
+                "text": "保存",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf" 
+			}] 
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/description",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "个性签名",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+			"buttons": [{ 
+				"type": "none",
+                "fontSize": "16px",
+                "text": "保存",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf" 
+			}] 
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/basic",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "基本资料",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
           }
         }
       }
@@ -477,6 +544,12 @@
     },
     {
       "path": "pages/search/product",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    {
+      "path": "pages/search/comment",
       "style": {
         "navigationBarTitleText": "搜索"
       }

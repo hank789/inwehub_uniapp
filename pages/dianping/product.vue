@@ -79,7 +79,7 @@
 
           <view
             class="openAllDianPing font-family-medium"
-            @tap.stop.prevent="$uni.navigateTo('/dianping/' + encodeURIComponent(detail.name) + '/comment')"
+            @tap.stop.prevent="toRoute('/pages/dianping/comments?id=' + encodeURIComponent(detail.name))"
           >
             查看全部{{ detail.review_count ? detail.review_count + '条' : '' }}点评
           </view>
