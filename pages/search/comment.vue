@@ -168,6 +168,9 @@ export default {
     this.pageOption = option
   },
   methods: {
+    to(url) {
+      uni.navigateTo({ url: url })
+    },
     empty() {
       this.searchText = ''
     },

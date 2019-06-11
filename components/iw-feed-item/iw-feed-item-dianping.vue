@@ -69,7 +69,7 @@
           <view class="posiZan">
 
             <view class="span" :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp(index)">
-              <text class="iconfont icon-zan " />
+              <text class="iconfont icon-zan " v-if="item.feed.is_upvoted === 0"/>
               <text v-if="item.feed.is_upvoted === 1" class="iconfont icon-yizan yizan " /><view v-if="item.feed.support_number" class="i numberColor">{{ item.feed.support_number }}</view>
             </view>
             <view v-show="showUpvo" :class="'zan' + index" class="span upvoted" @tap.stop.prevent="dianpingDiscoverUp(index)" />
@@ -137,6 +137,18 @@ export default {
 
   },
   methods: {
+    toResume () {
+      var uuid = this.item.user.uuid
+      if (!uuid) {
+        return false
+      }
+
+      if (this.isNiming) {
+        return false
+      }
+
+      uni.navigateTo({url: '/pages/my/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime())})
+    },
     toDetail() {
       uni.navigateTo({url: '/pages/dianping/comment?slug=' + this.item.feed.slug})
     },
