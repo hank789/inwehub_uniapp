@@ -1,154 +1,115 @@
 <template>
-	<view class="">
+	<view class="phone-main" :style="{height: winHeight + 'px'}">
 		
-		<view class="mui-content">
-
-      <view class="contactusWrapper">
-        <view class="title font-family-medium">联系我们</view>
-        <view class="textWrapper">
-          <view class="text textBottom">
-            <text>客服微信：hiinwe</text>
-            <text class="textColor" @tap.stop.prevent="showWeChat">添加</text>
-          </view>
-          <view class="text">
-            <text>联系邮箱：hi@inwehub.com</text>
-            <text class="textColor" @click="setClipboardData('hi@inwehub.com')">复制</text>
-          </view>
-        </view>
-        <view class="bot"></view>
-      </view>
-
-      <view class="contactusWrapper">
-        <view class="title font-family-medium">广告合作</view>
-        <view class="textWrapper">
-          <view class="text">
-            <text>联系邮箱：Ad@inwehub.com</text>
-            <text class="textColor" @click="setClipboardData('Ad@inwehub.com')">复制</text>
-          </view>
-        </view>
-        <view class="bot"></view>
-      </view>
-
-      <view class="contactusWrapper">
-        <view class="title font-family-medium">成为合作伙伴</view>
-        <view class="textWrapper">
-          <view class="text">
-            <text>联系邮箱：BD@inwehub.com</text>
-            <text class="textColor" @click="setClipboardData('BD@inwehub.com')">复制</text>
-          </view>
-        </view>
-        <view class="bot"></view>
-      </view>
-
-      <view class="contactusWrapper">
-        <view class="title font-family-medium">投稿/寻求报道</view>
-        <view class="textWrapper">
-          <view class="text">
-            <text>联系邮箱：Hi@inwehub.com</text>
-            <text class="textColor" @click="setClipboardData('Hi@inwehub.com')">复制</text>
-          </view>
-        </view>
-        <view class="bot"></view>
-      </view>
-
-      <view class="contactusWrapper">
-        <view class="title font-family-medium">加入我们</view>
-        <view class="textWrapper">
-          <view class="text">
-            <text>联系邮箱：HR@inwehub.com</text>
-            <text class="textColor" @click="setClipboardData('HR@inwehub.com')">复制</text>
-          </view>
-        </view>
-        <!--<view class="bot"></view>-->
-      </view>
-    </view>
-		<add-inwehub-dialog ref="addInwehubDialog" :showPopup="showPopup" @clickButton="clickDialogButton"></add-inwehub-dialog>
+		<view class="phoneDirectory">
+			<phone-list 
+			:phones="phones"
+			:appUsers = "appUsers"
+			:letter="letter"
+			:scrollAnimationOFF="scrollAnimationOFF" 
+			@change="handlePhoneListIndex"
+			@reset="handleReset"
+			@handleClick="handleClick"
+			>
+			</phone-list>
+			<phone-alphabet 
+			:phones="phones"
+			:phoneListIndex="phoneListIndex"
+			@change="handleDatasetKey" 
+			@scrollAnimationOFF="handleScrollAnimationOFF"
+			@reset="handleReset"
+			>
+			</phone-alphabet>
+		</view>
+		
 	</view>
 </template>
 
 <script>
-	import addInwehubDialog from "@/components/iw-dialog/add-inwehub.vue"
+	import phoneList from '@/components/user-directory/list-invite.vue'
+	import phoneAlphabet from '@/components/user-directory/alphabet.vue'
+	import uniTag from '@/components/uni-tag/uni-tag.vue'
+	import html5plus from '@/lib/html5plus.js'
+	
 	export default {
-		data() {
+		components:{
+			phoneList,
+			phoneAlphabet,
+			uniTag
+		},
+		data () {
 			return {
-				showPopup: false
+				winHeight:0,
+				letter : 'A',
+				scrollAnimationOFF:true,
+				phoneListIndex:'A',
+				phones: {},
+				appUsers: [],
+				reset:true
 			}
 		},
-		components: {
-			addInwehubDialog
-		},
-		methods: {
-			clickDialogButton() {
-				this.$refs.addInwehubDialog.hidePopup()
-			},
-			showWeChat() {
-				this.$refs.addInwehubDialog.showDialog()
-			},
-			setClipboardData(msg) {
-				uni.setClipboardData({
-					data: msg,
-					success: function () {
-							uni.showToast({
-								title: '复制成功',
-								icon: 'success'
-							})
-					}
-				});
+		computed:{
+			phonesEscape () {
+				return escape(JSON.stringify(this.phones))
 			}
 		},
+		mounted () {
+			let windowHeight = uni.getSystemInfoSync().windowHeight
+			// #ifndef APP-PLUS
+			this.winHeight = windowHeight
+			//#endif
+			
+			//#ifdef APP-PLUS
+			this.winHeight = windowHeight - 56
+			//#endif
+			
+			this.$request.post('profile/addressBookList?directory=1').then(res=>{
+				this.appUsers = res.data.appUsers
+				this.phones = res.data.notAppUsers
+			})
+			
+ 			if(!this.phones){
+				uni.showToast({
+					title: '没有数据',
+					icon:"none",
+					mask: false,
+					duration: 1500
+				})
+			}
+		},
+		methods:{
+			handleClick (e) {
+				this.$emit('paramClick',e)
+			},
+			handleDatasetKey (val) {
+				this.letter = val
+			},
+			handleScrollAnimationOFF (val) {
+				this.scrollAnimationOFF = val
+			},
+			handlePhoneListIndex(val){
+				if(this.reset){
+					this.phoneListIndex = val
+				}
+			},
+			handleReset (val){
+				if(val){
+					this.letter = ''
+				}
+				this.reset = val
+			}
+		}
 	}
 </script>
 
-<style lang="less">
-	
-	.mui-content {
-    background: #ffffff;
-  }
-  .bot {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0upx;
-    height: 1.96upx;
-    -webkit-transform: scaleY(.5);
-    transform: scaleY(.5);
-    background-color: rgb(220, 220, 220);
-  }
-
-
-  .contactusWrapper {
-    position: relative;
-    padding: 0 31.96upx;
-    margin-top: 33.98upx;
-    .bot {
-      right: 36upx;
-      left: 31.96upx;
-    }
-    .title {
-      color: #444444;
-      font-size: 30upx;
-      line-height: 42upx;
-    }
-    .textWrapper {
-      padding-bottom: 31.96upx;
-      .textBottom {
-        margin-bottom: 27.98upx !important;
-      }
-      .text {
-        display: flex;
-        justify-content: space-between;
-        color: #808080;
-        font-size: 27.98upx;
-        line-height: 39.98upx;
-        &:nth-of-type(1) {
-          margin: 18upx 0 0upx;
-        }
-		.textColor {
-			color: #03AEF9;
-		}
-      }
-    }
-
-  }
-	
+<style>
+.phone-main{
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+.phoneDirectory{
+	display: flex;
+	flex-direction: row;
+}
 </style>

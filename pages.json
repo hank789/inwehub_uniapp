@@ -64,7 +64,7 @@
     {
       "path": "pages/webview/article",
       "style": {
-        "navigationBarTitleText": "webview",
+        "navigationBarTitleText": "加载中...",
         "enablePullDownRefresh": false,
         "navigationStyle": "custom"
       }
@@ -655,7 +655,24 @@
     {
       "path": "pages/help/help",
       "style": {
-        "navigationBarTitleText": "帮助与反馈"
+        "navigationBarTitleText": "帮助与反馈",
+				"app-plus": {
+					"titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontWeight": "bold",
+                "fontSize": "16px",
+                "text": "提建议",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+				}
       }
     },
     {

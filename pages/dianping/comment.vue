@@ -2,6 +2,7 @@
   <view>
     <view  class="mui-content">
       <MescrollDetail
+        v-if="id"
         ref="mescrollDetail"
         :api="'article/detail-by-slug'"
         v-model="detail"

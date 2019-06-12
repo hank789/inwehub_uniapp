@@ -1,9 +1,7 @@
 <template>
   <view>
     <view class="status_bar" />
-
-    <view id="home-content" class="mui-content">
-
+    <view class="mui-content">
       <view class="container-control-logoAndTabsAndSearch">
         <text class="iconfont icon-logowenzi logoIcon " />
         <view class="span splitCircle" />
@@ -73,7 +71,7 @@
             <template v-for="(item, index) in albumList">
               <view class="display">
                 <view v-for="(itemList, itemIndex) in item" :key="itemIndex">
-                  <view v-if="itemList.type === 'product_album'" class="specialList" @tap.stop.prevent="toRoute('/pages/dianping/products?id=' + itemList.id + '&name=' + encodeURIComponent(itemList.name))">
+                  <view v-if="itemList.type === 'product_album'" class="specialList" @tap.stop.prevent="toProductList(itemList)">
                     <view class="mask" />
                     <view class="img"><image mode="aspectFill" class="image" :src="itemList.icon" /></view>
                     <view class="text font-family-medium">{{ itemList.name }}</view>
@@ -159,6 +157,9 @@ export default {
   },
   mounted() {},
   methods: {
+    toProductList (itemList) {
+      this.toRoute('/pages/dianping/products?id=' + itemList.id + '&name=' + encodeURIComponent(itemList.name))
+    },
     toProductDetail (item) {
       this.toRoute('/pages/dianping/product?name=' + encodeURIComponent(item.name))
     },
@@ -289,6 +290,7 @@ export default {
   }
   .mui-content {
     background: #fff !important;
+    top: var(--status-bar-height);
   }
   .moreAlbum {
     .swiper-slide {
@@ -299,7 +301,7 @@ export default {
   .main-content {
     position: absolute;
     left:0;
-    top:87.98upx;
+    top: 87.98upx;
     bottom: 0;
     width:100%;
     overflow-y: scroll;

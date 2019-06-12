@@ -3,6 +3,7 @@
         <scroll-view
                 class="panel-scroll-box"
                 :scroll-y="enableScroll"
+                @scroll="scrollList"
                 @scrolltolower="loadMore"
         >
             <view class="download-tip" :style="{top: downloadTipTop}">{{ downloadTipalertMsg }}</view>
@@ -54,6 +55,10 @@
       this.loadNewsList('add')
     },
     methods: {
+      scrollList(e) {
+        var scrollTop = e.detail.scrollTop
+        this.$emit('scrollList', scrollTop)
+      },
       showDownloadTip() {
         this.downloadTipTop = '0px'
       },
