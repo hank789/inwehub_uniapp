@@ -1,5 +1,7 @@
 <template>
   <view>
+    <view class="status_bar" />
+
     <view id="home-content" class="mui-content">
 
       <view class="container-control-logoAndTabsAndSearch">
@@ -36,7 +38,7 @@
         <view class="topTitle font-family-medium">热门产品</view>
         <view class="heatProduct">
 
-          <view v-for="(item, index) in hotProductList" :key="index" class="productList" @tap.stop.prevent="toRoute('/pages/dianping/product?name=' + encodeURIComponent(item.name))">
+          <view v-for="(item, index) in hotProductList" :key="index" class="productList" @tap.stop.prevent="toProductDetail(item)">
             <view class="componentCarProduct">
               <view class="topInfo">
                 <view class="left">
@@ -157,6 +159,9 @@ export default {
   },
   mounted() {},
   methods: {
+    toProductDetail (item) {
+      this.toRoute('/pages/dianping/product?name=' + encodeURIComponent(item.name))
+    },
     toRoute(url) {
       uni.navigateTo({ url: url })
     },
