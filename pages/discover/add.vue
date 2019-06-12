@@ -89,6 +89,7 @@ export default {
         spaceBetween: 10,
         freeMode: true
       },
+			group_id: 0,
       description: '',
       address: '所在位置',
       placeholder: '在这里输入您的分享内容\n底部的按钮可以添加：标签、链接、附件',
@@ -113,6 +114,9 @@ export default {
     this.readSelectPosition()
   },
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
+		if (option.group_id) {
+			this.group_id = option.group_id
+		}
     this.pageOption = option
   },
   methods: {
@@ -183,11 +187,11 @@ export default {
     },
     addDiscover() {
       if (this.links.length) {
-        addLink(this.description, this.links[0].url, (res) => {
+        addLink(this.description, this.links[0].url, this.group_id, (res) => {
           uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
         })
       } else {
-        addDiscover(this.description, (res) => {
+        addDiscover(this.description, this.group_id, (res) => {
           uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
         })
       }
