@@ -95,6 +95,7 @@
 				this.reset = val
 			},
 			getContacts() {
+				//#ifdef APP-PLUS
 				this.$request.post('profile/needAddressBookRefresh').then(response=> {
 					if (response.data.refresh) {
 						html5plus.getContacts((list)=>{
@@ -120,6 +121,12 @@
 						})
 					}
 				})
+				//#endif
+				//#ifndef APP-PLUS
+				uni.navigateTo({
+					url: '/pages/my/addressBook'
+				})
+				//#endif
 			}
 		}
 	}
