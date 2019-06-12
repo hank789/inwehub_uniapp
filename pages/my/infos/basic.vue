@@ -16,7 +16,7 @@
 					<text @tap.stop.prevent="selectSex" class="mui-navigate-right">用户性别<text class="mui-pull-right account-setting-field mui-ellipsis">{{ genderName ? genderName : '请选择'}}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="$router.push('/selectCompany?from=infobasic')" class="mui-navigate-right">当前公司<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.company ? user.info.company : '必填'
+					<text @tap.stop.prevent="toRoute('/pages/my/selectCompany?from=infobasic')" class="mui-navigate-right">当前公司<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.company ? user.info.company : '必填'
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">

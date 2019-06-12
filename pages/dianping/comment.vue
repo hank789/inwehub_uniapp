@@ -2,6 +2,7 @@
   <view>
     <view  class="mui-content">
       <MescrollDetail
+        v-if="id"
         ref="mescrollDetail"
         :api="'article/detail-by-slug'"
         v-model="detail"
@@ -320,6 +321,9 @@ export default {
         openAppUrl(this.$el.querySelector('#contentWrapper'))
       }
     })
+  },
+  onNavigationBarButtonTap(e) {
+    this.$refs.share.show(true)
   },
   methods: {
     to (url) {

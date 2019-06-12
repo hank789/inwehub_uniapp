@@ -18,7 +18,7 @@
         "enablePullDownRefresh": false,
         "app-plus": {
           "titleNView": false,
-					"bounce": "none"
+          "bounce": "none"
         }
       }
     },
@@ -42,7 +42,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "发布",
         "app-plus": {
-					"animationType": "slide-in-bottom",
+          "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
@@ -75,7 +75,7 @@
         "navigationBarTitleText": "",
         "navigationStyle": "default",
         "app-plus": {
-					"bounce": "none",
+          "bounce": "none",
           "titleNView": false
         }
       }
@@ -84,7 +84,25 @@
       "path": "pages/discover/detail",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "分享"
+        "navigationBarTitleText": "分享",
+        "app-plus": {
+          "animationType": "slide-in-bottom",
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "#3C3E44",
+                "fontWeight": "bold",
+                "fontSize": "21px",
+                "text": "\ue6d4",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
       }
     },
     {
@@ -124,7 +142,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "发布",
         "app-plus": {
-					"animationType": "slide-in-bottom",
+          "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
@@ -149,7 +167,7 @@
         "navigationBarTitleText": "",
         "navigationStyle": "custom",
         "app-plus": {
-					"bounce": "none",
+          "bounce": "none",
           "titleNView": false
         }
       }
@@ -165,14 +183,50 @@
       "path": "pages/dianping/product",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "产品服务"
+        "navigationBarTitleText": "产品服务",
+        "app-plus": {
+          "animationType": "slide-in-bottom",
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "#3C3E44",
+                "fontWeight": "bold",
+                "fontSize": "21px",
+                "text": "\ue6d4",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
       }
     },
     {
       "path": "pages/dianping/comment",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "点评"
+        "navigationBarTitleText": "点评",
+        "app-plus": {
+          "animationType": "slide-in-bottom",
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "#3C3E44",
+                "fontWeight": "bold",
+                "fontSize": "21px",
+                "text": "\ue6d4",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
       }
     },
     {
@@ -188,7 +242,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "",
         "app-plus": {
-					"bounce": "none",
+          "bounce": "none",
           "titleNView": false
         }
       }
@@ -244,13 +298,15 @@
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
-			"buttons": [{ 
-				"type": "none",
+            "buttons": [
+              {
+                "type": "none",
                 "fontSize": "16px",
                 "text": "保存",
                 "width": "auto",
-                "fontSrc": "/static/fonts/iconfont.ttf" 
-			}] 
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
           }
         }
       }
@@ -264,13 +320,15 @@
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
-			"buttons": [{ 
-				"type": "none",
+            "buttons": [
+              {
+                "type": "none",
                 "fontSize": "16px",
                 "text": "保存",
                 "width": "auto",
-                "fontSrc": "/static/fonts/iconfont.ttf" 
-			}] 
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
           }
         }
       }
@@ -284,13 +342,15 @@
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
-			"buttons": [{ 
-				"type": "none",
+            "buttons": [
+              {
+                "type": "none",
                 "fontSize": "16px",
                 "text": "保存",
                 "width": "auto",
-                "fontSrc": "/static/fonts/iconfont.ttf" 
-			}] 
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
           }
         }
       }
@@ -304,13 +364,15 @@
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
-			"buttons": [{ 
-				"type": "none",
+            "buttons": [
+              {
+                "type": "none",
                 "fontSize": "16px",
                 "text": "保存",
                 "width": "auto",
-                "fontSrc": "/static/fonts/iconfont.ttf" 
-			}] 
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
           }
         }
       }
@@ -324,13 +386,15 @@
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
-			"buttons": [{ 
-				"type": "none",
+            "buttons": [
+              {
+                "type": "none",
                 "fontSize": "16px",
                 "text": "保存",
                 "width": "auto",
-                "fontSrc": "/static/fonts/iconfont.ttf" 
-			}] 
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
           }
         }
       }
@@ -353,6 +417,19 @@
       "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "个人名片",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/selectCompany",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "企业",
         "app-plus": {
           "titleNView": {
             "titleSize": "18px",
@@ -599,55 +676,55 @@
       "style": {
         "enablePullDownRefresh": true,
         "navigationBarTitleText": "我的人气",
-				"app-plus": {
-					"bounce": "none"
-				}
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
-		{
+    {
       "path": "pages/my/followedMeUser",
       "style": {
         "enablePullDownRefresh": true,
         "navigationBarTitleText": "关注我的",
-				"app-plus": {
-					"bounce": "none"
-				}
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
-		{
+    {
       "path": "pages/my/collectList",
       "style": {
         "navigationBarTitleText": "我的收藏",
-				"app-plus": {
-					"bounce": "none"
-				}
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
-		{
+    {
       "path": "pages/my/publishList",
       "style": {
         "navigationBarTitleText": "我的发布",
-				"app-plus": {
-					"bounce": "none"
-				}
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
-		{
+    {
       "path": "pages/my/followList",
       "style": {
         "navigationBarTitleText": "我的关注",
-				"app-plus": {
-					"bounce": "none"
-				}
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
-		{
+    {
       "path": "pages/my/addressBook",
       "style": {
         "navigationBarTitleText": "通讯录好友",
-				"app-plus": {
-					"bounce": "none"
-				}
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {

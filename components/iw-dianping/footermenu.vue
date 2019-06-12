@@ -1,7 +1,7 @@
 <template>
   <view v-if="options.length" class="container-menuFooter">
     <template v-for="(item, index) in options">
-      <view class="menu" :class="[{lightWidth: item.isLight, is_FollWers: item.is_FollWers , disable: item.disable, 'new': item.isNew}, 'menu_' + index, item.class]" @tap.click.prevent="clickItem(item)">
+      <view class="menu" :class="[{lightWidth: item.isLight, is_FollWers: item.is_FollWers , disable: item.disable, 'new': item.isNew}, 'menu_' + index, item.class]" @tap.stop.prevent="clickItem(item)">
         <view class="iconWrapper">
           <text class="iconfont " :class="item.icon" />
         </view>
@@ -10,8 +10,8 @@
       </view>
       <!--<view class="line-vertical" v-if="item.rightLine"></view>-->
     </template>
-    <view v-show="isFollwers" class="follwers" @tap.click.prevent="isCollect" />
-    <view v-if="collect" class="collectProduct" @tap.click.prevent="isCollect">
+    <view v-show="isFollwers" class="follwers" @tap.stop.prevent="isCollect" />
+    <view v-if="collect" class="collectProduct" @tap.stop.prevent="isCollect">
       <text class="iconfont icon-shoucanghover " />
     </view>
   </view>
@@ -33,7 +33,7 @@ export default {
     },
     collect: {
       type: Number,
-      default: false
+      default: 0
     }
   },
   data() {
@@ -95,8 +95,7 @@ export default {
     }
     .collectProduct {
         position: absolute;
-        top: 12upx;
-        left: 354upx;
+        left: 372upx;
     }
     .collectProduct .iconfont{
         color: #FA4975;

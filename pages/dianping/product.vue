@@ -2,6 +2,7 @@
   <view>
     <view v-show="!loading" class="mui-content">
       <MescrollDetail
+        v-if="id"
         ref="mescrollDetail"
         :api="'tags/product'"
         v-model="detail"
@@ -25,7 +26,6 @@
           <view
             v-if="detail.vendor"
             class="supply"
-            @tap.stop.prevent="$uni.navigateTo('/companyDetailProduct/' + detail.vendor.id)"
           ><view class="span">供应商</view><view
             class="span font-family-medium"
           >{{ detail.vendor.name }}</view></view>
@@ -40,32 +40,7 @@
             <view v-if="index !== detail.categories.length-1" class="line-river-after line-river-after-top" />
           </template>
         </view>
-        <!-- <view class="line-river-big" v-if="detail.recommend_users && detail.recommend_users.length"></view>
 
-                <view class="recommend" v-if="detail.recommend_users && detail.recommend_users.length">
-                  <view class="recommendTitle">
-                    <view  class="span font-family-medium">推荐顾问</view>
-                  </view>
-
-                  <swiper :options="swiperOption" class="recommenBanners">
-                    <swiper-slide v-for="(advisers, index) in detail.recommend_users" :key="index">
-                      <view class="recommendList">
-                        <view class="avatar" @tap.stop.prevent="toResume(advisers.uuid)">
-                          <image mode="aspectFill" class='image' :src="advisers.avatar_url">
-                        </view>
-                        <view class="personalInfo">
-                          <view class="name">
-                            <view  class="span font-family-medium">{{ advisers.name }}</view>
-                          </view>
-                          <view class="good text-line-1">熟悉“{{ advisers.skill }}”</view>
-                        </view>
-                        <view class="speak" @tap.stop.prevent="goChat(advisers.id)"><view  class="span border-football">沟通</view></view>
-                      </view>
-                    </swiper-slide>
-                    <view class="swiper-pagination" slot="pagination"></view>
-                  </swiper>
-
-                </view> -->
         <view v-if="detail.review_count">
           <view class="line-river-big" />
           <view class="allDianPing font-family-medium">点评 {{ detail.review_count ? '(' + detail.review_count + ')' : '' }}</view>
@@ -272,6 +247,9 @@ export default {
     this.refreshPageData()
   },
   mounted() {
+  },
+  onNavigationBarButtonTap(e) {
+    this.$refs.share.show(true)
   },
   methods: {
     toRoute(url) {

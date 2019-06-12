@@ -71,10 +71,6 @@
             </view>
           </view>
 
-          <!--<view class="groups"  v-if="typeDesc(detail.group.is_joined)"-->
-          <!--@tap.stop.prevent="$uni.navigateTo('/group/detail/' + detail.group.id)">加入圈子阅读全部内容-->
-          <!--</view>-->
-
           <!-- 新增链接样式 -->
           <view v-if="detail.type === 'link' && detail.data.url" class="link">
             <view class="linkBox" @tap.stop.prevent="goArticle(detail)">
@@ -150,7 +146,7 @@
         <view
           v-if="detail.comments_number > 3"
           class="seeAll"
-          @tap.stop.prevent="$uni.navigateTo('/comment/' + detail.category_id + '/' + detail.slug + '/' + detail.id)"
+          @tap.stop.prevent="to('/pages/comment/index?category_id=' + detail.category_id + '&slug=' + detail.slug + '&id=' + detail.id)"
         >
           查看全部{{ detail.comments_number }}条评论
         </view>
@@ -168,7 +164,7 @@
           <view v-for="(item, index) in detail.related_tags" :key="index" class="comment-product">
             <view
               class="product-info"
-              @tap.stop.prevent="$uni.navigateTo('/dianping/product/' + encodeURIComponent(item.name))"
+              @tap.stop.prevent="to('/pages/dianping/product?name=' + encodeURIComponent(item.name))"
             >
               <view class="product-img border-football">
                 <image mode="aspectFill" :src="item.logo" width="44" height="44" />
@@ -506,7 +502,13 @@ export default {
     this.$nextTick(function() {
     })
   },
+  onNavigationBarButtonTap(e) {
+    this.$refs.ShareBtn.show(true)
+  },
   methods: {
+    to(url) {
+      uni.navigateTo({ url: url })
+    },
     detailMenuIcon(item) {
       switch (item.text) {
         case '评论':
@@ -633,33 +635,9 @@ export default {
       this.$refs.discuss.rootComment()
     },
     goDetail(item) {
-
-      // #ifndef APP-PLUS
-        this.openApp()
-        return
-      // #endif
-
       switch (item.read_type) {
         case 1:
           uni.navigateTo({ url: '/pages/discover/detail?slug=' + item.data.slug })
-          break
-        case 2:
-
-          uni.navigateTo({ url: '/askCommunity/major/' + item.source_id })
-          break
-        case 3:
-
-          uni.navigateTo({ url: '/ask/offer/answers/' + item.source_id })
-          break
-        case 4:
-          uni.navigateTo({ url: '/EnrollmentStatus/' + item.source_id })
-          break
-        case 5:
-          uni.navigateTo({ url: '/EnrollmentStatus/' + item.source_id })
-          break
-        case 6:
-
-          uni.navigateTo({ url: '/ask/offer/' + item.source_id })
           break
         default:
       }

@@ -7,7 +7,7 @@
         >
             <slot></slot>
 
-            <mix-load-more :status="loadMoreStatus" />
+            <!--<mix-load-more :status="loadMoreStatus" />-->
         </scroll-view>
     </mix-pulldown-refresh>
 </template>
