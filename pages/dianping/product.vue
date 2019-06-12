@@ -25,7 +25,6 @@
           <view
             v-if="detail.vendor"
             class="supply"
-            @tap.stop.prevent="$uni.navigateTo('/companyDetailProduct/' + detail.vendor.id)"
           ><view class="span">供应商</view><view
             class="span font-family-medium"
           >{{ detail.vendor.name }}</view></view>
@@ -272,6 +271,9 @@ export default {
     this.refreshPageData()
   },
   mounted() {
+  },
+  onNavigationBarButtonTap(e) {
+    this.$refs.share.show(true)
   },
   methods: {
     toRoute(url) {
