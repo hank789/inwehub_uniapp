@@ -355,6 +355,19 @@
       }
     },
     {
+      "path": "pages/my/selectCompany",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "企业",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
       "path": "pages/my/contactUs",
       "style": {
         "navigationStyle": "default",
