@@ -1,6 +1,9 @@
 <template>
   <view class="content">
     <view class="status_bar" />
+    <view class="mui-content">
+
+
     <view class="container-control-logoAndTabsAndSearch">
       <view class="topSearchWrapper" @tap.stop.prevent="toSearch">
         <view class="searchFrame">
@@ -129,11 +132,11 @@
       ref="HotBottomActions"
     />
 
-    <view class="leftTopFixed fixedData nav-sticky" v-show="position">
+    <view v-show="position" class="leftTopFixed fixedData nav-sticky">
       <text class="iconfont icon-rili" />
       <view class="span indexPosition">{{ position }}</view>
     </view>
-
+    </view>
   </view>
 </template>
 
@@ -200,18 +203,6 @@ export default {
   },
   onReady() {
   },
-  updated() {
-    this.$nextTick(function() {
-
-
-      //      views.forEach((view, index) => {
-      //        view.boundingClientRect(data => {
-      //          console.log("得到布局位置信息" + JSON.stringify(data));
-      //          console.log("节点离页面顶部的距离为" + data.top);
-      //        }).exec();
-      //      })
-    })
-  },
   methods: {
     scrollList(e) {
       const views = uni.createSelectorQuery().selectAll('.LeftDate')
@@ -221,7 +212,7 @@ export default {
             this.position = item.dataset.text
           }
         })
-        console.log('得到节点信息' + JSON.stringify(data))
+        // console.log('得到节点信息' + JSON.stringify(data))
       }).exec()
     },
     sharHotspot() {
@@ -335,11 +326,14 @@ export default {
 </script>
 
 <style lang='scss'>
-
+  .mui-content{
+    top: var(--status-bar-height);
+  }
   page, .content{
     background-color: #fff;
     height: 100%;
     overflow: hidden;
+    position: relative;
   }
 
   /* 顶部tabbar */
@@ -626,7 +620,7 @@ export default {
   .nav-sticky {
     z-index: 9999;
     position: absolute;
-    top: 80px;
+    top: 160upx;
   }
 
   .fixedData {
