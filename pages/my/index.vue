@@ -41,7 +41,7 @@
 					<text class="font-family-medium">{{publishes}}</text>
 					<text class="listText">发布</text>
 				</view>
-				<view class="liList" @tap.stop.prevent="$router.pushPlus('/collectUser')">
+				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/followList')">
 					<text class="font-family-medium">{{attention}}</text>
 					<text class="listText">关注</text>
 				</view>

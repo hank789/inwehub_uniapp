@@ -321,6 +321,9 @@ export default {
       }
     })
   },
+  onNavigationBarButtonTap(e) {
+    this.$refs.share.show(true)
+  },
   methods: {
     to (url) {
       uni.navigateTo({ url: url})

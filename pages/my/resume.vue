@@ -25,7 +25,7 @@
 				</view>
 
 			</view>
-			<iwList v-model="list" :api="'feed/list'" :cssTop="cssTop" :requestData="{search_type: 2}">
+			<iwList v-model="list" :api="'feed/list'" :cssTop="cssTop" :requestData="feedListParams">
 
 			<view class="infoBg">
 				<image :src="resume.info.avatar_url" class="avatar bigImg"></image>
@@ -147,6 +147,7 @@
 	} from '@/lib/request'
 	import iwList from '@/components/iw-list/iw-list'
 	import iwFeedItem from '@/components/iw-feed-item/iw-feed-item'
+	import {getLocalUuid} from '@/lib/user.js'
 
 	export default {
 		components: {
@@ -157,6 +158,7 @@
 			return {
 				uuid: '',
 				cuuid: '',
+				search_type: 5, // 1:关注,2:全部,3:问答,4:分享,5:他的动态,6:推荐,默认2
 				cssTop: 88,
 				beforeHeaderOpacity: 1,
 				afterHeaderOpacity: 0,
@@ -203,8 +205,11 @@
 			this.showBack = false;
 			// #endif
 			//option为object类型，会序列化上个页面传递的参数
-			console.log(option.cid); //打印出上个页面传递的参数。
-			this.getUserInfo()
+			this.uuid = getLocalUuid()
+			if (option.id) {
+				this.uuid = option.id
+			}
+			this.getData()
 		},
 		onPageScroll(e) {
 			//导航栏渐变
@@ -215,20 +220,17 @@
 		},
 		onReady(){
 		},
+		computed: {
+			feedListParams() {
+				return {search_type: this.search_type, uuid: this.uuid}
+			}
+		},
 		methods: {
 			toRoute (url) {
 				uni.navigateTo({url: url})
 			},
 			back() {
 				uni.navigateBack();
-			},
-			getUserInfo() {
-				postRequest(`profile/info`, {}).then(res => {
-					this.userInfo = res.data
-					this.uuid = this.userInfo.info.uuid
-					this.cuuid = this.userInfo.info.uuid
-					this.getData()
-				})
 			},
 			getData() {
 				postRequest(`profile/resumeInfo`, {
