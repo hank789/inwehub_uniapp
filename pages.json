@@ -296,7 +296,6 @@
         },
         "app-plus": {
           "titleNView": false,
-          //禁用原生导航栏
           "bounce": "none"
         }
       }
