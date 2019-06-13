@@ -53,7 +53,7 @@ export default {
         targetId: ''
       },
       iconMenus: [],
-      cssTop: 176
+      cssTop: 88
     }
   },
   methods: {

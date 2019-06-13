@@ -1,7 +1,7 @@
 <template>
     <view>
         <view class="component-block-title">
-            <view class="left">评论<view v-if="total">({{total}})</view></view>
+            <view class="left">评论<text v-if="total">({{total}})</text></view>
         </view>
         <view class="line-river-after"></view>
 
@@ -41,9 +41,9 @@
                                 <view class="lidR1">{{ item.owner.name }}</view>
                                 <view class="lidR2 textToLink" v-html="textToLink(item.content)"></view>
                                 <view class="lidR3">
-                                    <view class="lidRtime"> {{ timeago(item.created_at) }} </view>
+                                    <view class="lidRtime"> {{ item.created_at | timeago }} </view>
                                     <view class="lidROption" @tap.stop.prevent="vote(item)" :class="{active:item.is_supported}">
-                                        <text class="iconfont icon-zan"></text><view v-if="item.supports">{{item.supports}}</view>
+                                        <text class="iconfont icon-zan"></text><text v-if="item.supports">{{item.supports}}</text>
                                     </view>
                                 </view>
                             </view>
@@ -120,7 +120,6 @@
     components: {
       DiscussReplay
     },
-    computed: {},
     methods: {
       goComment () {
         this.$emit('goComment')
@@ -154,11 +153,6 @@
           this.mode = '最新'
         }
         this.resetList()
-      },
-      timeago (time) {
-        let newDate = new Date()
-        newDate.setTime(Date.parse(time.replace(/-/g, '/')))
-        return newDate
       },
       rootComment () {
         this.comment(0, '', this.list)
@@ -374,25 +368,13 @@
     },
     mounted () {
       this.getInfo()
-    },
-    watch: {
-      'listParams' (newVal, oldVal) {
-        if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
-          this.resetList()
-        }
-      }
+      this.resetList()
     },
     created () {
 
     },
     updated () {
-      this.$nextTick(() => {
-        var eles = this.$el.querySelectorAll('.textToLink')
-        for (var i in eles) {
-          openVendorUrl(eles[i])
-          openAppUrl(eles[i])
-        }
-      })
+
     }
   }
   export default Discuss

@@ -328,6 +328,7 @@ export default {
 <style lang='scss'>
   .mui-content{
     top: var(--status-bar-height);
+    overflow: hidden;
   }
   page, .content{
     background-color: #fff;

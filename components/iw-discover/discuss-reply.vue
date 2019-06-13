@@ -9,8 +9,7 @@
                     <view class="lidR1">{{ child.owner.name }}<view>回复</view>{{ parentOwnerName }}</view>
                     <view class="lidR2 textToLink" v-html="textToLink(child.content)"></view>
                     <view class="lidR3">
-                        <view class="lidRtime"><timeago :since="timeago(child.created_at)" :auto-update="0">
-                        </timeago></view>
+                        <view class="lidRtime">{{ child.created_at | timeago }}</view>
                         <view class="lidROption" @tap.stop.prevent="vote(child)" :class="{active:child.is_supported}">
                             <text class="iconfont icon-zan"></text><view v-if="child.supports">{{ child.supports }}</view>
                         </view>
