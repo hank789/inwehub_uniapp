@@ -2,7 +2,7 @@
 	<view>
 		
 		<!-- 正文 -->
-		<iwList v-model="list" :api="'feed/list'" :cssTop="cssTop" :requestData="feedListParams">
+		<iwList v-model="list" :api="'feed/list'" @scrollList="scrollList" :cssTop="cssTop" :requestData="feedListParams">
 		<view class="header">
 			<!-- 头部-默认显示 -->
 			<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
@@ -218,7 +218,6 @@
 				this.uuid = option.id
 			}
 			this.getData()
-			this.getList()
 		},
 		onReady() {},
 		onPageScroll(e) {
@@ -226,20 +225,15 @@
 			e.scrollTop = e.scrollTop > tmpY ? 375 : e.scrollTop;
 			this.afterHeaderOpacity = e.scrollTop * (1 / tmpY);
 			this.beforeHeaderOpacity = 1 - this.afterHeaderOpacity;
-
+			
+			this.scrollList()
 		},
 		mounted() {
-
 		},
 
 		methods: {
-			getList () {
-				postRequest(`feed/list`, {
-					search_type: this.search_type,
-					uuid: this.uuid
-				}).then(res => {
-					this.list = res.data.data
-				})
+			scrollList(scrollTop) {
+				console.log(scrollTop,'hhhh纠结')
 			},
 			toRoute(url) {
 				uni.navigateTo({
