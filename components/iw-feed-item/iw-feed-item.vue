@@ -74,8 +74,8 @@
       showDownloadTip() {
 
       },
-      showPageMore (shareOption) {
-        this.$emit('showPageMore', {shareOption: shareOption, item: this.item})
+      showPageMore (data) {
+        this.$emit('showPageMore', data)
       }
     }
   }
