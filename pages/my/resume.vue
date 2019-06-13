@@ -1,32 +1,31 @@
 <template>
-	<view class="resume">
-		<view class="status" :style="{ opacity: afterHeaderOpacity }"></view>
-			<view class="header">
-				
-				<!-- 头部-默认显示 -->
-				<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
-					<view class="back">
-						<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
-					</view>
-					<view class="middle font-family-medium">个人名片</view>
-					<view class="icon-btn">
-						<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
-					</view>
+	<view class="content">
+		<!-- 正文 -->
+		<iwList v-model="list" :api="'feed/list'" @scrollList="scrollList" ref="iwList" :cssTop="cssTop" :requestData="feedListParams">
+		<view class="header">
+			
+			<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
+				<view class="back">
+					<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
 				</view>
-
-				<view class="after" :style="{ opacity: afterHeaderOpacity, zIndex: afterHeaderzIndex }">
-					<view class="back">
-						<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
-					</view>
-					<view class="middle font-family-medium">个人名片</view>
-					<view class="icon-btn">
-						<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
-					</view>
+				<view class="middle">个人名片</view>
+				<view class="icon-btn">
+					<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
 				</view>
-
 			</view>
-			<iwList v-model="list" :api="'feed/list'" :cssTop="cssTop" :requestData="feedListParams">
+			
+			<view class="after" :style="{ opacity: afterHeaderOpacity, zIndex: afterHeaderzIndex,}">
+				<view class="back">
+					<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
+				</view>
+				<view class="middle">个人名片</view>
+				<view class="icon-btn">
+					<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
+				</view>
+			</view>
+		</view>
 
+			
 			<view class="infoBg">
 				<image :src="resume.info.avatar_url" class="avatar bigImg"></image>
 				<view class="backMask"></view>
@@ -47,7 +46,8 @@
 									<text class="level">L{{resume.info.user_level}}</text>
 								</view>
 								<view class="detailInfo">
-									<text class="text">被赞</text><text class="number font-family-medium">{{resume.info.supports}}</text> <text class="spot"></text>
+									<text class="text">被赞</text><text class="number font-family-medium">{{resume.info.supports}}</text> <text
+									 class="spot"></text>
 									<text class="text">{{resume.info.total_score}}</text>
 								</view>
 								<view class="consultWrapper">
@@ -103,7 +103,7 @@
 
 					</view>
 				</view>
-				
+
 				<view class="domainWrapper" v-if="resume.info.skill_tags.length > 0 || uuid === cuuid">
 					<view class="skilledTags">
 						<text class="iconfont icon-shanchang"></text>
@@ -128,12 +128,12 @@
 					</view>
 				</view>
 				<view class="gray" v-if="resume.info.article_count || resume.info.skill_tags.length > 0 || uuid === cuuid"></view>
-				
+
 			</view>
 			<view v-for="(item, index) in list" :key="index" class="iwItem">
 				<iw-feed-item :item="item" @showPageMore="showPageMore"></iw-feed-item>
 			</view>
-			
+
 		</iwList>
 
 	</view>
@@ -145,27 +145,26 @@
 	} from '@/lib/request'
 	import iwList from '@/components/iw-list/iw-list'
 	import iwFeedItem from '@/components/iw-feed-item/iw-feed-item'
-	import {getLocalUuid} from '@/lib/user.js'
-
+	import {
+		getLocalUuid
+	} from '@/lib/user.js'
 	export default {
-		components: {
-			iwList,
-			iwFeedItem
-		},
 		data() {
 			return {
+				topValue: 0,
+				//控制渐变标题栏的参数
+				beforeHeaderzIndex: 11, //层级
+				afterHeaderzIndex: 10, //层级
+				beforeHeaderOpacity: 1, //不透明度
+				afterHeaderOpacity: 0, //不透明度
+				//是否显示返回按钮
+				// #ifndef MP
+				showBack: true,
+				// #endif
 				uuid: '',
 				cuuid: '',
 				search_type: 5, // 1:关注,2:全部,3:问答,4:分享,5:他的动态,6:推荐,默认2
 				cssTop: 88,
-				beforeHeaderOpacity: 1,
-				afterHeaderOpacity: 0,
-				afterHeaderzIndex: 11,
-				beforeHeaderzIndex: 1,
-				anchorlist: [],
-				// #ifndef MP
-				showBack:true,
-				// #endif
 				list: [],
 				resume: {
 					groups: [],
@@ -194,7 +193,19 @@
 
 				},
 				apper: '',
-				userInfo: {}
+				userInfo: {},
+			};
+		},
+		components: {
+			iwList,
+			iwFeedItem
+		},
+		computed: {
+			feedListParams() {
+				return {
+					search_type: this.search_type,
+					uuid: this.uuid
+				}
 			}
 		},
 		onLoad(option) {
@@ -202,30 +213,43 @@
 			//小程序隐藏返回按钮
 			this.showBack = false;
 			// #endif
-			//option为object类型，会序列化上个页面传递的参数
 			this.uuid = getLocalUuid()
 			if (option.id) {
 				this.uuid = option.id
 			}
 			this.getData()
+			this.getList()
 		},
+		onReady() {},
 		onPageScroll(e) {
-			//导航栏渐变
-			let tmpY = 300;
-			e.scrollTop = e.scrollTop > tmpY ? 300 : e.scrollTop;
-			this.afterHeaderOpacity = e.scrollTop * (1 / tmpY);
-			this.beforeHeaderOpacity = 1 - this.afterHeaderOpacity;
+			
+			this.scrollList()
 		},
-		onReady(){
+		mounted() {
 		},
-		computed: {
-			feedListParams() {
-				return {search_type: this.search_type, uuid: this.uuid}
-			}
-		},
+
 		methods: {
-			toRoute (url) {
-				uni.navigateTo({url: url})
+			scrollList(scrollTop) {
+				let tmpY = 375;
+				scrollTop = scrollTop > tmpY ? 375 : scrollTop;
+				this.afterHeaderOpacity = scrollTop * (1 / tmpY);
+				this.beforeHeaderOpacity = 1 - this.afterHeaderOpacity;
+			},
+			getList () {
+				postRequest(`feed/list`, {
+					search_type: this.search_type,
+					uuid: this.uuid
+				}).then(res => {
+					this.list = res.data.data
+				})
+			},
+			toRoute(url) {
+				uni.navigateTo({
+					url: url
+				})
+			},
+			back() {
+				uni.navigateBack();
 			},
 			back() {
 				uni.navigateBack();
@@ -246,12 +270,15 @@
 	}
 </script>
 
-<style lang="less">
-	.height {
-		height: 400upx;
+<style lang="scss">
+	page, .content{
+	  background-color: #fff;
+	  height: 100%;
+	  overflow: hidden;
 	}
-
-
+	.showHeader {
+		background: #03AEF9;
+	}
 	.bot {
 		position: absolute;
 		right: 27.98upx;
@@ -262,18 +289,12 @@
 		transform: scaleY(.5);
 		background-color: rgb(220, 220, 220);
 	}
-
-.status {
-	width: 100%;
-	height: 0;
-	position: fixed;
-	z-index: 10;
-	top: 0;
-	/*  #ifdef  APP-PLUS  */
-	height: var(--status-bar-height); //覆盖样式
-	/*  #endif  */
-	background-color: #f1f1f1;
-}
+	
+	.header-wrapper {
+		height: 642.98upx;
+		position: relative;
+		margin-bottom: 73.96upx;
+	}
 
 	.header {
 		width: 100%;
@@ -301,7 +322,7 @@
 			/*  #endif  */
 
 			.back {
-				width: 42upx;
+				width: 66upx;
 				height: 60upx;
 				flex-shrink: 0;
 
@@ -312,16 +333,16 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					font-size: 42upx;
-					color: #ffffff;
+					font-size: 46upx;
 				}
 			}
 
 			.middle {
 				width: 100%;
-				text-align: center;
-				font-size: 36upx;
-				color: #FFFFFF;
+				font-size: 39upx;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			}
 
 			.icon-btn {
@@ -331,53 +352,99 @@
 				display: flex;
 
 				.iconfont {
+					&:first-child {
+						margin-right: 5upx;
+					}
+
 					width: 60upx;
 					height: 60upx;
 					display: flex;
 					justify-content: center;
 					align-items: center;
-					font-size: 42upx;
-					color: #fff;
+					font-size: 46upx;
 				}
 			}
 		}
 
 		.before {
-			.icon-btn {
-				.icon {
-					color: #fff;
-					background-color: rgba(0, 0, 0, 0.2);
-					border-radius: 100%;
+			.middle {
+				color: #FFF;
+			}
 
+			.back {
+				.iconfont {
+					font-size: 46upx;
+					color: #fff;
+				}
+			}
+
+			.icon-btn {
+				.iconfont {
+					font-size: 46upx;
+					color: #fff;
 				}
 			}
 		}
 
 		.after {
-			background-color: #FFFFFF;
+			background-color: #FFF;
 
 			.back {
 				.iconfont {
-					color: #666;
+					color: #444;
 				}
 			}
 
 			.icon-btn {
 				.iconfont {
-					color: #666;
+					color: #444;
 				}
 			}
 
 			.middle {
-				color: #444444;
+				color: #3c3e44;
 			}
 		}
 	}
 
-	.header-wrapper {
-		height: 642.98upx;
+	.swiper-box {
 		position: relative;
-		margin-bottom: 73.96upx;
+		width: 100%;
+		height: 100vw;
+
+		swiper {
+			width: 100%;
+			height: 100vw;
+
+			swiper-item {
+				image {
+					width: 100%;
+					height: 100vw;
+				}
+			}
+		}
+
+		.indicator {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 0 25upx;
+			height: 40upx;
+			border-radius: 40upx;
+			font-size: 22upx;
+			position: absolute;
+			bottom: 20upx;
+			right: 20upx;
+			color: #fff;
+			background-color: rgba(0, 0, 0, 0.2);
+		}
+	}
+
+	.info-box {
+		width: 92%;
+		padding: 20upx 4%;
+		background-color: #fff;
+		margin-bottom: 20upx;
 	}
 
 	.infoBg {
@@ -676,6 +743,7 @@
 
 		.titleText {
 			line-height: 88upx;
+
 			.iconfont {
 				font-size: 30upx;
 				margin-right: 3.98upx;
