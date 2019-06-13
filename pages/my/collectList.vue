@@ -61,6 +61,11 @@
 				</swiper-item>
 			</swiper>
 		</mix-pulldown-refresh>
+		<iw-page-more
+      ref="pageMore"
+      :share-option="shareOption"
+      :icon-menu="iconMenus"
+    />
 		
 	</view>
 </template>
@@ -69,6 +74,7 @@
 	import mixPulldownRefresh from '@/components/mix-pulldown-refresh/mix-pulldown-refresh'
 	import mixLoadMore from '@/components/mix-load-more/mix-load-more'
 	import iwFeedItemDianping from '@/components/iw-feed-item/iw-feed-item-dianping'
+	import iwPageMore from '@/components/iw-page-more/iw-page-more'
 	import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
 
 	let windowWidth = 0, scrollTimer = false, tabBar;
@@ -76,7 +82,8 @@
 		components: {
 			mixPulldownRefresh,
 			mixLoadMore,
-			iwFeedItemDianping
+			iwFeedItemDianping,
+			iwPageMore
 		},
 		data() {
 			return {
@@ -85,6 +92,17 @@
 				scrollLeft: 0, //顶部选项卡左滑距离
 				enableScroll: true,
 				tabBars: [],
+				shareOption: {
+					title: '',
+					link: '',
+					content: '',
+					imageUrl: '',
+					thumbUrl: '',
+					shareName: '',
+					targetType: 'submission',
+					targetId: ''
+				},
+				iconMenus: []
 			}
 		},
 		async onLoad() {
