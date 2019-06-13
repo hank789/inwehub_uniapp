@@ -178,7 +178,7 @@ export default {
         this.item.user.name,
         this.item.feed.group.name
       )
-      this.$emit('showPageMore', this.shareOption)
+      this.$emit('showPageMore', {shareOption: this.shareOption, item: this.item})
     }
   }
 }

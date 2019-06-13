@@ -186,7 +186,7 @@ export default {
         this.item.user.name,
         this.item.feed.rate_star
       )
-      this.$emit('showPageMore', this.shareOption)
+      this.$emit('showPageMore', {shareOption: this.shareOption, item: this.item})
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <view v-show="showTextarea || alwaysshow" id="commentWrapper" class="commentWrapper" @tap.capture="onTap($event)">
     <view class="textareaWrapper">
-
+      <textarea v-model="textarea"></textarea>
       <!--<text class="iconfont icon-fasong"></text>-->
     </view>
     <view class="send font-family-medium" :class="text.length - 2 ? 'active' : ''" @tap.stop.prevent="sendMessage">发送</view>
@@ -76,7 +76,7 @@ const CommentTextarea = {
       this.noticeUsers = []
       this.delCurrentHistoryDescription()
       localEvent.remove('selected_comment_user' + this.id)
-      this.$refs.myAddEditor.resetContent()
+      // // this.$refs.myAddEditor.resetContent()
       this.showTextarea = false
     },
     addressAppearDelete(text) {
@@ -112,7 +112,7 @@ const CommentTextarea = {
       // 循环插入@人
       var users = this.getSelectUser()
       var spanUserNameAndIds = users.nameAndIds
-      var smallSpanArr = this.$refs.myAddEditor.getSmallSpanArr()
+      var smallSpanArr = // this.$refs.myAddEditor.getSmallSpanArr()
       console.log('selected_comment_user:' + JSON.stringify(users) + ', 文本框里的人数:' + JSON.stringify(smallSpanArr))
 
       // 已选的用户都要添加上
@@ -133,7 +133,7 @@ const CommentTextarea = {
       }
 
       if (waitAddArr.length) {
-        this.$refs.myAddEditor.appendTexts(waitAddArr)
+        // this.$refs.myAddEditor.appendTexts(waitAddArr)
       }
 
       // 文本框里未选择的，都要删除
@@ -145,7 +145,7 @@ const CommentTextarea = {
           deleteUser.push(smallSpanArr[n])
         }
       }
-      this.$refs.myAddEditor.delSmallSpan(deleteUser)
+      // this.$refs.myAddEditor.delSmallSpan(deleteUser)
     },
     initEditorData() {
       console.log('initEditorData() fired')
@@ -163,9 +163,6 @@ const CommentTextarea = {
         commentData: this.commentData,
         currentUser: this.currentUser
       })
-      setTimeout(() => {
-        this.editorObj.blur()
-      }, 200)
       uni.navigateTo({ url: '/selectUser?from=comment' })
     },
     init() {
@@ -173,16 +170,12 @@ const CommentTextarea = {
       this.oldList = this.commentData.commentList
       var result = onceGet(this, this.cacheKey)
       if (result) {
-        setTimeout(() => {
           this.initEditorData()
           this.commentData.commentList = this.oldList
           // this.commentData.list = null  // 临时解决方案，强制discuss刷新列表, 等待删除
           this.focusCallback = () => {
             this.focusCallback = null
           }
-          this.editorObj.setContents(this.description)
-          this.editorObj.focus()
-        }, 100)
       }
     },
     onEditorChange(editor) {
@@ -214,7 +207,6 @@ const CommentTextarea = {
     getHistoryDescription() {
       for (var i in this.historyDescription) {
         if (this.historyDescription[i].targetUsername === this.targetUsername) {
-          this.editorObj.setContents(this.historyDescription[i].description)
           this.historyDescription.splice(i, 1)
           break
         }
@@ -222,9 +214,8 @@ const CommentTextarea = {
     },
     onEditorFocus(editor) {
       if (!this.textarea.replace('<view> </view>', '').trim()) {
-        this.editorObj.setContents([{ insert: '' }])
         var targetUsername = this.targetUsername ? '回复' + this.targetUsername : '在此留言'
-        this.$refs.myAddEditor.setPlaceholder(targetUsername)
+        // this.$refs.myAddEditor.setPlaceholder(targetUsername)
       }
 
       if (this.focusCallback) {
@@ -235,7 +226,6 @@ const CommentTextarea = {
       console.log('comment focus')
     },
     onEditorReady(editor) {
-      this.editorObj = editor
     },
     comment(data, autoBlur) {
       var targetUsername = data.targetUsername
@@ -249,7 +239,7 @@ const CommentTextarea = {
 
       this.targetUsername = targetUsername
 
-      this.editorObj.setContents([{ insert: '' }])
+      // this.editorObj.setContents([{ insert: '' }])
 
       this.getHistoryDescription()
 
@@ -260,25 +250,7 @@ const CommentTextarea = {
       console.log('comment-textarea:' + textarea)
       if (!textarea.trim()) {
         targetUsername = targetUsername ? '回复' + targetUsername : '在此留言'
-        this.$refs.myAddEditor.setPlaceholder(targetUsername)
-      }
-
-      if (this.showTextarea) {
-        // #ifdef H5
-        console.log('bind comment事件')
-        window.document.addEventListener('tap', (e) => {
-          console.log('document tap 事件被触发')
-          this.editorObj.blur()
-        }, false)
-        console.log('autoBlur:' + autoBlur)
-        if (!autoBlur) {
-          setTimeout(() => {
-            this.editorObj.focus()
-          }, 500)
-        }
-        // #endif
-      } else {
-        this.editorObj.blur()
+        // this.$refs.myAddEditor.setPlaceholder(targetUsername)
       }
     },
     finish() {
@@ -305,20 +277,12 @@ const CommentTextarea = {
         return false
       }
 
-      var text = this.text.replace(/\s/g, '').trim()
-      if (!text) {
-        return
-      }
-
-      textarea = textarea.replace(/target="_blank" class="ql-size-small"/g, 'target="_self" class="ql-size-small appUrl"')
-
       var data = {
         content: textarea,
         noticeUsers: this.noticeUsers,
         commentData: this.commentData
       }
       this.$emit('sendMessage', data)
-      this.editorObj.blur()
     }
   }
 }
