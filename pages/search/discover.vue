@@ -171,6 +171,7 @@ export default {
   mounted() {},
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
     this.pageOption = option
+    this.refreshPageData()
   },
   methods: {
     to(url) {

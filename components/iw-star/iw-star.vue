@@ -1,6 +1,6 @@
 <template>
     <view class="starViewWrapper">
-        <view class="upStar" :style="'width:' + ratePercentage + '%'">
+        <view class="upStar" :style="style">
             <text class="iconfont icon-xingxingyidian"></text>
         </view>
         <view class="downStar">
@@ -18,8 +18,9 @@
       }
     },
     computed: {
-      ratePercentage () {
-        return this.rating / 5 * 100
+      style () {
+        const ratingPercent = this.rating / 5 * 100
+        return 'width:' + ratingPercent + '%'
       }
     }
   }

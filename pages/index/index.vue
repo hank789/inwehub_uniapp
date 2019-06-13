@@ -1,141 +1,141 @@
 <template>
   <view class="content">
+    <!-- #ifdef APP-PLUS -->
     <view class="status_bar" />
+    <!-- #endif -->
     <view class="mui-content">
-
-
-    <view class="container-control-logoAndTabsAndSearch">
-      <view class="topSearchWrapper" @tap.stop.prevent="toSearch">
-        <view class="searchFrame">
-          <text class="iconfont icon-sousuo" />
-          <text>搜产品、问答、圈子、内容</text>
+      <view class="container-control-logoAndTabsAndSearch">
+        <view class="topSearchWrapper" @tap.stop.prevent="toSearch">
+          <view class="searchFrame">
+            <text class="iconfont icon-sousuo" />
+            <text>搜产品、问答、圈子、内容</text>
+          </view>
+        </view>
+        <view class="addIcon" @tap.stop.prevent="toRoute('/pages/discover/addlink')">
+          <text class="iconfont icon-tianjia" />
         </view>
       </view>
-      <view class="addIcon" @tap.stop.prevent="toRoute('/pages/discover/addlink')">
-        <text class="iconfont icon-tianjia" />
-      </view>
-    </view>
 
-    <scroll-view id="nav-bar" class="nav-bar" scroll-x scroll-with-animation :scroll-left="scrollLeft">
-      <view
-        v-for="(item,index) in tabBars"
-        :id="'tab'+index"
-        :key="item.id"
-        class="nav-item"
-        :class="{current: index === tabCurrentIndex}"
-        @click="changeTab(index)"
-      >{{ item.name }}</view>
-    </scroll-view>
+      <scroll-view id="nav-bar" class="nav-bar" scroll-x scroll-with-animation :scroll-left="scrollLeft">
+        <view
+          v-for="(item,index) in tabBars"
+          :id="'tab'+index"
+          :key="item.id"
+          class="nav-item"
+          :class="{current: index === tabCurrentIndex}"
+          @click="changeTab(index)"
+        >{{ item.name }}</view>
+      </scroll-view>
 
-    <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="160" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
-      <swiper
-        id="swiper"
-        class="swiper-box"
-        :duration="300"
-        :current="tabCurrentIndex"
-        @change="changeTab"
-      >
-        <swiper-item v-for="(tabItem, tabIndex ) in tabBars" :key="tabItem.id">
-          <scroll-view
-            class="panel-scroll-box"
-            :scroll-y="enableScroll"
-            @scrolltolower="loadMore"
-            @scroll="scrollList"
-          >
-            <view class="download-tip" :style="{top: downloadTipTop}">{{ downloadTipalertMsg }}</view>
+      <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="160" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
+        <swiper
+          id="swiper"
+          class="swiper-box"
+          :duration="300"
+          :current="tabCurrentIndex"
+          @change="changeTab"
+        >
+          <swiper-item v-for="(tabItem, tabIndex ) in tabBars" :key="tabItem.id">
+            <scroll-view
+              class="panel-scroll-box"
+              :scroll-y="enableScroll"
+              @scrolltolower="loadMore"
+              @scroll="scrollList"
+            >
+              <view class="download-tip" :style="{top: downloadTipTop}">{{ downloadTipalertMsg }}</view>
 
-            <view v-if="tabCurrentIndex === 1" class="everyDayWrapper" @tap.stop.prevent="sharHotspot">
-              <view class="everyDay">
-                <text class="iconfont icon-dingyue-" />
-                <view class="textImg">
-                  <image mode="aspectFill" class="image" src="../../static/images/everyDay@3x.png" alt="" /></view>
-              </view>
-            </view>
-
-            <view v-for="(item, index) in tabItem.newsList" :key="index" class="news-item" @click="navToDetails(item)">
-              <view class="container-wrapper">
-                <view v-if="isShowDate(item, index, tabItem.newsList)" class="dateWrapper" @tap.stop.prevent="toReport(item)">
-                  <view class="LeftDate" :data-text="timeToHumanText(item.created_at)">
-                    <text class="iconfont icon-rili" />
-                    <text class="text">{{ timeToHumanText(item.created_at) }}</text>
-                  </view>
-                  <view v-if="tabCurrentIndex === 1" class="rightDaily">
-                    <text class="iconfont icon-fenxiang1" />
-                    <text>日报</text>
-                  </view>
+              <view v-if="tabCurrentIndex === 1" class="everyDayWrapper" @tap.stop.prevent="sharHotspot">
+                <view class="everyDay">
+                  <text class="iconfont icon-dingyue-" />
+                  <view class="textImg">
+                    <image mode="aspectFill" class="image" src="../../static/images/everyDay@3x.png" alt="" /></view>
                 </view>
-                <view class="container-list">
-                  <view v-if="tabCurrentIndex === 0" class="pointLine">
-                    <text class="splitCircle" />
-                    <text class="splitLine" />
+              </view>
+
+              <view v-for="(item, index) in tabItem.newsList" :key="index" class="news-item" @click="navToDetails(item)">
+                <view class="container-wrapper">
+                  <view v-if="isShowDate(item, index, tabItem.newsList)" class="dateWrapper" @tap.stop.prevent="toReport(item)">
+                    <view class="LeftDate" :data-text="timeToHumanText(item.created_at)">
+                      <text class="iconfont icon-rili" />
+                      <text class="text">{{ timeToHumanText(item.created_at) }}</text>
+                    </view>
+                    <view v-if="tabCurrentIndex === 1" class="rightDaily">
+                      <text class="iconfont icon-fenxiang1" />
+                      <text>日报</text>
+                    </view>
                   </view>
-                  <view v-if="tabCurrentIndex !== 0" class="pointLine">
-                    <text class="number">{{ getLiIndex(index, tabIndex) }}.</text>
-                  </view>
-                  <view class="content">
-                    <view class="top-time">
-                      <text class="time">{{ topTime(item) }}</text>
+                  <view class="container-list">
+                    <view v-if="tabCurrentIndex === 0" class="pointLine">
                       <text class="splitCircle" />
-                      <text class="linkURL">{{ item.domain }}</text>
+                      <text class="splitLine" />
                     </view>
-                    <view class="middle">
-                      <view class="left">
-                        <view class="title font-family-medium text-line-2">{{ item.title }}</view>
-                        <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, index, tabIndex)">
-                          <view v-if="item.startAnimation" class="addOne">
-                            <text />
-                            <text>+{{ startAnimationNum }}</text>
-                          </view>
-                          <text class="iconfont icon-huo first" />
-                          <text class="text">{{ item.rate }}</text>
-                          <text class="iconfont icon-tianjia second" />
-                        </view>
+                    <view v-if="tabCurrentIndex !== 0" class="pointLine">
+                      <text class="number">{{ getLiIndex(index, tabIndex) }}.</text>
+                    </view>
+                    <view class="content">
+                      <view class="top-time">
+                        <text class="time">{{ topTime(item) }}</text>
+                        <text class="splitCircle" />
+                        <text class="linkURL">{{ item.domain }}</text>
                       </view>
-                      <view v-if="item.img.length" class="right">
-                        <view class="articleImg">
-                          <image mode="aspectFill" :src="item.img" width="97" :is-lazyload="true" :save-to-local="true" />
+                      <view class="middle">
+                        <view class="left">
+                          <view class="title font-family-medium text-line-2">{{ item.title }}</view>
+                          <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, index, tabIndex)">
+                            <view v-if="item.startAnimation" class="addOne">
+                              <text />
+                              <text>+{{ startAnimationNum }}</text>
+                            </view>
+                            <text class="iconfont icon-huo first" />
+                            <text class="text">{{ item.rate }}</text>
+                            <text class="iconfont icon-tianjia second" />
+                          </view>
+                        </view>
+                        <view v-if="item.img.length" class="right">
+                          <view class="articleImg">
+                            <image mode="aspectFill" :src="item.img" width="97" :is-lazyload="true" :save-to-local="true" />
+                          </view>
                         </view>
                       </view>
                     </view>
                   </view>
                 </view>
               </view>
-            </view>
 
-            <!-- 上滑加载更多组件 -->
-            <mix-load-more :status="tabItem.loadMoreStatus" />
-          </scroll-view>
-        </swiper-item>
-      </swiper>
-    </mix-pulldown-refresh>
+              <!-- 上滑加载更多组件 -->
+              <mix-load-more :status="tabItem.loadMoreStatus" />
+            </scroll-view>
+          </swiper-item>
+        </swiper>
+      </mix-pulldown-refresh>
 
-    <BottomActions
-      ref="BottomActions"
-      v-model="activeItem"
-      :regions="regions"
-      @clickDelete="clickDelete"
-      @startAnimation="startAnimationEvent"
-      @showItemMore="showItemMore"
-    />
+      <BottomActions
+        ref="BottomActions"
+        v-model="activeItem"
+        :regions="regions"
+        @clickDelete="clickDelete"
+        @startAnimation="startAnimationEvent"
+        @showItemMore="showItemMore"
+      />
 
-    <PageMore
-      ref="share"
-      :share-option="shareOption"
-      :hide-share-btn="true"
-      :icon-menu="shareIconMenus"
-      @success="shareSuccess"
-      @fail="shareFail"
-      @clickedItem="iconMenusClickedItem"
-    />
+      <PageMore
+        ref="share"
+        :share-option="shareOption"
+        :hide-share-btn="true"
+        :icon-menu="shareIconMenus"
+        @success="shareSuccess"
+        @fail="shareFail"
+        @clickedItem="iconMenusClickedItem"
+      />
 
-    <HotBottomActions
-      ref="HotBottomActions"
-    />
+      <HotBottomActions
+        ref="HotBottomActions"
+      />
 
-    <view v-show="position" class="leftTopFixed fixedData nav-sticky">
-      <text class="iconfont icon-rili" />
-      <view class="span indexPosition">{{ position }}</view>
-    </view>
+      <view v-show="position" class="leftTopFixed fixedData nav-sticky">
+        <text class="iconfont icon-rili" />
+        <view class="span indexPosition">{{ position }}</view>
+      </view>
     </view>
   </view>
 </template>
@@ -326,8 +326,12 @@ export default {
 </script>
 
 <style lang='scss'>
+  /*  #ifdef APP-PLUS */
   .mui-content{
     top: var(--status-bar-height);
+  }
+  /* #endif */
+  .mui-content{
     overflow: hidden;
   }
   page, .content{

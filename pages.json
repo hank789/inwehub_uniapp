@@ -165,10 +165,10 @@
       "path": "pages/dianping/index",
       "style": {
         "navigationBarTitleText": "",
-        "navigationStyle": "custom",
+        "enablePullDownRefresh": false,
         "app-plus": {
-          "bounce": "none",
-          "titleNView": false
+          "titleNView": false,
+          "bounce": "none"
         }
       }
     },

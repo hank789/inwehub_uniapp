@@ -1,6 +1,8 @@
 <template>
   <view class="content">
+    <!-- #ifdef APP-PLUS -->
     <view class="status_bar" />
+    <!-- #endif -->
     <view class="container-control-logoAndTabsAndSearch searchBoxShadow">
       <view class="topSearchWrapper" @tap.stop.prevent="toSearch">
         <view class="searchFrame">
