@@ -52,12 +52,12 @@
 								</view>
 								<view class="consultWrapper">
 									<view class="leftButton">
-										<view class="border-football font-family-medium" v-show="uuid == cuuid" @tap.stop.prevent="toRoute('/pages/my/text')">详细资料</view>
+										<view class="border-football font-family-medium" v-show="uuid == cuuid" @tap.stop.prevent="toRoute('/pages/my/detailInfo')">详细资料</view>
 										<view class="border-football font-family-medium letter" v-if="uuid !== cuuid" @tap.stop.prevent="goChat()">发私信</view>
 										<!-- <view class="border-football font-family-medium" v-if="uuid !== cuuid" @tap.stop.prevent="goAsk('/ask/'+uuid)">提问题</view> -->
 									</view>
 									<view class="rightDetailInfo" v-if="uuid !== cuuid">
-										<text class="font-family-medium" @tap.stop.prevent="toRoute('/pages/my/text')">详细资料</text>
+										<text class="font-family-medium" @tap.stop.prevent="toRoute('/pages/my/detailInfo')">详细资料</text>
 										<text class="iconfont icon-jinru"></text>
 									</view>
 								</view>
@@ -140,14 +140,10 @@
 </template>
 
 <script>
-	import {
-		postRequest
-	} from '@/lib/request'
+	import { postRequest } from '@/lib/request'
 	import iwList from '@/components/iw-list/iw-list'
 	import iwFeedItem from '@/components/iw-feed-item/iw-feed-item'
-	import {
-		getLocalUuid
-	} from '@/lib/user.js'
+	import { getLocalUuid } from '@/lib/user.js'
 	export default {
 		data() {
 			return {
@@ -214,15 +210,14 @@
 			this.showBack = false;
 			// #endif
 			this.uuid = getLocalUuid()
+			this.cuuid = getLocalUuid()
 			if (option.id) {
 				this.uuid = option.id
 			}
 			this.getData()
-			this.getList()
 		},
 		onReady() {},
 		onPageScroll(e) {
-			
 			this.scrollList()
 		},
 		mounted() {
@@ -235,14 +230,6 @@
 				this.afterHeaderOpacity = scrollTop * (1 / tmpY);
 				this.beforeHeaderOpacity = 1 - this.afterHeaderOpacity;
 			},
-			getList () {
-				postRequest(`feed/list`, {
-					search_type: this.search_type,
-					uuid: this.uuid
-				}).then(res => {
-					this.list = res.data.data
-				})
-			},
 			toRoute(url) {
 				uni.navigateTo({
 					url: url
@@ -253,6 +240,28 @@
 			},
 			back() {
 				uni.navigateBack();
+			},
+			collectProfessor () {
+				if (!this.cuuid) {
+					console.log('失败')
+					// window.location.href = process.env.API_ROOT + 'wechat/oauth?redirect=/home'
+					return
+				}
+				postRequest(`follow/user`, {
+					id: this.uuid
+				}).then(response => {
+					var code = response.code
+					if (code !== 1000) {
+						uni.showToast({
+							title: response.message
+						})
+						return
+					}
+					this.resume.is_followed = !this.resume.is_followed
+					uni.showToast({
+						title: response.data.tip
+					})
+				})
 			},
 			getData() {
 				postRequest(`profile/resumeInfo`, {
@@ -611,7 +620,9 @@
 							position: relative;
 							top: -12upx;
 							margin-left: 12upx;
-
+							.word {
+								margin-top: -16upx;
+							}
 							.iconfont {
 								font-size: 60upx;
 							}
