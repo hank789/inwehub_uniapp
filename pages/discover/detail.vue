@@ -1,7 +1,7 @@
 <template>
   <view>
 
-    <view v-show="!loading" class="mui-content" @tap.capture="onTap($event)">
+    <view v-show="!loading" class="mui-content">
       <view v-if="isShow">
 
         <view v-if="detail.type === 'article' && detail.data.img" class="topImg container-image">
@@ -251,7 +251,7 @@
 
     <commentTextarea ref="ctextarea" @sendMessage="sendMessage" />
 
-    <view @tap.capture="onTap($event)">
+    <view>
       <DetailMenu
         :detail="this.detail"
         :is-detail-up-vote="isDetailUpVote"
@@ -506,6 +506,9 @@ export default {
     this.$refs.ShareBtn.show(true)
   },
   methods: {
+    onTap () {
+
+    },
     to(url) {
       uni.navigateTo({ url: url })
     },
@@ -527,23 +530,6 @@ export default {
     },
     openApp() {
 
-    },
-    onTap(event) {
-      var target = event.target
-      if (target.attributes.title) {
-        if (target.attributes.title.value === '赞' || target.attributes.title.value === '踩') {
-          return
-        }
-      }
-
-      if (this.typeDesc(this.detail.group.is_joined)) {
-        event.stopPropagation()
-        event.preventDefault()
-
-        userAbility.inviteJoinInGroup(this, this.detail.group.id, () => {
-          this.refreshPageData(false)
-        }, this.detail.group)
-      }
     },
     iconMenusClickedItem(item, callback) {
       switch (item.text) {

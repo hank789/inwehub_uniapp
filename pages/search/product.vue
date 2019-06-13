@@ -14,7 +14,7 @@
         <view class="span" @tap.stop.prevent="to('/pages/search/index?text=' + searchText)">综合</view>
         <view class="span" @tap.stop.prevent="to('/pages/search/discover?text=' + searchText)">分享<view class="i" /></view>
         <view class="span spanSecond font-family-medium">产品</view>
-        <view class="span" @tap.stop.prevent="to('/pages/search/comment?text=' + searchText)">点评</view>
+        <view class="span" @tap.stop.prevent="toSearchDianping">点评</view>
 
         <view class="i bot" />
       </view>
@@ -60,7 +60,7 @@
 
         <view class="productList">
           <view v-for="(item, index) in list" :key="index" class="comment-product">
-            <view class="product-info" @tap.stop.prevent="to('/pages/dianping/product?name=' + encodeURIComponent(item.name))">
+            <view class="product-info" @tap.stop.prevent="toProduct(item)">
               <view class="product-img border-football">
                 <image mode="aspectFill" class="image" :src="item.logo" width="44" height="44" />
                 <!--<image mode="aspectFill" class='image' src="../../static/images/uicon.jpg" alt="">-->
@@ -173,6 +173,12 @@ export default {
     this.refreshPageData()
   },
   methods: {
+    toSearchDianping () {
+      this.to('/pages/search/comment?text=' + this.searchText)
+    },
+    toProduct (item) {
+      this.to('/pages/dianping/product?name=' + encodeURIComponent(item.name))
+    },
     to(url) {
       uni.navigateTo({ url: url })
     },

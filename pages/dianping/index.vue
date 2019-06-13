@@ -1,6 +1,8 @@
 <template>
-  <view>
+  <view class="content">
+    <!-- #ifdef APP-PLUS -->
     <view class="status_bar" />
+    <!-- #endif -->
     <view class="mui-content">
       <view class="container-control-logoAndTabsAndSearch">
         <text class="iconfont icon-logowenzi logoIcon " />
@@ -284,13 +286,20 @@ export default {
 </script>
 
 <style scoped lang="less">
-  .listWrapper {
-    top: 87.98upx !important;
-    bottom: 99.98upx !important;
+  page, .content{
+    background-color: #fff;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
   }
+
+  /*  #ifdef APP-PLUS */
+  .mui-content{
+    top: var(--status-bar-height);
+  }
+  /* #endif */
   .mui-content {
     background: #fff !important;
-    top: var(--status-bar-height);
   }
   .moreAlbum {
     .swiper-slide {
