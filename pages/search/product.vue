@@ -80,14 +80,14 @@
             </view>
             <view class="line-river-after line-river-after-top" />
           </view>
-          <view v-if="list.length" class="container-noMore noResultText">暂无结果，您可<view class="span" @tap.stop.prevent="cooperation">提交产品，开展合作</view></view>
+          <!--<view v-if="list.length" class="container-noMore noResultText">暂无结果，您可<view class="span" @tap.stop.prevent="cooperation">提交产品，开展合作</view></view>-->
         </view>
 
         <view v-if="getCurrentMode === 'result' && !list.length && !resultLoading" class="noResult increase dianping-search">
           <view class="empty-Img">
             <image mode="aspectFill" class="image" src="../../static/images/empty@3x.png" />
           </view>
-          <view class="noResultText">暂无结果，您可 <view class="span" @tap.stop.prevent="cooperation">提交产品，开展合作</view></view>
+          <!--<view class="noResultText">暂无结果，您可 <view class="span" @tap.stop.prevent="cooperation">提交产品，开展合作</view></view>-->
         </view>
 
       </RefreshList>

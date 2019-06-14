@@ -120,9 +120,9 @@
           </view>
         </view>
 
-        <view class="feedBack">
-          <view class="text">如果您有任何关于该产品服务相关问题或信息反馈，<view class="span" @tap.stop.prevent="$uni.navigateTo('/dianping/product/feedback/' + encodeURIComponent(detail.name))">请点击</view></view>
-        </view>
+        <!--<view class="feedBack">-->
+          <!--<view class="text">如果您有任何关于该产品服务相关问题或信息反馈，<view class="span" @tap.stop.prevent="$uni.navigateTo('/dianping/product/feedback/' + encodeURIComponent(detail.name))">请点击</view></view>-->
+        <!--</view>-->
 
       </MescrollDetail>
     </view>

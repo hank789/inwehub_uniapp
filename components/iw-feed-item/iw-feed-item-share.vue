@@ -19,7 +19,7 @@
         class="container-images container-images-discover"
         :class="'container-images-' + (itemObj.feed.img.length)"
       >
-        <view v-for="img in itemObj.feed.img" class="container-image"><image mode="aspectFill" :src="img" :is-lazyload="true" width="108" height="108" /></view>
+        <view v-for="img in itemObj.feed.img" class="container-image"><image mode="aspectFill" :src="img" :is-lazyload="true" /></view>
       </view>
       <!--链接-->
       <view v-if="item.feed.submission_type === 'link'" class="container-feed-link-box" @tap.stop.prevent="goArticle()">
