@@ -4,17 +4,17 @@
       <view class="component-mark">
         <view class="span">{{ markTips ? markTips : '就您的感受而言，您会给他打多少分？' }}</view>
         <view class="stars">
-          <starRating />
+          <starRating  @change="changeStarRating" :size="32"/>
           <view v-if="star" class="ratingNumber">{{ star }}分</view>
         </view>
         <view class="line-river-after line-river-after-top" />
       </view>
 
-      <textarea class="textarea" :placeholder="descPlaceholder" />
+      <textarea class="textarea" v-model="html" :placeholder="descPlaceholder" />
 
       <view class="container-images">
         <view v-for="(image, index) in images" class="container-image">
-          <text class="iconfont icon-times1 " />
+          <text class="iconfont icon-times1 " @tap.stop.prevent="delImg(index)"/>
           <image :id="'image_' + index" mode="aspectFill" class="image" :src="image.path" />
         </view><view v-if="images.length < maxImageCount" class="component-photograph" @tap.stop.prevent="uploadImage()"><text class="iconfont icon-xiangji1 " /></view>
       </view>
@@ -150,7 +150,13 @@ export default {
     const currentUser = getLocalUserInfo()
     this.id = currentUser.user_id
   },
+  onNavigationBarButtonTap(e) {
+    this.submit()
+  },
   methods: {
+    changeStarRating (val) {
+      this.star = val.value
+    },
     selectCategory(event, item) {
       if (this.detail && this.detail.categories.length === 1) {
         return false
@@ -244,15 +250,16 @@ export default {
       this.images.splice(index, 1)
     },
     resetData() {
-      this.description = {}
+      this.html = ''
+      this.star = 0
       this.images = []
       this.percentCompleted = 0
+      this.identity = ''
       this.hide = 0
     },
     submit() {
-      var html = this.html.replace(/(<view class='p'><br><\view>)*$/, '')
-      var text = this.text.replace(/\s/g, '').trim()
-      if (!text) {
+      var html = this.html
+      if (!html) {
         ui.toast('请填写内容')
         return
       }
@@ -294,7 +301,7 @@ export default {
       add(this, data, options, (res) => {
         ui.toast('发布成功！')
         this.resetData()
-        uni.redirectTo('/dianping/comment/' + res.slug)
+        uni.redirectTo({url: '/pages/dianping/comment?slug=' + res.slug})
       })
     }
   }
@@ -504,10 +511,12 @@ export default {
     }
 
     .textarea{
+        width:100%;
         padding:0 32upx;
         color:#444;
         line-height:51.98upx;
         font-size: 31.96upx;
+        margin-bottom:10px;
     }
 
     .container-image .iconfont {
