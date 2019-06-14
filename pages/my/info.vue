@@ -3,7 +3,7 @@
 
 		<view class="mui-content">
 			<view class="info-professor">
-				<view class="info-look" @tap.stop.prevent="$router.pushPlus('/my/resume')">
+				<view class="info-look" @tap.stop.prevent="toRoute('/pages/my/resume')">
 					<text class="iconfont icon-gongkai"></text>
 					<text class="lookText">预览</text>
 				</view>

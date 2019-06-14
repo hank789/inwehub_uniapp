@@ -794,3 +794,31 @@ input, textarea, select{
 
 }
 
+
+.component-warning {
+    background: #fff;
+    text-align: center;
+    padding: 146upx 0; }
+.component-warning .iconfont {
+    font-size: 106upx; }
+.component-warning .title {
+    padding-top: 24upx;
+    line-height: 28upx;
+    font-size: 28upx;
+    color: #313131; }
+.component-warning .desc {
+    font-size: 24upx;
+    line-height: 32upx;
+    padding-top: 16upx;
+    color: #808080; }
+.component-warning .component-button-empty {
+    margin-top: 38upx; }
+.component-button-empty {
+text-align: center; }
+.component-button-empty .perfect {
+    display: inline-block;
+    border: 1.96upx solid #03AEF9;
+    color: #03AEF9;
+    font-size: 31.96upx;
+    border-radius: 99.98upx;
+    padding: 19.96upx 43.96upx !important; }

@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view class="content">
 
 		<view class="mui-content" v-show="!loading">
 			<view class="cardWrapper">
@@ -16,19 +16,19 @@
 					</view>
 					<view class="detail">
 						<view class="realname">
-							<text>{{ resume.info.name }}</text>
+							<text class="infoName">{{ resume.info.name }}</text>
 						</view>
 						<view class="item" v-if="resume.info.province.name !== '请选择省份'">
 							<view class="my-detail">
-								<text>
+								<text class="title">
 									<text class="iconfont icon-dingwei"></text>{{ resume.info.province.name }} {{ resume.info.city.name }}
 								</text>
 							</view>
 							<view class="my-detail" v-if="resume.info.work_years">
-								<text>{{resume.info.work_years}}年工作经验</text>
+								<text class="title">{{resume.info.work_years}}年工作经验</text>
 							</view>
 							<view class="my-detail" v-if="resume.info.company && resume.info.title">
-								<text>{{resume.info.company}}</text><text class="line-wall"></text><text>{{resume.info.title}}</text>
+								<text class="title">{{resume.info.company}}</text><text class="line-wall"></text><text class="title">{{resume.info.title}}</text>
 							</view>
 						</view>
 					</view>
@@ -57,12 +57,10 @@
 				<template v-if="percent < 90 && !isSelf">
 					<view class="hTitle">工作经历</view>
 					<view class="component-warning">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#icon-zanwushuju"></use>
-						</svg>
+						<text class="iconfont icon-zanwushuju"></text>
 						<view class="title">您的信息不完整还不能查看哦</view>
 						<view class="desc">查看对方经历会留下您的访问记录，完善您的头像、<br>个人资料(90%以上)会让对方更好的认识您！</view>
-						<view class="component-button-empty" @tap.stop.prevent="$router.pushPlus('/my/info')"><span>去完善我的简历</span></view>
+						<view class="component-button-empty" @tap.stop.prevent="toRoute('/pages/my/info')"><text class="perfect">去完善我的简历</text></view>
 					</view>
 				</template>
 				<template v-else>
@@ -140,9 +138,7 @@
 					</view>
 
 					<view class="noPublic" v-show="!loading && (!resume.info.is_edu_info_public || !resume.info.is_job_info_public ||  !resume.info.is_project_info_public) && !isSelf">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#icon-bugongkai"></use>
-						</svg>
+						<text class="iconfont icon-bugongkai"></text>
 						<view class="desc">部分信息暂未公开</view>
 					</view>
 				</template>
@@ -150,7 +146,7 @@
 
 		</view>
 		
-		<div class="buttonWrapper">
+		<div class="buttonWrapper" v-if="uuid === cuuid" v-show="!loading">
 			<div class="edit" @tap.stop.prevent="toRoute('/pages/my/info')">继续编辑</div>
 		</div>
 
@@ -159,7 +155,7 @@
 
 <script>
 	import { postRequest } from '@/lib/request'
-	import {getLocalUuid} from '@/lib/user.js'
+	import {getLocalUuid, getLocalUserInfo } from '@/lib/user.js'
 	import { isLogined } from '@/lib/auth'
 	export default {
 		data() {
@@ -167,6 +163,7 @@
 				loading: 1,
 				uuid: '',
 				cuuid: '',
+				isShowItemJobMore: false,
 				resume: {
 					groups: [],
 					info: {
@@ -195,7 +192,8 @@
 				percent: 0
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			this.uuid = option.id
 			this.getData()
 		},
 		computed: {
@@ -211,9 +209,9 @@
 				uni.navigateTo({url: url})
 			},
 			getData() {
-				this.uuid = getLocalUuid()
-				// this.cuuid = currentUser.uuid
-				// this.percent = currentUser.account_info_complete_percent
+				let currentUser = getLocalUserInfo()
+				this.cuuid = getLocalUuid()
+				this.percent = currentUser.account_info_complete_percent
 
 				if (!this.uuid) return
 
@@ -263,6 +261,15 @@
 </script>
 
 <style lang="less">
+	page, .content{
+	  background-color: #fff;
+	  height: 100%;
+	  overflow: hidden;
+	}
+	.mui-content {
+		background: #efeff4;
+		margin-bottom: 100upx;
+	}
 	.mui-ellipsis-3 {
 		display: -webkit-box;
 		overflow: hidden;
@@ -370,16 +377,14 @@
 				.realname {
 					font-weight: bold;
 
-					span {
-						&:nth-of-type(1) {
-							position: relative;
-							right: -6upx;
-							color: #444444;
-							font-size: 36upx;
-						}
+					.infoName {
+						position: relative;
+						right: -6upx;
+						color: #444444;
+						font-size: 36upx;
 					}
 
-					.icon {
+					.iconfont {
 						vertical-align: bottom;
 						font-size: 43.96upx;
 						color: #3c95f9;
@@ -400,17 +405,21 @@
 						width: 100%;
 						height: 60upx;
 
-						span {
-							font-size: 25.96upx;
+						.title {
+							font-size: 26upx;
 							color: #444444;
 
-							.icon {
+							.iconfont {
 								color: #B4B4B6;
 							}
 						}
 
 						.line-wall {
-							margin: 0 19.96upx;
+							display: inline-block;
+							position: relative;
+							width: 2upx;
+							height: 20upx;
+							margin: 0 20upx;
 							background-color: #C8C8C8;
 						}
 					}
@@ -622,6 +631,20 @@
       border-radius: 15.98upx;
       background: #03AEF9;
       margin: 15.98upx auto 0;
+    }
+  }
+  
+  .noPublic {
+    margin: 39.98upx 0 0;
+    background: #fff;
+    text-align: center;
+    font-size: 25.96upx;
+    color: #b4b4b6;
+    padding-bottom: 60upx;
+    padding-top: 39.98upx;
+    .iconfont {
+      font-size: 99.98upx;
+      color: #f3f4f6;
     }
   }
 </style>
