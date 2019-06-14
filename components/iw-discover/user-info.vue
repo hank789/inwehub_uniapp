@@ -117,7 +117,7 @@
           return false
         }
 
-        uni.navigateTo({ url:'/share/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime())})
+        uni.navigateTo({ url:'/pages/my/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime())})
       },
       timeago (time) {
         return time
@@ -161,6 +161,8 @@
         text-align: center;
         border-radius: 50%;
         margin-right:12upx;
+				position: relative;
+				z-index: 9;
     }
 
     .avatar .avatarInner {
