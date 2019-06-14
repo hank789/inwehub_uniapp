@@ -6,7 +6,7 @@
     @hidePopup="hide"
   >
     <view class="EmailSubscribe">
-      <view class="close alertClose">
+      <view class="close alertClose" @tap.stop.prevent="hide">
         <text class="iconfont icon-times-- " />
       </view>
 

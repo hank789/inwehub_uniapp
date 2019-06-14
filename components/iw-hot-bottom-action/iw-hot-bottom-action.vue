@@ -47,6 +47,7 @@
     </uni-popup>
 
     <alertEmailSubscribe ref="alertEmailSubscribe" @emailChange="emailChange"></alertEmailSubscribe>
+    <alertSubscribeGZH ref="alertSubscribeGZH"></alertSubscribeGZH>
     </view>
 </template>
 
@@ -55,11 +56,13 @@ import { postRequest } from '@/lib/request'
 import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus } from '@/lib/push'
 import uniPopup from '@/components/uni-popup/uni-popup.vue'
 import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe'
+import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh'
 
 export default {
   components: {
     uniPopup,
-    alertEmailSubscribe
+    alertEmailSubscribe,
+    alertSubscribeGZH
   },
   props: {
   },
@@ -110,7 +113,7 @@ export default {
     },
     subscribeGZH() {
       this.cancelShare()
-      alertSubscribeGZH(this)
+      this.$refs.alertSubscribeGZH.show()
       // setHotRecommendWechatStatus(this.isOpenWeChatPush, () => {
       //   if (!this.isOpenWeChatPush) {
       //     this.cancelShare()
