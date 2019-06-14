@@ -62,6 +62,7 @@ import Vue from 'vue'
 import starRating from '@/components/iw-star/star-rating.vue'
 import localEvent from '@/lib/localstorage'
 import userAbilityCheck from '@/lib/userAbilityCheck'
+import { imagesToBase64 } from '@/lib/image'
 
 export default {
   components: {
@@ -257,7 +258,7 @@ export default {
       this.identity = ''
       this.hide = 0
     },
-    submit() {
+    async submit() {
       var html = this.html
       if (!html) {
         ui.toast('请填写内容')
@@ -284,11 +285,7 @@ export default {
         identity: this.identityId
       }
 
-      for (var i in this.images) {
-        var compressBase64 = this.images[i].base64
-        data['photos'].push(compressBase64) // this.images[i].base64;
-      }
-
+      data.photos = await imagesToBase64(this.images)
       var options = {
         onUploadProgress: function(progressEvent) {
           this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)

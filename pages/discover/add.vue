@@ -75,10 +75,12 @@
 </template>
 
 <script>
+import ui from '@/lib/ui'
 import localStorageKey from '@/lib/localstoragekey'
 import { addDiscover } from '@/lib/discover'
 import Prompt from '@/components/zz-prompt/index.vue'
 import { fetchArticle } from '@/lib/url'
+import { imagesToBase64, uploadImagesByBase64 } from '@/lib/image'
 
 export default {
   components: { Prompt },
@@ -89,7 +91,7 @@ export default {
         spaceBetween: 10,
         freeMode: true
       },
-			group_id: 0,
+      group_id: 0,
       description: '',
       address: '所在位置',
       placeholder: '在这里输入您的分享内容\n底部的按钮可以添加：标签、链接、附件',
@@ -114,12 +116,38 @@ export default {
     this.readSelectPosition()
   },
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
-		if (option.group_id) {
-			this.group_id = option.group_id
-		}
+    if (option.group_id) {
+      this.group_id = option.group_id
+    }
     this.pageOption = option
   },
   methods: {
+    resetData () {
+      this.tags = []
+      this.newTags = []
+      this.noticeUsers = []
+      this.pdfs = []
+      this.description = ''
+      this.images = []
+      this.links = []
+      this.percentCompleted = 0
+      this.selectedAddress = '所在位置'
+      this.hide = 0
+    },
+    async lastUploadImage(id, successCallback) {
+      var photos = await imagesToBase64(this.waitUploadImages)
+
+      if (photos.length < 1) {
+        successCallback()
+        return
+      }
+
+      uploadImagesByBase64(this, id, photos, () => {
+        successCallback()
+      }, (msg) => {
+        ui.toast(msg)
+      })
+    },
     toAddress() {
       uni.navigateTo({ url: '/pages/position/select?from=discover' })
     },
@@ -186,13 +214,23 @@ export default {
       }
     },
     addDiscover() {
+      if (!this.description) {
+        ui.toast('请填写分享内容')
+        return
+      }
+
       if (this.links.length) {
         addLink(this.description, this.links[0].url, this.group_id, (res) => {
           uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
         })
       } else {
         addDiscover(this.description, this.group_id, (res) => {
-          uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
+          var id = res.data.id
+          this.lastUploadImage(id, () => {
+            ui.toast('发布成功！')
+            this.resetData()
+            uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
+          })
         })
       }
     },
