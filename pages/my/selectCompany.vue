@@ -102,9 +102,9 @@
 						uni.showToast({
 							title: '保存成功'
 						})
-						uni.navigateBack({
-							delta: 1
-						});
+						uni.navigateTo({
+							url: '/pages/my/infos/basic'
+						})
 						this.loading = 0
 					})
 				} else {

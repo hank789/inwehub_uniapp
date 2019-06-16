@@ -4,8 +4,8 @@
 			<view class="mui-table-view">
 				<view class="mui-table-view-cell">
 					<view class="mui-input-row">
-						<label class="mui-navigate">平台昵称</label>
-						<input type="text" placeholder="请填写" v-model.trim="name" maxlength="15">
+						<label class="mui-navigate">详细地址</label>
+						<input type="text" placeholder="请填写" v-model.trim="address_detail" maxlength="15">
 					</view>
 				</view>
 			</view>
@@ -19,23 +19,23 @@
 	export default {
 		data () {
 			return {
-				name: ''
+				address_detail: ''
 			}
 		},
 		created () {
 		  var userInfo = getLocalUserInfo()
 		  console.log(userInfo)
-		  this.name = userInfo.info.name
+		  this.address_detail = userInfo.info.address_detail
 		},
 		onNavigationBarButtonTap() {  
-			if (!this.name) {
+			if (!this.address_detail) {
 				uni.showToast({
-					title: '请填写平台昵称'
+					title: '请填写详细地址'
 				})
 				return false
 			}
 			postRequest(`profile/update`, {
-				name: this.name
+				address_detail: this.address_detail
 			}).then(response => {
 				var code = response.code
 				if (code !== 1000) {
@@ -73,14 +73,15 @@
 		font-family: 'Helvetica Neue', Helvetica, sans-serif;
 		line-height: 36upx;
 		float: left;
-		width: 35%;
-		padding: 21upx 30upx;
+		width: 20%;
+		font-size: 36upx;
+		padding: 21upx 20upx;
 	}
 	.mui-input-row input {
-		width: 200px !important;
+		width: 536upx !important;
 		height: 62upx;
 		border: none;
-		font-size: 38upx;
+		font-size: 32upx;
 		color: #444444;
 		z-index: 990;
 		padding: 0 18upx;

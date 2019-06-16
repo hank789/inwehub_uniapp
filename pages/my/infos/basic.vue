@@ -30,7 +30,7 @@
 					<text @tap.stop.prevent="selectWorkerCity(true)" class="mui-navigate-right">工作地区<text class="mui-pull-right account-setting-field mui-ellipsis">{{ work_city !== ' ' ? work_city : '请选择' }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="$router.push('/my/info/basic/textddress')" class="mui-navigate-right">详细地址<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.address_detail ? user.info.address_detail : '必填'}}</text></text>
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/textddress')" class="mui-navigate-right">详细地址<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.address_detail ? user.info.address_detail : '必填'}}</text></text>
 				</view>
 				<view class="mui-table-view-cell" @tap.stop.prevent="$router.pushPlus('/wechat/bindPhone')">
 					<text class="mui-navigate-right mui-navigate">联系手机<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.mobile ? user.info.mobile : '必填'
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-	import { getUserInfo, getLocalUserInfo } from '@/lib/user'
+	import { getUserInfo, getLocalUserInfo, getAndUpdateUserInfo } from '@/lib/user'
 	export default {
 		data() {
 			return {
@@ -139,10 +139,11 @@
 				uni.navigateTo({url: url})
 			},
 			getUserInfo() {
-				let getUserInfo = getLocalUserInfo()
-				this.user = getUserInfo
-				// this.work_city = getUserInfo.info.province.name + ' ' + getUserInfo.info.city.name
-				// this.home_city = getUserInfo.info.hometown_province.name + ' ' + getUserInfo.info.hometown_city.name
+				getAndUpdateUserInfo((user) => {
+					this.user = user
+					this.work_city = user.info.province.name + ' ' + user.info.city.name
+					this.home_city = user.info.hometown_province.name + ' ' + user.info.hometown_city.name
+				})
 			}
 		}
 	}

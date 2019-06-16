@@ -42,22 +42,22 @@
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList" @tap.stop.prevent="$router.pushPlus('/my/info/jobs')">
+				<view class="setUpList">
 					<text>工作经历</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList" @tap.stop.prevent="$router.pushPlus('/my/info/edus')">
+				<view class="setUpList">
 					<text>项目经历</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList" @tap.stop.prevent="$router.pushPlus('/my/info/trains')">
+				<view class="setUpList">
 					<text>培训认证</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList" @tap.stop.prevent="$router.pushPlus('/my/info/privacy')">
+				<view class="setUpList" @tap.stop.prevent="toRoute('/pages/my/infos/privacy')">
 					<text>隐私设置</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
