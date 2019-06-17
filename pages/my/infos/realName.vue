@@ -24,13 +24,12 @@
 		},
 		created () {
 		  var userInfo = getLocalUserInfo()
-		  console.log(userInfo)
 		  this.realname = userInfo.info.realname
 		},
 		onNavigationBarButtonTap() {  
 			if (!this.realname) {
 				uni.showToast({
-					title: '请填写平台昵称'
+					title: '请填写真实姓名'
 				})
 				return false
 			}
@@ -47,9 +46,9 @@
 				uni.showToast({
 					title: '保存成功'
 				})
-				uni.navigateBack({
-					delta: 1
-				});
+				uni.navigateTo({
+					url: '/pages/my/infos/basic'
+				})
 			})
 		},
 		methods: {
@@ -73,14 +72,15 @@
 		font-family: 'Helvetica Neue', Helvetica, sans-serif;
 		line-height: 36upx;
 		float: left;
-		width: 35%;
-		padding: 21upx 30upx;
+		width: 20%;
+		font-size: 36upx;
+		padding: 21upx 20upx;
 	}
 	.mui-input-row input {
-		width: 200px !important;
+		width: 536upx !important;
 		height: 62upx;
 		border: none;
-		font-size: 38upx;
+		font-size: 32upx;
 		color: #444444;
 		z-index: 990;
 		padding: 0 18upx;
