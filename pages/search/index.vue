@@ -4,7 +4,7 @@
       <view class="search">
         <view class="p border-football">
           <text class="iconfont icon-sousuo " />
-          <input v-model.trim="searchText" type="text" placeholder="搜产品、问答、圈子、内容" @keydown.enter="enterKeyCode($event)">
+          <input v-model.trim="searchText" type="text" focus="true" placeholder="搜产品、问答、圈子、内容" @keydown.enter="enterKeyCode($event)">
           <text class="iconfont icon-times1 " />
         </view>
         <view class="p" @tap.stop.prevent="back()">取消</view>
