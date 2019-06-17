@@ -23,7 +23,7 @@
 		onNavigationBarButtonTap() {  
 			if (!this.description) {
 				uni.showToast({
-					title: '请填写平台昵称'
+					title: '请填写个性签名'
 				})
 				return false
 			}
@@ -40,9 +40,9 @@
 				uni.showToast({
 					title: '保存成功'
 				})
-				uni.navigateBack({
-					delta: 1
-				});
+				uni.navigateTo({
+					url: '/pages/my/infos/basic'
+				})
 			})
 		},
 		methods: {
