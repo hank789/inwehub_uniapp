@@ -27,7 +27,7 @@
         >{{ item.name }}</view>
       </scroll-view>
 
-      <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="160" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
+      <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="navBarTop" @refresh="onPulldownReresh" @setEnableScroll="setEnableScroll">
         <swiper
           id="swiper"
           class="swiper-box"
@@ -165,6 +165,7 @@ export default {
     return {
       positionValues: [],
       position: '',
+			navBarTop: 90,
       tabCurrentIndex: 1,
       activeItem: {},
       activeItemIndex: 0,
@@ -197,6 +198,9 @@ export default {
     }
   },
   async onLoad(option) {
+		var appInfo = this.$ls.get('appDeviceInfo')
+		console.log(JSON.stringify(appInfo));
+		this.navBarTop = (appInfo.statusBarHeight + 90 + 88)
     this.pageOption = option
     this.windowWidth = uni.getSystemInfoSync().windowWidth
     this.loadTabbars()
