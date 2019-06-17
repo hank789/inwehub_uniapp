@@ -14,7 +14,7 @@
 				</view>
 				<view class="inputRow" @tap="fixSelect">
 					<view class="title">行业领域</view>
-					<text class="componyName textTips" v-if="infoIndustryTagsNames">{{infoIndustryTagsNames}}</text>
+					<text class="componyName textTips mui-ellipsis" v-if="infoIndustryTagsNames">{{infoIndustryTagsNames}}</text>
 					<text class="emptyFields textTips" v-else>请选择</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
@@ -45,8 +45,8 @@
 
 		</view>
 		<view class="mui-modal mui-pageSub" v-if="showTagsList">
-			<tags-list :tag_type="3" :selected="job.industry_tags" :back_id="page_industry_tags_id" :object_type="object_type"
-			 v-on:selectedIndustryTags="selectedIndustryTags"></tags-list>
+			<tags-list :tag_type="3" :showTags="showTagsList" :selected="job.industry_tags" :back_id="page_industry_tags_id"
+			 :object_type="object_type" v-on:selectedIndustryTags="selectedIndustryTags"></tags-list>
 		</view>
 	</view>
 </template>
@@ -56,8 +56,18 @@
 		getUserInfo,
 		getLocalUserInfo
 	} from '@/lib/user'
-  import { onceSave, onceGet } from '@/lib/cache'
+	import {
+		postRequest
+	} from '@/lib/request'
+	import {
+		onceSave,
+		onceGet
+	} from '@/lib/cache'
 	import tagsList from '@/components/iw-tags-list/tags-list'
+
+	import localEvent from "@/lib/localstorage"
+	import ACCOUNT_API from "@/lib/account"
+	import ui from "@/lib/ui"
 	const currentUser = getLocalUserInfo()
 	export default {
 		components: {
@@ -98,12 +108,49 @@
 		},
 		onLoad(option) {
 			console.log(option)
-			if (option.id) {
-				this.type = option.id
-			}
-			// this.getCompany()
+			this.type = option.id
+			this.id = option.id
+			this.getDetail()
+			this.getCompany()
 		},
 		methods: {
+			muiViewBack: function() {
+				var newItemChange = JSON.stringify(this.job)
+				if (this.bak !== '' && newItemChange !== this.bak) {
+					var btnArray = ['取消', '确定']
+					ui.confirm('您还未保存，确定退出么? ', '', btnArray, (e) => {
+						if (e.index === 1) {
+						  this.clearData()
+						  uni.navigateBack({
+								delta: 1
+							});
+						} else {
+						  return false
+						}
+					  })
+					
+				} else {
+					uni.navigateBack({
+						delta: 1
+					});
+				}
+			},
+			getDetail() {
+				if (this.type !== '0') {
+					var jobs = localEvent.get('jobs')
+					this.job = jobs[this.type]
+					this.description = this.job.description
+					this.bak = JSON.stringify(this.job)
+				} else {
+					this.clearData()
+				}
+			},
+			clearData() {
+				console.log('清楚了')
+				this.job = this.initJob
+				this.description = ''
+				this.bak = ''
+			},
 			toselectcompany() {
 				onceSave(this)
 				uni.navigateTo({
@@ -112,7 +159,7 @@
 			},
 			getCompany() {
 				//     选择公司
-				// var placeholder = localEvent.getLocalItem('job' + this.type + '_company' + this.user_id)
+				var placeholder = localEvent.get('job' + this.type + '_company' + this.user_id)
 				if (placeholder.length) {
 					this.job.company = placeholder
 				}
@@ -176,19 +223,28 @@
 				postRequest(url, data).then(response => {
 					this.buttonSaveDisabled = false
 
-					var code = response.data.code
+					var code = response.code
 
 					if (code !== 1000) {
-						window.mui.alert(response.data.message)
+						uni.showToast({
+							title: response.message
+						})
+						// window.mui.alert(response.data.message)
 						return
 					}
+					uni.showToast({
+						title: '操作成功'
+					})
 
-					window.mui.toast('操作成功')
+					// window.mui.toast('操作成功')
 					//   操作成删除保存的公司
-					localEvent.clearLocalItem('job' + this.type + '_company' + this.user_id)
+					localEvent.remove('job' + this.type + '_company' + this.user_id)
 					this.bak = ''
 					if (!this.id) this.clearData()
-					window.mui.back()
+					// window.mui.back()
+					uni.navigateBack({
+						delta: 1
+					});
 				})
 			}
 		},
@@ -275,6 +331,12 @@
 				height: 64upx;
 				color: #3f3f3f;
 				padding-right: 0;
+			}
+
+			.mui-ellipsis {
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
 			}
 
 			.iconfont {

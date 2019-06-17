@@ -10,10 +10,6 @@
 
 				<view class="mui-table-view mui-table-view-chevron" id="OA_task_1">
 					<view v-for="(job,index) in jobs" class="intro  mui-table-view-cell">
-
-						<!-- <view class="mui-slider-right mui-disabled" id="roof" @tap.stop.prevent="deleteItem(job.id, index)">
-							<text class="mui-btn mui-btn-red " style="background: #fa4975">删除</text>
-						</view> -->
 						<view class="mui-slider-handle  slider">
 							<view class="mui-ellipsis companyText"> {{ job.company }}</view>
 							<view class="titleTips">
@@ -38,6 +34,7 @@
 	import {
 		postRequest
 	} from '@/lib/request'
+	import localEvent from "@/lib/localstorage"
 	export default {
 		data() {
 			return {
@@ -45,7 +42,7 @@
 				jobs: []
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.initData()
 		},
 		methods: {
@@ -71,7 +68,8 @@
 						var id = info.id
 						newJobs[id] = info
 					}
-					// localEvent.setLocalItem('jobs', newJobs)
+					console.log(newJobs)
+					localEvent.set('jobs', newJobs)
 
 					this.loading = false
 				})

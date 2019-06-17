@@ -1,11 +1,11 @@
 <template>
-	<view class="mui-modal mui-pageSub mui-active">
+	<view class="mui-modal mui-pageSub mui-active" v-if="isShowTags">
 		<view class="mui-bar mui-bar-nav mustshow">
-			<text class="mui-icon iconfont icon-guanbi"></text>
-			<h1 class="mui-title" v-text="genderTagName"></h1>
+			<text class="mui-icon iconfont icon-guanbi" @tap.stop.prevent="done"></text>
+			<text class="mui-title" v-text="genderTagName"></text>
 			<a class="mui-btn mui-btn-link mui-pull-right mui-btn-blue mui-disabled" v-if="iselected.length === 0">完成</a>
-			<a v-bind:id="'done_' + back_id" @tap.stop.prevent="done" class="mui-btn mui-btn-link mui-pull-right mui-btn-blue"
-			 v-else>完成<view class='span' >({{ iselected.length }})</view></a>
+			<text @tap.stop.prevent="done" class="mui-btn mui-btn-link mui-pull-right mui-btn-blue"
+			 v-else>完成<text class='span' >({{ iselected.length }})</text></text>
 		</view>
 		<view class="mui-content mui-scroll-wrapper">
 
@@ -17,11 +17,11 @@
 					<view class="mui-indexed-list-inner">
 						<view class="mui-indexed-list-empty-alert">没有数据</view>
 						<view class="mui-table-view">
-							<view v-for="(tag, index) in tags" class="mui-input-row mui-table-view-cell mui-indexed-list-item mui-checkbox-2  mui-left"
-							 @tap.stop.prevent="checkThis" :value="tag.value">
-
-								<view  v-if="typeof(getSelectedCodes) === 'object' && getSelectedCodes.indexOf(tag.value)  class="span checked"> -1" /><view 
-								 v-else / class="span">{{ tag.text }}
+							<view v-for="(tag, index) in tags" class="liBox mui-input-row mui-table-view-cell mui-checkbox-2  mui-left"
+							 @tap.stop.prevent="checkThis(tag)" :value="tag.value">
+							 
+							 <text class="iconfont checkeds" v-if="typeof(getSelectedCodes) === 'object' && getSelectedCodes.indexOf(tag.value) > -1"></text>
+							 <text class="iconfont checkedFalse" v-else></text>{{ tag.text }}
 
 							</view>
 						</view>
@@ -37,27 +37,23 @@
 	import {
 		postRequest
 	} from '@/lib/request'
+	import {getTagsList} from "@/lib/industry"
 	export default {
 		data() {
 			return {
 				tags: '',
 				counts: 0,
 				loading: 1,
-				iselected: []
+				iselected: [],
+				isShowTags: this.showTags
 			}
 		},
-		props: ['tag_type', 'back_id', 'object_type', 'selected'],
+		props: ['tag_type', 'back_id', 'object_type', 'selected', 'showTags'],
 		created() {
-			postRequest(`tags/load`, {
-				tag_type: this.tag_type
-			}).then(res => {
-				console.log(res, '数据')
-				if (res.data !== false) {
-					this.tags = res.data.tags
-					this.counts = this.tags.length
-				}
+			getTagsList( this.tag_type, (res) => {
+				this.tags= res
+				console.log(this.tags)
 			})
-
 			this.iselected = this.selected ? this.selected : []
 		},
 		computed: {
@@ -86,33 +82,21 @@
 		},
 		methods: {
 			done() {
-				this.$emit('selectedIndustryTags', this.iselected, this.object_type)
-				document.getElementById(this.back_id).classList.remove('mui-active')
+				this.isShowTags = !this.isShowTags
 			},
-			checkThis(e) {
-				var .li = null
-				if (e.target.tagName === 'SPAN') {
-					li = e.target.parentNode
-				} else {
-					li = e.target
-				}
-				var span = li.childNodes[0]
+			checkThis(tag) {
+				
 				var value = {
-					text: li.innerText,
-					value: parseInt(li.getAttribute('value'))
+					text: tag.text,
+					value: tag.value
 				}
 
 				var pos = this.getSelectedCodes.indexOf(value.value)
-				if (!span.classList.contains('checked')) {
-					span.classList.add('checked')
-					if (pos < 0) {
-						this.iselected.push(value)
-					}
-				} else {
-					span.classList.remove('checked')
-					if (pos >= 0) {
-						this.iselected.splice(pos, 1)
-					}
+				if (pos < 0) {
+					this.iselected.push(value)
+				}
+				if (pos >= 0) {
+					this.iselected.splice(pos, 1)
 				}
 			}
 		},
@@ -128,6 +112,21 @@
 </script>
 
 <style>
+	.mui-bar {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    left: 0;
+    height: 88upx;
+    padding-right: 0.266rem;
+    padding-left: 0.266rem;
+    border-bottom: 0;
+    background-color: #f7f7f7;
+    -webkit-box-shadow: 0 0 0.026rem rgba(0, 0, 0, .85);
+    box-shadow: 0 0 0.026rem rgba(0, 0, 0, .85);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
 	.mui-modal.mui-active {
 		background-color: #3c3e44;
 	}
@@ -191,6 +190,7 @@
     padding-left: 19.96upx;
 	position: relative;
 	z-index: 99;
+	top: 18upx;
 }
 .mui-bar-dark, .mui-bar-nav {
     background-color: #ffffff;
@@ -206,7 +206,7 @@
     font-weight: 400;
     position: relative;
     z-index: 20;
-    top: 13.96upx;
+    top: -8upx;
     margin-top: 0;
     padding: 12upx 24upx 13.96upx;
 }
@@ -228,7 +228,7 @@
 }
 
 .mui-checkbox-2 .tagSelect:before {
-  content: '\E411';
+  content: '\e62a';
 }
 
 .mui-table-view-cell.mui-checkbox-2 .tagSelect {
@@ -253,7 +253,7 @@
   z-index:0;
 }
 .mui-table-view-cell.mui-checkbox-2.mui-left {
-  padding-left: 115.96upx;
+  /* padding-left: 115.96upx; */
 }
 .mui-checkbox-2 {
   position: relative;
@@ -289,13 +289,13 @@
     border-top: solid 1.96upx #e3e3e3;
     border-bottom: solid 1.96upx #e3e3e3;
     overflow: hidden;
-    background-color: #fafafa;
+    background-color: #fff;
     cursor: default;
 }
 .mui-table-view-cell {
     position: relative;
     overflow: hidden;
-    padding: 21.98upx 30upx;
+    padding: 12upx 30upx;
     -webkit-touch-callout: none;
 }
 .mui-indexed-list-empty-alert {
@@ -312,16 +312,40 @@
 }
 .mui-content {
     position: absolute;
-    top: 56upx;
+    top: 88upx;
     width: 750upx;
     left: 50%;
     bottom: 0;
     padding-top: 0;
     overflow: scroll;
+	margin-left: -376upx !important;
 }
 .mui-scroll {
     position: absolute;
     z-index: 1;
     width: 100%;
+}
+.iconfont.checkeds, .iconfont.checkedFalse {
+	margin-right: 20upx;
+	font-size: 40upx;
+}
+.checkeds:before {
+	color: #007aff;
+	content: "\e62a";
+}
+.checkedFalse:before {
+	content: '\e62a';
+	color: #aaa;
+}
+.mui-table-view-cell:after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 30upx;
+    height: 2upx;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
 }
 </style>
