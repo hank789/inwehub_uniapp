@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="mui-content searchSubmission">
-
+        <!-- #ifndef APP-PLUS -->
         <view class="search">
             <view class="p border-football pFirst">
                 <text class="iconfont icon-sousuo iconfontFirst" />
@@ -10,12 +10,13 @@
             </view>
             <view class="p pSecond font-family-medium" @tap.stop.prevent="back()">取消</view>
         </view>
+        <!-- #endif -->
         <view v-if="list.length || getCurrentMode === 'result' && searchText !== ''" class="menu">
 
-            <view class="span" @tap.stop.prevent="to('/pages/search/index?text=' + searchText)">综合</view>
-            <view class="span" @tap.stop.prevent="to('/pages/search/discover?text=' + searchText)">分享<view class="i" /></view>
-            <view class="span" @tap.stop.prevent="to('/pages/search/product?text=' + searchText)">产品</view>
-            <view class="span spanSecond font-family-medium">点评</view>
+            <view class="span" @tap.stop.prevent="redirectTo('/pages/search/index?text=' + searchText)">综合</view>
+            <view class="span" @tap.stop.prevent="redirectTo('/pages/search/discover?text=' + searchText)">分享</view>
+            <view class="span" @tap.stop.prevent="redirectTo('/pages/search/product?text=' + searchText)">产品</view>
+            <view class="span spanSecond font-family-medium">点评<view class="i" /></view>
 
             <view class="i bot" />
         </view>
@@ -68,7 +69,6 @@
                     @showPageMore="showItemMore"
                   />
                 </template>
-                <view v-if="list.length" class="container-noMore">暂无更多</view>
 
                 <view v-if="getCurrentMode === 'result' && !list.length && !resultLoading" class="noResult increase dianping-search">
                   <view class="empty-Img">
@@ -100,6 +100,7 @@ import { searchText as searchTextFilter } from '@/lib/search'
 import DianPingFeed from '@/components/iw-feed-item/iw-feed-item'
 import PageMore from '@/components/iw-page-more/iw-page-more'
 import { autoBlur } from '@/lib/dom'
+import { setNavbarSearchInputText } from '@/lib/allPlatform'
 
 export default {
   components: {
@@ -168,9 +169,18 @@ export default {
     this.pageOption = option
     this.refreshPageData()
   },
+  onNavigationBarSearchInputChanged(e) {
+    this.searchText = e.text
+  },
+  onNavigationBarSearchInputConfirmed(e) {
+    this.searchText = e.text
+  },
   methods: {
     to(url) {
       uni.navigateTo({ url: url })
+    },
+    redirectTo(url) {
+      uni.redirectTo({ url: url })
     },
     empty() {
       this.searchText = ''
@@ -247,6 +257,7 @@ export default {
     },
     selectConfirmSearchText(text) {
       this.searchText = text
+      setNavbarSearchInputText(this, text)
       if (text) {
         this.resultLoading = 1
         this.confirmSearchText = text

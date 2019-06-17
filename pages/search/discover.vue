@@ -1,6 +1,7 @@
 <template>
   <view>
     <view class="mui-content searchSubmission">
+      <!-- #ifndef APP-PLUS -->
       <view class="search">
         <view class="p border-football pFirst">
           <text class="iconfont icon-sousuo iconfontFirst" />
@@ -9,12 +10,13 @@
         </view>
         <view class="p pSecond font-family-medium" @tap.stop.prevent="back()">取消</view>
       </view>
+      <!-- #endif -->
       <view v-if="list.length || getCurrentMode === 'result' && searchText !== ''" class="menu">
 
-        <view class="span" @tap.stop.prevent="to('/pages/search/index?text=' + searchText)">综合</view>
+        <view class="span" @tap.stop.prevent="redirectTo('/pages/search/index?text=' + searchText)">综合</view>
         <view class="span spanSecond font-family-medium">分享<view class="i" /></view>
-        <view class="span" @tap.stop.prevent="to('/pages/search/product?text=' + searchText)">产品</view>
-        <view class="span" @tap.stop.prevent="to('/pages/search/comment?text=' + searchText)">点评</view>
+        <view class="span" @tap.stop.prevent="redirectTo('/pages/search/product?text=' + searchText)">产品</view>
+        <view class="span" @tap.stop.prevent="redirectTo('/pages/search/comment?text=' + searchText)">点评</view>
 
         <view class="i bot" />
       </view>
@@ -107,6 +109,7 @@ import PageMore from '@/components/iw-page-more/iw-page-more'
 import { autoBlur } from '@/lib/dom'
 import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
 import ui from '@/lib/ui'
+import { setNavbarSearchInputText } from '@/lib/allPlatform'
 
 export default {
   components: {
@@ -173,9 +176,18 @@ export default {
     this.pageOption = option
     this.refreshPageData()
   },
+  onNavigationBarSearchInputChanged(e) {
+    this.searchText = e.text
+  },
+  onNavigationBarSearchInputConfirmed(e) {
+    this.searchText = e.text
+  },
   methods: {
     to(url) {
       uni.navigateTo({ url: url })
+    },
+    redirectTo(url) {
+      uni.redirectTo({ url: url })
     },
     showItemMore(data) {
       let shareOption = data.shareOption
@@ -221,6 +233,7 @@ export default {
     },
     selectConfirmSearchText(text) {
       this.searchText = text
+      setNavbarSearchInputText(this, text)
       if (text) {
         this.resultLoading = 1
         this.confirmSearchText = text
