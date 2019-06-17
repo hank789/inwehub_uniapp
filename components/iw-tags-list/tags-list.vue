@@ -90,7 +90,7 @@
 				document.getElementById(this.back_id).classList.remove('mui-active')
 			},
 			checkThis(e) {
-				var .li = null
+				var li = null
 				if (e.target.tagName === 'SPAN') {
 					li = e.target.parentNode
 				} else {
