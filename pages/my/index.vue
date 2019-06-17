@@ -56,6 +56,11 @@
 
 			<!--列表内容-->
 			<view class="component-option">
+				<view class="optionList" @tap.stop.prevent="toRoute('/pages/inform/index')">
+					<text class="optionText">我的消息</text>
+					<text class="iconfont icon-jinru"></text>
+					<i class="bot"></i>
+				</view>
 				<view class="optionList" @tap.stop.prevent="toRoute('/pages/help/help')">
 					<text class="optionText">意见反馈</text>
 					<text class="iconfont icon-jinru"></text>

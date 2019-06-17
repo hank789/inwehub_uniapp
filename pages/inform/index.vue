@@ -13,15 +13,6 @@
               <div class="line-river-after" v-if="isOpenNotification === 1 && closingNotice"></div>
 
               <ul>
-                <div class="notice" @tap.stop.prevent="toTask" v-if="list.todo_task_message.unread_count">
-                  <p>
-                    <img src="@/static/images/notice_img@2x.png"  class="notice_l"/>
-                    <span>({{list.todo_task_message.unread_count}})</span>
-                    <img src="@/static/images/notice_text@2x.png" class="notice_r"/>
-                  </p>
-                  <p>前往完成</p>
-                </div>
-
                 <li @tap.stop.prevent="skip(1)" v-if="list.notice_message.last_message">
                   <img src="@/static/images/inform1.png"/>
                   <div class="message" v-if="list.notice_message.unread_count">{{list.notice_message.unread_count}}</div>
@@ -34,31 +25,7 @@
                   </a>
                   <i class="bot"></i>
                 </li>
-                <li @tap.stop.prevent="skip(2)" v-if="list.money_message.last_message ">
-                  <img src="@/static/images/balance1.png"/>
-                  <div class="message" v-if="list.money_message.unread_count">{{list.money_message.unread_count}}</div>
-                  <p>
-                    <span>余额变动</span>
-                    <span class="mui-ellipsis">{{list.money_message.last_message ? list.money_message.last_message.data.title : ""}} </span>
-                  </p>
-                  <a>
-                    {{timeago(list.money_message.last_message ? list.money_message.last_message.created_at : '', false)}}
-                  </a>
-                  <i class="bot"></i>
-                </li>
 
-                <li @tap.stop.prevent="skip(3)" v-if="list.task_message.last_message">
-                  <img src="@/static/images/mission.png"/>
-                  <div class="message" v-if="list.task_message.unread_count">{{list.task_message.unread_count}}</div>
-                  <p>
-                    <span>问答通知</span>
-                    <span class="mui-ellipsis">{{list.task_message.last_message ? list.task_message.last_message.data.title : ""}} </span>
-                  </p>
-                  <a>
-                    {{timeago(list.task_message.last_message ? list.task_message.last_message.created_at : '', false)}}
-                  </a>
-                  <i class="bot"></i>
-                </li>
                 <li @tap.stop.prevent="skip(4)" v-if="list.readhub_message.last_message">
                   <img src="@/static/images/read1.png"/>
                   <div class="message" v-if="list.readhub_message.unread_count">{{list.readhub_message.unread_count}}</div>
@@ -71,29 +38,14 @@
                   </a>
                   <i class="bot"></i>
                 </li>
-                <!--消息通知-->
-                <li v-for="(item, index) in list.im_messages" :key="index" :class="'type_' + item.room_type">
-                  <div class="headerLogo" @tap.stop.prevent="toAvatar(item.contact_uuid)">
-                    <img class="radius" width="42" height="42" :src="item.avatar">
-                  </div>
-                  <div class="message" v-if="item.unread_count != 0">{{item.unread_count}}</div>
-                  <p @tap.stop.prevent="gochat(item)">
-                    <span class="mui-ellipsis">{{item.name}}</span>
-                    <span class="mui-ellipsis" v-if="item.last_message.data.img">[图片]</span>
-                    <span class="mui-ellipsis" v-else>{{item.last_message.data.text}}</span>
-                  </p>
-                  <a>
-                    {{timeago(item ? (item.last_message ? item.last_message.created_at:'') : '', false)}}
-                  </a>
-                  <i class="bot"></i>
-                </li>
+
               </ul>
           
         </div>
 </template>
 
 <script>
-  import util from '@/lib/util'
+  import html5plus from '@/lib/html5plus'
   export default {
     data() {
 			return {
@@ -183,7 +135,7 @@
 		},
     methods: {
       checkPermission () {
-        util.checkPermission('NOTIFITION', () => {
+        html5plus.checkPermission('NOTIFITION', () => {
             this.isOpenNotification = 0
           }, () => {
             this.isOpenNotification = 1
