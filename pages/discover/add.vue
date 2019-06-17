@@ -104,7 +104,10 @@ export default {
       waitUploadImages: [],
       selectedAddress: '所在位置',
       promptVisible: false,
-      links: []
+      links: [],
+      noticeUsers: [],
+      tags: [],
+      newTags: []
     }
   },
   onNavigationBarButtonTap(e) {
@@ -133,6 +136,16 @@ export default {
       this.percentCompleted = 0
       this.selectedAddress = '所在位置'
       this.hide = 0
+    },
+    delNoticeUser (id) {
+      var noticeIndex = this.noticeUsers.indexOf(id)
+      if (noticeIndex > -1) {
+        this.noticeUsers.splice(noticeIndex, 1)
+      }
+    },
+    noticeUser (id) {
+      this.delNoticeUser(id)
+      this.noticeUsers.push(id)
     },
     async lastUploadImage(id, successCallback) {
       var photos = await imagesToBase64(this.waitUploadImages)
@@ -168,6 +181,12 @@ export default {
         this.promptVisible = false
       })
     },
+    delNewTag (tag) {
+      var index = this.newTags.indexOf(tag)
+      if (index > -1) {
+        this.newTags.splice(index, 1)
+      }
+    },
     uploadImage: function() {
       const that = this
       uni.chooseImage({
@@ -191,6 +210,7 @@ export default {
       if (selectUsers) {
         selectUsers.forEach((item) => {
           this.description += '@' + item.name + ' '
+          this.noticeUser(item.id)
         })
         this.$ls.remove(localStorageKey.discover_select_user)
       }
@@ -209,8 +229,26 @@ export default {
       if (values) {
         values.forEach((item) => {
           this.description += '#' + item.text + ' '
+          this.addTags(item.value)
         })
         this.$ls.remove(localStorageKey.discover_select_tag)
+      }
+    },
+    addTags (tag) {
+      // 判断是否是字符串
+      if (typeof (tag) === 'string') {
+        if (this.newTags.indexOf(tag) === -1) {
+          this.newTags.push(tag)
+        }
+        return
+      }
+      this.delTag(tag)
+      this.tags.push(tag)
+    },
+    delTag (tag) {
+      var index = this.tags.indexOf(tag)
+      if (index > -1) {
+        this.tags.splice(index, 1)
       }
     },
     addDiscover() {
@@ -224,7 +262,14 @@ export default {
           uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
         })
       } else {
-        addDiscover(this.description, this.group_id, (res) => {
+
+        addDiscover(
+          this.description,
+          this.tags,
+          this.newTags,
+          this.noticeUsers,
+          this.selectedAddress,
+          (res) => {
           var id = res.data.id
           this.lastUploadImage(id, () => {
             ui.toast('发布成功！')

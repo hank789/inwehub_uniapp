@@ -408,6 +408,7 @@
         bottom: -1.96upx;
         font-size: 48upx;
         color: #03aef9;
+        line-height: normal;
     }
 
     .index-bar-container {
