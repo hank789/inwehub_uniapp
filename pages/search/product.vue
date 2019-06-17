@@ -1,6 +1,7 @@
 <template>
   <view>
     <view class="mui-content searchSubmission">
+      <!-- #ifndef APP-PLUS -->
       <view class="search">
         <view class="p border-football pFirst">
           <text class="iconfont icon-sousuo iconfontFirst" />
@@ -9,11 +10,12 @@
         </view>
         <view class="p pSecond font-family-medium" @tap.stop.prevent="back()">取消</view>
       </view>
+      <!-- #endif -->
       <view v-if="list.length || getCurrentMode === 'result' && searchText !== ''" class="menu">
 
-        <view class="span" @tap.stop.prevent="to('/pages/search/index?text=' + searchText)">综合</view>
-        <view class="span" @tap.stop.prevent="to('/pages/search/discover?text=' + searchText)">分享<view class="i" /></view>
-        <view class="span spanSecond font-family-medium">产品</view>
+        <view class="span" @tap.stop.prevent="redirectTo('/pages/search/index?text=' + searchText)">综合</view>
+        <view class="span" @tap.stop.prevent="redirectTo('/pages/search/discover?text=' + searchText)">分享</view>
+        <view class="span spanSecond font-family-medium">产品<view class="i" /></view>
         <view class="span" @tap.stop.prevent="toSearchDianping">点评</view>
 
         <view class="i bot" />
@@ -111,6 +113,7 @@ import { postRequest } from '@/lib/request'
 import { searchText as searchTextFilter } from '@/lib/search'
 import { autoBlur } from '@/lib/dom'
 import Options from '@/components/iw-popup-options/iw-popup-options'
+import { setNavbarSearchInputText } from '@/lib/allPlatform'
 
 export default {
   components: {
@@ -172,15 +175,24 @@ export default {
     this.pageOption = option
     this.refreshPageData()
   },
+  onNavigationBarSearchInputChanged(e) {
+    this.searchText = e.text
+  },
+  onNavigationBarSearchInputConfirmed(e) {
+    this.searchText = e.text
+  },
   methods: {
     toSearchDianping () {
-      this.to('/pages/search/comment?text=' + this.searchText)
+      this.redirectTo('/pages/search/comment?text=' + this.searchText)
     },
     toProduct (item) {
-      this.to('/pages/dianping/product?name=' + encodeURIComponent(item.name))
+      this.redirectTo('/pages/dianping/product?name=' + encodeURIComponent(item.name))
     },
     to(url) {
       uni.navigateTo({ url: url })
+    },
+    redirectTo(url) {
+      uni.redirectTo({ url: url })
     },
     cooperation() {
       this.iconOptions = []
@@ -257,6 +269,7 @@ export default {
     },
     selectConfirmSearchText(text) {
       this.searchText = text
+      setNavbarSearchInputText(this, text)
       if (text) {
         this.resultLoading = 1
         this.confirmSearchText = text

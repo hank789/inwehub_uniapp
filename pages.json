@@ -498,19 +498,6 @@
       }
     },
     {
-      "path": "pages/my/infos/privacy",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "隐私设置",
-        "app-plus": {
-          "titleNView": {
-            "titleSize": "18px",
-            "titleColor": "#3c3e44"
-          }
-        }
-      }
-    },
-    {
       "path": "pages/my/info",
       "style": {
         "navigationStyle": "default",
@@ -705,6 +692,15 @@
         "navigationBarTitleText": "今日热点推荐"
       }
     },
+    // #ifndef APP-PLUS
+    {
+      "path": "pages/search/index",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    // #endif
+    // #ifdef APP-PLUS
     {
       "path": "pages/search/index",
       "style": {
@@ -712,36 +708,103 @@
         "app-plus": {
           "titleNView": {
             "titleColor": "#3c3e44",
-            "backgroundColor": "#ffffff",
             "searchInput": {
-              "backgroundColor": "#fff",
+              "backgroundColor": "#F3F4F6",
               "borderRadius": "6px",
-              "placeholder": "请输入地址 如：大钟寺",
+              "placeholder": "搜产品、内容",
               "placeholderColor": "#CCCCCC",
-              "autoFocus": true
+              "autoFocus": false
             }
           }
         }
       }
     },
+    // #endif
+
+    // #ifndef APP-PLUS
     {
       "path": "pages/search/discover",
       "style": {
         "navigationBarTitleText": "搜索"
       }
     },
+    // #endif
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/search/discover",
+      "style": {
+        "navigationStyle": "default",
+        "app-plus": {
+          "titleNView": {
+            "titleColor": "#3c3e44",
+            "searchInput": {
+              "backgroundColor": "#F3F4F6",
+              "borderRadius": "6px",
+              "placeholder": "搜产品、内容",
+              "placeholderColor": "#CCCCCC",
+              "autoFocus": false
+            }
+          }
+        }
+      }
+    },
+    // #endif
+    // #ifndef APP-PLUS
     {
       "path": "pages/search/product",
       "style": {
         "navigationBarTitleText": "搜索"
       }
     },
+    // #endif
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/search/product",
+      "style": {
+        "navigationStyle": "default",
+        "app-plus": {
+          "titleNView": {
+            "titleColor": "#3c3e44",
+            "searchInput": {
+              "backgroundColor": "#F3F4F6",
+              "borderRadius": "6px",
+              "placeholder": "搜产品、内容",
+              "placeholderColor": "#CCCCCC",
+              "autoFocus": false
+            }
+          }
+        }
+      }
+    },
+    // #endif
+    // #ifndef APP-PLUS
     {
       "path": "pages/search/comment",
       "style": {
         "navigationBarTitleText": "搜索"
       }
     },
+    // #endif
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/search/comment",
+      "style": {
+        "navigationStyle": "default",
+        "app-plus": {
+          "titleNView": {
+            "titleColor": "#3c3e44",
+            "searchInput": {
+              "backgroundColor": "#F3F4F6",
+              "borderRadius": "6px",
+              "placeholder": "搜产品、内容",
+              "placeholderColor": "#CCCCCC",
+              "autoFocus": false
+            }
+          }
+        }
+      }
+    },
+    // #endif
     {
       "path": "pages/chat/chat",
       "style": {}

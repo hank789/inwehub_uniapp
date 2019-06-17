@@ -110,7 +110,6 @@
 		},
 	}
 </script>
-
 <style>
 	.mui-bar {
     position: fixed;
@@ -325,6 +324,7 @@
     z-index: 1;
     width: 100%;
 }
+<<<<<<< HEAD
 .iconfont.checkeds, .iconfont.checkedFalse {
 	margin-right: 20upx;
 	font-size: 40upx;

@@ -49,10 +49,27 @@
     methods: {
       goUrl (url) {
         if (/resume/.test(url)) {
-          this.$router.pushPlus(url + '?goback=1', 'list-detail-page')
+          url = url.split('/')
+					console.log(url)
+					let uuid = url[3]
+					uni.navigateTo({
+						url: '/pages/my/resume?id=' + uuid
+					})
+        } else if (/dianping\/comment/.test(url)) {
+          url = url.split('/')
+					console.log(url)
+					let slug = url[3]
+					uni.navigateTo({
+						url: '/pages/dianping/comment?slug=' + slug
+					})
         } else {
-          this.$router.pushPlus(url, 'list-detail-page')
-        }
+					url = url.split('/')
+					console.log(url)
+					let slug = url[3]
+					uni.navigateTo({
+						url: '/pages/discover/detail?slug=' + slug
+					})
+				}
       },
       getList(page) {
 				console.log(page)

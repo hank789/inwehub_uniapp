@@ -1,6 +1,7 @@
 <template>
   <view>
     <view class="mui-content">
+      <!-- #ifndef APP-PLUS -->
       <view class="search">
         <view class="p border-football">
           <text class="iconfont icon-sousuo " />
@@ -9,12 +10,13 @@
         </view>
         <view class="p" @tap.stop.prevent="back()">取消</view>
       </view>
+      <!-- #endif -->
       <!--导航栏-->
       <view v-if="getCurrentMode === 'result' && searchText !== ''" class="menu">
         <view class="span font-family-medium">综合<view class="i" /></view>
-        <view class="span" @tap.stop.prevent="to('/pages/search/discover?text=' + searchText)">分享</view>
-        <view class="span" @tap.stop.prevent="to('/pages/search/product?text=' + searchText)">产品</view>
-        <view class="span " @tap.stop.prevent="to('/pages/search/comment?text=' + searchText)">点评</view>
+        <view class="span" @tap.stop.prevent="redirectTo('/pages/search/discover?text=' + searchText)">分享</view>
+        <view class="span" @tap.stop.prevent="redirectTo('/pages/search/product?text=' + searchText)">产品</view>
+        <view class="span " @tap.stop.prevent="redirectTo('/pages/search/comment?text=' + searchText)">点评</view>
         <view class="i bot" />
       </view>
 
@@ -198,6 +200,7 @@ import StarView from '@/components/iw-star/iw-star'
 // import { getQuestionStateClass } from '@/lib/ask'
 import PageMore from '@/components/iw-page-more/iw-page-more'
 import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
+import { setNavbarSearchInputText } from '@/lib/allPlatform'
 
 export default {
   components: {
@@ -294,6 +297,9 @@ export default {
     to(url) {
       uni.navigateTo({ url: url })
     },
+    redirectTo(url) {
+      uni.redirectTo({ url: url })
+    },
     iconMenusClickedItem(item) {
       iconMenusClickedItem(this, this.itemOptionsObj, item, () => {
         this.iconMenus = getIconMenus(this.itemOptionsObj)
@@ -367,6 +373,7 @@ export default {
     },
     selectConfirmSearchText(text) {
       this.searchText = text
+      setNavbarSearchInputText(this, text)
       if (text) {
         this.resultLoading = 1
         this.confirmSearchText = text

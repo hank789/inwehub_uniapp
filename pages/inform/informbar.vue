@@ -47,25 +47,15 @@
 			this.getList(this.page);
 		},
     methods: {
-      typeDesc (type) {
-        switch (type) {
-          case 'App\\Notifications\\GroupAuditResult':
-            return 1
-          case 'App\\Notifications\\NewGroupMemberJoin':
-            return 1
-          case 'App\\Notifications\\NewGroupMemberApply':
-            return 1
-          case 'App\\Notifications\\GroupMemberApplyResult':
-            return 1
-          default:
-            return 0
-        }
-      },
       goUrl (url) {
+				console.log(url)
         if (/resume/.test(url)) {
-          this.$router.pushPlus(url + '?goback=1', 'list-detail-page')
-        } else {
-          this.$router.pushPlus(url, 'list-detail-page')
+					url = url.split('/')
+					console.log(url)
+					let uuid = url[3]
+					uni.navigateTo({
+						url: '/pages/my/resume?id=' + uuid
+					})
         }
       },
       getList(page) {

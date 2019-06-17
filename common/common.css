@@ -831,3 +831,7 @@ image{
 .uni-page-head-search-placeholder{
     z-index:1;
 }
+
+.uni-page-head-search-input{
+    background:#f3f4f6;
+}
