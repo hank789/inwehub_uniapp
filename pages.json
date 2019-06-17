@@ -498,6 +498,19 @@
       }
     },
     {
+      "path": "pages/my/infos/privacy",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "隐私设置",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
       "path": "pages/my/info",
       "style": {
         "navigationStyle": "default",
@@ -695,7 +708,20 @@
     {
       "path": "pages/search/index",
       "style": {
-        "navigationBarTitleText": "搜索"
+        "navigationStyle": "default",
+        "app-plus": {
+          "titleNView": {
+            "titleColor": "#3c3e44",
+            "backgroundColor": "#ffffff",
+            "searchInput": {
+              "backgroundColor": "#fff",
+              "borderRadius": "6px",
+              "placeholder": "请输入地址 如：大钟寺",
+              "placeholderColor": "#CCCCCC",
+              "autoFocus": true
+            }
+          }
+        }
       }
     },
     {

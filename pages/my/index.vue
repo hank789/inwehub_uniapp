@@ -29,8 +29,6 @@
 						</view>
 						<view class="my-detail">
 							<text class="followedMy" @tap.stop.prevent="toRoute('/pages/my/followedMeUser?id='+uuid)">关注我的人{{followed_number}}</text>
-							<view class="spots"></view>
-							<text class="followedMy" @tap.stop.prevent="toRoute('/pages/my/visitors')">访客人气{{popularity}}</text>
 						</view>
 					</view>
 				</view>
@@ -48,6 +46,10 @@
 				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/collectList')">
 					<text class="font-family-medium">{{collections}}</text>
 					<text class="listText">收藏</text>
+				</view>
+				<view class="liList" @tap.stop.prevent="toRoute('/pages/my/visitors')">
+					<text class="font-family-medium">{{popularity}}</text>
+					<text class="listText">人气</text>
 				</view>
 			</view>
 			<view class="gray"></view>

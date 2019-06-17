@@ -13,6 +13,7 @@
             </view>
 
             <view class="detailFollwers" v-show="isDetailUpVote" @tap.click.prevent="clickUpVote"></view>
+
             <view class="collectProduct" v-if="isNumUpVote" @tap.click.prevent="clickUpVote">
                 <text class="iconfont icon-yizan"></text>
             </view>
@@ -141,7 +142,7 @@
                 }
                 &.showNumer {
                     .iconfont{
-                        color: #ffffff;
+
                     }
                 }
                 .span {

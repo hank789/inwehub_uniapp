@@ -822,3 +822,12 @@ text-align: center; }
     font-size: 31.96upx;
     border-radius: 99.98upx;
     padding: 19.96upx 43.96upx !important; }
+
+image{
+    width:auto;
+    height:auto;
+}
+
+.uni-page-head-search-placeholder{
+    z-index:1;
+}

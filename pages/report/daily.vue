@@ -91,7 +91,7 @@
       @fail="shareFail"
       @clickedItem="iconMenusClickedItem"
     />
-
+    <alertSubscribeGZH ref="alertSubscribeGZH"></alertSubscribeGZH>
   </view>
 </template>
 
@@ -110,11 +110,13 @@ import Vue from 'vue'
 import { iconMenusClickedItem } from '@/lib/feed'
 import { getHomeDetail } from '@/lib/shareTemplate'
 import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus, needNotifitionPermission } from '@/lib/push'
+import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh'
 
 export default {
   components: {
     BottomActions,
-    PageMore
+    PageMore,
+    alertSubscribeGZH
   },
   data() {
     return {
@@ -183,7 +185,7 @@ export default {
     },
     subscribeGZH() {
       if (!this.wechat_subscribe) {
-        alertSubscribeGZH(this)
+        this.$refs.alertSubscribeGZH.show()
       }
     },
     setEmailSubscribe() {
