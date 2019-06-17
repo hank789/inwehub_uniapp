@@ -472,6 +472,32 @@
       }
     },
     {
+      "path": "pages/my/infos/jobs",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "工作经历",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/job",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "工作经历",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
       "path": "pages/my/info",
       "style": {
         "navigationStyle": "default",
