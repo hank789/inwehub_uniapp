@@ -175,7 +175,9 @@ export default {
     empty() {
       this.searchText = ''
     },
-    showItemMore(shareOption) {
+    showItemMore(data) {
+      let shareOption = data.shareOption
+      let item = data.item
       this.shareOption = shareOption
       this.$refs.share.share()
     },

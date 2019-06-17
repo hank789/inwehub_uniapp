@@ -850,7 +850,7 @@ export default {
     upVote() {
       upvote(this, this.detail.id, (response) => {
         this.detail.upvotes++
-        // this.detail.is_upvoted = 1
+        this.detail.is_upvoted = 1
         this.detail.support_description = response.data.support_description
         this.detail.support_percent = response.data.support_percent
         this.isUpvote = response.data.type
@@ -861,21 +861,6 @@ export default {
         this.detail.supporter_list = this.detail.supporter_list.concat(support)
 
         this.isDetailUpVote = true
-
-        if (process.env.NODE_ENV === 'production' && window.mixpanel) {
-          // mixpanel
-          window.mixpanel.track(
-            'inwehub:support:success',
-            {
-              'app': 'inwehub',
-              'user_device': window.getUserAppDevice(),
-              'page': this.id,
-              'page_name': 'submission',
-              'page_title': 'support',
-              'referrer_page': ''
-            }
-          )
-        }
       }, (response) => {
         this.isDetailUpVote = false
         this.detail.upvotes--

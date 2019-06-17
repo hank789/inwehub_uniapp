@@ -177,7 +177,9 @@ export default {
     to(url) {
       uni.navigateTo({ url: url })
     },
-    showItemMore(shareOption, item) {
+    showItemMore(data) {
+      let shareOption = data.shareOption
+      let item = data.item
       this.iconMenus = getIconMenus(item)
       this.itemOptionsObj = item
       this.shareOption = shareOption

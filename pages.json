@@ -669,7 +669,20 @@
     {
       "path": "pages/search/index",
       "style": {
-        "navigationBarTitleText": "搜索"
+        "navigationStyle": "default",
+        "app-plus": {
+          "titleNView": {
+            "titleColor": "#3c3e44",
+            "backgroundColor": "#ffffff",
+            "searchInput": {
+              "backgroundColor": "#fff",
+              "borderRadius": "6px",
+              "placeholder": "请输入地址 如：大钟寺",
+              "placeholderColor": "#CCCCCC",
+              "autoFocus": true
+            }
+          }
+        }
       }
     },
     {

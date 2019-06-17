@@ -4,7 +4,7 @@
       <view class="search">
         <view class="p border-football">
           <text class="iconfont icon-sousuo " />
-          <input v-model.trim="searchText" type="text" focus="true" placeholder="搜产品、问答、圈子、内容" @keydown.enter="enterKeyCode($event)">
+          <input v-model.trim="searchText" class="input" type="text" focus="true" placeholder="搜产品、问答、圈子、内容" @keydown.enter="enterKeyCode($event)">
           <text class="iconfont icon-times1 " />
         </view>
         <view class="p" @tap.stop.prevent="back()">取消</view>
@@ -35,14 +35,14 @@
       </view>
 
       <view v-if="getCurrentMode === 'match'" class="searchList">
-        <view class="listOne" @tap.stop.prevent="selectConfirmSearchText(searchText)">
+        <view class="listOne div" @tap.stop.prevent="selectConfirmSearchText(searchText)">
           查看“{{ searchText }}”的搜索结果
           <view class="i bot" />
         </view>
       </view>
 
       <view v-if="getCurrentMode === 'match'" class="searchList">
-        <view v-for="(item, index) in searchAdviceList" :key="index" @tap.stop.prevent="selectConfirmSearchText(item)">
+        <view class="div" v-for="(item, index) in searchAdviceList" :key="index" @tap.stop.prevent="selectConfirmSearchText(item)">
           {{ item }}
           <view class="i bot" />
         </view>
@@ -284,9 +284,15 @@ export default {
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
     this.pageOption = option
   },
+  onNavigationBarSearchInputChanged(e) {
+    this.searchText = e.text
+  },
+  onNavigationBarSearchInputConfirmed(e) {
+    this.searchText = e.text
+  },
   methods: {
-    to (url) {
-      uni.navigateTo({url : url})
+    to(url) {
+      uni.navigateTo({ url: url })
     },
     iconMenusClickedItem(item) {
       iconMenusClickedItem(this, this.itemOptionsObj, item, () => {
@@ -299,7 +305,9 @@ export default {
     shareSuccess() {
 
     },
-    showItemMore(shareOption, item) {
+    showItemMore(data) {
+      const shareOption = data.shareOption
+      const item = data.item
       this.iconMenus = getIconMenus(item)
       this.itemOptionsObj = item
       this.shareOption = shareOption
@@ -475,7 +483,7 @@ export default {
                             z-index: 980;
                         }
                     }
-                    input {
+                    .input {
                         width: 451.96upx !important;
                         height: 63.98upx;
                         border: none;
@@ -570,7 +578,7 @@ export default {
         padding: 0 31.96upx;
         position: relative;
         z-index: 1000;
-        div {
+        .div {
             color: #808080;
             font-size: 30upx;
             padding: 24upx 0;

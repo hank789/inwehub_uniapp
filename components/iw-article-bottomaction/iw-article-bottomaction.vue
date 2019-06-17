@@ -203,9 +203,7 @@ export default {
       switch (text) {
         case '评论':
           this.cancelShare()
-          setTimeout(() => {
-            uni.navigateTo('/comment/' + this.localItem.category_id + '/' + this.localItem.slug + '/' + this.localItem.id)
-          }, 300)
+          uni.navigateTo({url: '/pages/comment/index?category_id=' + this.localItem.category_id + '&slug=' + this.localItem.slug + '&id=' + this.localItem.id})
           break
         case '分享':
           this.cancelShare()
