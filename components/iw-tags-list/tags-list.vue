@@ -5,7 +5,7 @@
 			<h1 class="mui-title" v-text="genderTagName"></h1>
 			<a class="mui-btn mui-btn-link mui-pull-right mui-btn-blue mui-disabled" v-if="iselected.length === 0">完成</a>
 			<a v-bind:id="'done_' + back_id" @tap.stop.prevent="done" class="mui-btn mui-btn-link mui-pull-right mui-btn-blue"
-			 v-else>完成<span>({{ iselected.length }})</span></a>
+			 v-else>完成<view class='span' >({{ iselected.length }})</view></a>
 		</view>
 		<view class="mui-content mui-scroll-wrapper">
 
@@ -20,8 +20,8 @@
 							<view v-for="(tag, index) in tags" class="mui-input-row mui-table-view-cell mui-indexed-list-item mui-checkbox-2  mui-left"
 							 @tap.stop.prevent="checkThis" :value="tag.value">
 
-								<span class="tagSelect checked" v-if="typeof(getSelectedCodes) === 'object' && getSelectedCodes.indexOf(tag.value) > -1" /><span
-								 class="tagSelect" v-else />{{ tag.text }}
+								<view  v-if="typeof(getSelectedCodes) === 'object' && getSelectedCodes.indexOf(tag.value)  class="span checked"> -1" /><view 
+								 v-else / class="span">{{ tag.text }}
 
 							</view>
 						</view>
@@ -90,7 +90,7 @@
 				document.getElementById(this.back_id).classList.remove('mui-active')
 			},
 			checkThis(e) {
-				var li = null
+				var .li = null
 				if (e.target.tagName === 'SPAN') {
 					li = e.target.parentNode
 				} else {
@@ -158,17 +158,17 @@
 		background-color: #fff;
 	}
 	.mui-title {
-		right: 1.066rem;
-		left: 1.066rem;
+		right: 79.96upx;
+		left: 79.96upx;
 		display: inline-block;
 		overflow: hidden;
 		width: auto;
 		margin: 0;
 		text-overflow: ellipsis;
 		color: #3c3e44;
-		font-size: 0.48rem;
+		font-size: 36upx;
 		font-weight: 500;
-		line-height: 1.173rem;
+		line-height: 87.98upx;
 		position: absolute;
 		z-index: 99;
 		padding: 0;
@@ -176,19 +176,19 @@
 		white-space: nowrap;
 	}
 	.mui-bar .mui-btn-link {
-		font-size: 0.426rem;
-		line-height: 1.173rem;
+		font-size: 31.96upx;
+		line-height: 87.98upx;
 		top: 0;
 		padding: 0;
 		color: #3c3e44;
 		border: 0;
-		    margin-left: 0.266rem;
+		    margin-left: 19.96upx;
 	}
 	.mui-bar-nav.mui-bar .mui-icon {
-    margin-right: -0.266rem;
-    margin-left: -0.266rem;
-    padding-right: 0.266rem;
-    padding-left: 0.266rem;
+    margin-right: -19.96upx;
+    margin-left: -19.96upx;
+    padding-right: 19.96upx;
+    padding-left: 19.96upx;
 	position: relative;
 	z-index: 99;
 }
@@ -200,20 +200,20 @@
     position: fixed;
 }
 .openAppH5 .mui-bar-nav {
-    top: 1.306rem;
+    top: 97.96upx;
 }
 .mui-bar .mui-btn {
     font-weight: 400;
     position: relative;
     z-index: 20;
-    top: 0.186rem;
+    top: 13.96upx;
     margin-top: 0;
-    padding: 0.16rem 0.32rem 0.186rem;
+    padding: 12upx 24upx 13.96upx;
 }
 
 .mui-checkbox-2 .tagSelect:before {
   font-family: Muiicons;
-  font-size: 0.746rem;
+  font-size: 55.96upx;
   font-weight: normal;
   line-height: 1;
   text-decoration: none;
@@ -224,7 +224,7 @@
 }
 
 .mui-checkbox-2.mui-left .tagSelect {
-  left: 0.533rem;
+  left: 39.98upx;
 }
 
 .mui-checkbox-2 .tagSelect:before {
@@ -232,20 +232,20 @@
 }
 
 .mui-table-view-cell.mui-checkbox-2 .tagSelect {
-  top: 0.213rem;
+  top: 15.98upx;
 }
 
 .mui-checkbox-2.mui-left .tagSelect {
-  left: 0.533rem;
+  left: 39.98upx;
 }
 
 .mui-checkbox-2 .tagSelect {
   position: absolute;
-  top: 0.106rem;
-  right: 0.533rem;
+  top: 7.96upx;
+  right: 39.98upx;
   display: inline-block;
-  width: 0.746rem;
-  height: 0.693rem;
+  width: 55.96upx;
+  height: 51.98upx;
   border: 0;
   outline: 0 !important;
   background-color: transparent;
@@ -253,7 +253,7 @@
   z-index:0;
 }
 .mui-table-view-cell.mui-checkbox-2.mui-left {
-  padding-left: 1.546rem;
+  padding-left: 115.96upx;
 }
 .mui-checkbox-2 {
   position: relative;
@@ -268,7 +268,7 @@
 
 .mui-table-view .mui-media-object.mui-pull-right
 {
-    margin-left: 0.266rem;
+    margin-left: 19.96upx;
 }
 
 .mui-pull-right
@@ -278,16 +278,16 @@
 
 .mui-bar .mui-btn-nav.mui-pull-right
 {
-    margin-right: -0.133rem;
+    margin-right: -9.98upx;
 }
 .mui-bar .mui-btn-nav.mui-pull-right .mui-icon-right-nav
 {
-    margin-left: -0.08rem;
+    margin-left: -6upx;
 }
 .mui-indexed-list {
     position: relative;
-    border-top: solid 0.026rem #e3e3e3;
-    border-bottom: solid 0.026rem #e3e3e3;
+    border-top: solid 1.96upx #e3e3e3;
+    border-bottom: solid 1.96upx #e3e3e3;
     overflow: hidden;
     background-color: #fafafa;
     cursor: default;
@@ -295,17 +295,17 @@
 .mui-table-view-cell {
     position: relative;
     overflow: hidden;
-    padding: 0.293rem 0.4rem;
+    padding: 21.98upx 30upx;
     -webkit-touch-callout: none;
 }
 .mui-indexed-list-empty-alert {
-    padding: 0.8rem 0.4rem;
+    padding: 60upx 30upx;
     text-align: center;
     color: #ccc;
-    padding-right: 1.2rem;
+    padding-right: 90upx;
 }
 .mui-indexed-list-empty-alert {
-    padding-right: 1.466rem;
+    padding-right: 109.96upx;
 }
 .mui-indexed-list-empty-alert{
     display: none;
