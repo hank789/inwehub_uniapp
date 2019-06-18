@@ -41,6 +41,9 @@
 	import iwList from '@/components/iw-list/iw-list'
 	import { postRequest } from '@/lib/request'
 	import userAbility from'@/lib/userAbility'
+	import localEvent from "@/lib/localstorage"
+	import { getLocalUserInfo } from "@/lib/user"
+	const currentUser = getLocalUserInfo()
 	export default {
 		data() {
 			return {
@@ -51,10 +54,12 @@
 				cssTop: 88,
 				value: '',
 				optionFrom: '',
-				loading: 1
+				loading: 1,
+				id: currentUser.info.id
 			}
 		},
 		onLoad: function(option) {
+			console.log('currentUser.user_id:', this.id)
 			this.optionFrom = option.from
 		},
 		components: {
@@ -108,7 +113,7 @@
 						this.loading = 0
 					})
 				} else {
-					localEvent.setLocalItem(this.optionFrom + '_company' + this.id, name)
+					localEvent.set(this.optionFrom + '_company' + this.id, name)
 					uni.navigateBack({
 						delta: 1
 					});
@@ -156,7 +161,7 @@
 						this.loading = 0
 					})
 				} else {
-					localEvent.setLocalItem(this.optionFrom + '_company' + this.id, this.value)
+					localEvent.set(this.optionFrom + '_company' + this.id, this.value)
 					uni.navigateBack({
 						delta: 1
 					});

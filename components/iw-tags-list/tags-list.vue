@@ -20,7 +20,7 @@
 							<view v-for="(tag, index) in tags" class="liBox mui-input-row mui-table-view-cell mui-checkbox-2  mui-left"
 							 @tap.stop.prevent="checkThis(tag)" :value="tag.value">
 							 
-							 <text class="iconfont checkeds" v-if="typeof(getSelectedCodes) === 'object' && getSelectedCodes.indexOf(tag.value) > -1"></text>
+							 <text class="iconfont checkeds" v-if="isCheckd"></text>
 							 <text class="iconfont checkedFalse" v-else></text>{{ tag.text }}
 
 							</view>
@@ -68,6 +68,9 @@
 						break
 				}
 				return tagName
+			},
+			isCheckd(){
+				return typeof(getSelectedCodes) === 'object' && getSelectedCodes.indexOf(tag.value) > -1
 			},
 			getSelected() {
 				return this.selected

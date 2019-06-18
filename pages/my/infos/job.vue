@@ -76,7 +76,7 @@
 		data() {
 			return {
 				showTagsList: false,
-				user_id: currentUser.user_id,
+				user_id: currentUser.info.id,
 				type: '',
 				id: null,
 				bak: '',
@@ -141,12 +141,13 @@
 					this.job = jobs[this.type]
 					this.description = this.job.description
 					this.bak = JSON.stringify(this.job)
+					console.log(this.job)
 				} else {
 					this.clearData()
 				}
 			},
 			clearData() {
-				console.log('清楚了')
+				// console.log('清楚了')
 				this.job = this.initJob
 				this.description = ''
 				this.bak = ''
@@ -160,6 +161,7 @@
 			getCompany() {
 				//     选择公司
 				var placeholder = localEvent.get('job' + this.type + '_company' + this.user_id)
+				console.log('job' + this.type + '_company' + this.user_id, ':placeholder')
 				if (placeholder.length) {
 					this.job.company = placeholder
 				}
