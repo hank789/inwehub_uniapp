@@ -58,6 +58,10 @@ export default {
       cssTop: 88
     }
   },
+	onLoad() {
+		var appInfo = this.$ls.get('appDeviceInfo')
+		this.cssTop = (appInfo.statusBarHeight + 90)
+	},
   methods: {
     toSearch() {
       uni.navigateTo({ url: '/pages/search/index' })
