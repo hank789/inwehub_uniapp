@@ -10,6 +10,8 @@ page {
     -webkit-touch-callout: none;
 }
 
+image{will-change: transform}
+
 .font-family-medium{
     font-family: PingFangSC-Medium, sans-serif;
 }
@@ -823,10 +825,7 @@ text-align: center; }
     border-radius: 99.98upx;
     padding: 19.96upx 43.96upx !important; }
 
-image{
-    width:auto;
-    height:auto;
-}
+
 
 .uni-page-head-search-placeholder{
     z-index:1;
