@@ -106,6 +106,9 @@
 				buttonSaveDisabled: false
 			}
 		},
+		onShow() {
+			this.getCompany()
+		},
 		onLoad(option) {
 			console.log(option)
 			this.type = option.id
@@ -161,7 +164,6 @@
 			getCompany() {
 				//     选择公司
 				var placeholder = localEvent.get('job' + this.type + '_company' + this.user_id)
-				console.log('job' + this.type + '_company' + this.user_id, ':placeholder')
 				if (placeholder.length) {
 					this.job.company = placeholder
 				}
