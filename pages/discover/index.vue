@@ -7,7 +7,7 @@
       <view class="topSearchWrapper" @tap.stop.prevent="toSearch">
         <view class="searchFrame">
           <text class="iconfont icon-sousuo " />
-          <view class="span">搜产品、问答、圈子、内容</view>
+          <view class="span">搜产品、内容</view>
         </view>
       </view>
       <view class="addIcon" @tap.stop.prevent="toDiscoverAdd">
@@ -58,6 +58,10 @@ export default {
       cssTop: 88
     }
   },
+	onLoad() {
+		var appInfo = this.$ls.get('appDeviceInfo')
+		this.cssTop = (appInfo.statusBarHeight + 90)
+	},
   methods: {
     toSearch() {
       uni.navigateTo({ url: '/pages/search/index' })

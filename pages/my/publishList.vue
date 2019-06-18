@@ -55,7 +55,7 @@
 							</view>
 							
 							
-							<view v-if="tabItem.id == 2" class="container-commentWrapper" @tap.stop.prevent="navToDetails(item)">
+							<view v-if="tabItem.id == 2" class="container-commentWrapper" @tap.stop.prevent="navToComment(item)">
 								<view class="container-commentList">
 									<view class="title uni-article-title" v-html="item.content"></view>
 									<view class="commentWrapper-content uni-article-title" v-html="item.origin_title"></view>
@@ -66,7 +66,7 @@
 								</view>
 							</view>
 							
-							<view v-if="tabItem.id == 3" class="container-commentWrapper" @tap.stop.prevent="goToCommentPage(item.type, item.comment_url)">
+							<view v-if="tabItem.id == 3" class="container-commentWrapper" @tap.stop.prevent="navToDianping(item)">
 								<view class="container-commentList">
 									<view class="title uni-article-title" v-html="item.title"></view>
 									<view class="commentWrapper-content uni-article-title" v-html="item.category_name"></view>
@@ -184,10 +184,11 @@
 					tabItem.page = tabItem.page + 1
 					var list = res.data.data
 					if(type === 'refresh'){
-						tabItem.newsList = []; //刷新前清空数组
+						tabItem.newsList = list
 						tabItem.page = 1
+					} else {
+						tabItem.newsList = tabItem.newsList.concat(list)
 					}
-					tabItem.newsList = tabItem.newsList.concat(list);
 					
 					//下拉刷新 关闭刷新动画
 					if(type === 'refresh'){
@@ -210,7 +211,22 @@
 					url: '/pages/discover/detail?slug=' + item.slug
 				})
 			},
-			
+			navToDianping(item) {
+				uni.navigateTo({
+					url: '/pages/dianping/comment?slug=' + item.slug
+				})
+			},
+			navToComment(item) {
+				if (/dianping\/comment/.test(item.comment_url)) {
+					uni.navigateTo({
+						url: '/pages/dianping/comment?slug=' + item.slug
+					})
+        } else {
+					uni.navigateTo({
+						url: '/pages/discover/detail?slug=' + item.slug
+					})
+				}
+			},
 			//下拉刷新
 			onPulldownReresh(){
 				this.loadNewsList('refresh');

@@ -5,7 +5,7 @@
       <view class="search">
         <view class="p border-football pFirst">
           <text class="iconfont icon-sousuo iconfontFirst" />
-          <input v-model.trim="searchText" type="text" placeholder="搜产品、问答、圈子、内容" class="input input input" @keydown.enter="enterKeyCode($event)" @focus="focus">
+          <input v-model.trim="searchText" type="text" placeholder="搜产品、内容" class="input input input" @keydown.enter="enterKeyCode($event)" @focus="focus">
           <text class="iconfont icon-times1 iconfontSecond" @tap.stop.prevent="empty()" v-if="isShowCancelButton"/>
         </view>
         <view class="p pSecond font-family-medium" @tap.stop.prevent="back()">取消</view>

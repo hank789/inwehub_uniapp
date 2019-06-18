@@ -18,7 +18,7 @@
 						<view class="mui-indexed-list-empty-alert">没有数据</view>
 						<view class="mui-table-view">
 							<view v-for="(tag, index) in tags" class="liBox mui-input-row mui-table-view-cell mui-checkbox-2  mui-left"
-							 @tap.stop.prevent="checkThis(tag)" :value="tag.value">
+							 @tap.stop.prevent="checkThis(tag)" :value="tag.value" :key="index">
 							 
 							 <text class="iconfont checkeds" v-if="isCheckd"></text>
 							 <text class="iconfont checkedFalse" v-else></text>{{ tag.text }}
