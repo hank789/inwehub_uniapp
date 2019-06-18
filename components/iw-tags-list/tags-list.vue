@@ -3,7 +3,7 @@
 		<view class="mui-bar mui-bar-nav mustshow">
 			<text class="mui-icon iconfont icon-guanbi" @tap.stop.prevent="done"></text>
 			<text class="mui-title" v-text="genderTagName"></text>
-			<a class="mui-btn mui-btn-link mui-pull-right mui-btn-blue mui-disabled" v-if="iselected.length === 0">完成</a>
+			<text @tap.stop.prevent="done" class="mui-btn mui-btn-link mui-pull-right mui-btn-blue mui-disabled" v-if="iselected.length === 0">完成</text>
 			<text @tap.stop.prevent="done" class="mui-btn mui-btn-link mui-pull-right mui-btn-blue"
 			 v-else>完成<text class='span' >({{ iselected.length }})</text></text>
 		</view>
@@ -85,6 +85,7 @@
 		},
 		methods: {
 			done() {
+				this.$emit('selectedIndustryTags', this.iselected, this.object_type)
 				this.isShowTags = !this.isShowTags
 			},
 			checkThis(tag) {
