@@ -38,7 +38,7 @@
 						<view v-if="tabItem.id == 2"  v-for="(item, index) in tabItem.newsList" :key="index" class="comment-product">
 							<view class="product-info" @tap.stop.prevent="toRoute('/pages/dianping/product?name=' + encodeURIComponent(item.name))">
 									<view class="product-img">
-										<image mode="aspectFill" :src="item.logo" alt="" class="image lazyImg" /></view>
+										<image mode="aspectFill" lazy-load :src="item.logo" alt="" class="image lazyImg" /></view>
 									<view class="product-detail">
 										<view class="productName font-family-medium text-line-1">{{ item.name }}</view>
 										<view class="productMark">

@@ -3,7 +3,7 @@
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(item,key) in list" :key="key">
 				<view class="uni-media-list">
-					<image class="uni-media-list-logo" style="border-radius: 50%;" :src="item.user_avatar_url" @tap.stop.prevent="toResume(item.uuid)"></image>
+					<image class="uni-media-list-logo" lazy-load style="border-radius: 50%;" :src="item.user_avatar_url" @tap.stop.prevent="toResume(item.uuid)"></image>
 					<view class="uni-media-list-body" @tap.stop.prevent="toResume(item.uuid)">
 						<view class="uni-media-list-text-top">{{item.user_name}}</view>
 						<view class="uni-media-list-text-bottom">

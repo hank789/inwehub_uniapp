@@ -22,7 +22,7 @@
 					:key="innerItem.id"
 					>
 					<view class="uni-media-list">
-						<image class="uni-media-list-logo" style="border-radius: 50%;" :src="innerItem.user_avatar_url"></image>
+						<image class="uni-media-list-logo" lazy-load style="border-radius: 50%;" :src="innerItem.user_avatar_url"></image>
 						<view class="uni-media-list-body">
 							<view class="uni-media-list-text-top">{{innerItem.user_name}}</view>
 							<view class="uni-media-list-text-bottom">
