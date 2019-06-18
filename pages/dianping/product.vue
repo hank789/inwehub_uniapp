@@ -11,7 +11,7 @@
       >
         <view class="product-introduce">
           <view class="companyLogo border-football">
-            <image mode="aspectFill" :src="detail.logo" alt="" class="image lazyImg" /></view>
+            <image mode="aspectFit" :src="detail.logo" alt="" class="image lazyImg" /></view>
           <view class="companyNmae font-family-medium">{{ detail.name }}</view>
           <view class="companyMark">
             <view class="stars">
@@ -86,7 +86,7 @@
           <view v-for="(tag, index) in detail.related_tags" :key="index" class="comment-product">
             <view class="product-info" @tap.stop.prevent="toRoute('/pages/dianping/product?name=' + encodeURIComponent(tag.name))">
               <view class="product-img border-football">
-                <image mode="aspectFill" :src="tag.logo" alt="" class="image lazyImg" /></view>
+                <image mode="aspectFit" :src="tag.logo | imageSuffix(43, 43)" alt="" class="image lazyImg" /></view>
               <view class="product-detail">
                 <view class="productName font-family-medium text-line-1">{{ tag.name }}</view>
                 <view class="productMark">

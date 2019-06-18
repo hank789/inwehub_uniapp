@@ -49,7 +49,8 @@
     <DropDownMenu
       ref="dropdownMenu"
       v-model="category"
-      :tree="categories"
+      v-if="localCategories.length"
+      :tree="localCategories"
     >
     </DropDownMenu>
 
@@ -90,6 +91,22 @@ export default {
     }
   },
   computed: {
+    localCategories () {
+      function addIsShow (arr) {
+        return arr.map(function(currentValue, index){
+          currentValue.isShow = false
+          if (currentValue.name === '产品' || currentValue.name === '服务') {
+            currentValue.isShow = true
+          }
+
+          if (currentValue.children.length) {
+            currentValue.children = addIsShow(currentValue.children)
+          }
+          return currentValue
+        })
+      }
+      return addIsShow(this.categories)
+    },
     prevOtherData() {
       return { category_id: this.category.id, orderBy: this.orderBy }
     },

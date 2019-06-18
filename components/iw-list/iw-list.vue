@@ -31,7 +31,8 @@
         tabCurrentIndex: 0, // 当前选项卡索引
         loadMoreStatus: 0, // 加载更多 0加载前，1加载中，2没有更多了
         downloadTipTop: '-100px',
-        downloadTipalertMsg: ''
+        downloadTipalertMsg: '',
+        localPrevOtherData: this.requestData
       }
     },
     props: {
@@ -122,9 +123,15 @@
           this.enableScroll = enable
         }
       }
+    },
+    watch: {
+      requestData: function (newValue, oldValue) {
+        if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+          this.localPrevOtherData = newValue
+          this.loadNewsList('refresh')
+        }
+      }
     }
-
-
   }
 </script>
 
