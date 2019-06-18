@@ -41,7 +41,7 @@
 										v-for="(imgItem, imgIndex) in item.img" :key="imgIndex"
 										:class="['img-wrapper', item.img.length === 1 && item.type==='link' ? 'img-wrapper-single': '']"
 									>
-										<image class="img" :src="imgItem"></image>
+										<image class="img" lazy-load :src="imgItem"></image>
 									</view>
 								</view>
 								<!-- 空图片占位 -->

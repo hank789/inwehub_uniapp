@@ -14,7 +14,7 @@
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(item,key) in appUsers" :key="key">
 				<view class="uni-media-list">
-					<image class="uni-media-list-logo" style="border-radius: 50%;" :src="item.app_user_avatar" @tap.stop.prevent="toResume(item.app_user_uuid)"></image>
+					<image class="uni-media-list-logo" lazy-load style="border-radius: 50%;" :src="item.app_user_avatar" @tap.stop.prevent="toResume(item.app_user_uuid)"></image>
 					<view class="uni-media-list-body" @tap.stop.prevent="toResume(item.app_user_uuid)">
 						<view class="uni-media-list-text-top">{{item.app_user_name}}</view>
 						<view class="uni-media-list-text-bottom">
