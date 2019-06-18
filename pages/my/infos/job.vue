@@ -36,8 +36,6 @@
 							<view class="uni-input">{{job.end_time ? job.end_time : '请选择'}}</view>
 						</picker>
 					</view>
-					<!-- <text class="componyName textTips" v-if="job.end_time" v-text="job.end_time"></text>
-					<text class="emptyFields textTips" v-else>请选择</text> -->
 					<text class="iconfont icon-jinru"></text>
 				</view>
 
@@ -329,14 +327,12 @@
 						uni.showToast({
 							title: response.message
 						})
-						// window.mui.alert(response.data.message)
 						return
 					}
 					uni.showToast({
 						title: '操作成功'
 					})
 
-					// window.mui.toast('操作成功')
 					//   操作成删除保存的公司
 					localEvent.remove('job' + this.type + '_company' + this.user_id)
 					this.bak = ''

@@ -47,7 +47,7 @@
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList">
+				<view class="setUpList" @tap.stop.prevent="toRoute('/pages/my/infos/edus')">
 					<text>项目经历</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
