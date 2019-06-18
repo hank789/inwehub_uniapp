@@ -93,7 +93,7 @@
                         </view>
                         <view v-if="item.img.length" class="right">
                           <view class="articleImg">
-                            <image mode="aspectFill" :src="item.img" width="97" :is-lazyload="true" :save-to-local="true" />
+                            <image class="image" mode="aspectFill" :src="item.img | imageSuffix(96, 70)" :lazy-load="true"/>
                           </view>
                         </view>
                       </view>
