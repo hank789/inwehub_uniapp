@@ -321,7 +321,7 @@ export default {
       })
     },
     loadListData(tabItem, successCallback) {
-      getListData(tabItem.page + 1, tabItem.value, (res) => {
+      getListData(tabItem.page, tabItem.value, (res) => {
         successCallback(res)
       })
     },

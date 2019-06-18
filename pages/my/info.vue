@@ -32,7 +32,7 @@
 			<view class="info-progresbar">
 				<text class="info-progress"><text class="iWidth" :style="'width:'+ user.info.account_info_complete_percent +'%'"></text></text>
 				<text class="info-text">{{ user.info.account_info_complete_percent }}%</text>
-				<text class="iconfont icon-jinggao" id='confirmBtn' @tap.stop.prevent="warn()"></text>
+				<text class="iconfont icon-jinggao" id='confirmBtn' @tap.stop.prevent="warn"></text>
 			</view>
 
 
@@ -47,12 +47,12 @@
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList">
+				<view class="setUpList" @tap.stop.prevent="toRoute('/pages/my/infos/edus')">
 					<text>项目经历</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList">
+				<view class="setUpList" @tap.stop.prevent="toRoute('/pages/my/infos/trains')">
 					<text>培训认证</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
@@ -78,6 +78,7 @@
 		getUserInfo,
 		getLocalUserInfo
 	} from '@/lib/user'
+	import ui from "@/lib/ui"
 	export default {
 		data() {
 			return {
@@ -93,6 +94,16 @@
 			this.getUserInfo()
 		},
 		methods: {
+			warn () {
+				var btnArray = ['取消', '确定']
+				ui.confirm('⚠️警告说明 ', '为保证每位用户信息都真实有效，请务必如实填写。如发现不实，首次将给予警告，第二次将永久封号。平台对所有个人信息绝对保密，不会提供给任何第三方。', btnArray, (e) => {
+					if (e.index === 1) {
+						return false
+					} else {
+						return false
+					}
+				})
+			},
 			toRoute (url) {
 				uni.navigateTo({url: url})
 			},
@@ -191,7 +202,7 @@
 	.info-look {
 		position: absolute;
 		top: 39.98upx;
-		right: 30upx;
+		right: 46upx;
 
 		.iconfont {
 			font-size: 48upx;
@@ -202,6 +213,9 @@
 		.lookText {
 			font-size: 27.98upx;
 			color: #444444;
+			position: relative;
+			top: -8upx;
+			left: 6upx;
 		}
 	}
 
@@ -218,7 +232,7 @@
 			font-size: 30upx;
 			color: #fcc816;
 			margin-left: 0upx;
-			margin-top: 7.96upx;
+			margin-top: -6upx;
 		}
 
 		.info-progress {
@@ -243,6 +257,9 @@
 		.info-text {
 			font-size: 24upx;
 			color: #808080;
+			position: relative;
+			left: 12upx;
+			top: -2upx;
 		}
 	}
 

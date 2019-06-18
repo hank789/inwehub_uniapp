@@ -184,10 +184,11 @@
 					tabItem.page = tabItem.page + 1
 					var list = res.data.data
 					if(type === 'refresh'){
-						tabItem.newsList = []; //刷新前清空数组
+						tabItem.newsList = list
 						tabItem.page = 1
+					} else {
+						tabItem.newsList = tabItem.newsList.concat(list)
 					}
-					tabItem.newsList = tabItem.newsList.concat(list);
 					
 					//下拉刷新 关闭刷新动画
 					if(type === 'refresh'){

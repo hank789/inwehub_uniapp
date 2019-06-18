@@ -19,17 +19,23 @@
 					<text class="iconfont icon-jinru"></text>
 				</view>
 
-				<view class="inputRow" @tap.stop.prevent="initDate(1)">
+				<view class="inputRow">
 					<view class="title">开始时间</view>
-					<text class="componyName textTips" v-text="job.begin_time" v-if="job.begin_time">{{infoIndustryTagsNames}}</text>
-					<text class="emptyFields textTips" v-else>请选择</text>
+					<view class="uni-list-cell-db">
+						<picker mode="multiSelector" :value="valueIndex" :range="array" @change="bindDateChange">
+							<view class="uni-input">{{job.begin_time ? job.begin_time: '请选择' }}</view>
+						</picker>
+					</view>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 
-				<view class="inputRow" @tap.stop.prevent="initDate(2)">
+				<view class="inputRow">
 					<view class="title">结束时间</view>
-					<text class="componyName textTips" v-if="job.end_time" v-text="job.end_time"></text>
-					<text class="emptyFields textTips" v-else>请选择</text>
+					<view class="uni-list-cell-db">
+						<picker mode="multiSelector" :value="valueIndex" :range="endArray" @change="bindEndDateChange">
+							<view class="uni-input">{{job.end_time ? job.end_time : '请选择'}}</view>
+						</picker>
+					</view>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 
@@ -75,6 +81,8 @@
 		},
 		data() {
 			return {
+				array:[],
+				index:0,
 				showTagsList: false,
 				user_id: currentUser.info.id,
 				type: '',
@@ -103,35 +111,97 @@
 				page_industry_tags_id: 'page_industry_tags',
 				page_product_tags_id: 'page_product_tags',
 				descMaxLength: 2000,
-				buttonSaveDisabled: false
+				buttonSaveDisabled: false,
+				month: ['请选择', '01','02','03','04','05','06','07','08','09','10','11','12'],
+				endMonth: [],
+				timeVaule: '',
+				valueIndex: [],
+				endArray: []
 			}
 		},
 		onShow() {
 			this.getCompany()
 		},
 		onLoad(option) {
-			console.log(option)
 			this.type = option.id
 			this.id = option.id
 			this.getDetail()
 			this.getCompany()
+			this.getDateList()
+			this.getDate()
 		},
 		methods: {
+			getDate() {
+				this.endMonth = ['请选择', '01','02','03','04','05','06','07','08','09','10','11','12','至今']
+				let currentDate = new Date()
+				var yArray = [
+					'请选择'
+				];
+				var yBegin = 1990;
+				var yEnd = currentDate.getFullYear();
+				for (var y = yBegin; y <= yEnd; y++) {
+					yArray.push(y);
+				}
+				yArray.push('至今')
+				
+				this.endArray = [yArray, this.endMonth]
+			},
+
+			bindEndDateChange: function(e) {
+				let index = e.detail.value
+				this.valueIndex = index
+				if (!index[0] || !index[1]) {
+					uni.showToast({
+						icon: 'none',
+						title: '请选择',
+						duration: 2000
+					});
+					return false
+				}
+				this.job.end_time = this.endArray[0][index[0]] + '-' + this.endArray[1][index[1]]
+			},
+			getDateList() {
+				let currentDate = new Date()
+				var yArray = [
+					'请选择'
+				];
+				var yBegin = 1990;
+				var yEnd = currentDate.getFullYear();
+				for (var y = yBegin; y <= yEnd; y++) {
+					yArray.push(y);
+				}
+				
+				this.array = [yArray, this.month]
+			},
+
+			bindDateChange: function(e) {
+				let index = e.detail.value
+				this.valueIndex = index
+				if (!index[0] || !index[1]) {
+					uni.showToast({
+						icon: 'none',
+						title: '请选择',
+						duration: 2000
+					});
+					return false
+				}
+				this.job.begin_time = this.array[0][index[0]] + '-' + this.array[1][index[1]]
+			},
 			muiViewBack: function() {
 				var newItemChange = JSON.stringify(this.job)
 				if (this.bak !== '' && newItemChange !== this.bak) {
 					var btnArray = ['取消', '确定']
 					ui.confirm('您还未保存，确定退出么? ', '', btnArray, (e) => {
 						if (e.index === 1) {
-						  this.clearData()
-						  uni.navigateBack({
+							this.clearData()
+							uni.navigateBack({
 								delta: 1
 							});
 						} else {
-						  return false
+							return false
 						}
-					  })
-					
+					})
+
 				} else {
 					uni.navigateBack({
 						delta: 1
@@ -144,13 +214,11 @@
 					this.job = jobs[this.type]
 					this.description = this.job.description
 					this.bak = JSON.stringify(this.job)
-					console.log(this.job)
 				} else {
 					this.clearData()
 				}
 			},
 			clearData() {
-				// console.log('清楚了')
 				this.job = this.initJob
 				this.description = ''
 				this.bak = ''
@@ -160,6 +228,13 @@
 				uni.navigateTo({
 					url: '/pages/my/selectCompany?from=job' + this.type
 				})
+			},
+			
+			selectedIndustryTags (tags, objectType) {
+				this.job.industry_tags = tags
+			},
+			selectedProductTags (tags, objectType) {
+				this.job.product_tags = tags
 			},
 			getCompany() {
 				//     选择公司
@@ -173,38 +248,57 @@
 			},
 			submit() {
 				if (!this.job.company) {
-					window.mui.toast('公司名称不能为空')
+					uni.showToast({
+						icon: 'none',
+						title: '公司名称不能为空'
+					})
 					return
 				}
 
 				if (!this.job.title) {
-					window.mui.toast('公司职位不能为空')
+					uni.showToast({
+						icon: 'none',
+						title: '公司职位不能为空'
+					})
 					return
 				}
 
 				if (this.job.industry_tags.length === 0) {
-					window.mui.toast('行业领域不能为空')
+					uni.showToast({
+						icon: 'none',
+						title: '行业领域不能为空'
+					})
 					return
 				}
 
 				this.job.product_tags = ['1']
 				if (!this.job.begin_time) {
-					window.mui.toast('开始时间不能为空')
+					uni.showToast({
+						icon: 'none',
+						title: '开始时间不能为空'
+					})
 					return
 				}
 
 				if (!this.job.end_time) {
-					window.mui.toast('结束时间不能为空')
+					uni.showToast({
+						icon: 'none',
+						title: '结束时间不能为空'
+					})
 					return
 				}
 
 				if (this.job.end_time < this.job.begin_time) {
-					window.mui.alert('开始时间需早于结束时间')
+					uni.showToast({
+						icon: 'none',
+						title: '开始时间需早于结束时间'
+					})
 					return
 				}
 
 				var url = ''
-				if (this.id) {
+				console.log(this.id)
+				if (this.id !== '0') {
 					url = ACCOUNT_API.UPDATE_ACCOUNT_JOB
 				} else {
 					url = ACCOUNT_API.ADD_ACCOUNT_JOB
@@ -233,14 +327,12 @@
 						uni.showToast({
 							title: response.message
 						})
-						// window.mui.alert(response.data.message)
 						return
 					}
 					uni.showToast({
 						title: '操作成功'
 					})
 
-					// window.mui.toast('操作成功')
 					//   操作成删除保存的公司
 					localEvent.remove('job' + this.type + '_company' + this.user_id)
 					this.bak = ''
@@ -349,6 +441,14 @@
 				color: #bbb;
 				font-size: 26upx;
 				top: 20upx;
+			}
+			.uni-list-cell-db {
+				text-align: right;
+				.uni-input {
+					color: #3f3f3f;
+					margin-top: -14upx;
+					margin-right: 58upx;
+				}
 			}
 		}
 	}
