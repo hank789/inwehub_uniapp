@@ -3,26 +3,25 @@
 
 		<view class="mui-content absolute">
 			<view v-show="!loading" id="container">
-				<view class="container" v-show="edus.length === 0">
+				<view class="container" v-show="trains.length === 0">
 					<text class="iconfont icon-zanwushuju"></text>
 					<view class="textTips">暂时还没有数据呀～</view>
 				</view>
 
 				<view class="mui-table-view mui-table-view-chevron" id="OA_task_1">
-					<view v-for="(edu,index) in edus" class="intro  mui-table-view-cell">
+					<view v-for="(train,index) in trains" class="intro  mui-table-view-cell">
 						<view class="mui-slider-handle  slider">
-							<view class="mui-ellipsis companyText"> {{ edu.school }}</view>
+							<view class="mui-ellipsis companyText"> {{ train.certificate  }}</view>
 							<view class="titleTips">
-								<text class="mui-ellipsis times">{{ edu.begin_time }} 至 {{ edu.end_time }}</text>
-								<text class="mui-ellipsis tips times">{{ edu.major }}</text>
-								<text class="mui-ellipsis tips">{{ edu.degree }}</text>
+								<text class="mui-ellipsis times">{{train.get_time}}</text>
+								<text class="mui-ellipsis tips">{{ train.agency }}</text>
 							</view>
 						</view>
-						<text class="iconfont icon-xiugai" @tap.stop.prevent="toRoute('/pages/my/infos/editEdu?id=' + edu.id)"></text>
+						<text class="iconfont icon-xiugai" @tap.stop.prevent="toRoute('/pages/my/infos/editTrain?id=' + train.id)"></text>
 					</view>
 				</view>
 
-				<view class="add box-shadow-3" @tap.stop.prevent="toRoute('/pages/my/infos/editEdu?id=0')">
+				<view class="add box-shadow-3" @tap.stop.prevent="toRoute('/pages/my/infos/editTrain?id=0')">
 					<text class="iconfont icon-shuru"></text>
 				</view>
 			</view>
@@ -37,7 +36,7 @@
 	export default {
 		data() {
 			return {
-				edus: [],
+				trains: [],
 				loading: true
 			}
 		},
@@ -49,28 +48,28 @@
 				uni.navigateTo({url: url})
 			},
 			initData() {
-				postRequest(`account/edu/list`, {}).then(response => {
+				postRequest(`account/train/list`, {}).then(response => {
 					var code = response.code
 					if (code !== 1000) {
 						uni.showToast({
 							icon: 'none',
-							title: response.message
+							title:response.message
 						})
 						return
 					}
 
-					this.edus = response.data
+					this.trains = response.data
 					this.loading = false
 
-					var newEdus = []
-					for (var i in this.edus) {
-						var info = this.edus[i]
+					var newTrains = []
+					for (var i in this.trains) {
+						var info = this.trains[i]
 						var id = info.id
-						newEdus[id] = info
+						newTrains[id] = info
 					}
-					localEvent.set('edus', newEdus)
+					localEvent.set('trains', newTrains)
 				})
-			}
+			},
 		}
 	}
 </script>

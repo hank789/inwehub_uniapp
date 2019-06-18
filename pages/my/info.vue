@@ -52,7 +52,7 @@
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList">
+				<view class="setUpList" @tap.stop.prevent="toRoute('/pages/my/infos/trains')">
 					<text>培训认证</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
