@@ -8,7 +8,7 @@
         <view class="topSearchWrapper" @tap.stop.prevent="toSearch">
           <view class="searchFrame">
             <text class="iconfont icon-sousuo" />
-            <text>搜产品、问答、圈子、内容</text>
+            <text>搜产品、内容</text>
           </view>
         </view>
         <view class="addIcon" @tap.stop.prevent="toRoute('/pages/discover/addlink')">

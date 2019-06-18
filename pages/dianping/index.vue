@@ -43,7 +43,7 @@
               <view class="topInfo">
                 <view class="left">
                   <view class="logo">
-                    <image mode="aspectFill" class="image" :src="item.logo" /></view>
+                    <image mode="aspectFit" class="image" :src="item.logo | imageSuffix(42, 42)" /></view>
                   <view class="nameMark">
                     <view class="title font-family-medium text-line-1">{{ item.name }}</view>
                     <view class="stars">
@@ -54,7 +54,7 @@
                 </view>
                 <view class="right">
                   <view class="heatICon">
-                    <image mode="aspectFill" class="image" src="../../static/images/zhuanti_fill@3x.png" /></view>
+                    <image mode="aspectFit" class="image" src="../../static/images/zhuanti_fill@3x.png" /></view>
                   <view class="textNumber">{{ item.support_rate }}</view>
                 </view>
               </view>
@@ -75,7 +75,7 @@
                 <view v-for="(itemList, itemIndex) in item" :key="itemIndex">
                   <view v-if="itemList.type === 'product_album'" class="specialList" @tap.stop.prevent="toProductList(itemList)">
                     <view class="mask" />
-                    <view class="img"><image mode="aspectFill" class="image" :src="itemList.icon" /></view>
+                    <view class="img"><image mode="aspectFill" class="image" :src="itemList.icon | imageSuffix(166, 79)" /></view>
                     <view class="text font-family-medium">{{ itemList.name }}</view>
                   </view>
                   <view v-if="itemList.type === 'lastElement'" class="expectWrapper specialList" @tap.stop.prevent="showExpect">

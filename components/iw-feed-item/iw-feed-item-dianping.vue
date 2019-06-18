@@ -25,7 +25,7 @@
         class="container-images container-images-discover"
         :class="'container-images-' + (itemObj.feed.img.length)"
       >
-        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image"><image mode="aspectFill" class="image" :src="img" :is-lazyload="true" width="108" height="108" /></view>
+        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image"><image mode="aspectFit" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
       </view>
 
       <view v-if="item.feed.tags && isShowLink" class="link">
@@ -442,5 +442,10 @@ export default {
                 margin-left: 6upx;
             }
         }
+    }
+
+    .container-images-discover .image{
+      width:226px;
+      height:226px;
     }
 </style>

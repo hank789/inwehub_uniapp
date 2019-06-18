@@ -63,9 +63,8 @@
                   :id="'image_' + index"
                   :key="image"
                   :src="image"
+                  :mode="'aspectFit'"
                   class="discover_img lazyImg"
-                  :data-preview-src="image"
-                  :data-preview-group="1"
                 />
               </template>
             </view>
