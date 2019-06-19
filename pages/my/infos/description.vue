@@ -17,7 +17,6 @@
 		},
 		created () {
 		  var userInfo = getLocalUserInfo()
-		  console.log(userInfo)
 		  this.description = userInfo.info.description
 		},
 		onNavigationBarButtonTap() {  
@@ -40,9 +39,9 @@
 				uni.showToast({
 					title: '保存成功'
 				})
-				uni.navigateTo({
-					url: '/pages/my/infos/basic'
-				})
+				uni.navigateBack({
+					delta: 1
+				});
 			})
 		},
 		methods: {

@@ -128,28 +128,15 @@ export default {
       }
     }
   },
-  watch: {
-    '$route'(to, from) {
-      if (to.name === from.name) {
-        this.refreshPageData()
-      }
-    }
-  },
-  created() {
-    getTags(this, (tags) => {
-      this.allOption = tags
-    })
-    this.refreshPageData()
-  },
-  activated: function() {
-    this.refreshPageData()
-  },
-  mounted() {
-  },
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
     this.pageOption = option
     const currentUser = getLocalUserInfo()
     this.id = currentUser.user_id
+
+    getTags(this, (tags) => {
+      this.allOption = tags
+    })
+    this.refreshPageData()
   },
   onNavigationBarButtonTap(e) {
     this.submit()
@@ -180,7 +167,6 @@ export default {
 
       if (!id) {
         ui.toast('请求异常')
-        uni.navigateBack()
         return
       }
       this.id = id

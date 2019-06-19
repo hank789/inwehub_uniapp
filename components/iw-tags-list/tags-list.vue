@@ -20,7 +20,7 @@
 							<view v-for="(tag, index) in tags" class="liBox mui-input-row mui-table-view-cell mui-checkbox-2  mui-left"
 							 @tap.stop.prevent="checkThis(tag)" :value="tag.value" :key="index">
 							 
-							 <text class="iconfont checkeds" v-if="isCheckd"></text>
+							 <text class="iconfont checkeds" v-if="isCheckd(tag)"></text>
 							 <text class="iconfont checkedFalse" v-else></text>{{ tag.text }}
 
 							</view>
@@ -52,7 +52,6 @@
 		created() {
 			getTagsList( this.tag_type, (res) => {
 				this.tags= res
-				console.log(this.tags)
 			})
 			this.iselected = this.selected ? this.selected : []
 		},
@@ -69,12 +68,10 @@
 				}
 				return tagName
 			},
-			isCheckd(){
-				return typeof(getSelectedCodes) === 'object' && getSelectedCodes.indexOf(tag.value) > -1
-			},
 			getSelected() {
 				return this.selected
 			},
+			
 			getSelectedCodes() {
 				var newValue = []
 				for (var i in this.iselected) {
@@ -84,8 +81,11 @@
 			}
 		},
 		methods: {
+			isCheckd(tag){
+				return typeof(this.getSelectedCodes) === 'object' && this.getSelectedCodes.indexOf(tag.value) > -1
+			},
 			done() {
-				this.$emit('selectedIndustryTags', this.iselected, this.object_type)
+				this.$emit('selectedIndustryTags', {iselected: this.iselected, object_type: this.object_type})
 				this.isShowTags = !this.isShowTags
 			},
 			checkThis(tag) {
