@@ -22,7 +22,7 @@
                 <view class="position" v-else>{{time}}</view>
             </view>
 
-            <view class="followWrapper" v-if="isFollow && realname !== '匿名' && uuid !== localUuid">
+            <view class="followWrapper" v-if="isFollowStatus">
                 <view class="followButton active border-football" @tap.stop.prevent="collectProfessor()" v-if="isFollowed">已关注</view>
                 <view class="followButton border-football" v-show="uuid" @tap.stop.prevent="collectProfessor()" v-else>关注</view>
             </view>
@@ -104,6 +104,9 @@
       this.localUuid = user.uuid
     },
     methods: {
+      isFollowStatus () {
+        return this.isFollow && this.realname !== '匿名' && this.uuid !== this.localUuid
+      },
       isTime (time) {
         return /^[0-9\-\\:\s]+$/.test(time)
       },

@@ -111,7 +111,7 @@
         if (this.token) {
           this.$ls.set('token', this.token)
 					this.$request.get('profile/info').then(response => {
-						this.$ls.set('UserInfo', response.data)
+						this.$ls.set('UserInfo', response.data.info)
 						saveLocationInfo()
 						uni.switchTab({
 							url: '/pages/index/index'
