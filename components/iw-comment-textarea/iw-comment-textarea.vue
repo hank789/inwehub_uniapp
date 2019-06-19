@@ -1,7 +1,7 @@
 <template>
   <view v-show="showTextarea || alwaysshow" class="commentWrapper" @tap.capture="onTap($event)">
     <view class="textareaWrapper">
-      <textarea class="textarea" v-model="textarea"></textarea>
+      <textarea v-model="textarea" autofocus="autofocus" class="textarea" :placeholder="targetUsername" />
       <!--<text class="iconfont icon-fasong"></text>-->
     </view>
     <view class="send font-family-medium" :class="text.length - 2 ? 'active' : ''" @tap.stop.prevent="sendMessage">发送</view>
@@ -170,12 +170,12 @@ const CommentTextarea = {
       this.oldList = this.commentData.commentList
       var result = onceGet(this, this.cacheKey)
       if (result) {
-          this.initEditorData()
-          this.commentData.commentList = this.oldList
-          // this.commentData.list = null  // 临时解决方案，强制discuss刷新列表, 等待删除
-          this.focusCallback = () => {
-            this.focusCallback = null
-          }
+        this.initEditorData()
+        this.commentData.commentList = this.oldList
+        // this.commentData.list = null  // 临时解决方案，强制discuss刷新列表, 等待删除
+        this.focusCallback = () => {
+          this.focusCallback = null
+        }
       }
     },
     onEditorChange(editor) {
@@ -238,21 +238,14 @@ const CommentTextarea = {
       }
       console.log('this.showTextarea:' + this.showTextarea)
       this.$forceUpdate()
-      this.targetUsername = targetUsername
 
-      // this.editorObj.setContents([{ insert: '' }])
+      this.targetUsername = targetUsername ? '回复' + targetUsername : '在此留言'
+
+      this.textarea = ''
 
       this.getHistoryDescription()
 
-      var textarea = this.textarea
-      textarea = textarea.replace(/(<view><br><\/view>)*$/, '')
-      textarea = textarea.replace(/(<view> <\/view>)*$/, '')
-
-      console.log('comment-textarea:' + textarea)
-      if (!textarea.trim()) {
-        targetUsername = targetUsername ? '回复' + targetUsername : '在此留言'
-        // this.$refs.myAddEditor.setPlaceholder(targetUsername)
-      }
+      console.log('comment-textarea:' + this.textarea)
     },
     finish() {
       this.resetData()
@@ -294,7 +287,7 @@ export default CommentTextarea
     .commentWrapper {
         background: #F3F4F5;
         position: absolute;
-        width: 375px;
+        width: 750upx;
         bottom: 0;
         left: 0;
         height: 90upx;
@@ -325,15 +318,11 @@ export default CommentTextarea
         border: none;
         display: inline-block;
         width: 100%;
-        height: 39.98upx;
-        margin: 12upx 0 0;
+        height: 68upx;
         padding: 0 61.96upx 0 9.98upx;
         font-size: 27.98upx;
-
-    }
-
-    .commentWrapper .textarea::placeholder {
-        color: #c8c8c8;
+        position: relative;
+        top: 10upx;
     }
 
     .commentWrapper .iconfont{
