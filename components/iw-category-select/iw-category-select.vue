@@ -1,54 +1,55 @@
 <template>
   <uni-popup
-          :show="isShow"
-          :position="'top'"
-          type="bottom"
-          :h5-top="true"
-          @hidePopup="hide"
+    :show="isShow"
+    :position="'top'"
+    type="bottom"
+    :h5-top="true"
+    @hidePopup="hide"
   >
-  <view id="dropDownMenuWrapper" :class="positionClass" class="shareWrapper mui-popover">
-    <slot name="dropDownMenuHeader" />
-    <view class="container-select">
-      <view v-if="showSelectTop" class="select-top">
-        <view class="type" @tap.stop.prevent="show">
-          <view class="span">选择类型</view>
-          <view class="jianTou">
-            <text class="iconfont icon-xiangshangjiantou " />
+    <view :class="positionClass" class="dropDownMenuWrapper shareWrapper mui-popover">
+      <slot name="dropDownMenuHeader" />
+      <view class="container-select">
+        <view class="select-top">
+          <view class="type" @tap.stop.prevent="hide">
+            <view class="span">选择类型</view>
+            <view class="jianTou">
+              <text class="iconfont icon-xiangshangjiantou " />
+            </view>
           </view>
         </view>
-      </view>
-      <view class="mui-scroll-wrapper dropDownScrollWrapper">
-        <view class="mui-scroll">
-          <view class="listWrapper">
-            <view v-for="(item, index) in tree" :key="index" class="list">
-              <view class="text ListTitle" @tap.capture="selectItem($event, item)">
-                <view class="span">{{ item.name }} {{ parseInt(item.children_count) > 0 ? '(' + item.children_count + ')' : '' }}</view>
-                <text class="iconfont icon-xiangshangjiantou " />
+        <view class="mui-scroll-wrapper dropDownScrollWrapper">
+          <view class="mui-scroll">
+            <view class="listWrapper">
+              <view v-for="(item, index) in localTree" :class="{active: item.isShow}" class="list">
+                <view :class="{active: item.isShow}" class="text ListTitle" @tap.stop.prevent="selectItem(item)">
+                  <view class="span">{{ item.name }} {{ parseInt(item.children_count) > 0 ? '(' + item.children_count + ')' : '' }}</view>
+                  <text class="iconfont icon-xiangshangjiantou " />
+                </view>
+
+                <DropDownMenuChild
+                  v-if="item.children.length"
+                  :class="{active: item.isShow}"
+                  :tree="item"
+                  @selectChange="selectChange"
+                />
               </view>
 
-              <DropDownMenuChild
-                v-if="item.children.length"
-                :tree="item"
-                @selectItem="selectItem"
-              />
             </view>
-
           </view>
+
         </view>
 
       </view>
-
+      <view v-if="showProductAddBack" id="productAddBack" class="font-family-medium productAddBack" @tap.stop.prevent="ProductAddBack">取消
+        <view class="bot" />
+      </view>
     </view>
-    <view v-if="showProductAddBack" id="productAddBack" class="font-family-medium productAddBack" @tap.stop.prevent="ProductAddBack">取消
-      <view class="bot" />
-    </view>
-  </view>
   </uni-popup>
 </template>
 
 <script>
 import DropDownMenuChild from
-'@/components/iw-category-select/iw-category-select-children.vue'
+  '@/components/iw-category-select/iw-category-select-children.vue'
 import uniPopup from '@/components/uni-popup/uni-popup.vue'
 
 export default {
@@ -79,66 +80,34 @@ export default {
   data() {
     return {
       selectedIterms: [],
-      isShow: false
+      isShow: false,
+      localTree: this.tree
     }
+  },
+  computed: {
+
   },
   mounted() {
   },
   methods: {
-    hide () {
+    hide() {
       this.isShow = false
     },
-    ProductAddBack() {
-      window.mui('#dropDownMenuWrapper').popover('toggle')
+    getClassName(item) {
+      return item.isShow ? 'active' : ''
     },
-    selectItem(event, item) {
-      var curEle = event.target
-      if (curEle.tagName === 'SPAN') {
-        curEle = curEle.parentElement
-      }
-
-      var status = curEle.classList.contains('active')
-      //        window.mui.each(curEle.parentElement.parentElement.children, function (index, children) {
-      //          var listTitle = children.querySelector('.ListTitle')
-      //          if (listTitle) {
-      //            listTitle.classList.remove('active')
-      //          }
-      //          var listChildren = children.querySelector('.listChildren')
-      //          if (listChildren) {
-      //            listChildren.classList.remove('active')
-      //          }
-      //        })
-
-      if (!status) {
-        curEle.classList.add('active')
-
-        if (curEle.nextElementSibling) {
-          curEle.nextElementSibling.classList.add('active')
-        } else {
-          window.mui('#dropDownMenuWrapper').popover('toggle')
-          setTimeout(() => {
-            this.selectedIterms.push({ id: item.id, name: item.name })
-            if (!this.showSelectTop) {
-              this.$emit('input', this.selectedIterms)
-            } else {
-              this.$emit('input', { id: item.id, name: item.name })
-            }
-          }, 100)
-        }
-
-        //          if (curEle && curEle.offsetTop) {
-        //            document.querySelector('.dropDownScrollWrapper > .mui-scroll').style.transform = 'translate3d(0upx, -' + curEle.offsetTop + 'px, 0upx) translateZ(0upx)'
-        //          }
+    selectItem(item) {
+      console.log(item)
+      if (item.children_count) {
+        item.isShow = !item.isShow
+        this.$forceUpdate()
       } else {
-        curEle.classList.remove('active')
-        if (curEle.nextElementSibling) {
-          curEle.nextElementSibling.classList.remove('active')
-        }
+        this.selectChange({ id: item.id, name: item.name })
       }
-
-      setTimeout(() => {
-        this.autoScrollWrapperHeight()
-      }, 100)
+    },
+    selectChange(data) {
+      this.hide()
+      this.$emit('input', data)
     },
     autoScrollWrapperHeight() {
       var height = document.querySelector('.dropDownScrollWrapper > .mui-scroll').offsetHeight
@@ -239,13 +208,13 @@ export default {
     display: block !important;
   }
 
-  #dropDownMenuWrapper {
+  .dropDownMenuWrapper {
     width:100%;
     bottom: auto !important;
     box-shadow: none !important;
   }
 
-  .openAppH5 #dropDownMenuWrapper {
+  .openAppH5 .dropDownMenuWrapper {
     top: 97.96upx;
     bottom: auto !important;
   }
@@ -253,6 +222,9 @@ export default {
   .dropDownMenuRoot {
     position: absolute;
     width: 100%;
+  }
+  .ListTitle{
+    height:66upx;
   }
 </style>
 
@@ -264,7 +236,7 @@ export default {
     display: none;
   }
 
-  .dropDownScrollWrapper .list .listChildren.active {
+  .dropDownScrollWrapper .list .listChildren.active{
     display: block;
   }
 
@@ -308,6 +280,7 @@ export default {
 
   .dropDownScrollWrapper .list .text .span {
     padding: 0 31.96upx;
+    line-height:66upx;
   }
 
   .dropDownScrollWrapper .list .text.active .iconfont{
@@ -317,7 +290,7 @@ export default {
 
   .dropDownScrollWrapper .list .text .iconfont{
     font-size: 13.96upx;
-    margin: 21.98upx 31.96upx 0;
+    margin: 0 31.96upx;
     display: none;
   }
 </style>

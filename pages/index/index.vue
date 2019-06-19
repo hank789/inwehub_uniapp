@@ -83,7 +83,7 @@
                           <view class="title font-family-medium text-line-2">{{ item.title }}</view>
                           <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, index, tabIndex)">
                             <view v-if="item.startAnimation" class="addOne">
-                              <text />
+                              <text class="i"/>
                               <text>+{{ startAnimationNum }}</text>
                             </view>
                             <text class="iconfont icon-huo first" />
@@ -151,6 +151,7 @@ import BottomActions from '@/components/iw-article-bottomaction/iw-article-botto
 import PageMore from '@/components/iw-page-more/iw-page-more'
 import { getHomeDetail } from '@/lib/shareTemplate'
 import HotBottomActions from '@/components/iw-hot-bottom-action/iw-hot-bottom-action'
+import Vue from 'vue'
 
 export default {
   components: {
@@ -235,6 +236,19 @@ export default {
 
       return this.liIndexConfig[listDataIndex]
     },
+    startAnimationEvent(num) {
+      this.startAnimationNum = num
+      var item = this.tabBars[this.activeListIndex].newsList[this.activeItemIndex]
+
+      item.startAnimation = 1
+      item.rate += num
+      Vue.set(this.tabBars[this.activeListIndex].newsList, this.activeItemIndex, item)
+
+      setTimeout(() => {
+        item.startAnimation = 0
+        Vue.set(this.tabBars[this.activeListIndex].newsList, this.activeItemIndex, item)
+      }, 2500)
+    },
     isShowSplitLine(itemIndex, listDataIndex) {
       if (itemIndex >= this.tabBars[listDataIndex].newsList.length - 1) {
         return false
@@ -274,9 +288,7 @@ export default {
       this.activeListIndex = listIndex
       this.$refs.BottomActions.show()
     },
-    startAnimationEvent(num) {
 
-    },
     isShowDate(item, index, list) {
       const itemTime = item.created_at.split(' ')[0]
       const currentData = timeToHumanText(getTimestampByDateStr(itemTime))
@@ -679,6 +691,67 @@ export default {
         font-size: 30upx;
         margin-right: 9.98upx;
       }
+    }
+  }
+
+  @keyframes addone
+  {
+    0% {
+      top: -55.96upx;
+      opacity: 1;
+    }
+    50% {
+      top: -55.96upx;
+      opacity: 5;
+    }
+    100% {
+      top: -90upx;
+      opacity: 0;
+    }
+  }
+  @-moz-keyframes addone /* Firefox */
+  {
+    0% {
+      top: -55.96upx;
+      opacity: 1;
+    }
+    50% {
+      top: -55.96upx;
+      opacity: 5;
+    }
+    100% {
+      top: -90upx;
+      opacity: 0;
+    }
+  }
+  @-webkit-keyframes addone /* Safari and Chrome */
+  {
+    0% {
+      top: -55.96upx;
+      opacity: 1;
+    }
+    50% {
+      top: -55.96upx;
+      opacity: 5;
+    }
+    100% {
+      top: -90upx;
+      opacity: 0;
+    }
+  }
+  @-o-keyframes addone /* Opera */
+  {
+    0% {
+      top: -55.96upx;
+      opacity: 1;
+    }
+    50% {
+      top: -55.96upx;
+      opacity: 5;
+    }
+    100% {
+      top: -90upx;
+      opacity: 0;
     }
   }
 </style>

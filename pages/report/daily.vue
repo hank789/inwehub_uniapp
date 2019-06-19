@@ -22,7 +22,7 @@
                 <view class="title font-family-medium text-line-2">{{ item.title }}</view>
                 <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, index)">
                   <view v-if="item.startAnimation" class="addOne">
-                    <view />
+                    <text class="i"/>
                     <view class="span">+{{ startAnimationNum }}</view>
                   </view>
                   <text class="iconfont icon-huo iconfontFirst" />
