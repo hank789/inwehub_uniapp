@@ -55,7 +55,7 @@
               <view v-for="(item, index) in tabItem.newsList" :key="index" class="news-item" @click="navToDetails(item)">
                 <view class="container-wrapper">
                   <view v-if="isShowDate(item, index, tabItem.newsList)" class="dateWrapper" @tap.stop.prevent="toReport(item)">
-                    <view class="LeftDate" :data-text="timeToHumanText(item.created_at)">
+                    <view class="LeftDate" :data-text="timeToHumanText(item.created_at)" :data-index="tabIndex">
                       <text class="iconfont icon-rili" />
                       <text class="text">{{ timeToHumanText(item.created_at) }}</text>
                     </view>
@@ -212,12 +212,12 @@ export default {
     scrollList(e) {
       const views = uni.createSelectorQuery().selectAll('.LeftDate')
       views.boundingClientRect(data => {
+        // console.log('得到节点信息', data)
         data.forEach((item, index) => {
-          if (item.top <= 100) {
+          if (item.top <= 100 && parseInt(item.dataset.index) === this.tabCurrentIndex) {
             this.position = item.dataset.text
           }
         })
-        // console.log('得到节点信息' + JSON.stringify(data))
       }).exec()
     },
     sharHotspot() {
