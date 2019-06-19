@@ -135,7 +135,16 @@
 			</view>
 
 		</iwList>
-
+		
+		<iw-page-more
+		  ref="pageMore"
+		  :share-option="shareOption"
+		  :icon-menu="iconMenus"
+		  @clickedItem="iconMenusClickedItem"
+		/>
+		
+		<iwDialogReport ref="alertReport"></iwDialogReport>
+		
 	</view>
 </template>
 
@@ -144,6 +153,10 @@
 	import iwList from '@/components/iw-list/iw-list'
 	import iwFeedItem from '@/components/iw-feed-item/iw-feed-item'
 	import { getLocalUuid } from '@/lib/user.js'
+	
+	import iwPageMore from '@/components/iw-page-more/iw-page-more'
+	import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
+	import iwDialogReport from '@/components/iw-dialog/report.vue'
 	export default {
 		data() {
 			return {
@@ -190,11 +203,25 @@
 				},
 				apper: '',
 				userInfo: {},
+				shareOption: {
+					title: '',
+					link: '',
+					content: '',
+					imageUrl: '',
+					thumbUrl: '',
+					shareName: '',
+					targetType: 'submission',
+					targetId: ''
+				},
+				iconMenus: [],
+				itemOptionsObj: {}
 			};
 		},
 		components: {
 			iwList,
-			iwFeedItem
+			iwFeedItem,
+			iwPageMore,
+			iwDialogReport
 		},
 		computed: {
 			feedListParams() {
@@ -223,7 +250,18 @@
 		mounted() {
 		},
 
-		methods: {
+		methods: {	
+			iconMenusClickedItem (item) {
+				iconMenusClickedItem(this, this.itemOptionsObj, item, () => {
+					this.iconMenus = getIconMenus(this.itemOptionsObj)
+				})
+			},
+			showPageMore(data) {
+				this.itemOptionsObj = data.item
+				this.iconMenus = getIconMenus(data.item)
+				this.shareOption = data.shareOption
+				this.$refs.pageMore.show()
+			},
 			scrollList(scrollTop) {
 				let tmpY = 375;
 				scrollTop = scrollTop > tmpY ? 375 : scrollTop;
@@ -243,8 +281,7 @@
 			},
 			collectProfessor () {
 				if (!this.cuuid) {
-					console.log('失败')
-					// window.location.href = process.env.API_ROOT + 'wechat/oauth?redirect=/home'
+					window.location.href = store.state.webRoot + 'wechat/oauth?redirect=/home'
 					return
 				}
 				postRequest(`follow/user`, {
@@ -253,12 +290,14 @@
 					var code = response.code
 					if (code !== 1000) {
 						uni.showToast({
+							icon: 'none',
 							title: response.message
 						})
 						return
 					}
 					this.resume.is_followed = !this.resume.is_followed
 					uni.showToast({
+						icon: 'none',
 						title: response.data.tip
 					})
 				})
