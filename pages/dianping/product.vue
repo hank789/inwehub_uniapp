@@ -9,7 +9,7 @@
         :request-data="requestData"
         @finish="finish"
       >
-        <view class="product-introduce">
+        <view class="product-introduce" v-if="!loading">
           <view class="companyLogo border-football">
             <image mode="aspectFit" :src="detail.logo" alt="" class="image lazyImg" /></view>
           <view class="companyNmae font-family-medium">{{ detail.name }}</view>
@@ -30,7 +30,7 @@
             class="span font-family-medium"
           >{{ detail.vendor.name }}</view></view>
         </view>
-        <view class="optionlList">
+        <view class="optionlList" v-if="detail.categories.length">
           <template v-for="(category, index) in detail.categories">
             <view class="list" @tap.stop.prevent="toRoute('/pages/dianping/products?id=' + category.id + '&name=' + encodeURIComponent(category.name))">
               <view class="span">{{ category.name }}</view>
@@ -46,7 +46,7 @@
           <view class="allDianPing font-family-medium">点评 {{ detail.review_count ? '(' + detail.review_count + ')' : '' }}</view>
           <view class="line-river-after line-river-after-top" />
 
-          <view>
+          <view v-if="productComments.length">
             <template v-for="(comment, index) in productComments">
               <feedDianping :item="comment" :index="index" @showPageMore="showItemMore" />
             </template>
@@ -119,11 +119,6 @@
             </view>
           </view>
         </view>
-
-        <!--<view class="feedBack">-->
-          <!--<view class="text">如果您有任何关于该产品服务相关问题或信息反馈，<view class="span" @tap.stop.prevent="$uni.navigateTo('/dianping/product/feedback/' + encodeURIComponent(detail.name))">请点击</view></view>-->
-        <!--</view>-->
-
       </MescrollDetail>
     </view>
 
@@ -178,7 +173,8 @@ export default {
       detail: {
         reviews: 0,
         followers: 0,
-        is_followed: 0
+        is_followed: 0,
+        related_tags: []
       },
       isFollwers: false,
       swiperOption: {
