@@ -73,11 +73,11 @@
 		</view>
 		<view>
 			<mpvue-picker :themeColor="themeColor" ref="mpvuePicker" :mode="mode" :deepLength="deepLength" :pickerValueDefault="pickerValueDefault"
-			 @onConfirm="onConfirm" @="" :pickerValueArray="pickerValueArray"></mpvue-picker>
+			 @onConfirm="onConfirm" :pickerValueArray="pickerValueArray"></mpvue-picker>
 		</view>
 		<view>
 			<mpvue-picker :themeColor="themeColor" ref="workMpvuePicker" :mode="mode" :deepLength="deepLength"
-			 :pickerValueDefault="pickerValueDefault" @onConfirm="onWorkConfirm" @="" :pickerValueArray="pickerValueArray"></mpvue-picker>
+			 :pickerValueDefault="pickerValueDefault" @onConfirm="onWorkConfirm"  :pickerValueArray="pickerValueArray"></mpvue-picker>
 		</view>
 
 		<view class="mui-modal mui-pageSub" v-if="showTagsList">
