@@ -24,7 +24,6 @@
 		},
 		created () {
 		  var userInfo = getLocalUserInfo()
-		  console.log(userInfo)
 		  this.address_detail = userInfo.info.address_detail
 		},
 		onNavigationBarButtonTap() {  
@@ -47,9 +46,9 @@
 				uni.showToast({
 					title: '保存成功'
 				})
-				uni.navigateTo({
-					url: '/pages/my/infos/basic'
-				})
+				uni.navigateBack({
+					delta: 1
+				});
 			})
 		},
 		methods: {
@@ -84,7 +83,7 @@
 		font-size: 32upx;
 		color: #444444;
 		z-index: 990;
-		padding: 0 18upx;
+		padding: 0 0upx;
 		float: right;
 		margin-top: 6upx;
 		text-align: right;
