@@ -174,7 +174,8 @@ export default {
         reviews: 0,
         followers: 0,
         is_followed: 0,
-        related_tags: []
+        related_tags: [],
+        categories: []
       },
       isFollwers: false,
       swiperOption: {
