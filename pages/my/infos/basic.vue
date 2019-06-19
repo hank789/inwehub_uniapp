@@ -30,14 +30,16 @@
 					<text @tap.stop.prevent="toRoute('/pages/my/infos/position')" class="mui-navigate-right iconfont">当前职位<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.title ? user.info.title : '必填'}}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text href="#page_industry_tags" @tap="changeIndustryTagsOwner('user')" class="mui-navigate-right iconfont">行业领域<text class="mui-pull-right account-setting-field mui-ellipsis">{{ userIndustryTagsNames ? userIndustryTagsNames : '可多选'
+					<text href="#page_industry_tags" @tap="changeIndustryTagsOwner('user')" class="mui-navigate-right iconfont">行业领域<text
+						 class="mui-pull-right account-setting-field mui-ellipsis">{{ userIndustryTagsNames ? userIndustryTagsNames : '可多选'
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
 					<text @tap.stop.prevent="selectWorkerCity" class="mui-navigate-right iconfont">工作地区<text class="mui-pull-right account-setting-field mui-ellipsis">{{ work_city !== ' ' ? work_city : '请选择' }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="toRoute('/pages/my/infos/textddress')" class="mui-navigate-right iconfont">详细地址<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.address_detail ? user.info.address_detail : '必填'}}</text></text>
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/textddress')" class="mui-navigate-right iconfont">详细地址<text
+						 class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.address_detail ? user.info.address_detail : '必填'}}</text></text>
 				</view>
 				<view class="mui-table-view-cell" @tap.stop.prevent="$router.pushPlus('/wechat/bindPhone')">
 					<text class="mui-navigate-right iconfont">联系手机<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.mobile ? user.info.mobile : '必填'
@@ -47,7 +49,8 @@
 					<text @tap.stop.prevent="toRoute('/pages/my/infos/email')" class="mui-navigate-right iconfont">电子邮箱<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.email ? user.info.email : '必填'}}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<view class="mui-navigate-right iconfont pickerBox">出生日期 <!--  @tap.stop.prevent="initBirthday" -->
+					<view class="mui-navigate-right iconfont pickerBox">出生日期
+						<!--  @tap.stop.prevent="initBirthday" -->
 						<view class="uni-list-cell-db">
 							<picker mode="date" :value="user.info.birthday" start="1950" end="2019" @change="bindDateChange">
 								<view class="uni-input">{{user.info.birthday ? user.info.birthday : '请选择'}}</view>
@@ -57,23 +60,29 @@
 					</view>
 				</view>
 				<view class="mui-table-view-cell" @tap.stop.prevent="showMulLinkageTwoPicker">
-					<view class="mui-navigate-right iconfont" >家乡地区
+					<view class="mui-navigate-right iconfont">家乡地区
 						<text class="mui-pull-right account-setting-field mui-ellipsis">{{ home_city !== ' ' ? home_city : '请选择' }}</text>
 					</view>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="toRoute('/pages/my/infos/description')" class="mui-navigate-right iconfont">个人签名<text class="mui-pull-right account-setting-field mui-ellipsis">{{user.info.description ? user.info.description : '请填写'}}</text></text>
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/description')" class="mui-navigate-right iconfont">个人签名<text
+						 class="mui-pull-right account-setting-field mui-ellipsis">{{user.info.description ? user.info.description : '请填写'}}</text></text>
 				</view>
 			</view>
 
 		</view>
 		<view>
 			<mpvue-picker :themeColor="themeColor" ref="mpvuePicker" :mode="mode" :deepLength="deepLength" :pickerValueDefault="pickerValueDefault"
-         @onConfirm="onConfirm" @="" :pickerValueArray="pickerValueArray"></mpvue-picker>
+			 @onConfirm="onConfirm" @="" :pickerValueArray="pickerValueArray"></mpvue-picker>
 		</view>
 		<view>
-			<mpvue-picker :themeColor="themeColor" ref="workMpvuePicker" :mode="mode" :deepLength="deepLength" :pickerValueDefault="pickerValueDefault"
-         @onConfirm="onWorkConfirm" @="" :pickerValueArray="pickerValueArray"></mpvue-picker>
+			<mpvue-picker :themeColor="themeColor" ref="workMpvuePicker" :mode="mode" :deepLength="deepLength"
+			 :pickerValueDefault="pickerValueDefault" @onConfirm="onWorkConfirm" @="" :pickerValueArray="pickerValueArray"></mpvue-picker>
+		</view>
+
+		<view class="mui-modal mui-pageSub" v-if="showTagsList">
+			<tags-list :tag_type="3" :showTags="showTagsList" :selected="newItem.industry_tags" :back_id="page_industry_tags_id"
+			 :object_type="object_type" v-on:selectedIndustryTags="selectedIndustryTags"></tags-list>
 		</view>
 	</view>
 </template>
@@ -83,6 +92,7 @@
 	import { postRequest } from '@/lib/request'
 	import mpvuePicker from 'mpvue-picker';
 	import cityData from '@/lib/city.data.js';
+	import tagsList from '@/components/iw-tags-list/tags-list'
 	export default {
 		data() {
 			const currentDate = this.getDate({
@@ -138,18 +148,20 @@
 				object_type: 'user',
 				selectSex: ['男', '女'],
 				date: currentDate,
-                cityPickerValueDefault: [0, 0, 1],
-                themeColor: '#007AFF',
-                pickerText: '',
-                mode: 'multiLinkageSelector',
-                deepLength: 2,
-                pickerValueDefault: [0,0],
-                pickerValueArray:cityData
+				cityPickerValueDefault: [0, 0, 1],
+				themeColor: '#007AFF',
+				pickerText: '',
+				mode: 'multiLinkageSelector',
+				deepLength: 2,
+				pickerValueDefault: [0, 0],
+				pickerValueArray: cityData,
+				showTagsList: false,
 			}
 		},
 		components: {
-			mpvuePicker
-		  },
+			mpvuePicker,
+			tagsList
+		},
 		computed: {
 			userIndustryTagsNames() {
 				if (this.user.info.industry_tags) {
@@ -162,6 +174,25 @@
 					return ''
 				}
 			},
+
+			userIndustryTagsCodes() {
+				var newValue = []
+				for (var i in this.user.info.industry_tags) {
+					if (typeof(this.user.info.industry_tags[i]) === 'object') {
+						newValue.push(this.user.info.industry_tags[i].value)
+					} else {
+						newValue.push(this.user.info.industry_tags[i])
+					}
+				}
+				return newValue
+			},
+			infoIndustryTagsNames() {
+				if (this.newItem.industry_tags && this.newItem.industry_tags.length) {
+					return this.newItem.industry_tags.join()
+				} else {
+					return ''
+				}
+			}
 		},
 
 		onShow() {
@@ -169,9 +200,33 @@
 			this.getDate()
 		},
 		methods: {
+			selectedIndustryTags(object) {
+				let tags = object.iselected
+				let objectType = object.object_type
+				switch (objectType) {
+					case 'user':
+						this.user.info.industry_tags = tags
+						this.userInfoBmp = ''
+						this.submitInfo()
+						break
+					default:
+						this.newItem.industry_tags = tags
+						break
+				}
+			},
+			fixSelect() {
+				this.showTagsList = !this.showTagsList
+			},
+			changeIndustryTagsOwner(owner) {
+				this.fixSelect()
+				this.object_type = owner
+				if (owner === 'user') {
+					this.newItem.industry_tags = this.user.info.industry_tags
+				}
+			},
 			showMulLinkageTwoPicker() {
-                this.$refs.mpvuePicker.show()
-            },
+				this.$refs.mpvuePicker.show()
+			},
 			selectWorkerCity() {
 				this.$refs.workMpvuePicker.show()
 			},
@@ -213,7 +268,6 @@
 			getUserInfo() {
 				getAndUpdateUserInfo((user) => {
 					this.user = user
-					console.log(user)
 					this.work_city = user.info.province.name + ' ' + user.info.city.name
 					this.home_city = user.info.hometown_province.name + ' ' + user.info.hometown_city.name
 				})
@@ -348,11 +402,14 @@
 	.mui-table-view-cell .mui-navigate {
 		color: #999;
 	}
+
 	.pickerBox {
 		position: relative;
+
 		&.iconfont:after {
 			right: 0upx;
 		}
+
 		.uni-list-cell-db {
 			width: 50%;
 			position: absolute;
@@ -360,13 +417,13 @@
 			right: 24upx;
 			color: #3f3f3f;
 			text-align: right;
-			
+
 			.uni-input {
 				font-size: 32upx;
 			}
 		}
 	}
-	
+
 
 	.mui-table-view-cell>.mui-navigate-right iconfont:not(.mui-btn) {
 		position: relative;

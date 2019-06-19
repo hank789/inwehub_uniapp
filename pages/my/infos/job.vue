@@ -230,11 +230,12 @@
 				})
 			},
 			
-			selectedIndustryTags (tags, objectType) {
-				this.job.industry_tags = tags
+			selectedIndustryTags (object) {
+				console.log(object)
+				this.job.industry_tags = object.iselected
 			},
-			selectedProductTags (tags, objectType) {
-				this.job.product_tags = tags
+			selectedProductTags (object) {
+				this.job.product_tags = object.iselected
 			},
 			getCompany() {
 				//     选择公司
