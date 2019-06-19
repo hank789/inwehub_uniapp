@@ -9,7 +9,7 @@
         <view class="iconWrapper" :class="{active: menuItem.showClass}" :title="menuItem.text">
           <text class="iconfont" :class="menuItem.icon" />
         </view>
-        <view v-if="menuItem.number">{{ menuItem.number }}</view>
+        <text class="span" v-if="menuItem.number">{{ menuItem.number }}</text>
       </view>
 
       <view v-show="isDetailUpVote" class="detailFollwers" @tap.click.prevent="clickUpVote" />
@@ -141,7 +141,7 @@ export default {
 
                 &.showNumer {
                     .iconfont{
-                        color: #ffffff;
+                      color: #03AEF9;
                     }
                     .span {
                     }
@@ -158,7 +158,7 @@ export default {
             .iconfont{
                 font-size: 31.96upx;
                 &.active {
-                    color: #C8C8C8;
+                  color: #03AEF9;
                 }
             }
         }

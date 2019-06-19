@@ -10,7 +10,7 @@
         @finish="finish"
       >
 
-        <view class="mui-table-view detail-discover">
+        <view class="mui-table-view detail-discover" v-show="!loading">
           <UserInfo
             :uuid="detail.owner.uuid"
             :avatar="detail.owner.avatar"
@@ -88,7 +88,7 @@
           @goComment="goComment"
           @delCommentSuccess="delCommentSuccess"
         />
-        <view v-if="detail.comments_number > 3" class="seeAll" @tap.stop.prevent="to('/comment/' + detail.category_id + '/' + detail.slug + '/' + detail.id)">查看全部{{ detail.comments_number }}条评论</view>
+        <view v-if="detail.comments_number > 3" class="seeAll" @tap.stop.prevent="to('/pages/comment/index?category_id=' + detail.category_id + '&slug=' + detail.slug + '&id=' + detail.id)">查看全部{{ detail.comments_number }}条评论</view>
         <view class="river" />
 
         <view class="allDianPing font-family-medium">大家都在评</view>
@@ -136,6 +136,7 @@
 
       </MescrollDetail>
     </view>
+
     <commentTextarea ref="ctextarea" @sendMessage="sendMessage" />
 
     <Detail
@@ -338,7 +339,7 @@ export default {
     detailMenuIcon(item) {
       switch (item.text) {
         case '评论':
-          this.to('/comment/' + this.detail.category_id + '/' + this.detail.slug + '/' + this.detail.id)
+          this.to('/pages/comment/index?category_id=' + this.detail.category_id + '&slug=' + this.detail.slug + '&id=' + this.detail.id)
           break
         case '踩':
           this.detailDownVote()

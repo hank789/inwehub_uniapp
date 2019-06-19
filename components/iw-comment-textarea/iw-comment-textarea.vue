@@ -1,7 +1,7 @@
 <template>
-  <view v-show="showTextarea || alwaysshow" id="commentWrapper" class="commentWrapper" @tap.capture="onTap($event)">
+  <view v-show="showTextarea || alwaysshow" class="commentWrapper" @tap.capture="onTap($event)">
     <view class="textareaWrapper">
-      <textarea v-model="textarea"></textarea>
+      <textarea v-model="textarea" autofocus="autofocus" class="textarea" :placeholder="targetUsername" />
       <!--<text class="iconfont icon-fasong"></text>-->
     </view>
     <view class="send font-family-medium" :class="text.length - 2 ? 'active' : ''" @tap.stop.prevent="sendMessage">发送</view>
@@ -170,12 +170,12 @@ const CommentTextarea = {
       this.oldList = this.commentData.commentList
       var result = onceGet(this, this.cacheKey)
       if (result) {
-          this.initEditorData()
-          this.commentData.commentList = this.oldList
-          // this.commentData.list = null  // 临时解决方案，强制discuss刷新列表, 等待删除
-          this.focusCallback = () => {
-            this.focusCallback = null
-          }
+        this.initEditorData()
+        this.commentData.commentList = this.oldList
+        // this.commentData.list = null  // 临时解决方案，强制discuss刷新列表, 等待删除
+        this.focusCallback = () => {
+          this.focusCallback = null
+        }
       }
     },
     onEditorChange(editor) {
@@ -236,22 +236,16 @@ const CommentTextarea = {
       } else {
         this.showTextarea = true
       }
+      console.log('this.showTextarea:' + this.showTextarea)
+      this.$forceUpdate()
 
-      this.targetUsername = targetUsername
+      this.targetUsername = targetUsername ? '回复' + targetUsername : '在此留言'
 
-      // this.editorObj.setContents([{ insert: '' }])
+      this.textarea = ''
 
       this.getHistoryDescription()
 
-      var textarea = this.textarea
-      textarea = textarea.replace(/(<view><br><\/view>)*$/, '')
-      textarea = textarea.replace(/(<view> <\/view>)*$/, '')
-
-      console.log('comment-textarea:' + textarea)
-      if (!textarea.trim()) {
-        targetUsername = targetUsername ? '回复' + targetUsername : '在此留言'
-        // this.$refs.myAddEditor.setPlaceholder(targetUsername)
-      }
+      console.log('comment-textarea:' + this.textarea)
     },
     finish() {
       this.resetData()
@@ -293,20 +287,20 @@ export default CommentTextarea
     .commentWrapper {
         background: #F3F4F5;
         position: absolute;
-        width: 100%;
+        width: 750upx;
         bottom: 0;
         left: 0;
-        min-height: 90upx;
+        height: 90upx;
         overflow: hidden;
         padding: 9.98upx 30upx;
-        z-index: 10001;
+        z-index: 3;
     }
 
     .commentWrapper .textareaWrapper {
         position: relative;
         background: #fff;
         border-radius: 9.98upx;
-        min-height: 69.98upx;
+        height: 69.98upx;
         width: 88%;
     }
     .commentWrapper .send {
@@ -320,19 +314,15 @@ export default CommentTextarea
         color: #03AEF9;
     }
 
-    .commentWrapper textarea {
+    .commentWrapper .textarea {
         border: none;
         display: inline-block;
         width: 100%;
-        height: 39.98upx;
-        margin: 12upx 0 0;
+        height: 68upx;
         padding: 0 61.96upx 0 9.98upx;
         font-size: 27.98upx;
-
-    }
-
-    .commentWrapper textarea::placeholder {
-        color: #c8c8c8;
+        position: relative;
+        top: 10upx;
     }
 
     .commentWrapper .iconfont{
@@ -349,60 +339,5 @@ export default CommentTextarea
         left:0;
         width:100%;
         bottom:0;
-    }
-</style>
-
-<style>
-    #commentJeditor .textarea-wrapper{
-        border:none;
-        background: none;
-        padding-bottom:0;
-    }
-
-    #commentJeditor .counter{
-        bottom:-189.98upx;
-    }
-    #commentJeditor .ql-editor.ql-blank::before{
-        font-style:normal;
-        margin-top:3.98upx;
-        font-size: 27.98upx;
-        color: #9b9b9b;
-    }
-    #commentJeditor .textarea-wrapper .quill-editor {
-        min-height:69.98upx;
-        height:auto;
-    }
-    #commentJeditor .quill-editor .ql-container {
-        min-height: 69.98upx;
-        height:auto;
-        font-size: 27.98upx;
-        color: #9b9b9b;
-    }
-    #commentJeditor .counter {
-        display: none;
-    }
-    #commentJeditor .ql-editor .ql-size-small{
-        font-size: 31.96upx;
-    }
-
-    #commentJeditor .ql-snow .ql-editor a{
-        text-decoration: none;
-    }
-    #commentJeditor .ql-editor {
-        box-sizing: border-box;
-        line-height: 1.42;
-        height: 100%;
-        outline: none;
-        overflow-y: auto;
-        padding: 13.96upx 49.96upx 13.96upx 18upx;
-        tab-size: 4;
-        -moz-tab-size: 4;
-        text-align: left;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-    }
-    #commentJeditor .ql-editor .p {
-        position: relative;
-        color: #444444;
     }
 </style>
