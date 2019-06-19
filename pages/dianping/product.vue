@@ -79,10 +79,10 @@
           <!--/>-->
         </view>
         <view class="line-river-big" />
-        <view class="allDianPing font-family-medium">相关推荐</view>
-        <view class="line-river-after line-river-after-top" />
+        <view class="allDianPing font-family-medium"  v-if="detail.related_tags && detail.related_tags.length">相关推荐</view>
+        <view class="line-river-after line-river-after-top"  v-if="detail.related_tags && detail.related_tags.length"/>
 
-        <view class="productList">
+        <view class="productList" v-if="detail.related_tags && detail.related_tags.length">
           <view v-for="(tag, index) in detail.related_tags" :key="index" class="comment-product">
             <view class="product-info" @tap.stop.prevent="toRoute('/pages/dianping/product?name=' + encodeURIComponent(tag.name))">
               <view class="product-img border-football">
