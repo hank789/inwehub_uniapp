@@ -67,19 +67,15 @@
 					<!--工作经历-->
 					<view class="hTitle" v-show="(resume.jobs.length) || (resume.info.is_job_info_public)">工作经历</view>
 					<view class="list" v-show="(resume.jobs.length) || (resume.info.is_job_info_public)">
-						<view class="item" v-for="(job, jobIndex) in resume.jobs" v-show="!(jobIndex >= 3 && !isShowItemJobMore)"
-						 :jobIndex="jobIndex">
+						<view class="item" v-for="(job, jobIndex) in resume.jobs" v-show="!(jobIndex >= 3 && !isShowItemJobMore)" :jobIndex="jobIndex">
 							<view class="time">{{ job.begin_time }} ~ {{ job.end_time }}</view>
 							<view class="company">{{ job.company }}<i class="separate"></i>{{ job.title }}</view>
-							<view class="description  hide mui-ellipsis-3" v-show="job.description">{{ job.description }}
-
-
-							</view>
-							<view class="toggle show" @tap.stop.prevent="toggleDeatil" v-show="job.description">查看</view>
+							<view class="description" :class="{'hide mui-ellipsis-3':job.openJob}" v-show="job.description">{{ job.description }} </view>
+							<view class="toggle show" @tap.stop.prevent="openDeatil(job, 'job')" v-show="job.description">{{!job.openJob ? '查看':'收起'}}</view>
 						</view>
 					</view>
 					<view class="seeMoreWrapper" v-show="(!resume.info.is_job_info_public && !this.cuuid) || (resume.jobs.length > 3)">
-						<view class="seeMore" @tap.click.prevent="showJobMore($event)">查看所有工作经历</view>
+						<view class="seeMore" v-show="isShowMoreJob" @tap.click.prevent="showJobMore('job')">查看所有工作经历</view>
 					</view>
 
 					<!--项目经历-->
@@ -110,12 +106,12 @@
 									<view class="content">{{ project.customer_name }}</view>
 								</view>
 							</view>
-							<view class="description  hide mui-ellipsis-3" v-show="project.description">{{ project.description }}</view>
-							<view class="toggle show" @tap.stop.prevent="toggleDeatil" v-show="project.description">查看</view>
+							<view class="description" :class="{'hide mui-ellipsis-3':!project.openProject}" v-show="project.description">{{ project.description }}</view>
+							<view class="toggle show" @tap.stop.prevent="openDeatil(project, 'project')" v-show="project.description">{{!project.openProject ? '查看':'收起'}}</view>
 						</view>
 					</view>
 					<view class="seeMoreWrapper" v-show="(!resume.info.is_project_info_public && !this.cuuid) || (resume.projects.length > 3)">
-						<view class="seeMore" @tap.click.prevent="showProjectMore($event)">查看所有项目经历</view>
+						<view class="seeMore" v-show="isShowProject" @tap.click.prevent="showJobMore('project')">查看所有项目经历</view>
 					</view>
 
 					<!--教育经历-->
@@ -127,14 +123,14 @@
 							<view class="company">{{ edu.school }}<i class="separate"></i>{{ edu.degree }}<i class="separate"></i>{{ edu.major }}
 
 							</view>
-							<view class="description  hide mui-ellipsis-3" v-show="edu.description">{{ edu.description }}
+							<view class="description" :class="{'hide mui-ellipsis-3':edu.openEdu}" v-show="edu.description">{{ edu.description }}
 
 							</view>
-							<view class="toggle show" @tap.stop.prevent="toggleDeatil" v-show="edu.description">查看</view>
+							<view class="toggle show" @tap.stop.prevent="openDeatil(edu, 'edu')" v-show="edu.description">{{!edu.openEdu ? '查看':'收起'}}</view>
 						</view>
 					</view>
 					<view class="seeMoreWrapper" v-show="(!resume.info.is_edu_info_public && !this.cuuid) || (resume.edus.length > 3)">
-						<view class="seeMore" @tap.click.prevent="showEduMore($event)">查看所有教育经历</view>
+						<view class="seeMore" v-show="isShowEdu" @tap.click.prevent="showJobMore('edu')">查看所有教育经历</view>
 					</view>
 
 					<view class="noPublic" v-show="!loading && (!resume.info.is_edu_info_public || !resume.info.is_job_info_public ||  !resume.info.is_project_info_public) && !isSelf">
@@ -189,7 +185,13 @@
 					jobs: []
 				},
 				isLogined: isLogined(),
-				percent: 0
+				percent: 0,
+				isShowMoreJob: true,
+				isShowProject: true,
+				isShowEdu: true,
+				openJob: false,
+				openProject: false,
+				openEdu: false
 			}
 		},
 		onLoad(option) {
@@ -207,6 +209,19 @@
 		methods: {
 			toRoute (url) {
 				uni.navigateTo({url: url})
+			},
+			openDeatil(job, type) {
+				switch (type) {
+					case 'job':
+						this.$set(job, 'openJob', job.openJob ? !job.openJob : true)
+						break
+					case 'project':
+						this.$set(job, 'openProject', job.openProject ? !job.openProject : true)
+						break
+					case 'edu':
+						this.$set(job, 'openEdu', job.openEdu ? !job.openEdu : true)
+					break
+				}
 			},
 			getData() {
 				let currentUser = getLocalUserInfo()
@@ -229,32 +244,29 @@
 					this.loading = 0
 				})
 			},
-			
-			toggleDeatil (event) {
-				var Desc = event.target.previousSibling.previousSibling
-				if (/hide/.test(Desc.className)) {
-				  Desc.className = Desc.className.replace(' hide', '')
-				  Desc.className = Desc.className.replace(' mui-ellipsis-3', '')
-				  Desc.className += ' show'
-
-				  event.target.className = 'toggle hide'
-				  event.target.innerText = '收起'
-				} else {
-				  Desc.className = Desc.className.replace(' show', '')
-				  Desc.className += ' hide mui-ellipsis-3'
-
-				  event.target.className = 'toggle show'
-				  event.target.innerText = '查看'
+		  showJobMore (type) {
+			//#ifdef H5
+				if (!this.cuuid) {
+				  window.location.href = store.state.webRoot + 'wechat/oauth?redirect=/home'
+				  return
 				}
-			},
-		  showJobMore (event) {
-			if (!this.cuuid) {
-			  window.location.href = process.env.API_ROOT + 'wechat/oauth?redirect=/home'
-			  return
+			//#endif
+			switch (type) {
+				case 'job':
+					this.isShowItemJobMore = true
+					this.isShowMoreJob = !this.isShowMoreJob
+					break
+				case 'project':
+					this.isShowProjectMore = true
+					this.isShowProject = !this.isShowProject
+					break
+				case 'edu':
+					this.isShowitemEduMore = true
+					this.isShowEdu = !this.isShowEdu
+				break
 			}
 
-			this.isShowItemJobMore = true
-			event.target.style.display = 'none'
+			
 		  },
 		}
 	}
