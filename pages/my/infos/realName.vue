@@ -24,7 +24,7 @@
 		},
 		created () {
 		  var userInfo = getLocalUserInfo()
-		  this.realname = userInfo.info.realname
+		  this.realname = userInfo.realname
 		},
 		onNavigationBarButtonTap() {  
 			if (!this.realname) {

@@ -10,7 +10,7 @@
         @finish="finish"
       >
 
-        <view class="mui-table-view detail-discover" v-show="!loading">
+        <view class="mui-table-view detail-discover" v-if="!loading">
           <UserInfo
             :uuid="detail.owner.uuid"
             :avatar="detail.owner.avatar"
@@ -38,12 +38,10 @@
 
             <view v-if="detail.type === 'review' && detail.data.img && detail.data.img.length" class="linkWrapper Column">
               <template v-for="(image, index) in detail.data.img">
-                <image
+                <ImageAutoHeight
                   :id="'image_' + index"
                   class="image discover_img lazyImg"
                   :src="image"
-                  :data-preview-src="image"
-                  :data-preview-group="1"
                 />
               </template>
             </view>
@@ -55,7 +53,7 @@
                 <text class="iconfont icon-biaozhunlogoshangxiayise " />
               </view>
               <view v-else class="productLogo border-football">
-                <image mode="aspectFill" :src="detail.tags[0].logo" class="image lazyImg" /></view>
+                <image mode="aspectFit" :src="detail.tags[0].logo" class="image lazyImg" /></view>
               <view class="linkContent">
                 <view v-if="detail.tags[0].name" class="text-line-1">{{ detail.tags[0].name }}</view>
                 <view v-else class="span seat" />
@@ -158,6 +156,7 @@
     />
 
     <AlertTextarea ref="AlertTextarea" />
+    <iwDialogReport ref="alertReport"></iwDialogReport>
   </view>
 </template>
 <script>
@@ -167,7 +166,6 @@ import { textToLinkHtml, transferTagToLink, addPreviewAttrForImg, scrollToElemen
 import { postRequest } from '@/lib/request'
 import UserInfo from '@/components/iw-discover/user-info.vue'
 import { openVendorUrl, openAppUrl } from '@/lib/html5plus'
-const currentUser = localEvent.get('UserInfo')
 import localEvent from '@/lib/localstorage'
 import ArticleDiscuss from '@/components/iw-discover/discuss.vue'
 import commentTextarea from '@/components/iw-comment-textarea/iw-comment-textarea.vue'
@@ -179,6 +177,8 @@ import Detail from '@/components/iw-menu-detail/iw-menu-detail.vue'
 import AlertTextarea from '@/components/iw-comment-alerttextarea/iw-comment-alerttextarea.vue'
 import { showComment } from '@/lib/comment'
 import MescrollDetail from '@/components/iw-detail-refresh/iw-detail-refresh.vue'
+import ImageAutoHeight from '@/components/iw-image/autoheight.vue'
+import iwDialogReport from '@/components/iw-dialog/report.vue'
 
 export default {
   components: {
@@ -189,13 +189,15 @@ export default {
     StarView,
     Detail,
     AlertTextarea,
-    MescrollDetail
+    MescrollDetail,
+    ImageAutoHeight,
+    iwDialogReport
   },
   data() {
     return {
       pageOption: {},
       id: '',
-      uuid: currentUser.uuid,
+      uuid: '',
       title: '点评',
       detail: {
         id: '',
@@ -308,6 +310,8 @@ export default {
   },
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
     this.pageOption = option
+    const currentUser = localEvent.get('UserInfo')
+    this.uuid = currentUser.uuid
     this.getDetail()
   },
   watch: {

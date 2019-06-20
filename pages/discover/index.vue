@@ -25,7 +25,10 @@
       ref="pageMore"
       :share-option="shareOption"
       :icon-menu="iconMenus"
+      @clickedItem="iconMenusClickedItem"
     />
+
+    <iwDialogReport ref="alertReport"></iwDialogReport>
   </view>
 </template>
 
@@ -34,12 +37,14 @@ import iwList from '@/components/iw-list/iw-list'
 import iwFeedItem from '@/components/iw-feed-item/iw-feed-item'
 import iwPageMore from '@/components/iw-page-more/iw-page-more'
 import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
+import iwDialogReport from '@/components/iw-dialog/report.vue'
 
 export default {
   components: {
     iwList,
     iwFeedItem,
-    iwPageMore
+    iwPageMore,
+    iwDialogReport
   },
   data() {
     return {
@@ -71,8 +76,14 @@ export default {
     },
     showPageMore(data) {
       this.iconMenus = getIconMenus(data.item)
+      this.itemOptionsObj = data.item
       this.shareOption = data.shareOption
       this.$refs.pageMore.show()
+    },
+    iconMenusClickedItem (item) {
+      iconMenusClickedItem(this, this.itemOptionsObj, item, () => {
+        this.iconMenus = getIconMenus(this.itemOptionsObj)
+      })
     }
   }
 }

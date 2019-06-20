@@ -158,7 +158,7 @@ export default {
           this.setUser(res.data)
           this.setToken(res.data.token)
           this.$ls.set('token', res.data.token)
-          this.$ls.set('UserInfo', res.data)
+          this.$ls.set('UserInfo', res.data.info)
           html5plus.saveDeviceInfo(this)
           saveLocationInfo()
           uni.switchTab({
@@ -179,7 +179,7 @@ export default {
         this.$ls.set('token', token)
         saveLocationInfo()
         this.$request.get('profile/info').then(response => {
-          this.$ls.set('UserInfo', response.data)
+          this.$ls.set('UserInfo', response.data.info)
           uni.hideLoading()
           uni.switchTab({
             url: '/pages/index/index'
