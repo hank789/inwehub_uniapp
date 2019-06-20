@@ -24,7 +24,7 @@
 		},
 		created () {
 		  var userInfo = getLocalUserInfo()
-		  this.address_detail = userInfo.info.address_detail
+		  this.address_detail = userInfo.address_detail
 		},
 		onNavigationBarButtonTap() {  
 			if (!this.address_detail) {

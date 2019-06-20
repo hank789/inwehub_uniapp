@@ -24,7 +24,7 @@
 		},
 		created () {
 		  var userInfo = getLocalUserInfo()
-		  this.email = userInfo.info.email
+		  this.email = userInfo.email
 		},
 		onNavigationBarButtonTap() {  
 			if (!this.email) {

@@ -24,7 +24,7 @@
 		},
 		created () {
 		  var userInfo = getLocalUserInfo()
-		  this.title = userInfo.info.title
+		  this.title = userInfo.title
 		},
 		onNavigationBarButtonTap() {  
 			if (!this.title) {
