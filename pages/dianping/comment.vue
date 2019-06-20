@@ -10,7 +10,7 @@
         @finish="finish"
       >
 
-        <view class="mui-table-view detail-discover" v-show="!loading">
+        <view class="mui-table-view detail-discover" v-if="!loading">
           <UserInfo
             :uuid="detail.owner.uuid"
             :avatar="detail.owner.avatar"
