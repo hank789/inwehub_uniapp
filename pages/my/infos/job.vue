@@ -238,7 +238,6 @@
 				this.job.product_tags = object.iselected
 			},
 			getCompany() {
-				//     选择公司
 				var placeholder = localEvent.get('job' + this.type + '_company' + this.user_id)
 				if (placeholder.length) {
 					this.job.company = placeholder
