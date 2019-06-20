@@ -26,9 +26,7 @@
           <!--<view class="line-river lineMargin"></view>-->
 
           <view class="discoverContentWrapper">
-            <view
-              id="contentWrapper"
-              class="contentWrapper quillDetailWrapper container-editor container-editor-app"
+            <view class="contentWrapper quillDetailWrapper container-editor container-editor-app"
             >
               <view v-if="detail.type !== 'article'" v-html="textToLink(detail.title)" />
 
@@ -60,7 +58,6 @@
             >
               <template v-for="(image, index) in detail.data.img">
                 <ImageAutoHeight
-                  :id="'image_' + index"
                   :key="image"
                   :src="image"
                   :mode="'aspectFit'"
