@@ -165,13 +165,13 @@ export default {
       this.$refs.dropdownMenu.show()
     },
     refreshPageData() {
-      const categoryId = this.pageOption.categoryId
+      const categoryId = this.pageOption.id
 
       if (categoryId) {
         this.category.id = categoryId
       }
 
-      const categoryName = this.pageOption.categoryName
+      const categoryName = this.pageOption.name
 
       if (categoryName) {
         this.category.name = categoryName

@@ -32,7 +32,7 @@
         </view>
         <view class="optionlList" v-if="detail.categories.length">
           <template v-for="(category, index) in detail.categories">
-            <view class="list" @tap.stop.prevent="toRoute('/pages/dianping/products?id=' + category.id + '&name=' + encodeURIComponent(category.name))">
+            <view class="list" @tap.stop.prevent="toProducts(category)">
               <view class="span">{{ category.name }}</view>
               <view class="span ranking">No.{{ category.rate }}</view>
               <text class="iconfont icon-jinru " />
@@ -249,6 +249,9 @@ export default {
     this.$refs.share.show(true)
   },
   methods: {
+    toProducts (item) {
+      this.toRoute('/pages/dianping/products?id=' + item.id + '&name=' + encodeURIComponent(item.name))
+    },
     toRoute(url) {
       uni.navigateTo({ url: url })
     },

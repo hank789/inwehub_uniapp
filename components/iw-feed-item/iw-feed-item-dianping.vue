@@ -329,7 +329,7 @@ export default {
                     }
                 }
                 .first {
-                    margin-right: 90upx;
+                    margin-right: 70upx;
                 }
                 .posiZan {
                     position: absolute;
