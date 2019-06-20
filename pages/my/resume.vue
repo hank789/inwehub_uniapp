@@ -53,7 +53,7 @@
 								<view class="consultWrapper">
 									<view class="leftButton">
 										<view class="border-football font-family-medium" v-show="uuid == cuuid" @tap.stop.prevent="toRoute('/pages/my/detailInfo?id=' + resume.info.uuid)">详细资料</view>
-										<view class="border-football font-family-medium letter" v-if="uuid !== cuuid" @tap.stop.prevent="goChat()">发私信</view>
+										<!-- <view class="border-football font-family-medium letter" v-if="uuid !== cuuid" @tap.stop.prevent="goChat()">发私信</view> -->
 										<!-- <view class="border-football font-family-medium" v-if="uuid !== cuuid" @tap.stop.prevent="goAsk('/ask/'+uuid)">提问题</view> -->
 									</view>
 									<view class="rightDetailInfo" v-if="uuid !== cuuid">
@@ -78,25 +78,25 @@
 							</view>
 
 							<view class="counter">
-								<view class="counterList" @tap.stop.prevent="$router.pushPlus('/my/focus/'+uuid)">
+								<view class="counterList" @tap.stop.prevent="toRoute('/pages/my/focus?uuid='+uuid)">
 									<view class="font-family-medium">{{resume.info.followed_number}}</view>
 									<view class="script">谁关注Ta</view>
 								</view>
 
-								<view class="counterList" @tap.stop.prevent="$router.pushPlus('/followed/'+uuid)">
+								<view class="counterList" @tap.stop.prevent="toRoute('/pages/my/followed?uuid='+uuid)">
 									<view class="font-family-medium">{{resume.info.follow_user_number}}</view>
 									<view class="script">Ta关注谁</view>
 								</view>
 
-								<view class="counterList" @tap.stop.prevent="$router.pushPlus('/my/publishAnswers/'+uuid)">
+								<view class="counterList" @tap.stop.prevent="toRoute('/pages/my/publishList?id='+uuid)">
 									<view class="font-family-medium">{{resume.info.publishes}}</view>
 									<view class="script">发布</view>
 								</view>
 
-								<view class="counterList" @tap.stop.prevent="$router.pushPlus('/group/my/'+uuid)">
+								<!-- <view class="counterList" @tap.stop.prevent="$router.pushPlus('/group/my/'+uuid)">
 									<view class="font-family-medium">{{resume.info.group_number}}</view>
 									<view class="script">圈子</view>
-								</view>
+								</view> -->
 							</view>
 
 						</view>

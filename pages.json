@@ -498,6 +498,32 @@
       }
     },
     {
+      "path": "pages/my/focus",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "关注",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/followed",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "关注",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
       "path": "pages/my/infos/edus",
       "style": {
         "navigationStyle": "default",
