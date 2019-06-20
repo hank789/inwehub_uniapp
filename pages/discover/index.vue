@@ -60,6 +60,7 @@ export default {
         targetId: ''
       },
       iconMenus: [],
+      itemOptionsObj: null,
       cssTop: 88
     }
   },

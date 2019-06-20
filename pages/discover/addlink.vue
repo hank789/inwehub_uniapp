@@ -5,18 +5,18 @@
       <view class="shareTitle font-family-medium">分享到首页</view>
 
       <view class="inputWrapper">
-        <input v-model="url" class="input" type="text" placeholder="输入文章链接">
+        <input v-model="url" type="text" placeholder="输入文章链接" class="input">
         <view class="line-river-after line-river-after-top" />
       </view>
 
       <view v-show="urlTitle" class="linkWrapper">
         <view class="leftText">
           <view class="text font-family-medium text-line-2">{{ urlTitle }}</view>
-          <text class="iconfont icon-times--" />
+          <text class="iconfont icon-times--" @tap.stop.prevent="resetData"/>
         </view>
         <view v-show="urlImage" class="right">
           <view class="articleImg">
-            <image :src="urlImage" width="97" height="71" />
+            <image mode="aspectFill" :src="urlImage" width="97" height="71" />
           </view>
         </view>
       </view>
@@ -40,13 +40,14 @@
 </template>
 
 <script>
+import ui from '@/lib/ui'
 import { addLink, getRegions } from '@/lib/article'
 import { searchText } from '@/lib/search'
 import { fetchArticle, isUrl } from '@/lib/url'
 import Vue from 'vue'
 
 export default {
-  components: {  },
+  components: { },
   data() {
     return {
       loading: 1,
@@ -57,27 +58,28 @@ export default {
       url: ''
     }
   },
-  ﻿onNavigationBarButtonTap(e) {
+  onNavigationBarButtonTap(e) {
     this.rightText()
-  },
-  onLoad() {
-    getRegions((regions) => {
-      this.regions = regions
-      this.originRegions = regions
-      this.loading = 0
-    })
   },
   watch: {
     url: function(newValue) {
       searchText(newValue, (text) => {
         var rs = isUrl(text)
         if (rs) {
-          this.fetchUrlInfo(newValue)
+          this.fetchUrlInfo(text)
         } else {
-          window.mui.toast('请正确输入文章链接')
+          ui.toast('请正确输入文章链接')
         }
       })
     }
+  },
+  onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
+    this.pageOption = option
+    getRegions((regions) => {
+      this.regions = regions
+      this.originRegions = regions
+      this.loading = 0
+    })
   },
   methods: {
     resetUrl() {
@@ -91,7 +93,7 @@ export default {
     },
     rightText() {
       if (!this.url) {
-        this.$ui.toast('请输入文章链接')
+        ui.toast('请输入文章链接')
         return
       }
 
@@ -121,7 +123,7 @@ export default {
     },
     fetchUrlInfo(url) {
       fetchArticle(this, url, (data) => {
-        this.urlTitle = data.title
+        this.urlTitle = data.title || ''
         this.urlImage = data.img_url
       })
     }
@@ -167,7 +169,7 @@ export default {
                 font-size: 31.96upx;
                 line-height: 45.98upx;
             }
-            .icon {
+            .iconfont{
                 font-size: 15.98upx;
                 color: #808080;
                 margin-top: 21.98upx;

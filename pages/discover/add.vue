@@ -41,9 +41,9 @@
         <view class="leftItem" :class="{'disable': !isUploadImage}" @tap.stop.prevent="uploadImage">
           <text class="iconfont icon-tupian" />
         </view>
-        <view class="leftItem" :class="{'disable': !isUploadPdf}" @tap.stop.prevent="uploadPdf">
-          <text class="iconfont icon-wenjian" />
-        </view>
+        <!--<view class="leftItem" :class="{'disable': !isUploadPdf}" @tap.stop.prevent="uploadPdf">-->
+          <!--<text class="iconfont icon-wenjian" />-->
+        <!--</view>-->
         <view class="leftItem" :class="{'disable': !isUploadLink}" @tap.stop.prevent="promptUrl">
           <text class="iconfont icon-lianjie2" />
         </view>

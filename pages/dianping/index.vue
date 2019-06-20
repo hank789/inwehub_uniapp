@@ -21,8 +21,7 @@
 
           <view v-for="(item, indexAlbum) in hotAlbum" :key="indexAlbum"
           class="albumList"
-          @tap.stop.prevent="toRoute('/pages/dianping/products?id=' + item.id +
-          '&name=' + encodeURIComponent(item.name))">
+          @tap.stop.prevent="toProductList(item)">
             <view class="componentCarAlbum">
               <view class="albumName font-family-medium">{{ item.name }}</view>
               <view class="tags"><label>{{ item.tips }}</label></view>
