@@ -59,7 +59,7 @@
               class="linkWrapper Column"
             >
               <template v-for="(image, index) in detail.data.img">
-                <image
+                <ImageAutoHeight
                   :id="'image_' + index"
                   :key="image"
                   :src="image"
@@ -297,6 +297,7 @@ import StarView from '@/components/iw-star/iw-star.vue'
 import iwDialogReport from '@/components/iw-dialog/report.vue'
 import { textToLinkHtml, transferTagToLink, addPreviewAttrForImg } from '@/lib/dom'
 import { showComment } from '@/lib/comment'
+import ImageAutoHeight from '@/components/iw-image/autoheight.vue'
 
 
 export default {
@@ -308,7 +309,8 @@ export default {
     DetailMenu,
     StarView,
     AlertTextarea,
-    iwDialogReport
+    iwDialogReport,
+    ImageAutoHeight
   },
   data() {
     return {
