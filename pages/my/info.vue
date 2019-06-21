@@ -146,8 +146,8 @@
 			getUserInfo() {
 				let getUserInfo = getLocalUserInfo()
 				this.user = getUserInfo
-				this.work_city = getUserInfo.province.name + '-' + getUserInfo.city.name
-				this.home_city = getUserInfo.hometown_province.name + '-' + getUserInfo.hometown_city.name
+				this.work_city = getUserInfo.province.name + ' ' + getUserInfo.city.name
+				this.home_city = getUserInfo.hometown_province.name + ' ' + getUserInfo.hometown_city.name
 			},
 		}
 	}
