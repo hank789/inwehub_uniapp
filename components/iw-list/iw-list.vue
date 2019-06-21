@@ -74,6 +74,9 @@
       loadMore() {
         this.loadNewsList('add')
       },
+      refreshPageData (data) {
+        this.loadNewsList('refresh')
+      },
       loadNewsList(type) {
 
         if (type === 'refresh') {
