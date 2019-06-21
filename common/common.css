@@ -835,3 +835,22 @@ text-align: center; }
     background:#f3f4f6;
 }
 
+.container-addComment {
+    position: absolute;
+    bottom: 39.98upx;
+    right: 31.96upx;
+    z-index: 10;}
+.container-addComment .container-addComment-icon {
+    width: 87.98upx;
+    height: 87.98upx;
+    position: relative;
+    background: #03AEF9;
+    border-radius: 50%;
+    box-shadow:0upx 3.98upx 24upx 0upx rgba(168,223,247,1);}
+.container-addComment .container-addComment-icon .iconfont {
+    color: #FFFFFF;
+    font-size: 43.96upx;
+    position: absolute;
+    line-height: normal;
+    top: 22.96upx;
+    left: 21.0upx;}

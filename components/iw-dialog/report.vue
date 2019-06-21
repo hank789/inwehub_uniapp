@@ -49,6 +49,7 @@ export default {
     return {
       isShow: false,
       type: '',
+      link: '',
       reportTitle: [
         { text: '广告、垃圾信息', selected: false },
         { text: '抄袭、未授权转载', selected: false },
@@ -69,7 +70,11 @@ export default {
       this.type = item.text
     },
     confirm() {
-      const link = getCurrentRoute()
+      let link = getCurrentRoute()
+
+      if (this.link) {
+        link += ' ' + this.link
+      }
 
       const type = this.reportTitle.filter(item => item.selected === true)
 
@@ -90,6 +95,9 @@ export default {
     },
     hide() {
       this.isShow = false
+    },
+    setLink (link) {
+      this.link = link
     }
   }
 }

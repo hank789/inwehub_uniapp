@@ -191,6 +191,14 @@ export default {
 		line-height: 100upx;
 		text-align: center;
 	}
+	.uni-popup-tag {
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		line-height: 100upx;
+		text-align: center;
+	}
 
 	.uni-popup-bottom {
 		left: 0;

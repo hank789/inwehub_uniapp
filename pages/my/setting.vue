@@ -61,11 +61,11 @@
       }
 			//#endif
 			var userInfo = this.$ls.get('UserInfo')
-			this.name = userInfo.info.name
-			this.phone = userInfo.info.mobile
-			this.avatar = userInfo.info.avatar_url
-			this.title = userInfo.info.title
-			this.company = userInfo.info.company
+			this.name = userInfo.name
+			this.phone = userInfo.mobile
+			this.avatar = userInfo.avatar_url
+			this.title = userInfo.title
+			this.company = userInfo.company
 			this.getWallet()
 		},
 		methods: {

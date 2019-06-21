@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 
-		<view class="mui-content" v-show="!loading">
+		<view class="mui-content" v-if="!loading">
 			<view class="cardWrapper">
 				<view class="card">
 					<view class="header">
@@ -70,7 +70,7 @@
 						<view class="item" v-for="(job, jobIndex) in resume.jobs" v-show="!(jobIndex >= 3 && !isShowItemJobMore)" :jobIndex="jobIndex">
 							<view class="time">{{ job.begin_time }} ~ {{ job.end_time }}</view>
 							<view class="company">{{ job.company }}<i class="separate"></i>{{ job.title }}</view>
-							<view class="description" :class="{'hide mui-ellipsis-3':job.openJob}" v-show="job.description">{{ job.description }} </view>
+							<view class="description" :class="{'hide mui-ellipsis-3':!job.openJob}" v-show="job.description">{{ job.description }} </view>
 							<view class="toggle show" @tap.stop.prevent="openDeatil(job, 'job')" v-show="job.description">{{!job.openJob ? '查看':'收起'}}</view>
 						</view>
 					</view>

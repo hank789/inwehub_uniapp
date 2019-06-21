@@ -1,6 +1,6 @@
 <template>
-	<view class="">
-		<view class="mui-content">
+	<view class="content">
+		<view class="">
 			<view class="secrecy">(真实姓名/性别/地址/联系方式/生日) 平台将做保密处理。</view>
 
 			<view class="muiTableView mui-table-view-chevron">
@@ -380,6 +380,11 @@
 </script>
 
 <style lang="less">
+	.content {
+		background-color: #fff;
+		height: 100%;
+		overflow: hidden;
+	}
 	.secrecy {
 		height: 67.96upx;
 		line-height: 67.96upx;
@@ -396,6 +401,9 @@
 		padding-left: 0;
 		list-style: none;
 		background-color: #fff;
+	}
+	.mui-navigate-right {
+		color: #999;
 	}
 
 	.mui-table-view-cell .mui-navigate-right iconfont,

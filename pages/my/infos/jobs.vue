@@ -1,15 +1,15 @@
 <template>
-	<view class="">
+	<view class="content">
 
 		<view class="mui-content absolute">
-			<view v-show="!loading" id="container">
-				<view class="container" v-show="jobs.length === 0">
+			<view v-if="!loading">
+				<view class="container" v-if="jobs.length === 0">
 					<text class="iconfont icon-zanwushuju"></text>
 					<view class="textTips">暂时还没有数据呀～</view>
 				</view>
 
-				<view class="mui-table-view mui-table-view-chevron" id="OA_task_1">
-					<view v-for="(job,index) in jobs" class="intro  mui-table-view-cell">
+				<view class="mui-table-view mui-table-view-chevron">
+					<view v-for="(job,jobIndex) in jobs" :key="jobIndex" class="intro  mui-table-view-cell">
 						<view class="mui-slider-handle  slider">
 							<view class="mui-ellipsis companyText"> {{ job.company }}</view>
 							<view class="titleTips">
@@ -17,7 +17,7 @@
 								<text class="mui-ellipsis tips">{{ job.title }}</text>
 							</view>
 						</view>
-						<text class="iconfont icon-xiugai" @tap.stop.prevent="toRoute('/pages/my/infos/job?id=' + job.id)"></text>
+						<text class="iconfont icon-xiugai" @tap.stop.prevent="goJobs(job.id)"></text>
 					</view>
 				</view>
 
@@ -46,6 +46,9 @@
 			this.initData()
 		},
 		methods: {
+			goJobs (id) {
+				uni.navigateTo({url: '/pages/my/infos/job?id=' + id})
+			},
 			toRoute (url) {
 				uni.navigateTo({url: url})
 			},
@@ -96,12 +99,11 @@
 	.mui-content {
 		background: #FFFFFF;
 	}
-
-	#container {
-		width: 100%;
-		height: 100%;
-		background: #FFFFFF;
-	}
+.content {
+	    background-color: #fff;
+    height: 100%;
+    overflow: hidden;
+}
 
 	.intro {
 		width: 100%;
@@ -164,22 +166,13 @@
 			color: #FFFFFF;
 		}
 	}
-	.mui-table-view:after {
-		position: absolute;
-		right: 30upx;
-		// bottom: 0;
-		left: 30upx;
-		height: 1.96upx;
-		content: '';
-		background: #f2f2f2;
-	}
 
 	.mui-table-view-cell:after {
 		position: absolute;
 		right: 30upx;
 		bottom: 0;
 		left: 30upx;
-		height: 1.96upx;
+		height: 2upx;
 		content: '';
 		background: #f2f2f2;
 	}

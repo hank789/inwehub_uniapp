@@ -26,9 +26,7 @@
           <!--<view class="line-river lineMargin"></view>-->
 
           <view class="discoverContentWrapper">
-            <view
-              id="contentWrapper"
-              class="contentWrapper quillDetailWrapper container-editor container-editor-app"
+            <view class="contentWrapper quillDetailWrapper container-editor container-editor-app"
             >
               <view v-if="detail.type !== 'article'" v-html="textToLink(detail.title)" />
 
@@ -59,8 +57,7 @@
               class="linkWrapper Column"
             >
               <template v-for="(image, index) in detail.data.img">
-                <image
-                  :id="'image_' + index"
+                <ImageAutoHeight
                   :key="image"
                   :src="image"
                   :mode="'aspectFit'"
@@ -297,6 +294,7 @@ import StarView from '@/components/iw-star/iw-star.vue'
 import iwDialogReport from '@/components/iw-dialog/report.vue'
 import { textToLinkHtml, transferTagToLink, addPreviewAttrForImg } from '@/lib/dom'
 import { showComment } from '@/lib/comment'
+import ImageAutoHeight from '@/components/iw-image/autoheight.vue'
 
 
 export default {
@@ -308,7 +306,8 @@ export default {
     DetailMenu,
     StarView,
     AlertTextarea,
-    iwDialogReport
+    iwDialogReport,
+    ImageAutoHeight
   },
   data() {
     return {

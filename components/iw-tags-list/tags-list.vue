@@ -1,43 +1,40 @@
 <template>
-	<view class="mui-modal mui-pageSub mui-active" v-if="isShowTags">
-		<view class="mui-bar mui-bar-nav mustshow">
-			<text class="mui-icon iconfont icon-guanbi" @tap.stop.prevent="done"></text>
-			<text class="mui-title" v-text="genderTagName"></text>
-			<text @tap.stop.prevent="done" class="mui-btn mui-btn-link mui-pull-right mui-btn-blue mui-disabled" v-if="iselected.length === 0">完成</text>
-			<text @tap.stop.prevent="done" class="mui-btn mui-btn-link mui-pull-right mui-btn-blue"
-			 v-else>完成<text class='span' >({{ iselected.length }})</text></text>
-		</view>
-		<view class="mui-content mui-scroll-wrapper">
-
-
-			<view class="mui-scroll">
-
-				<view class="mui-indexed-list">
-					<view class="mui-indexed-list-alert"></view>
-					<view class="mui-indexed-list-inner">
-						<view class="mui-indexed-list-empty-alert">没有数据</view>
-						<view class="mui-table-view">
-							<view v-for="(tag, index) in tags" class="liBox mui-input-row mui-table-view-cell mui-checkbox-2  mui-left"
+	<view class="tagsBox">
+		<uni-popup 
+			:show="isShowTags" 
+			:position="'tag'" 
+			type="top" 
+			:h5-top="true"
+			@hidePopup="hidePopup"
+			class="uniPopup"
+		>
+			<view class="popupBox">
+				<view class="titleTab">
+					<text class="back iconfont icon-guanbi" @tap.stop.prevent="close"></text>
+					<text class="titleText" v-text="genderTagName"></text>
+					<text @tap.stop.prevent="done" class="push">完成<text class='pushNum'>({{ iselected.length }})</text></text>
+				</view>
+				<view class="tagsList">
+					<view class="dataList">
+						<view class="noData" v-if="tags.length === 0">没有数据</view>
+						<view class="listBox">
+							<view v-for="(tag, index) in tags" class="tagList"
 							 @tap.stop.prevent="checkThis(tag)" :value="tag.value" :key="index">
-							 
-							 <text class="iconfont checkeds" v-if="isCheckd(tag)"></text>
-							 <text class="iconfont checkedFalse" v-else></text>{{ tag.text }}
-
+								<text class="iconfont checkeds" v-if="isCheckd(tag)"></text>
+								<text class="iconfont checkedFalse" v-else></text>{{ tag.text }}
 							</view>
 						</view>
-
 					</view>
 				</view>
 			</view>
-		</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
-	import {
-		postRequest
-	} from '@/lib/request'
-	import {getTagsList} from "@/lib/industry"
+	import { postRequest } from '@/lib/request'
+	import { getTagsList } from "@/lib/industry"
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	export default {
 		data() {
 			return {
@@ -45,15 +42,19 @@
 				counts: 0,
 				loading: 1,
 				iselected: [],
-				isShowTags: this.showTags
+				isShowTags: this.showTags,
+				showPopupBottomShare: true,
 			}
 		},
 		props: ['tag_type', 'back_id', 'object_type', 'selected', 'showTags'],
 		created() {
-			getTagsList( this.tag_type, (res) => {
-				this.tags= res
+			getTagsList(this.tag_type, (res) => {
+				this.tags = res
 			})
 			this.iselected = this.selected ? this.selected : []
+		},
+		components: {
+			uniPopup
 		},
 		computed: {
 			genderTagName() {
@@ -71,7 +72,7 @@
 			getSelected() {
 				return this.selected
 			},
-			
+
 			getSelectedCodes() {
 				var newValue = []
 				for (var i in this.iselected) {
@@ -81,20 +82,38 @@
 			}
 		},
 		methods: {
-			isCheckd(tag){
+			hidePopup() {
+			  this.showPopupBottomShare = false
+			  // uni.showTabBar()
+
+			  if (this.isHaveNavigationBar) {
+				setTimeout(() => {
+				  uni.setNavigationBarColor({
+					frontColor: '#000000',
+					backgroundColor: '#ffffff'
+				  })
+				}, 100)
+			  }
+			},
+			isCheckd(tag) {
 				return typeof(this.getSelectedCodes) === 'object' && this.getSelectedCodes.indexOf(tag.value) > -1
 			},
+			close () {
+				this.isShowTags = !this.isShowTags
+			},
 			done() {
-				this.$emit('selectedIndustryTags', {iselected: this.iselected, object_type: this.object_type})
+				this.$emit('selectedIndustryTags', {
+					iselected: this.iselected,
+					object_type: this.object_type
+				})
 				this.isShowTags = !this.isShowTags
 			},
 			checkThis(tag) {
-				
+
 				var value = {
 					text: tag.text,
 					value: tag.value
 				}
-
 				var pos = this.getSelectedCodes.indexOf(value.value)
 				if (pos < 0) {
 					this.iselected.push(value)
@@ -114,242 +133,81 @@
 		},
 	}
 </script>
-<style>
-	.mui-bar {
-    position: fixed;
-    z-index: 10;
-    right: 0;
-    left: 0;
-    height: 88upx;
-    padding-right: 0.266rem;
-    padding-left: 0.266rem;
-    border-bottom: 0;
-    background-color: #f7f7f7;
-    -webkit-box-shadow: 0 0 0.026rem rgba(0, 0, 0, .85);
-    box-shadow: 0 0 0.026rem rgba(0, 0, 0, .85);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-}
-	.mui-modal.mui-active {
-		background-color: #3c3e44;
-	}
-	.mui-modal.mui-active {
+<style lang="less">
+	.tagsBox {
 		height: 100%;
-		-webkit-transition: -webkit-transform .25s;
-		transition: transform .25s;
-		-webkit-transition-timing-function: cubic-bezier(.1, .5, .1, 1);
-		transition-timing-function: cubic-bezier(.1, .5, .1, 1);
-		-webkit-transform: translate3d(0, 0, 0);
-		transform: translate3d(0, 0, 0);
-		opacity: 1;
 	}
-	.mui-modal {
-		position: fixed;
-		z-index: 999;
-		top: 0;
-		overflow: hidden;
+	.popupBox {
+		height: 100%;
+		background: #FFFFFF;
+		.titleTab {
+			height: 86upx;
+			line-height: 86upx;
+			background: #FFFFFF;
+			overflow: hidden;
+			padding: 0 30upx;
+			position: relative;
+			z-index: 9;
+			border-bottom: 2upx solid #f2f2f2;
+			.back {
+				color: #3c3e44;
+				font-size: 32upx;
+				float: left;
+			}
+			.titleText {
+				color: #3c3e44;
+				font-size: 36upx;
+				font-weight: 600;
+			}
+			.push {
+				color: #3c3e44;
+				font-size: 32upx;
+				float: right;
+				.pushNum {
+					
+				}
+			}
+		}
+	}
+	
+	.tagsList {
 		width: 100%;
-		min-height: 100%;
-		-webkit-transition: -webkit-transform .25s, opacity 1ms .25s;
-		transition: transform .25s, opacity 1ms .25s;
-		-webkit-transition-timing-function: cubic-bezier(.1, .5, .1, 1);
-		transition-timing-function: cubic-bezier(.1, .5, .1, 1);
-		-webkit-transform: translate3d(0, 100%, 0);
-		transform: translate3d(0, 100%, 0);
-		opacity: 0;
-		background-color: #fff;
-	}
-	.mui-title {
-		right: 79.96upx;
-		left: 79.96upx;
-		display: inline-block;
-		overflow: hidden;
-		width: auto;
-		margin: 0;
-		text-overflow: ellipsis;
-		color: #3c3e44;
-		font-size: 36upx;
-		font-weight: 500;
-		line-height: 87.98upx;
+		padding: 30upx 30upx 0;
+		text-align: left;
 		position: absolute;
-		z-index: 99;
-		padding: 0;
-		text-align: center;
-		white-space: nowrap;
+		top: 64upx;
+		bottom: 0;
+		overflow: scroll;
+		.dataList {
+			.noData {
+				text-align: center;
+				margin-top: 80upx;
+			}
+			.listBox {
+				.tagList {
+					color: #3f3f3f;
+					font-size: 34upx;
+					padding: 16upx 0;
+					border-bottom: 2upx solid #f2f2f2;
+					.iconfont {
+						font-size: 38upx;
+						margin-right: 15upx;
+					}
+					.checkeds:before {
+						color: #007aff;
+						content: "\e62a";
+					}
+					.checkedFalse:before {
+						content: '\e62a';
+						color: #aaa;
+					}
+				}
+			}
+		}
 	}
-	.mui-bar .mui-btn-link {
-		font-size: 31.96upx;
-		line-height: 87.98upx;
-		top: 0;
-		padding: 0;
-		color: #3c3e44;
-		border: 0;
-		    margin-left: 19.96upx;
+</style>
+<style>
+	.uniPopup {
+		height: 100% !important;
 	}
-	.mui-bar-nav.mui-bar .mui-icon {
-    margin-right: -19.96upx;
-    margin-left: -19.96upx;
-    padding-right: 19.96upx;
-    padding-left: 19.96upx;
-	position: relative;
-	z-index: 99;
-	top: 18upx;
-}
-.mui-bar-dark, .mui-bar-nav {
-    background-color: #ffffff;
-    box-shadow: none;
-}
-.mui-bar[data-v-6a2616b0] {
-    position: fixed;
-}
-.openAppH5 .mui-bar-nav {
-    top: 97.96upx;
-}
-.mui-bar .mui-btn {
-    font-weight: 400;
-    position: relative;
-    z-index: 20;
-    top: -8upx;
-    margin-top: 0;
-    padding: 12upx 24upx 13.96upx;
-}
-
-.mui-checkbox-2 .tagSelect:before {
-  font-family: Muiicons;
-  font-size: 55.96upx;
-  font-weight: normal;
-  line-height: 1;
-  text-decoration: none;
-  color: #aaa;
-  border-radius: 0;
-  background: none;
-  -webkit-font-smoothing: antialiased;
-}
-
-.mui-checkbox-2.mui-left .tagSelect {
-  left: 39.98upx;
-}
-
-.mui-checkbox-2 .tagSelect:before {
-  content: '\e62a';
-}
-
-.mui-table-view-cell.mui-checkbox-2 .tagSelect {
-  top: 15.98upx;
-}
-
-.mui-checkbox-2.mui-left .tagSelect {
-  left: 39.98upx;
-}
-
-.mui-checkbox-2 .tagSelect {
-  position: absolute;
-  top: 7.96upx;
-  right: 39.98upx;
-  display: inline-block;
-  width: 55.96upx;
-  height: 51.98upx;
-  border: 0;
-  outline: 0 !important;
-  background-color: transparent;
-  -webkit-appearance: none;
-  z-index:0;
-}
-.mui-table-view-cell.mui-checkbox-2.mui-left {
-  /* padding-left: 115.96upx; */
-}
-.mui-checkbox-2 {
-  position: relative;
-  z-index:777;
-}
-.mui-checkbox-2 .tagSelect.checked:before {
-  color: #007aff;
-}
-.mui-checkbox-2 .tagSelect.checked:before {
-  content: '\E442';
-}
-
-.mui-table-view .mui-media-object.mui-pull-right
-{
-    margin-left: 19.96upx;
-}
-
-.mui-pull-right
-{
-    float: right;
-}
-
-.mui-bar .mui-btn-nav.mui-pull-right
-{
-    margin-right: -9.98upx;
-}
-.mui-bar .mui-btn-nav.mui-pull-right .mui-icon-right-nav
-{
-    margin-left: -6upx;
-}
-.mui-indexed-list {
-    position: relative;
-    border-top: solid 1.96upx #e3e3e3;
-    border-bottom: solid 1.96upx #e3e3e3;
-    overflow: hidden;
-    background-color: #fff;
-    cursor: default;
-}
-.mui-table-view-cell {
-    position: relative;
-    overflow: hidden;
-    padding: 12upx 30upx;
-    -webkit-touch-callout: none;
-}
-.mui-indexed-list-empty-alert {
-    padding: 60upx 30upx;
-    text-align: center;
-    color: #ccc;
-    padding-right: 90upx;
-}
-.mui-indexed-list-empty-alert {
-    padding-right: 109.96upx;
-}
-.mui-indexed-list-empty-alert{
-    display: none;
-}
-.mui-content {
-    position: absolute;
-    top: 88upx;
-    width: 750upx;
-    left: 50%;
-    bottom: 0;
-    padding-top: 0;
-    overflow: scroll;
-	margin-left: -376upx !important;
-}
-.mui-scroll {
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-}
-
-.iconfont.checkeds, .iconfont.checkedFalse {
-	margin-right: 20upx;
-	font-size: 40upx;
-}
-.checkeds:before {
-	color: #007aff;
-	content: "\e62a";
-}
-.checkedFalse:before {
-	content: '\e62a';
-	color: #aaa;
-}
-.mui-table-view-cell:after {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 30upx;
-    height: 2upx;
-    content: '';
-    -webkit-transform: scaleY(.5);
-    transform: scaleY(.5);
-    background-color: #c8c7cc;
-}
 </style>
