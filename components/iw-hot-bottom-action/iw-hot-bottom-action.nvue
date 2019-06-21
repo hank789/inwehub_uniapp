@@ -10,36 +10,36 @@
     <div class="heat-wrapper">
       <div class="footerMenu">
         <div class="left">
-          <text class="iconfont icon-dingyue- " />
+          <text class="iconfont icon-dingyue-"/>&#xe701;</text>
           <div class="hotRecommend">
-            <image mode="aspectFill" class="image" src="../../static/images/hotrecommend@3x.png" alt="" /></div>
+            <image mode="aspectFill" class="image" src="https://cdn.inwehub.com/static/images/hotrecommend@3x.png" alt="" /></div>
         </div>
         <div class="right">
           <div class="oneLine" />
           <div class="menu" @click="subscribeApp">
-            <div :class="isOpenAppPush === 1 ? 'grey':''" class="span iconCircular one">
-              <text class="iconfont icon-xiazaiapp " />
+            <div :class="['span', 'iconCircular','one',isOpenAppPush === 1 ? 'grey':'']">
+              <text class="iconfont icon-xiazaiapp">&#xe6ff;</text>
             </div>
-            <div class="text">{{ isOpenAppPush ? '已订阅':'APP推送' }}</div>
+            <div class="text"><text>{{ isOpenAppPush ? '已订阅':'APP推送' }}</text></div>
           </div>
           <div class="menu" @click="subscribeEmail">
-            <div :class="isOpenEmailPush ? 'grey':''" class="span iconCircular two">
-              <text class="iconfont icon-youxiang " />
+            <div :class="['span', 'iconCircular', 'two',isOpenEmailPush ? 'grey':'']">
+              <text class="iconfont icon-youxiang">&#xe6fe;</text>
             </div>
-            <div class="text">{{ isOpenEmailPush ? '已订阅':'邮件' }}</div>
+            <div class="text"><text>{{ isOpenEmailPush ? '已订阅':'邮件' }}</text></div>
           </div>
           <div class="menu" @click="subscribeGZH">
-            <div :class="isOpenWeChatPush ? 'grey' : ''" class="span iconCircular three">
-              <text class="iconfont icon-weixinfuwuhao " />
+            <div :class="['span', 'iconCircular', 'three',isOpenWeChatPush ? 'grey' : '']">
+              <text class="iconfont icon-weixinfuwuhao">&#xe6fd;</text>
             </div>
-            <div class="text">{{ isOpenWeChatPush ? '已订阅':'微信服务号' }}</div>
+            <div class="text"><text>{{ isOpenWeChatPush ? '已订阅':'微信服务号' }}</text></div>
           </div>
         </div>
       </div>
 
       <div class="cancelW" @click="cancelShare">
-        <div class="bot" />
-        <div class="span">取消</div>
+        <div class="bot"></div>
+        <div class="span"><text>取消</text></div>
       </div>
     </div>
   </div>
@@ -53,8 +53,8 @@
 <script type="text/javascript">
 import { WxcPopup } from 'weex-ui'
 import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus } from '@/lib/push'
-import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe'
-import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh'
+import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe.nvue'
+import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh.nvue'
 
 export default {
   components: {
@@ -153,7 +153,7 @@ export default {
   }
 }
 </script>
-<style lang="less" rel="stylesheet/less" scoped>
+<style>
     .bot {
         position: absolute;
         right: 0;
@@ -163,101 +163,5 @@ export default {
         -webkit-transform: scaleY(.5);
         transform: scaleY(.5);
         background-color: rgb(220, 220, 220);
-    }
-
-    .heat-wrapper {
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        z-index: 999;
-        padding-top: 39.98upx;
-        background: #ffffff;
-        border-top-left-radius: 36upx;
-        border-top-right-radius: 36upx;
-        .cancelW {
-            position: relative;
-            text-align: center;
-            .bot {
-                top: 0 !important;
-            }
-            .span {
-                color: #444444;
-                font-family: PingFangSC-Medium;
-                font-size: 31.96upx;
-                text-align: center;
-                line-height: 103.96upx;
-            }
-        }
-    }
-    .footerMenu {
-        display: flex;
-        padding: 0 9.98upx 39.98upx;
-        justify-content: space-between;
-        .left {
-            width: 91.96upx;
-            text-align: center;
-            margin-left: 60upx;
-            .iconfont{
-                color: #C8C8C8;
-                font-size: 42upx;
-                text-align: center;
-            }
-            .hotRecommend {
-                width: 91.96upx;
-                height: 51.98upx;
-                margin-top: 19.96upx;
-                .image {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-        .right {
-            display: flex;
-            .oneLine {
-                width: 1.96upx;
-                height: 87.98upx;
-                background: #DCDCDC;
-                margin-right: 30upx;
-                position: relative;
-                top: 19.96upx;
-            }
-            .menu {
-                padding: 0 30upx;
-                text-align: center;
-                &:last-child {
-                    padding-right: 49.96upx;
-                }
-                .one {
-                    background: #03AEF9;
-                }
-                .two {
-                    background: #5B84DE;
-                }
-                .three {
-                    background: #77C819;
-                }
-                .iconCircular {
-                    width: 87.98upx;
-                    height: 87.98upx;
-                    color: #FFFFFF;
-                    font-size: 45.98upx;
-                    text-align: center;
-                    line-height: 87.98upx;
-                    border-radius: 50%;
-                    display: inline-block;
-                    &.grey {
-                        background: #F7F8FA;
-                        color: #808080;
-                    }
-                }
-                .text {
-                    color: #808080;
-                    font-size: 21.98upx;
-                    text-align: center;
-                    margin-top: 9.98upx;
-                }
-            }
-        }
     }
 </style>

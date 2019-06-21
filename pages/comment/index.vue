@@ -60,22 +60,6 @@
                          @onTap="onCommentTap"
         ></commentTextarea>
 
-
-        <view id="sheet1" class="mui-popover mui-popover-bottom mui-popover-action">
-            <!-- 可选择菜单 -->
-            <view class="mui-table-view">
-                <view class="mui-table-view-cell">
-                    <a @tap.stop.prevent="doDelComment">删除我的回复</a>
-                </view>
-            </view>
-            <!-- 取消菜单 -->
-            <view class="mui-table-view">
-                <view class="mui-table-view-cell">
-                    <a @tap.stop.prevent="hideDelComment"><b>取消</b></a>
-                </view>
-            </view>
-        </view>
-
         <AlertTextarea ref="AlertTextarea"></AlertTextarea>
     </view>
 </template>
@@ -310,25 +294,17 @@
         })
       },
       hideDelComment () {
-        var del = document.getElementById('sheet_comment_del')
-        if (del) {
-          window.mui('#sheet_comment_del').popover('hide')
-        }
+
       },
       delComment (comment, list) {
         this.delCommentId = comment.id
         this.delList = list
-        var del = document.getElementById('sheet_comment_del')
-        if (del) {
-          window.mui('#sheet_comment_del').popover('toggle')
-        } else {
-          var ele = document.getElementById('sheet1')
-          ele.id = 'sheet_comment_del'
-          document.body.appendChild(ele)
-          setTimeout(() => {
-            window.mui('#sheet_comment_del').popover('toggle')
-          }, 100)
-        }
+
+        ui.confirm('删除我的回复', '', ['取消', '确定'], (event) => {
+          if (event.index === 1) {
+            this.doDelComment()
+          }
+        })
       },
       comment (parentId, commentTargetUsername, list, autoBlur) {
         var commentTarget = {
