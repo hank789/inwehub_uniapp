@@ -49,3 +49,5 @@
 + 二维码组件
 	+ 使用：https://ext.dcloud.net.cn/plugin?id=39
 	
++ weex ui
+	+ 参考：https://ext.dcloud.net.cn/plugin?id=442
