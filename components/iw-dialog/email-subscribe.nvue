@@ -5,7 +5,7 @@
     @wxcPopupOverlayClicked="hide"
   >
     <div class="EmailSubscribe">
-      <div class="close alertClose" @tap.stop.prevent="hide">
+      <div class="close alertClose" @click="hide">
         <text class="iconfont icon-times-- " />
       </div>
 
@@ -19,7 +19,7 @@
       <div class="tipsInfo showEmailErrorTips" v-if="isShowError">邮箱格式有误，请重新输入</div>
 
       <div class="buttonWrapper sure alertConfirm">
-        <div class="span font-family-medium" @tap.stop.prevent="submit">订阅</div>
+        <div class="span font-family-medium" @click="submit">订阅</div>
         <div class="bot" />
       </div>
     </div>
