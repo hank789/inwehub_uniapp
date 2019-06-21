@@ -82,7 +82,7 @@
 </template>
 
 <script type="text/javascript">
-import nvueLib from '@/lib/nvue.js'
+import nvueLib from '@/lib/ajaxRequest.js'
 import { WxcPopup } from 'weex-ui'
 import ls from '@/lib/localstorage.js'
 
@@ -155,7 +155,7 @@ export default {
 			return false
 		},
     vote() {
-			nvueLib.postRequest('article/upvote-submission',{submission_id: this.localItem.id}).then(response=> {
+			nvueLib.post('article/upvote-submission',{submission_id: this.localItem.id}).then(response=> {
 				var code = response.code
 				if (code !== 1000) {
 					if (code === 6108) {
@@ -197,7 +197,7 @@ export default {
           })
         }
       }
-      nvueLib.postRequest(`article/regionOperator`, {
+      nvueLib.post(`article/regionOperator`, {
         id: this.localItem.id,
         tags: tags
       }).then(response => {
