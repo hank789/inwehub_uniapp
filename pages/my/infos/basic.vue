@@ -50,13 +50,11 @@
 				</view>
 				<view class="mui-table-view-cell">
 					<view class="mui-navigate-right iconfont pickerBox">出生日期
-						<!--  @tap.stop.prevent="initBirthday" -->
 						<view class="uni-list-cell-db">
-							<picker mode="date" :value="user.info.birthday" start="1950" end="2019" @change="bindDateChange">
+							<picker mode="date" :value="user.info.birthday" :start="startDate" :end="endDate" @change="bindDateChange">
 								<view class="uni-input">{{user.info.birthday ? user.info.birthday : '请选择'}}</view>
 							</picker>
 						</view>
-						<!--@tap.stop.prevent="showPicker" <text class="mui-pull-right account-setting-field mui-ellipsis">{{user.info.birthday ? user.info.birthday : '请选择'}}</text> -->
 					</view>
 				</view>
 				<view class="mui-table-view-cell" @tap.stop.prevent="showMulLinkageTwoPicker">
@@ -192,6 +190,12 @@
 				} else {
 					return ''
 				}
+			},
+			startDate() {
+				return this.getDate('start');
+			},
+			endDate() {
+				return this.getDate('end');
 			}
 		},
 
@@ -251,6 +255,13 @@
 				let year = date.getFullYear();
 				let month = date.getMonth() + 1;
 				let day = date.getDate();
+				
+				if (type === 'start') {
+					year = year - 60;
+				} else if (type === 'end') {
+					year = year;
+				}
+				
 				month = month > 9 ? month : '0' + month;;
 				day = day > 9 ? day : '0' + day;
 				return `${year}-${month}-${day}`;
@@ -268,8 +279,8 @@
 			getUserInfo() {
 				getAndUpdateUserInfo((user) => {
 					this.user = user
-					this.work_city = user.info.province.name + ' ' + user.info.city.name
-					this.home_city = user.info.hometown_province.name + ' ' + user.info.hometown_city.name
+					this.work_city = user.info.province.name + '-' + user.info.city.name
+					this.home_city = user.info.hometown_province.name + '-' + user.info.hometown_city.name
 				})
 			},
 			submitInfo: function(type) {
