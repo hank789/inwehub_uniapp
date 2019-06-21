@@ -15,49 +15,49 @@
 
           <div class="iconList " @click="clickItem('分享')">
             <div class="addNumber">
-              <div class="span">+3</div>
+              <div class="span"><text>+3</text></div>
             </div>
             <div class="span iconCircular">
               <text class="iconfont icon-shoucang-xiao" />
             </div>
-            <div class="text">分享</div>
+            <div class="text"><text>分享</text></div>
           </div>
 
           <div class="iconList" @click="clickItem('评论')">
             <div class="addNumber">
-              <div class="span">+2</div>
+              <div class="span"><text>+2</text></div>
             </div>
             <div class="span iconCircular">
               <text class="iconfont icon-pinglun" />
             </div>
-            <div class="text active">评论<div class="i">{{ localItem.comment_number }}</div></div>
+            <div class="text active"><text>评论</text><div class="i"><text>{{ localItem.comment_number }}</text></div></div>
           </div>
 
           <div class="iconList" :class="[localItem.is_upvoted ? 'active' : '']" @click="vote">
             <div class="addNumber">
-              <div class="span">+1</div>
+              <div class="span"><text>+1</text></div>
             </div>
             <div class="span iconCircular">
-              <text class="iconfont icon-zan" />
+              <text class="iconfont icon-zan">&#xe6a1;</text>
             </div>
-            <div class="text">{{ localItem.is_upvoted ? '已赞' : '赞' }}</div>
+            <div class="text"><text>{{ localItem.is_upvoted ? '已赞' : '赞' }}</text></div>
           </div>
         </div>
       </div>
 
       <div v-if="isAdmin" class="deleteWrapper">
-        <div class="bot" />
+        <div class="bot"></div>
         <div class="single alertConfirm" @click="deleteItem">
           <div class="span iconW">
-            <text class="iconfont icon-shanchu1" />
+            <text class="iconfont icon-shanchu1">&#xe661;</text>
           </div>
-          <div class="span text">删除</div>
+          <div class="span text"><text>删除</text></div>
         </div>
       </div>
 
       <div v-if="isAdmin" class="choiceWrapper">
-        <div class="bot" />
-        <div class="title">设置精选</div>
+        <div class="bot"></div>
+        <div class="title"><text>设置精选</text></div>
         <div class="choiceList">
           <div
             v-for="(item, index) in localRegions"
@@ -65,17 +65,17 @@
             class="span"
             :class="{active: item.selected }"
             @click="choiceItem(index, item)"
-          >{{ item.text }}</div>
+          ><text>{{ item.text }}</text></div>
         </div>
       </div>
 
       <div v-if="isAdmin" class="submit" @click="submit">
-        <div class="span">确定</div>
+        <div class="span"><text>确定</text></div>
       </div>
 
       <div class="cancelW" @click="cancelShare">
         <div class="bot"></div>
-        <div class="span">取消</div>
+        <div class="span"><text>取消</text></div>
       </div>
     </div>
     </wxc-popup>
