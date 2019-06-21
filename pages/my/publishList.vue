@@ -97,7 +97,8 @@
 	export default {
 		components: {
 			mixPulldownRefresh,
-			mixLoadMore
+			mixLoadMore,
+			uuid: ''
 		},
 		data() {
 			return {
@@ -108,7 +109,8 @@
 				tabBars: [],
 			}
 		},
-		async onLoad() {
+		async onLoad(option) {
+			this.uuid = option.id
 			// 获取屏幕宽度
 			windowWidth = uni.getSystemInfoSync().windowWidth;
 			var appInfo = this.$ls.get('appDeviceInfo')
@@ -180,7 +182,7 @@
 				
 				
 				//异步请求数据
-				this.$request.post(tabItem.url,{page: tabItem.page}).then(res=>{
+				this.$request.post(tabItem.url,{page: tabItem.page, uuid: this.uuid }).then(res=>{
 					tabItem.page = tabItem.page + 1
 					var list = res.data.data
 					if(type === 'refresh'){
