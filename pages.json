@@ -126,7 +126,7 @@
                 "color": "#808080"
               },
               {
-                "text": "&#xe6b7;",
+                "text": "\ue6b7",
                 "color": "#808080",
                 "fontSrc": "/static/fonts/iconfont.ttf",
                 "fontSize": "21px"
@@ -791,7 +791,7 @@
               "borderRadius": "6px",
               "placeholder": "搜产品、内容",
               "placeholderColor": "#CCCCCC",
-              "autoFocus": false
+              "autoFocus": true
             }
           }
         }
