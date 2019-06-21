@@ -37,15 +37,22 @@
 					title: this.detailData.title
 			});
 			// #ifdef APP-PLUS
+			var appInfo = this.$ls.get('appDeviceInfo')
+			console.log(JSON.stringify(appInfo));
+			var navBarTop = (appInfo.windowHeight - 44 - appInfo.statusBarHeight - 44)
+			console.log(navBarTop)
         var wv = plus.webview.create("","custom-webview",{
 						progress: {
 							color: '#FF3333'
 						},
 						bottom: '0px',
-						subNViews:[{
-							id:'subnview1',
-							styles:{height:'44px',backgroundColor:'#FFFFFF',dock: 'bottom',position: 'dock'},
-							tags:[{tag:'font',id:'font',text:'原生子View控件',textStyles:{size:'18px'}}],
+						subNViews:[
+							{
+								id:'subnview1',
+								styles:{height:'44px',backgroundColor:'#FFFFFF',dock: 'bottom',position: 'dock'},
+								tags:[
+									{tag:'input',id:'input',position:{top: navBarTop + 'px',height: '44px'},inputStyles:{placeholder: '点击评论',borderColor: '#FF3333',borderRadius: '6px',fonstSize:'16px'}}
+								]
 							}
 						],
             plusrequire:"none", //禁止远程网页使用plus的API，有些使用mui制作的网页可能会监听plus.key，造成关闭页面混乱，可以通过这种方式禁止
