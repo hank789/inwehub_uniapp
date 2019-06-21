@@ -4,7 +4,7 @@
 			<view class="setUp" @tap.stop.prevent="toRoute('/pages/my/setting')">
 				<text class="iconfont icon-shezhi"></text>
 			</view>
-			<view class="code" @tap.stop.prevent="toRoute('/pages/my/qrcode')">
+			<view class="code" @tap.stop.prevent="toRoute('/pages/my/qrcode?uuid=' + uuid )">
 				<text class="iconfont icon-erweima"></text>
 			</view>
 		</view>
