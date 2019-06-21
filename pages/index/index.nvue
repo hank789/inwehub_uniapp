@@ -113,6 +113,11 @@
         @startAnimation="startAnimationEvent"
         @showItemMore="showItemMore"
       />
+			
+			<div v-show="position" class="leftTopFixed fixedData nav-sticky">
+        <text class="iconfont icon-rili">&#xe6fb;</text>
+        <text class="span indexPosition">{{ position }}</text>
+      </div>
 	</div>
 </template>
 
@@ -147,6 +152,10 @@
 				downloadTipTop: false,
 				downloadTipalertMsg: '',
 				statusBarHeight: '0wx', //状态栏占位高度
+				activeItem: {},
+				activeItemIndex: 0,
+				activeListIndex: 0,
+				position: ''
 			}
 		},
 		beforeCreate(){
