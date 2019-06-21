@@ -10,7 +10,7 @@
     <div class="heat-wrapper">
       <div class="footerMenu">
         <div class="left">
-          <text class="iconfont icon-dingyue- " />
+          <text class="iconfont icon-dingyue-"/>&#xe701;</text>
           <div class="hotRecommend">
             <image mode="aspectFill" class="image" src="https://cdn.inwehub.com/static/images/hotrecommend@3x.png" alt="" /></div>
         </div>
@@ -18,28 +18,28 @@
           <div class="oneLine" />
           <div class="menu" @click="subscribeApp">
             <div :class="['span', 'iconCircular','one',isOpenAppPush === 1 ? 'grey':'']">
-              <text class="iconfont icon-xiazaiapp " />
+              <text class="iconfont icon-xiazaiapp">&#xe6ff;</text>
             </div>
-            <div class="text">{{ isOpenAppPush ? '已订阅':'APP推送' }}</div>
+            <div class="text"><text>{{ isOpenAppPush ? '已订阅':'APP推送' }}</text></div>
           </div>
           <div class="menu" @click="subscribeEmail">
             <div :class="['span', 'iconCircular', 'two',isOpenEmailPush ? 'grey':'']">
-              <text class="iconfont icon-youxiang " />
+              <text class="iconfont icon-youxiang">&#xe6fe;</text>
             </div>
-            <div class="text">{{ isOpenEmailPush ? '已订阅':'邮件' }}</div>
+            <div class="text"><text>{{ isOpenEmailPush ? '已订阅':'邮件' }}</text></div>
           </div>
           <div class="menu" @click="subscribeGZH">
             <div :class="['span', 'iconCircular', 'three',isOpenWeChatPush ? 'grey' : '']">
-              <text class="iconfont icon-weixinfuwuhao " />
+              <text class="iconfont icon-weixinfuwuhao">&#xe6fd;</text>
             </div>
-            <div class="text">{{ isOpenWeChatPush ? '已订阅':'微信服务号' }}</div>
+            <div class="text"><text>{{ isOpenWeChatPush ? '已订阅':'微信服务号' }}</text></div>
           </div>
         </div>
       </div>
 
       <div class="cancelW" @click="cancelShare">
-        <div class="bot" />
-        <div class="span">取消</div>
+        <div class="bot"></div>
+        <div class="span"><text>取消</text></div>
       </div>
     </div>
   </div>
@@ -55,6 +55,7 @@ import { WxcPopup } from 'weex-ui'
 import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus } from '@/lib/push'
 import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe.nvue'
 import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh.nvue'
+import nvueLib from '@/lib/ajaxRequest.js'
 
 export default {
   components: {
@@ -124,7 +125,7 @@ export default {
       // })
     },
     getNotification() {
-      postRequest(`notification/push/info`, {}, false, {}, 0, false).then(response => {
+      nvueLib.post(`notification/push/info`, {}, false, {}, 0, false).then(response => {
         var code = response.code
         if (code !== 1000) {
           ui.alert(response.message)

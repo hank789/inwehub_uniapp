@@ -64,8 +64,8 @@
 			getData (option) {
         this.uuid = getLocalUuid()
 
-        if (option.id) {
-          this.uuid = option.id
+        if (option.uuid) {
+          this.uuid = option.uuid
         }
 
         if (!this.uuid) return

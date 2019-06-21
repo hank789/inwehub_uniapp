@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view class="" v-if="loading">
 		<view class="mui-content">
 
 			<view class="tableBox">
@@ -81,10 +81,11 @@
 		},
 		data() {
 			return {
+				loading: false,
 				array:[],
 				index:0,
 				showTagsList: false,
-				user_id: currentUser.info.id,
+				user_id: '',
 				type: '',
 				id: null,
 				bak: '',
@@ -122,7 +123,9 @@
 		onShow() {
 			this.getCompany()
 		},
-		onLoad(option) {
+		async onLoad(option) {
+			let currentUser = getLocalUserInfo()
+			this.user_id = currentUser.id
 			this.type = option.id
 			this.id = option.id
 			this.getDetail()
@@ -214,7 +217,9 @@
 					this.job = jobs[this.type]
 					this.description = this.job.description
 					this.bak = JSON.stringify(this.job)
+					this.loading = true
 				} else {
+					this.loading = true
 					this.clearData()
 				}
 			},

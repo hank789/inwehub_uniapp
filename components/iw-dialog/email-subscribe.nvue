@@ -6,21 +6,21 @@
   >
     <div class="EmailSubscribe">
       <div class="close alertClose" @click="hide">
-        <text class="iconfont icon-times-- " />
+        <text class="iconfont icon-times--">&#xe631;</text>
       </div>
 
-      <div class="title font-family-medium">热点推荐-服务号订阅</div>
-      <div class="text">我们将为您推送每日热点推荐~</div>
+      <div class="title font-family-medium"><text>热点推荐-服务号订阅</text></div>
+      <div class="text"><text>我们将为您推送每日热点推荐~</text></div>
 
       <div class="inputWrapper">
         <input type="text" v-model="email" placeholder="输入您的邮箱地址" class="input EmailText">
       </div>
 
-      <div class="tipsInfo showEmailErrorTips" v-if="isShowError">邮箱格式有误，请重新输入</div>
+      <div class="tipsInfo showEmailErrorTips" v-if="isShowError"><text>邮箱格式有误，请重新输入</text></div>
 
       <div class="buttonWrapper sure alertConfirm">
-        <div class="span font-family-medium" @click="submit">订阅</div>
-        <div class="bot" />
+        <div class="span font-family-medium" @click="submit"><text>订阅</text></div>
+        <div class="bot"></div>
       </div>
     </div>
   </wxc-popup>
