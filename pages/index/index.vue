@@ -316,6 +316,7 @@ export default {
     },
     loadTabs(successCallback) {
       getHomeData((data) => {
+				this.regions = data.regions
         data.regions.unshift({ value: '', text: '全部' })
         successCallback(data.regions)
       })

@@ -10,16 +10,11 @@
 			<!-- 状态栏占位 -->
 			<div :style="{ height: statusBarHeight }"></div>
 			<div class="page-header-wrapper">
-				<div class="page-header-left">
-					<!-- <text class="logo">Logo</text> -->
-					<text class="logo yticon">&#xe615;</text>
-				</div>
-				<div class="page-header-center">
+				<div class="page-header-center" @click="toSearch">
 					<text class="search-input">输入关键字搜索</text>
 				</div>
-				<div class="page-header-right">
-					<image class="contribute-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAC20lEQVRoQ+1Y7VEVQRDsjkAzUCNQIgAjUCNQIhAjECNQIhAjQCIQMsAIxAwggraa2qXO43bvdu+LenVbxQ/q7e5Nz/TM9CyxI4s7ggMbkMcWyS0iW0Rm8sBGrZkcW33tqIhIeg7gI4BXHRZcATgheV1tXcHBaiCSbPwvAE8z37sB8JqkQc26qoBIsvF/AohbAF2GGugTAI7IHkmDmm0VAwkgHIlIp3ckf7YtDBG7CGCuSO7NhgIolyiSvgP4EIz6RPJbykBJ3uf9XqckD+cCk42IJCfyEQAndXv9IBkBJe2TdAzg80gApq4dcZK6JwlE0lsAZ4mD5yT9+6Al6RTA+0Gb85s6aewjOSDm/RsAvwE0c+CCpLlftELOHPRUudSdPrcPIOnAHBAb68NfSJoeq60GPS9JGtSDtQFZMjxTRcQNrS0z/L9Lb7LJhZxwjsV+48pjjhd3+amApJx/SNLV6L8V9Jd7RyeXATj3fHawBhsLxJ50kndpKRtx1I5Ih/5qypcoWQy8SIONAlKTA5JMm5cADOC43fUlubl+DXcPli2LAmnJkWTjajXaTnp20DWqg/LyWxqRRjSSH4t3Soo9qnevzywdEQVDs0IyGHZPMZK9Cnw0EEn7JC+HREdSBOJBKithJLmieRTA7EAaQm+QRJHkSuRBqnd/w8O3JHMT5p0PR0WkgsdRZF6TfJGLoiSX72cASkeB8mSvAHJPl9wQ1ZL0vTRcPCLhg825w3nixL+TJKFZuofEjj8oGmsBMd8Nxhort849Lg99kFg0R5pWh+boJuY8aK6/oeM/0Gg9OVXfEEtzpMuQQKdYlW5qlO8q1BrSb2r2rEatGmMfNbWmAjQ2IrGUumMXT3VTgQj3+F3Nf8mSnXt88CAUnzwntqvqOs84B6mC0ffSaC/4NTE1tlZZVHHIDvVLY3I87pXQFR9d5cgGZBW3Zz66RWSLyEwe2Kg1k2Orr92ZiPwDeAycQswzKBAAAAAASUVORK5CYII=" />
-					<text class="contribute-text">投稿</text>
+				<div class="page-header-right" @click="toRoute('/pages/discover/addlink')">
+					<text class="logo iconfont">&#xe6b1;</text>
 				</div>
 			</div>
 		</div>
@@ -39,62 +34,64 @@
 					<text class="loading-text">{{refreshText}}</text>
 				</refresh>
 				
-				<div class="download-tip" :style="{top: downloadTipTop}">{{ downloadTipalertMsg }}</div>
+				<cell class="download-tip" v-if="downloadTipTop"><text>{{downloadTipalertMsg}}</text></cell>
 
-				<div v-if="tabCurrentIndex === 1" class="everyDayWrapper" @tap.stop.prevent="sharHotspot">
-					<div class="everyDay">
-						<text class="iconfont icon-dingyue-" />
-						<div class="textImg">
-							<image mode="aspectFill" class="image" src="../../static/images/everyDay@3x.png" alt="" /></div>
+				<cell v-if="tabCurrentIndex == 1" class="everyDayWrapper" @click="sharHotspot">
+					<div class="everyDayWrapper-everyDay">
+						<text class="everyDayWrapper-everyDay-iconfont iconfont">&#xe701;</text>
+						<div class="everyDayWrapper-everyDay-textImg">
+							<image class="img everyDayWrapper-everyDay-textImg-image" src="https://cdn.inwehub.com/static/images/everyDay@3x.png"></image>
+						</div>
 					</div>
-				</div>
+				</cell>
 				
 				<!-- 新闻列表 -->
-				<cell v-for="(item, index) in tabItem.newsList" :key="item.id" class="news-item" @click="navToDetails(item)">
+				<cell v-for="(item, index) in tabItem.newsList" :key="item.id" class="news-item">
 						<div class="container-wrapper">
-							<div v-if="isShowDate(item, index, tabItem.newsList)" class="dateWrapper" @tap.stop.prevent="toReport(item)">
+							<div v-if="isShowDate(item, index, tabItem.newsList)" class="container-wrapper-dateWrapper" @click="toReport(item)">
 								<div class="LeftDate" :data-text="timeToHumanText(item.created_at)">
-									<text class="iconfont icon-rili" />
-									<text class="text">{{ timeToHumanText(item.created_at) }}</text>
+									<text class="container-wrapper-dateWrapper-iconfont iconfont icon-rili">&#xe6fb;</text>
+									<text class="container-wrapper-dateWrapper-text">{{ timeToHumanText(item.created_at) }}</text>
 								</div>
-								<div v-if="tabCurrentIndex === 1" class="rightDaily">
-									<text class="iconfont icon-fenxiang1" />
+								<div v-if="tabCurrentIndex === 1" class="container-wrapper-dateWrapper-rightDaily">
+									<text class="container-wrapper-dateWrapper-iconfont iconfont icon-fenxiang1">&#xe622;</text>
 									<text>日报</text>
 								</div>
 							</div>
-							<div class="container-list">
-								<div v-if="tabCurrentIndex === 0" class="pointLine">
-									<text class="splitCircle" />
-									<text class="splitLine" />
+							<div class="container-wrapper-container-list">
+								<div v-if="tabCurrentIndex === 0" class="container-wrapper-container-list-pointLine">
+									<text class="container-wrapper-container-list-pointLine-splitCircle" />
+									<text class="container-wrapper-container-list-pointLine-splitLine" />
 								</div>
-								<div v-if="tabCurrentIndex !== 0" class="pointLine">
-									<text class="number">{{ getLiIndex(index, tabIndex) }}.</text>
+								<div v-if="tabCurrentIndex !== 0" class="container-wrapper-container-list-pointLine">
+									<text class="container-wrapper-container-list-pointLine-number">{{ getLiIndex(index, tabIndex) }}.</text>
 								</div>
-								<div class="content">
+								<div class="container-wrapper-container-list-content">
 									<div class="top-time">
-										<text class="time">{{ topTime(item) }}</text>
-										<text class="splitCircle" />
-										<text class="linkURL">{{ item.domain }}</text>
+										<text class="container-wrapper-container-list-top-time-text">{{ topTime(item) }}</text>
+										<text class="container-wrapper-container-list-pointLine-splitCircle"></text>
+										<text class="container-wrapper-container-list-top-time-text">{{ item.domain }}</text>
 									</div>
-									<div class="middle">
-										<div class="left">
-											<div class="title font-family-medium text-line-2">{{ item.title }}</div>
-											<div class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, index, tabIndex)">
-												<div v-if="item.startAnimation" class="addOne">
-													<text class="i"/>
-													<text>+{{ startAnimationNum }}</text>
+									<div class="container-wrapper-container-list-middle" @click="navToDetails(item)">
+										
+											<text :class="['title', 'title'+(item.img.length?2:3)]">{{ item.title }}</text>
+											<div v-if="item.img" class="img-list img-list2">
+												<div class="img-wrapper img-wrapper2">
+													<image class="img" mode="aspectFill" :src="item.img | imageSuffix(96, 70)" :lazy-load="true"/>
 												</div>
-												<text class="iconfont icon-huo first" />
-												<text class="text">{{ item.rate }}</text>
-												<text class="iconfont icon-tianjia second" />
 											</div>
-										</div>
-										<div v-if="item.img.length" class="right">
-											<div class="articleImg">
-												<image class="image" mode="aspectFill" :src="item.img | imageSuffix(96, 70)" :lazy-load="true"/>
-											</div>
-										</div>
+											<div v-else class="img-empty"></div>
 									</div>
+									<div class="bot bot2" @click="addHeat(item, index, tabIndex)">
+										<div v-if="item.startAnimation" class="container-wrapper-container-list-middle-left-heatWrapper-addOne">
+											<text class="container-wrapper-container-list-middle-left-heatWrapper-addOne-i"/>
+											<text class="container-wrapper-container-list-middle-left-heatWrapper-addOne-text">+{{ startAnimationNum }}</text>
+										</div>
+										<text class="container-wrapper-container-list-middle-left-heatWrapper-iconfont iconfont icon-huo container-wrapper-container-list-middle-left-heatWrapper-iconfont-first">&#xe6d3;</text>
+										<text class="container-wrapper-container-list-middle-left-heatWrapper-text">{{ item.rate }}</text>
+										<text class="container-wrapper-container-list-middle-left-heatWrapper-iconfont iconfont icon-tianjia container-wrapper-container-list-middle-left-heatWrapper-iconfont-second">&#xe6b1;</text>
+									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -108,6 +105,14 @@
 		 
 			</uni-tab-content>
 		</uni-tabs>
+		<BottomActions
+        ref="BottomActions"
+        v-model="activeItem"
+        :regions="regions"
+        @clickDelete="clickDelete"
+        @startAnimation="startAnimationEvent"
+        @showItemMore="showItemMore"
+      />
 	</div>
 </template>
 
@@ -118,13 +123,17 @@
 	import nvueLib from '@/lib/nvue.js'
 	import { urlencode } from '@/lib/string'
 	import { timeToHumanText, getTimestampByDateStr } from '@/lib/time'
+	import BottomActions from '@/components/iw-article-bottomaction/iw-article-bottomaction.nvue'
+	import ls from '@/lib/localstorage.js'
+	
 	const domModule = weex.requireModule('dom')
 
 	export default { 
 		components: {
 			uniTabContent,
 			uniTabBar,
-			uniTabs
+			uniTabs,
+			BottomActions
 		},
 		data(){
 			return {
@@ -135,7 +144,7 @@
 				refreshText: "下拉刷新数据",
 				regions: [],
 				liIndexConfig: [],
-				downloadTipTop: '-200upx',
+				downloadTipTop: false,
 				downloadTipalertMsg: '',
 				statusBarHeight: '0wx', //状态栏占位高度
 			}
@@ -143,8 +152,8 @@
 		beforeCreate(){
 			const domModule = weex.requireModule('dom')
 			domModule.addRule('fontFace', {
-			    'fontFamily': "yticon",
-			    'src': "url('https://at.alicdn.com/t/font_1078604_3mrhac2o3oi.ttf')",
+			    'fontFamily': "iconfont",
+			    'src': "url('https://cdn.inwehub.com/static/fonts/iconfont.ttf')",
 			});
 		},
 		created() {
@@ -158,6 +167,29 @@
 			this.loadTabbars();
 		},
 		methods: {
+			getLocalUuid() {
+				var userInfo = ls.get('UserInfo')
+				if (userInfo && userInfo.info.uuid) {
+					return userInfo.info.uuid
+				}
+				return null
+			},
+			getHomeDetail (pathUrl, title, imgUrl) {
+				var link = this.$ls.get('webRoot') + '/#' + pathUrl + '?noback=1' + '&uuid=' + this.getLocalUuid()
+
+				if (!imgUrl) {
+					imgUrl = whiteLogo
+				}
+
+				return {
+					title: title,
+					link: link,
+					content: '来自Inwehub，点击查看更多热度分享。',
+					imageUrl: imgUrl,
+					thumbUrl: imgUrl + '?x-oss-process=image/resize,h_100,w_100',
+					shareName: '首页分享'
+				}
+			},
 			getHomeData(successCallback) {
 				nvueLib.postRequest('home').then(res=>{
 					var code = res.code
@@ -189,10 +221,10 @@
 				}
 			},
 			showDownloadTip() {
-				this.downloadTipTop = '0upx'
+				this.downloadTipTop = true
 			},
 			hideDownloadTip() {
-				this.downloadTipTop = '-200upx'
+				this.downloadTipTop = false
 			},
 			getElSize(el) { //得到元素的size
 				return new Promise((res, rej) => {
@@ -224,6 +256,7 @@
 			},
 			loadTabbars(){
 				this.getHomeData((data) => {
+					this.regions = data.regions
 					data.regions.unshift({ value: '', text: '全部' })
 					let tabList = data.regions;
 					tabList.forEach(item=>{
@@ -376,7 +409,7 @@
 				}
 				this.shareIconMenus = [] // getIconMenus(item)
 				this.itemOptionsObj = item
-				this.shareOption = getHomeDetail(
+				this.shareOption = this.getHomeDetail(
 					'/c/' + item.category_id + '/' + item.slug, // item.link_url,
 					item.title,
 					item.img
@@ -386,6 +419,7 @@
 				this.$refs.share.share()
 			},
 			addHeat(item, itemIndex, listIndex) {
+				console.log('addHeat')
 				this.activeItem = item
 				this.activeItemIndex = itemIndex
 				this.activeListIndex = listIndex
@@ -421,13 +455,39 @@
 	}
 </script>
 
-<style>
-	
-	
+<style scoped>
 	/* 字体图标 */
-	.yticon {
-		font-family: yticon;
+	.iconfont {
+		font-family: iconfont;
 	}
+	
+	.everyDayWrapper-everyDay-iconfont {
+        font-size: 30px;
+        color: #C8C8C8;
+	}
+	
+	.container-wrapper-dateWrapper-iconfont {
+    font-size: 16px;
+    color:rgb(3, 174, 249);
+    margin-right:5px;
+	}
+	
+	.container-wrapper-container-list-middle-left-heatWrapper-iconfont{
+              position: relative;
+              top: -3px;
+}
+.container-wrapper-container-list-middle-left-heatWrapper-iconfont-first{
+                color: #FA4975;
+                font-size: 12px;	
+}
+.container-wrapper-container-list-middle-left-heatWrapper-iconfont-second{
+                color: #808080;
+                font-size: 9px;
+                top: -1px;
+                position: absolute !important;
+                right: 8px !important;
+}
+
 	/**
 	 * weex css限制
 	 * 选择器不支持嵌套
@@ -435,21 +495,8 @@
 	 * 仅支持 flex布局 （这个还不错）， 默认为display:flex; flex-direction:column;
 	 * 
 	 * 注：我对weex也是一知半解，有说错的麻烦指出
+	 * weex文档：https://weex.apache.org/zh/docs/styles/common-styles.html
 	 */
-	.tab-bar-item {
-		width: 150px;
-		height: 100px;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.tab-bar-title {
-		height: 100px;
-		line-height: 100px;
-		font-size: 30px;
-		color: #555;
-	}
 
 	.active {
 		color: #007AFF;
@@ -529,7 +576,6 @@
 		color: #fff;
 	}
 	
-	
 	.slider{
 		flex: 1;
 		background-color: #f8f8f8;
@@ -558,23 +604,111 @@
 	}
 
 	/* 新闻列表  */
-	.news-item{
+.everyDayWrapper {
+		width: 750px;
+		height: 80px;
+}
+.everyDayWrapper-everyDay-textImg-image {
+          width: 750px;
+          height: 80px;
+}
+.news-item{
 		width: 750px;
 		padding: 24px 30px;
 		border-bottom-width: 1px;
 		border-color: #eee;
 		background-color: #fff;
 	}
+	.title{
+		font-size: 32px;
+		color: #303133;
+		line-height: 46px;
+	}
+	.bot{
+		flex-direction: row;
+	}
+	.author{
+		font-size: 26px;
+		color: #aaa;
+	}
+	.time{
+		font-size: 26px;
+		color: #aaa;
+		margin-left: 20px;
+	}
+	.img-list{
+		flex-shrink: 0;
+		flex-direction: row;
+		background-color: #fff;
+		width: 220px;
+		height: 140px;
+	}
+ 	.img-wrapper{
+		flex: 1;
+		flex-direction: row;
+		height: 140px;
+		position: relative;
+	}
+	.img{
+		flex: 1;
+	}
+	.img-empty{
+		height: 20px;
+	}
+	.video-tip{
+		position: absolute;
+		left: 0;
+		top: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex: 1;
+		background-color: rgba(0,0,0,.3);
+	}
+	/* 图在左 */
+	.img-list1{
+		position:absolute;
+		left: 30px;
+		top: 24px;
+	}
+	.title1{
+		padding-left: 240px; 
+	}
+	.bot1{
+		padding-left: 240px; 
+		margin-top: 20px;
+	}
+	/* 图在右 */
+	.img-list2{
+		position:absolute;
+		right: 30px;
+		top: 24px;
+	}
+	.title2{
+		padding-right: 210px; 
+	}
+	.bot2{
+		margin-top: 20px;
+	}
+	/* 底部3图 */
+	.img-list3{
+		width: 700px;
+		margin: 16px 0px;
+	}
+	.img-wrapper3{
+		margin-right: 4px;
+	}
+	/* 底部大图 */
+	.img-list-single{
+		width: 690px;
+		height: 240px;
+		margin: 16px 0px;
+	}
+	.img-wrapper-single{
+		height: 240px;
+		margin-right: 0px;
+	}
 	
-	.splitCircle {
-    display: inline-block;
-    position: relative;
-    top: -2px;
-    border-radius: 50%;
-    width: 2px;
-    height: 2px;
-    background: #B4B4B6;
-  }
 	
 	
 </style>

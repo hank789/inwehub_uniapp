@@ -63,7 +63,11 @@ export default {
 				index: index
 			};
 
-			this.$emit('tabChange', ret);
+			// 			if (e.type === 'click') {
+			// 				let target = e.target;
+			// 				ret.index = target.parentNode.children.findIndex(node => node === target);
+			// 			}
+			this.$emit('_tabBarClick', ret);
 			const el = this.$refs[this.tabBars[index].id + index][0]
 			let elSize = await this.getElSize(el);
 			if (elSize.left + elSize.width > 750) {
