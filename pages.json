@@ -66,7 +66,19 @@
       "style": {
         "navigationBarTitleText": "加载中...",
         "enablePullDownRefresh": false,
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+				"app-plus": {
+          "titleNView": {
+            "buttons": [
+              {
+                "text": "\ue622",
+                "color": "#808080",
+                "fontSrc": "/static/fonts/iconfont.ttf",
+                "fontSize": "21px"
+              }
+            ]
+          }
+        }
       }
     },
     {
