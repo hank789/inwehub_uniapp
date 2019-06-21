@@ -8,56 +8,56 @@
 					<text class="lookText">预览</text>
 				</view>
 				<view class="avatarImg" @tap.stop.prevent="uploadAvatar()">
-					<image class="avatar" :src="user.info.avatar_url"></image>
+					<image class="avatar" :src="user.avatar_url"></image>
 					<text class="icon">
 						<text class="iconfont icon-xiangji"></text>
 					</text>
 				</view>
 				<view class="userName">
-					<span class="name">{{ user.info.name }}</span>
-					<text class="iconfont icon-zhuanjiabiaoji" v-if="user.info.is_expert =='1'"></text>
+					<span class="name">{{ user.name }}</span>
+					<text class="iconfont icon-zhuanjiabiaoji" v-if="user.is_expert =='1'"></text>
 				</view>
 				<view class="userCompany">
-					<text class="userTips">{{ user.info.company }}</text>
+					<text class="userTips">{{ user.company }}</text>
 					<view class="spot"></view>
-					<text class="userTips">{{ user.info.title }}</text>
+					<text class="userTips">{{ user.title }}</text>
 				</view>
 				<view class="userInfos userMobile">
-					{{ user.info.mobile }}
+					{{ user.mobile }}
 				</view>
 				<view class="userInfos userEmail">
-					{{ user.info.email }}
+					{{ user.email }}
 				</view>
 			</view>
 			<view class="info-progresbar">
-				<text class="info-progress"><text class="iWidth" :style="'width:'+ user.info.account_info_complete_percent +'%'"></text></text>
-				<text class="info-text">{{ user.info.account_info_complete_percent }}%</text>
+				<text class="info-progress"><text class="iWidth" :style="'width:'+ user.account_info_complete_percent +'%'"></text></text>
+				<text class="info-text">{{ user.account_info_complete_percent }}%</text>
 				<text class="iconfont icon-jinggao" id='confirmBtn' @tap.stop.prevent="warn"></text>
 			</view>
 
 
 			<view class="part3">
-				<view class="setUpList" @tap.stop.prevent="toRoute('/pages/my/infos/basic')">
+				<view class="setUpList" @tap.stop.prevent="goEditData('info')">
 					<text>基本资料</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList" @tap.stop.prevent="toRoute('/pages/my/infos/jobs')">
+				<view class="setUpList" @tap.stop.prevent="goEditData('job')">
 					<text>工作经历</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList" @tap.stop.prevent="toRoute('/pages/my/infos/edus')">
+				<view class="setUpList" @tap.stop.prevent="goEditData('project')">
 					<text>项目经历</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList" @tap.stop.prevent="toRoute('/pages/my/infos/trains')">
+				<view class="setUpList" @tap.stop.prevent="goEditData('tranis')">
 					<text>培训认证</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="line-river-after line-river-after-short"></view>
-				<view class="setUpList" @tap.stop.prevent="toRoute('/pages/my/infos/privacy')">
+				<view class="setUpList" @tap.stop.prevent="goEditData('edu')">
 					<text>隐私设置</text>
 					<text class="iconfont icon-jinru"></text>
 				</view>
@@ -74,17 +74,15 @@
 </template>
 
 <script>
-	import {
-		getUserInfo,
-		getLocalUserInfo
-	} from '@/lib/user'
+	import { getUserInfo, getLocalUserInfo } from '@/lib/user'
 	import ui from "@/lib/ui"
 	export default {
 		data() {
 			return {
 				user: {},
 				work_city: '',
-				home_city: ''
+				home_city: '',
+				getUserInfos: getLocalUserInfo()
 			}
 		},
 		onLoad() {
@@ -94,7 +92,45 @@
 			this.getUserInfo()
 		},
 		methods: {
-			warn () {
+			goEditData(type) {
+				// #ifdef APP-PLUS || MP-WEIXIN
+				switch (type) {
+					case 'info':
+						uni.redirectTo({url: '/pages/my/infos/basic'})
+						break
+					case 'job': 
+						uni.redirectTo({ url: '/pages/my/infos/jobs'})
+						break
+					case 'project':
+						uni.redirectTo({url: '/pages/my/infos/edus'})
+					case 'tranis':
+						uni.redirectTo({url: '/pages/my/infos/trains'})
+						break
+					case 'edu':
+						uni.redirectTo({url: '/pages/my/infos/privacy'})
+						break
+					default:
+				}
+				// #endif
+				
+				// #ifdef H5
+				switch (type) {
+					case 'info':
+						uni.navigateTo({url: '/pages/my/infos/basic'})
+						break
+					case 'job': 
+						uni.navigateTo({ url: '/pages/my/infos/jobs'})
+						break
+					case 'tranis':
+						uni.navigateTo({url: '/pages/my/infos/trains'})
+						break
+					case 'edu':
+						uni.navigateTo({url: '/pages/my/infos/privacy'})
+						break
+				}
+				// #endif
+			},
+			warn() {
 				var btnArray = ['取消', '确定']
 				ui.confirm('⚠️警告说明 ', '为保证每位用户信息都真实有效，请务必如实填写。如发现不实，首次将给予警告，第二次将永久封号。平台对所有个人信息绝对保密，不会提供给任何第三方。', btnArray, (e) => {
 					if (e.index === 1) {
@@ -110,9 +146,9 @@
 			getUserInfo() {
 				let getUserInfo = getLocalUserInfo()
 				this.user = getUserInfo
-				this.work_city = getUserInfo.info.province.name + ' ' + getUserInfo.info.city.name
-				this.home_city = getUserInfo.info.hometown_province.name + ' ' + getUserInfo.info.hometown_city.name
-			}
+				this.work_city = getUserInfo.province.name + '-' + getUserInfo.city.name
+				this.home_city = getUserInfo.hometown_province.name + '-' + getUserInfo.hometown_city.name
+			},
 		}
 	}
 </script>
