@@ -46,10 +46,10 @@
 		methods: {
 			shareInfo(){
 				let shareInfo={
-					href:"https://uniapp.dcloud.io",
-					title:"分享测试",
-					desc:"分享测试",
-					imgUrl:"/static/logo.png"
+					href: this.detailData.url,
+					title: this.detailData.title,
+					desc: this.detailData.title,
+					imgUrl: this.detailData.img
 				};
 				let shareList=[
 					{
@@ -59,14 +59,6 @@
 					{
 						icon:"/static/images/sharemenu/pyq.png",
 						text:"朋友圈"
-					},
-					{
-						icon:"/static/images/sharemenu/weibo.png",
-						text:"微博"
-					},
-					{
-						icon:"/static/images/sharemenu/qq.png",
-						text:"QQ"
 					},
 					{
 						icon:"/static/images/sharemenu/copy.png",
@@ -106,18 +98,6 @@
 							uni.share(shareObj);
 							break;
 						case 2:
-							shareObj.provider="sinaweibo";
-							shareObj.type=0;
-							shareObj.imageUrl=shareInfo.imgUrl||"";
-							uni.share(shareObj);
-							break;
-						case 3:
-							shareObj.provider="qq";
-							shareObj.type=1;
-							shareObj.imageUrl=shareInfo.imgUrl||"";
-							uni.share(shareObj);
-							break;
-						case 4:
 							uni.setClipboardData({
 								data:shareInfo.href,
 								complete() {
@@ -127,7 +107,7 @@
 								}
 							})
 							break;
-						case 5:
+						case 3:
 							plus.share.sendWithSystem({
 								type:"web",
 								title:shareInfo.title||"",
