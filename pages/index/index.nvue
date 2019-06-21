@@ -113,6 +113,9 @@
         @startAnimation="startAnimationEvent"
         @showItemMore="showItemMore"
       />
+			<HotBottomActions
+        ref="HotBottomActions"
+      />
 			
 			<div v-show="position" class="leftTopFixed fixedData nav-sticky">
         <text class="iconfont icon-rili">&#xe6fb;</text>
@@ -129,6 +132,7 @@
 	import { urlencode } from '@/lib/string'
 	import { timeToHumanText, getTimestampByDateStr } from '@/lib/time'
 	import BottomActions from '@/components/iw-article-bottomaction/iw-article-bottomaction.nvue'
+	import HotBottomActions from '@/components/iw-hot-bottom-action/iw-hot-bottom-action.nvue'
 	import ls from '@/lib/localstorage.js'
 	
 	const domModule = weex.requireModule('dom')

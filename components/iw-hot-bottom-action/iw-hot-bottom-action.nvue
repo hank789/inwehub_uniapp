@@ -53,8 +53,8 @@
 <script type="text/javascript">
 import { WxcPopup } from 'weex-ui'
 import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus } from '@/lib/push'
-import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe'
-import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh'
+import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe.nvue'
+import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh.nvue'
 
 export default {
   components: {
@@ -153,7 +153,7 @@ export default {
   }
 }
 </script>
-<style lang="less" rel="stylesheet/less" scoped>
+<style>
     .bot {
         position: absolute;
         right: 0;
