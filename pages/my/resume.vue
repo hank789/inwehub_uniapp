@@ -62,7 +62,7 @@
 									</view>
 								</view>
 								<view class="operationWrapper">
-									<view class="code iconAndText" @tap.stop.prevent="toRoute('/pages/my/qrcode')">
+									<view class="code iconAndText" @tap.stop.prevent="toRoute('/pages/my/qrcode?uuid=' + uuid)">
 										<text class="iconfont icon-erweima"></text>
 										<view class="word">个人码</view>
 									</view>
