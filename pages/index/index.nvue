@@ -71,7 +71,7 @@
 									<text class="cl-splitCircle cl-text" />
 									<text class="cl-linkURL">{{ item.domain }}</text>
 								</div>
-								<div class="cl-middle">
+								<div class="cl-middle" @click="navToDetails(item)">
 									<div class="cl-left">
 										<div class="cl-title font-family-medium text-line-2">{{ item.title }}</div>
 										<div class="cl-heatWrapper border-football" @tap.stop.prevent="addHeat(item, index, tabIndex)">
@@ -165,7 +165,7 @@
 			const domModule = weex.requireModule('dom')
 			domModule.addRule('fontFace', {
 			    'fontFamily': "iconfont",
-			    'src': "url('https://cdn.inwehub.com/static/fonts/iconfont.ttf')",
+			    'src': "url('../../static/fonts/iconfont.ttf')",
 			});
 		},
 		created() {

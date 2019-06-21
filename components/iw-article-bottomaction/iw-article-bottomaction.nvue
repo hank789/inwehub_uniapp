@@ -18,7 +18,7 @@
               <div class="span"><text>+3</text></div>
             </div>
             <div class="span iconCircular">
-              <text class="iconfont icon-shoucang-xiao" />
+              <text class="iconfont icon-shoucang-xiao">&#xe6be;</text>
             </div>
             <div class="text"><text>分享</text></div>
           </div>
@@ -28,7 +28,7 @@
               <div class="span"><text>+2</text></div>
             </div>
             <div class="span iconCircular">
-              <text class="iconfont icon-pinglun" />
+              <text class="iconfont icon-pinglun">&#xe6a2;</text>
             </div>
             <div class="text active"><text>评论</text><div class="i"><text>{{ localItem.comment_number }}</text></div></div>
           </div>
@@ -111,6 +111,13 @@ export default {
       showPopupBottomShare: false
     }
   },
+	beforeCreate(){
+		const domModule = weex.requireModule('dom')
+		domModule.addRule('fontFace', {
+				'fontFamily': "iconfont",
+				'src': "url('../../static/fonts/iconfont.ttf')"
+		});
+	},
   computed: {
     initTagsIds() {
       var rtags = []
@@ -258,5 +265,8 @@ export default {
 }
 </script>
 <style>
-    
+  /* 字体图标 */
+	.iconfont {
+		font-family: iconfont;
+	}
 </style>

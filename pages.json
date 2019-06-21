@@ -68,6 +68,18 @@
         "enablePullDownRefresh": false,
         "navigationStyle": "custom",
 				"app-plus": {
+					"subNVues": [
+						{
+							"id": "comment_footer",
+							"path": "pages/webview/subnvue/comment",
+							"style": {
+								"position": "absolute",
+								"dock": "bottom",
+								"bottom": "0px",
+								"height": "44px"
+							}
+						}
+					],
           "titleNView": {
             "buttons": [
               {

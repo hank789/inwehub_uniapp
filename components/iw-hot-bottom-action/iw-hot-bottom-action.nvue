@@ -10,7 +10,7 @@
     <div class="heat-wrapper">
       <div class="footerMenu">
         <div class="left">
-          <text class="iconfont icon-dingyue-"/>&#xe701;</text>
+          <text class="iconfont icon-dingyue-">&#xe701;</text>
           <div class="hotRecommend">
             <image mode="aspectFill" class="image" src="https://cdn.inwehub.com/static/images/hotrecommend@3x.png" alt="" /></div>
         </div>
@@ -74,6 +74,13 @@ export default {
       isShow: false
     }
   },
+	beforeCreate(){
+		const domModule = weex.requireModule('dom')
+		domModule.addRule('fontFace', {
+				'fontFamily': "iconfont",
+				'src': "url('../../static/fonts/iconfont.ttf')"
+		});
+	},
   computed: {
   },
   watch: {
@@ -155,6 +162,10 @@ export default {
 }
 </script>
 <style>
+	  /* 字体图标 */
+	.iconfont {
+		font-family: iconfont;
+	}
     .bot {
         position: absolute;
         right: 0;
