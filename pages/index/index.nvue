@@ -189,7 +189,7 @@
 				return null
 			},
 			getHomeDetail (pathUrl, title, imgUrl) {
-				var link = this.$ls.get('webRoot') + '/#' + pathUrl + '?noback=1' + '&uuid=' + this.getLocalUuid()
+				var link = ls.get('webRoot') + '/#' + pathUrl + '?noback=1' + '&uuid=' + this.getLocalUuid()
 
 				if (!imgUrl) {
 					imgUrl = whiteLogo
@@ -352,7 +352,8 @@
 					id: item.id,
 					title: item.title,
 					url: item.link_url,
-					img: item.img
+					img: item.img,
+					h5Url: ls.get('webRoot') + '/#/c/' + item.category_id + '/' + item.slug
 				}
 
 				uni.navigateTo({
