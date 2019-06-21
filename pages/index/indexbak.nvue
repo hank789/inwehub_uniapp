@@ -1,10 +1,10 @@
 <template>
 	<div class="content">
-		<!-- 
+		<!--
 			weex组件文档
 			https://weex.apache.org/zh/docs/components/slider.html
-		--> 
-		
+		-->
+
 		<!-- 标题栏 -->
 		<div class="page-header">
 			<!-- 状态栏占位 -->
@@ -18,89 +18,91 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<uni-tabs @change="tabChange" :index="tabCurrentIndex">
 			<!-- uni 官方顶部选项卡组件 -->
 			<uni-tab-bar :drag="true" :tab-bars="tabBars" :tab-index="tabCurrentIndex"></uni-tab-bar>
 			<uni-tab-content>
-			
+
 			<!-- list 垂直滚动列表组件 -->
 			<list v-for="(tabItem, tabIndex) in newsitems" @loadmore="loadMore(tabIndex)" loadmoreoffset="10" :key="tabIndex" class="list-content">
-				<!-- refresh 下拉刷新组件  
+				<!-- refresh 下拉刷新组件
 				* 	 weex 的refresh和loading组件在ios效果很好，但是在安卓端效果并不好
 				* -->
 				<refresh class="loading" @refresh="onRefresh" @pullingdown="onPullingdown" :display="refreshing ? 'show' : 'hide'">
 					<loading-indicator v-if="refreshing" class="loading-icon"></loading-indicator>
 					<text class="loading-text">{{refreshText}}</text>
 				</refresh>
-				
+
 				<cell class="download-tip" v-if="downloadTipTop"><text>{{downloadTipalertMsg}}</text></cell>
 
 				<cell v-if="tabCurrentIndex == 1" class="everyDayWrapper" @click="sharHotspot">
-					<div class="edw-everyDay">
-						<text class="edw-iconfont iconfont icon-dingyue-">&#xe701;</text>
-						<div class="edw-textImg">
-							<image mode="aspectFill" class="edw-textImg-image" src="https://cdn.inwehub.com/static/images/everyDay@3x.png" alt="" /></div>
+					<div class="everyDayWrapper-everyDay">
+						<text class="everyDayWrapper-everyDay-iconfont iconfont">&#xe701;</text>
+						<div class="everyDayWrapper-everyDay-textImg">
+							<image class="img everyDayWrapper-everyDay-textImg-image" src="https://cdn.inwehub.com/static/images/everyDay@3x.png"></image>
+						</div>
 					</div>
 				</cell>
-				
+
 				<!-- 新闻列表 -->
 				<cell v-for="(item, index) in tabItem.newsList" :key="item.id" class="news-item">
-					<div class="cl-container-wrapper">
-						<div v-if="isShowDate(item, index, tabItem.newsList)" class="cl-dateWrapper" @tap.stop.prevent="toReport(item)">
-							<div class="cl-LeftDate" :data-text="timeToHumanText(item.created_at)" :data-index="tabIndex">
-								<text class="cl-iconfont iconfont icon-rili" />
-								<text class="cl-text">{{ timeToHumanText(item.created_at) }}</text>
-							</div>
-							<div v-if="tabCurrentIndex === 1" class="cl-rightDaily">
-								<text class="cl-iconfont iconfont icon-fenxiang1" />
-								<text>日报</text>
-							</div>
-						</div>
-						<div class="cl-container-list">
-							<div v-if="tabCurrentIndex === 0" class="cl-pointLine">
-								<text class="cl-splitCircle" />
-								<text class="cl-splitLine" />
-							</div>
-							<div v-if="tabCurrentIndex !== 0" class="cl-pointLine">
-								<text class="cl-number">{{ getLiIndex(index, tabIndex) }}.</text>
-							</div>
-							<div class="cl-content">
-								<div class="cl-top-time">
-									<text class="cl-time cl-text">{{ topTime(item) }}</text>
-									<text class="cl-splitCircle cl-text" />
-									<text class="cl-linkURL">{{ item.domain }}</text>
+						<div class="container-wrapper">
+							<div v-if="isShowDate(item, index, tabItem.newsList)" class="container-wrapper-dateWrapper" @click="toReport(item)">
+								<div class="LeftDate" :data-text="timeToHumanText(item.created_at)">
+									<text class="container-wrapper-dateWrapper-iconfont iconfont icon-rili">&#xe6fb;</text>
+									<text class="container-wrapper-dateWrapper-text">{{ timeToHumanText(item.created_at) }}</text>
 								</div>
-								<div class="cl-middle">
-									<div class="cl-left">
-										<div class="cl-title font-family-medium text-line-2">{{ item.title }}</div>
-										<div class="cl-heatWrapper border-football" @tap.stop.prevent="addHeat(item, index, tabIndex)">
-											<div v-if="item.startAnimation" class="cl-addOne">
-												<text class="cl-i"/>
-												<text>+{{ startAnimationNum }}</text>
+								<div v-if="tabCurrentIndex === 1" class="container-wrapper-dateWrapper-rightDaily">
+									<text class="container-wrapper-dateWrapper-iconfont iconfont icon-fenxiang1">&#xe622;</text>
+									<text>日报</text>
+								</div>
+							</div>
+							<div class="container-wrapper-container-list">
+								<div v-if="tabCurrentIndex === 0" class="container-wrapper-container-list-pointLine">
+									<text class="container-wrapper-container-list-pointLine-splitCircle" />
+									<text class="container-wrapper-container-list-pointLine-splitLine" />
+								</div>
+								<div v-if="tabCurrentIndex !== 0" class="container-wrapper-container-list-pointLine">
+									<text class="container-wrapper-container-list-pointLine-number">{{ getLiIndex(index, tabIndex) }}.</text>
+								</div>
+								<div class="container-wrapper-container-list-content">
+									<div class="top-time">
+										<text class="container-wrapper-container-list-top-time-text">{{ topTime(item) }}</text>
+										<text class="container-wrapper-container-list-pointLine-splitCircle"></text>
+										<text class="container-wrapper-container-list-top-time-text">{{ item.domain }}</text>
+									</div>
+									<div class="container-wrapper-container-list-middle" @click="navToDetails(item)">
+
+											<text :class="['title', 'title'+(item.img.length?2:3)]">{{ item.title }}</text>
+											<div v-if="item.img" class="img-list img-list2">
+												<div class="img-wrapper img-wrapper2">
+													<image class="img" mode="aspectFill" :src="item.img | imageSuffix(96, 70)" :lazy-load="true"/>
+												</div>
 											</div>
-											<text class="cl-iconfont iconfont icon-huo first" />
-											<text class="cl-text">{{ item.rate }}</text>
-											<text class="cl-iconfont iconfont icon-tianjia second" />
-										</div>
+											<div v-else class="img-empty"></div>
 									</div>
-									<div v-if="item.img.length" class="cl-right">
-										<div class="cl-articleImg">
-											<image class="cl-image" mode="aspectFill" :src="item.img | imageSuffix(96, 70)" :lazy-load="true"/>
+									<div class="bot bot2" @click="addHeat(item, index, tabIndex)">
+										<div v-if="item.startAnimation" class="container-wrapper-container-list-middle-left-heatWrapper-addOne">
+											<text class="container-wrapper-container-list-middle-left-heatWrapper-addOne-i"/>
+											<text class="container-wrapper-container-list-middle-left-heatWrapper-addOne-text">+{{ startAnimationNum }}</text>
 										</div>
+										<text class="container-wrapper-container-list-middle-left-heatWrapper-iconfont iconfont icon-huo container-wrapper-container-list-middle-left-heatWrapper-iconfont-first">&#xe6d3;</text>
+										<text class="container-wrapper-container-list-middle-left-heatWrapper-text">{{ item.rate }}</text>
+										<text class="container-wrapper-container-list-middle-left-heatWrapper-iconfont iconfont icon-tianjia container-wrapper-container-list-middle-left-heatWrapper-iconfont-second">&#xe6b1;</text>
 									</div>
+
 								</div>
 							</div>
 						</div>
-					</div>
 				</cell>
-				
+
 				<!-- 加载更多组件 -->
 				<cell class="loadmore">
 						<text class="loadmore-text">{{tabItem.loadMoreStatus==0?'加载更多...':(tabItem.loadMoreStatus==1?'正在加载..':'加载完成')}}</text>
 				</cell>
 			</list>
-		 
+
 			</uni-tab-content>
 		</uni-tabs>
 		<BottomActions
@@ -114,7 +116,7 @@
 			<HotBottomActions
         ref="HotBottomActions"
       />
-			
+
 			<div v-show="position" class="leftTopFixed fixedData nav-sticky">
         <text class="iconfont icon-rili">&#xe6fb;</text>
         <text class="span indexPosition">{{ position }}</text>
@@ -132,16 +134,15 @@
 	import BottomActions from '@/components/iw-article-bottomaction/iw-article-bottomaction.nvue'
 	import HotBottomActions from '@/components/iw-hot-bottom-action/iw-hot-bottom-action.nvue'
 	import ls from '@/lib/localstorage.js'
-	
+
 	const domModule = weex.requireModule('dom')
 
-	export default { 
+	export default {
 		components: {
 			uniTabContent,
 			uniTabBar,
 			uniTabs,
-			BottomActions,
-			HotBottomActions
+			BottomActions
 		},
 		data(){
 			return {
@@ -181,13 +182,13 @@
 		methods: {
 			getLocalUuid() {
 				var userInfo = ls.get('UserInfo')
-				if (userInfo && userInfo.uuid) {
-					return userInfo.uuid
+				if (userInfo && userInfo.info.uuid) {
+					return userInfo.info.uuid
 				}
 				return null
 			},
 			getHomeDetail (pathUrl, title, imgUrl) {
-				var link = ls.get('webRoot') + '/#' + pathUrl + '?noback=1' + '&uuid=' + this.getLocalUuid()
+				var link = this.$ls.get('webRoot') + '/#' + pathUrl + '?noback=1' + '&uuid=' + this.getLocalUuid()
 
 				if (!imgUrl) {
 					imgUrl = whiteLogo
@@ -276,7 +277,7 @@
 						item.id = item.value
 					})
 					this.tabBars = tabList;
-					
+
 					let ary = [];
 					for (let i = 0, length = this.tabBars.length; i < length; i++) {
 						let aryItem = {
@@ -287,7 +288,7 @@
 							loadingText: "加载更多...",
 							newsList: []
 						};
-						
+
 						ary.push(aryItem);
 					}
 					this.newsitems = ary;
@@ -298,7 +299,7 @@
 			loadNewsList(type, index){
 				let tabItem = this.newsitems[index];
 				console.log(index)
-				
+
 				//type add 加载更多 refresh下拉刷新
 				if(type === 'add'){
 					if(tabItem.loadMoreStatus === 2){
@@ -313,7 +314,7 @@
 					this.refreshing = true
 					tabItem.page = 1
 				}
-				
+
 				//异步请求数据
 				this.getListData(tabItem.page, tabItem.value, (res) => {
 					tabItem.page += 1
@@ -327,7 +328,7 @@
 						tabItem.newsList = tabItem.newsList.concat(list)
 					}
 
-					if (type === 'refresh') {						
+					if (type === 'refresh') {
 						this.refreshing = false
 
 						if (tabItem.page === 1) {
@@ -350,8 +351,7 @@
 					id: item.id,
 					title: item.title,
 					url: item.link_url,
-					img: item.img,
-					h5Url: ls.get('webRoot') + '/#/c/' + item.category_id + '/' + item.slug
+					img: item.img
 				}
 
 				uni.navigateTo({
@@ -473,25 +473,25 @@
 	.iconfont {
 		font-family: iconfont;
 	}
-	
+
 	.everyDayWrapper-everyDay-iconfont {
         font-size: 30px;
         color: #C8C8C8;
 	}
-	
+
 	.container-wrapper-dateWrapper-iconfont {
     font-size: 16px;
     color:rgb(3, 174, 249);
     margin-right:5px;
 	}
-	
+
 	.container-wrapper-container-list-middle-left-heatWrapper-iconfont{
               position: relative;
               top: -3px;
 }
 .container-wrapper-container-list-middle-left-heatWrapper-iconfont-first{
                 color: #FA4975;
-                font-size: 12px;	
+                font-size: 12px;
 }
 .container-wrapper-container-list-middle-left-heatWrapper-iconfont-second{
                 color: #808080;
@@ -506,7 +506,7 @@
 	 * 选择器不支持嵌套
 	 * 子节点不继承父节点样式（重要）
 	 * 仅支持 flex布局 （这个还不错）， 默认为display:flex; flex-direction:column;
-	 * 
+	 *
 	 * 注：我对weex也是一知半解，有说错的麻烦指出
 	 * weex文档：https://weex.apache.org/zh/docs/styles/common-styles.html
 	 */
@@ -588,11 +588,9 @@
 		font-size: 20px;
 		color: #fff;
 	}
-	
+
 	.slider{
 		flex: 1;
-		width:100%;
-		height:100%;
 		background-color: #f8f8f8;
 	}
 	.list-content{
@@ -618,8 +616,15 @@
 		margin-right: 10px;
 	}
 
-
-
+	/* 新闻列表  */
+.everyDayWrapper {
+		width: 750px;
+		height: 80px;
+}
+.everyDayWrapper-everyDay-textImg-image {
+          width: 750px;
+          height: 80px;
+}
 .news-item{
 		width: 750px;
 		padding: 24px 30px;
@@ -680,10 +685,10 @@
 		top: 24px;
 	}
 	.title1{
-		padding-left: 240px; 
+		padding-left: 240px;
 	}
 	.bot1{
-		padding-left: 240px; 
+		padding-left: 240px;
 		margin-top: 20px;
 	}
 	/* 图在右 */
@@ -693,7 +698,7 @@
 		top: 24px;
 	}
 	.title2{
-		padding-right: 210px; 
+		padding-right: 210px;
 	}
 	.bot2{
 		margin-top: 20px;
@@ -717,216 +722,6 @@
 		margin-right: 0px;
 	}
 
-	.everyDayWrapper {
-		padding: 0 31.96px;
-		margin-top: 19.96px;
-		height:88px;
-	}
-	.edw-everyDay {
-		height: 88px;
-		line-height: 87.98px;
-		border-radius: 7.96px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-style: solid;
-		border-color:#E8E8E8;
-		border-width: 2px;
-		background: #ffffff;
-		position: relative;
-	}
-	.edw-iconfont {
-		font-size: 27.98px;
-		color: #C8C8C8;
-		position: absolute;
-		top: 27.98px;
-		left:100px;
-	}
-	.edw-textImg {
-		width: 200px;
-		height: 25px;
-		line-height: 24.98px;
-		margin-left: 9.98px;
-	}
-	.edw-textImg-image {
-		height: 25px;
-	}
 
-	.cl-container-wrapper {
-		/*margin-top: 30px;*/
-	}
-	.cl-dateWrapper {
-		padding: 0 31.96px;
-		height: 42px;
-		display: flex;
-		justify-content: space-between;
-		line-height: 42px;
-		margin-bottom: 39.98px;
-		margin-top: 19.96px;
-	}
-	.cl-iconfont iconfont {
-		font-size: 30px;
-		color: #03aef9;
-		margin-right: 10px;
-	}
-	.cl-text {
-		color: #444444;
-		font-size: 24px;
-	}
-	.cl-rightDaily {
-		position: relative;
-		z-index: 9999;
-	}
-	.cl-container-list {
-		padding: 0 31.96px 0 27.98px;
-		position: relative;
-	}
-	.cl-container-list.container-list-top {
-		margin-top: 27.98px;
-	}
-	.cl-pointLine {
-		display: inline-block;
-		position: absolute;
-		top: 0;
-	}
-	.cl-number {
-		color: #444444;
-		font-size: 21.98px;
-		font-family: HelveticaNeue-Medium;
-	}
-	.cl-splitCircle {
-		width: 7.96px;
-		height: 7.96px;
-		z-index: 100;
-		background: #444444;
-	}
-	.cl-splitLine {
-		width: 1.96px;
-		height: 232.50px;
-		display: inline-block;
-		background: #DCDCDC;
-		position: absolute;
-		top: 25.96px;
-		left: 1.96px;
-		-webkit-transform: scaleX(0.5);
-		transform: scaleX(0.5);
-	}
-	.cl-content {
-		width: 660px;
-		margin-left: 34.96px;
-		display: inline-block;
-	}
-	.cl-text {
-		color: #B4B4B6;
-		font-size: 21.98px;
-		line-height: 21.98px;
-	}
-	.cl-middle {
-		display: flex;
-		justify-content: space-between;
-		/*overflow: hidden;*/
-		/*height: 141.98px;*/
-		margin-bottom: 39.98px;
-		margin-top: 9.98px;
-	}
-	.cl-left {
-		/*width: 384px;*/
-		/*display: inline-block;*/
-	}
-	.cl-title {
-		color: #444444;
-		font-size: 31.96px;
-		line-height: 45.98px;
-		word-break: break-word;
-	}
-	.cl-heatWrapper {
-		height: 37.96px;
-		margin-top: 18px;
-		width: max-content;
-		padding: 0 49.96px 0 15.98px;
-		position: relative;
-	}
-	.cl-addOne {
-		height: 42px;
-		position: absolute;
-		top: -55.96px;
-		left: 31.96px;
-		opacity: 0;
-		transition-delay: 1.5s;
-		-moz-transition-delay: 1.5s;
-		-webkit-transition-delay: 1.5s;
-		/* Safari 和 Chrome */
-		-o-transition-delay: 1.5s;
-		animation: addone 0.8s;
-		-moz-animation: addone 0.8s;
-		/* Firefox */
-		-webkit-animation: addone 0.8s;
-		/* Safari and Chrome */
-		-o-animation: addone 0.8s;
-		/* Opera */
-	}
-	.cl-i {
-		width: 0;
-		height: 0;
-		border-left: 6px solid transparent;
-		border-right: 6px solid transparent;
-		border-top: 6px solid #FA4975;
-		position: absolute;
-		top: 37.50px;
-		left: 12px;
-	}
-	.cl-text {
-		width: 45.98px;
-		height: 36px;
-		line-height: 36px;
-		color: #FFFFFF;
-		font-size: 21.98px;
-		text-align: center;
-		border-radius: 7.96px;
-		background: #FA4975;
-		display: inline-block;
-	}
-	.cl-text {
-		color: #C8C8C8;
-		font-size: 21.98px;
-		margin-right: 7.96px;
-		position: relative;
-		top: -5px;
-		left: 6px;
-	}
-	.cl-iconfont iconfont {
-		position: relative;
-		top: -6px;
-	}
-	.cl-iconfont iconfont.first {
-		color: #FA4975;
-		font-size: 22.50px;
-	}
-	.cl-iconfont iconfont.second {
-		color: #808080;
-		font-size: 18px;
-		top: -2px;
-		position: absolute !important;
-		right: 15.98px !important;
-	}
-	.cl-border-football:after {
-		border-radius: 15.98px;
-		border-color: #DCDCDC;
-	}
-	.cl-right {
-		/*float: right;*/
-		margin-left: 36px;
-		margin-right: 7.96px;
-	}
-	.cl-articleImg {
-		width: 193.96px;
-		height: 141.98px;
-		border-radius: 7.96px;
-		overflow: hidden;
-	}
-	.cl-image {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
+
 </style>

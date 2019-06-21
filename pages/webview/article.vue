@@ -1,24 +1,15 @@
 <template>
     <view>
-        <view v-if="detailData.url">
-            <web-view :webview-styles="webviewStyles"
-                      :src="detailData.url"></web-view>
-
-        </view>
-        <view v-else>参数错误</view>
+        
     </view>
 </template>
 
 <script>
 	import share from "@/lib/sharePlus.js";
+	var wv;//计划创建的webview
   export default {
     data() {
       return {
-        webviewStyles: {
-          progress: {
-            color: '#FF3333'
-          }
-        },
         detailData: {
           url: ''
         }
@@ -42,14 +33,46 @@
     onLoad(options)
     {
       this.detailData = JSON.parse(options.data);
+			uni.setNavigationBarTitle({
+					title: this.detailData.title
+			});
+			// #ifdef APP-PLUS
+			var appInfo = this.$ls.get('appDeviceInfo')
+			console.log(JSON.stringify(appInfo));
+			var navBarTop = (appInfo.windowHeight - 44 - appInfo.statusBarHeight - 44)
+			console.log(navBarTop)
+        var wv = plus.webview.create("","custom-webview",{
+						progress: {
+							color: '#FF3333'
+						},
+						bottom: '0px',
+						subNViews:[
+							{
+								id:'subnview1',
+								styles:{height:'44px',backgroundColor:'#FFFFFF',dock: 'bottom',position: 'dock'},
+								tags:[
+									{tag:'input',id:'input',position:{top: navBarTop + 'px',height: '44px'},inputStyles:{placeholder: '点击评论',borderColor: '#FF3333',borderRadius: '6px',fonstSize:'16px'}}
+								]
+							}
+						],
+            plusrequire:"none", //禁止远程网页使用plus的API，有些使用mui制作的网页可能会监听plus.key，造成关闭页面混乱，可以通过这种方式禁止
+            top:uni.getSystemInfoSync().statusBarHeight+44 //放置在titleNView下方。如果还想在webview上方加个地址栏的什么的，可以继续降低TOP值
+        })
+        wv.loadURL(this.detailData.url)
+        var currentWebview = this.$mp.page.$getAppWebview() //获取当前页面的webview对象
+        currentWebview.append(wv);//一定要append到当前的页面里！！！才能跟随当前页面一起做动画，一起关闭
+        setTimeout(function() {
+            console.log(wv.getStyle())
+        }, 1000);//如果是首页的onload调用时需要延时一下，二级页面无需延时，可直接获取
+        // #endif
     },
 		methods: {
 			shareInfo(){
 				let shareInfo={
-					href: this.detailData.url,
+					href: this.detailData.h5Url,
 					title: this.detailData.title,
-					desc: this.detailData.title,
-					imgUrl: this.detailData.img
+					desc: '来自Inwehub，点击查看更多热度分享。',
+					imgUrl: this.detailData.img + '?x-oss-process=image/resize,h_100,w_100'
 				};
 				let shareList=[
 					{
