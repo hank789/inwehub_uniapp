@@ -142,7 +142,8 @@
 			uniTabContent,
 			uniTabBar,
 			uniTabs,
-			BottomActions
+			BottomActions,
+			HotBottomActions
 		},
 		data(){
 			return {

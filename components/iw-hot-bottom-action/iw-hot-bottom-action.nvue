@@ -55,6 +55,7 @@ import { WxcPopup } from 'weex-ui'
 import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus } from '@/lib/push'
 import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe.nvue'
 import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh.nvue'
+import nvueLib from '@/lib/ajaxRequest.js'
 
 export default {
   components: {
@@ -124,7 +125,7 @@ export default {
       // })
     },
     getNotification() {
-      postRequest(`notification/push/info`, {}, false, {}, 0, false).then(response => {
+      nvueLib.post(`notification/push/info`, {}, false, {}, 0, false).then(response => {
         var code = response.code
         if (code !== 1000) {
           ui.alert(response.message)
