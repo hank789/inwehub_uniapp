@@ -142,7 +142,8 @@
 			uniTabContent,
 			uniTabBar,
 			uniTabs,
-			BottomActions
+			BottomActions,
+			HotBottomActions
 		},
 		data(){
 			return {
@@ -182,8 +183,8 @@
 		methods: {
 			getLocalUuid() {
 				var userInfo = ls.get('UserInfo')
-				if (userInfo && userInfo.info.uuid) {
-					return userInfo.info.uuid
+				if (userInfo && userInfo.uuid) {
+					return userInfo.uuid
 				}
 				return null
 			},
