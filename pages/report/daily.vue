@@ -92,6 +92,9 @@
       @clickedItem="iconMenusClickedItem"
     />
     <alertSubscribeGZH ref="alertSubscribeGZH"></alertSubscribeGZH>
+		
+		<openNotice ref="openNotice" :showPopup="showPopup"></openNotice>
+		
   </view>
 </template>
 
@@ -111,15 +114,19 @@ import { iconMenusClickedItem } from '@/lib/feed'
 import { getHomeDetail } from '@/lib/shareTemplate'
 import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus, needNotifitionPermission } from '@/lib/push'
 import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh'
+import openNotice from '@/components/iw-dialog/open-notice.vue'
+import { checkPermission } from "@/lib/plus"
 
 export default {
   components: {
     BottomActions,
     PageMore,
-    alertSubscribeGZH
+    alertSubscribeGZH,
+		openNotice
   },
   data() {
     return {
+			showPopup: false,
       pageOption: {},
       list: {},
       date: '',
@@ -142,6 +149,9 @@ export default {
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
     this.pageOption = option
     this.refreshPageData()
+		checkPermission('NOTIFITION', () => {}, () => {
+      
+    })
   },
   watch: {
     '$route'(to, from) {
