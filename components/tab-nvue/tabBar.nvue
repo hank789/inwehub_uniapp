@@ -128,7 +128,8 @@ export default {
 	border-color: transparent;
 }
 .active {
-	color: #ec706b;
-	border-color: #ec706b;
+	color: #444;
+	border-color: #03AEF9;
+	font-weight:bold;
 }
 </style>

@@ -34,7 +34,7 @@
 					<text class="loading-text">{{refreshText}}</text>
 				</refresh>
 				
-				<cell class="download-tip" v-if="downloadTipTop"><text>{{downloadTipalertMsg}}</text></cell>
+				<cell class="download-tip" v-if="downloadTipTop"><text class="download-tip-text">{{downloadTipalertMsg}}</text></cell>
 
 				<cell v-if="tabCurrentIndex == 1" class="everyDayWrapper" @click="sharHotspot">
 					<div class="edw-everyDay">
@@ -53,17 +53,18 @@
 						</div>
 						<div class="cl-report-right">
 							<text class="iconfont cl-report-righticon">&#xe700;</text>
-							<text class="cl-report-span">日报</text>
+							<text class="cl-report-span" v-if="tabCurrentIndex === 1">日报</text>
 						</div>
 					</div>
 
+
 					<div class="cl-item" @click="navToDetails(item)">
-						<div v-if="tabCurrentIndex === 0" class="cl-pointLine">
+						<div class="cl-pointLine" v-if="tabCurrentIndex === 0">
 							<text class="cl-splitCircle" />
 							<text class="cl-splitLine" />
 						</div>
-						<div class="cl-first" v-if="tabCurrentIndex !== 0">
-							<text class="cl-number">{{ getLiIndex(index, tabIndex) }}.</text>
+						<div class="cl-first">
+							<text class="cl-number" v-if="tabCurrentIndex !== 0">{{ getLiIndex(index, tabIndex) }}.</text>
 							<text class="cl-time">{{ topTime(item) }}</text>
 							<text class="cl-split">.</text>
 							<text class="cl-domain">{{ item.domain }}</text>
@@ -104,10 +105,10 @@
         ref="HotBottomActions"
       />
 			
-			<div v-show="position" class="leftTopFixed fixedData nav-sticky">
-        <text class="iconfont icon-rili">&#xe6fb;</text>
-        <text class="span indexPosition">{{ position }}</text>
-      </div>
+	 <!--<div v-show="position" class="leftTopFixed">-->
+        <!--<text class="iconfont leftTopFixedIcon">&#xe6fb;</text>-->
+        <!--<text class="leftTopFixedDate">{{ position }}</text>-->
+      <!--</div>-->
 	</div>
 </template>
 
@@ -348,14 +349,13 @@
 				})
 			},
 			scrollList(e) {
-				const views = uni.createSelectorQuery().selectAll('.LeftDate')
 				views.boundingClientRect(data => {
 					data.forEach((item, index) => {
 						if (item.top <= 100) {
 							this.position = item.dataset.text
 						}
 					})
-					// console.log('得到节点信息' + JSON.stringify(data))
+					console.log('得到节点信息' + JSON.stringify(data))
 				}).exec()
 			},
 			sharHotspot() {
@@ -462,43 +462,6 @@
 	.iconfont {
 		font-family: iconfont;
 	}
-	
-	.everyDayWrapper-everyDay-iconfont {
-        font-size: 30px;
-        color: #C8C8C8;
-	}
-	
-	.container-wrapper-dateWrapper-iconfont {
-    font-size: 16px;
-    color:rgb(3, 174, 249);
-    margin-right:5px;
-	}
-	
-	.container-wrapper-container-list-middle-left-heatWrapper-iconfont{
-              position: relative;
-              top: -3px;
-}
-.container-wrapper-container-list-middle-left-heatWrapper-iconfont-first{
-                color: #FA4975;
-                font-size: 12px;	
-}
-.container-wrapper-container-list-middle-left-heatWrapper-iconfont-second{
-                color: #808080;
-                font-size: 9px;
-                top: -1px;
-                position: absolute !important;
-                right: 8px !important;
-}
-
-	/**
-	 * weex css限制
-	 * 选择器不支持嵌套
-	 * 子节点不继承父节点样式（重要）
-	 * 仅支持 flex布局 （这个还不错）， 默认为display:flex; flex-direction:column;
-	 * 
-	 * 注：我对weex也是一知半解，有说错的麻烦指出
-	 * weex文档：https://weex.apache.org/zh/docs/styles/common-styles.html
-	 */
 
 	.active {
 		color: #007AFF;
@@ -536,7 +499,7 @@
 	}
 	/* 顶部标题栏 */
 	.page-header{
-		background-color: #ec706b;
+		background-color: #fff;
 	}
 	.page-header-wrapper{
 		flex-direction: row;
@@ -550,7 +513,7 @@
 	}
 	.logo{
 		font-size: 40px;
-		color: #fff;
+		color: #444;
 	}
 	.page-header-center{
 		flex: 1;
@@ -559,10 +522,10 @@
 	.search-input{
 		height: 60px;
 		font-size:28px;
-		color: #fff;
+		color: #C8C8C8;
 		text-align: center;
 		line-height: 60px;
-		background-color: rgba(255,255,255,.2);
+		background-color: #F3F4F6;
 		border-radius: 100px;
 	}
 	.page-header-right{
@@ -608,12 +571,9 @@
 	}
 
 
-
-
 	.everyDayWrapper {
-		padding: 0 31.96px;
-		margin-top: 19.96px;
-		height:88px;
+		padding: 20px 32px 20px 32px;
+		height:108px;
 	}
 	.edw-everyDay {
 		height: 88px;
@@ -704,6 +664,7 @@
 		flex: 0 1 auto;
 		width:500px;
 		flex-wrap:wrap;
+		padding-right:10px;
 	}
 	.cl-second-right{
 		flex: 0 1 auto;
@@ -713,6 +674,7 @@
 	.cl-image{
 		width:192px;
 		height:140px;
+		border-radius: 8px;
 	}
 	.cl-button{
 		flex-direction:row;
@@ -747,7 +709,7 @@
 	.cl-report{
 		flex-direction: row;
 		justify-content: space-between;
-		padding:20px 30px;
+		padding:30px 30px 20px;
 	}
 	.cl-report-left{
 		flex-direction: row;
@@ -760,5 +722,67 @@
 	.cl-report-span{
 		color:#444;
 		font-size:24px;
+	}
+
+	.cl-pointLine{
+		position: absolute;
+		left:20px;
+		top:0;
+		width:8px;
+		height:270px;
+		z-index:7;
+	}
+	.cl-splitCircle {
+		width: 8px;
+		height: 8px;
+		z-index: 100;
+		background-color: #444444;
+		border-radius: 50%;
+		top:40px;
+	}
+	.cl-splitLine {
+		width: 2px;
+		background-color: #dcdcdc;
+		position: absolute;
+		top: 48px;
+		left:3px;
+		bottom:0;
+		z-index:7;
+	}
+
+	.download-tip{
+		height:60px;
+		background-color: #03AEF9;
+		justify-content: center;
+	}
+	.download-tip-text{
+		text-align: center;
+		font-size:26px;
+		color:#fff;
+	}
+
+
+	.leftTopFixed{
+		position: absolute;
+		top:200px;
+		z-index:7;
+		width:174px;
+		height:42px;
+		flex-direction: row;
+		background-color: #03AEF9;
+		border-top-right-radius: 100px;
+		border-bottom-right-radius: 100px;
+		justify-content: center;
+		align-items: center;
+		box-shadow: 0px 4px 9px -1px #cdd7dc;
+	}
+	.leftTopFixedIcon{
+		font-size: 26px;
+		color: #CCF2FF;
+	}
+	.leftTopFixedDate{
+		font-size: 28px;
+		color:#fff;
+		margin-left:5px;
 	}
 </style>
