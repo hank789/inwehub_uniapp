@@ -46,50 +46,39 @@
 				
 				<!-- 新闻列表 -->
 				<cell v-for="(item, index) in tabItem.newsList" :key="item.id" class="news-item">
-					<div class="cl-container-wrapper">
-						<div v-if="isShowDate(item, index, tabItem.newsList)" class="cl-dateWrapper" @tap.stop.prevent="toReport(item)">
-							<div class="cl-LeftDate" :data-text="timeToHumanText(item.created_at)" :data-index="tabIndex">
-								<text class="cl-iconfont iconfont icon-rili" />
-								<text class="cl-text">{{ timeToHumanText(item.created_at) }}</text>
-							</div>
-							<div v-if="tabCurrentIndex === 1" class="cl-rightDaily">
-								<text class="cl-iconfont iconfont icon-fenxiang1" />
-								<text>日报</text>
-							</div>
+					<div class="cl-report" v-if="isShowDate(item, index, tabItem.newsList)"  @click="toReport(item)">
+						<div class="cl-report-left LeftDate" :data-text="timeToHumanText(item.created_at)">
+							<text class="iconfont cl-report-lefticon">&#xe6fb;</text>
+							<text class="cl-report-date">{{ timeToHumanText(item.created_at) }}</text>
 						</div>
-						<div class="cl-container-list">
-							<div v-if="tabCurrentIndex === 0" class="cl-pointLine">
-								<text class="cl-splitCircle" />
-								<text class="cl-splitLine" />
-							</div>
-							<div v-if="tabCurrentIndex !== 0" class="cl-pointLine">
-								<text class="cl-number">{{ getLiIndex(index, tabIndex) }}.</text>
-							</div>
-							<div class="cl-content">
-								<div class="cl-top-time">
-									<text class="cl-time cl-text">{{ topTime(item) }}</text>
-									<text class="cl-splitCircle cl-text" />
-									<text class="cl-linkURL">{{ item.domain }}</text>
+						<div class="cl-report-right">
+							<text class="iconfont cl-report-righticon">&#xe700;</text>
+							<text class="cl-report-span">日报</text>
+						</div>
+					</div>
+
+					<div class="cl-item" @click="navToDetails(item)">
+						<div v-if="tabCurrentIndex === 0" class="cl-pointLine">
+							<text class="cl-splitCircle" />
+							<text class="cl-splitLine" />
+						</div>
+						<div class="cl-first" v-if="tabCurrentIndex !== 0">
+							<text class="cl-number">{{ getLiIndex(index, tabIndex) }}.</text>
+							<text class="cl-time">{{ topTime(item) }}</text>
+							<text class="cl-split">.</text>
+							<text class="cl-domain">{{ item.domain }}</text>
+						</div>
+						<div class="cl-second">
+							<div class="cl-second-left">
+								<text class="cl-title">{{ item.title }}</text>
+								<div class="cl-button" @click="addHeat(item, index, tabIndex)">
+									<text class="iconfont cl-icon-fire">&#xe6d3;</text>
+									<text class="cl-zannumber">{{ item.rate }}</text>
+									<text class="iconfont cl-icon-plus">&#xe6b1;</text>
 								</div>
-								<div class="cl-middle" @click="navToDetails(item)">
-									<div class="cl-left">
-										<div class="cl-title font-family-medium text-line-2">{{ item.title }}</div>
-										<div class="cl-heatWrapper border-football" @tap.stop.prevent="addHeat(item, index, tabIndex)">
-											<div v-if="item.startAnimation" class="cl-addOne">
-												<text class="cl-i"/>
-												<text>+{{ startAnimationNum }}</text>
-											</div>
-											<text class="cl-iconfont iconfont icon-huo first" />
-											<text class="cl-text">{{ item.rate }}</text>
-											<text class="cl-iconfont iconfont icon-tianjia second" />
-										</div>
-									</div>
-									<div v-if="item.img.length" class="cl-right">
-										<div class="cl-articleImg">
-											<image class="cl-image" mode="aspectFill" :src="item.img | imageSuffix(96, 70)" :lazy-load="true"/>
-										</div>
-									</div>
-								</div>
+							</div>
+							<div class="cl-second-right">
+								<image mode="aspectFill" class="cl-image" :src="item.img | imageSuffix(96, 70)"></image>
 							</div>
 						</div>
 					</div>
@@ -620,102 +609,6 @@
 
 
 
-.news-item{
-		width: 750px;
-		padding: 24px 30px;
-		border-bottom-width: 1px;
-		border-color: #eee;
-		background-color: #fff;
-	}
-	.title{
-		font-size: 32px;
-		color: #303133;
-		line-height: 46px;
-	}
-	.bot{
-		flex-direction: row;
-	}
-	.author{
-		font-size: 26px;
-		color: #aaa;
-	}
-	.time{
-		font-size: 26px;
-		color: #aaa;
-		margin-left: 20px;
-	}
-	.img-list{
-		flex-shrink: 0;
-		flex-direction: row;
-		background-color: #fff;
-		width: 220px;
-		height: 140px;
-	}
- 	.img-wrapper{
-		flex: 1;
-		flex-direction: row;
-		height: 140px;
-		position: relative;
-	}
-	.img{
-		flex: 1;
-	}
-	.img-empty{
-		height: 20px;
-	}
-	.video-tip{
-		position: absolute;
-		left: 0;
-		top: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex: 1;
-		background-color: rgba(0,0,0,.3);
-	}
-	/* 图在左 */
-	.img-list1{
-		position:absolute;
-		left: 30px;
-		top: 24px;
-	}
-	.title1{
-		padding-left: 240px; 
-	}
-	.bot1{
-		padding-left: 240px; 
-		margin-top: 20px;
-	}
-	/* 图在右 */
-	.img-list2{
-		position:absolute;
-		right: 30px;
-		top: 24px;
-	}
-	.title2{
-		padding-right: 210px; 
-	}
-	.bot2{
-		margin-top: 20px;
-	}
-	/* 底部3图 */
-	.img-list3{
-		width: 700px;
-		margin: 16px 0px;
-	}
-	.img-wrapper3{
-		margin-right: 4px;
-	}
-	/* 底部大图 */
-	.img-list-single{
-		width: 690px;
-		height: 240px;
-		margin: 16px 0px;
-	}
-	.img-wrapper-single{
-		height: 240px;
-		margin-right: 0px;
-	}
 
 	.everyDayWrapper {
 		padding: 0 31.96px;
@@ -740,7 +633,7 @@
 		color: #C8C8C8;
 		position: absolute;
 		top: 27.98px;
-		left:100px;
+		left:200px;
 	}
 	.edw-textImg {
 		width: 200px;
@@ -752,181 +645,120 @@
 		height: 25px;
 	}
 
-	.cl-container-wrapper {
-		/*margin-top: 30px;*/
+
+
+	.cl-number{
+		color:#444;
+		font-size:20px;
 	}
-	.cl-dateWrapper {
-		padding: 0 31.96px;
-		height: 42px;
-		display: flex;
-		justify-content: space-between;
-		line-height: 42px;
-		margin-bottom: 39.98px;
-		margin-top: 19.96px;
+	.cl-time{
+		color:#B4B4B6;
+		font-size:20px;
+		padding-left:12px;
 	}
-	.cl-iconfont iconfont {
+	.cl-split{
+		color:#B4B4B6;
+		font-size:20px;
+		margin-top:-5px;
+		margin-left:5px;
+		margin-right:5px;
+	}
+	.cl-title{
+		flex: 0 1 auto;
+		color: #444444;
 		font-size: 30px;
-		color: #03aef9;
-		margin-right: 10px;
+		line-height: 44px;
+		margin:15px 0;
+		align-items:flex-start;
+		justify-content: flex-start;
+		lines: 2;
+		word-wrap: break-word;
 	}
-	.cl-text {
+	.cl-report-lefticon{
+		color:#03aef9;
+		font-size:30px;
+	}
+	.cl-report-date{
 		color: #444444;
 		font-size: 24px;
+		margin-left:15px;
 	}
-	.cl-rightDaily {
-		position: relative;
-		z-index: 9999;
+	.cl-report-right{
+		flex-direction:row;
+
 	}
-	.cl-container-list {
-		padding: 0 31.96px 0 27.98px;
-		position: relative;
+
+	.cl-domain{
+		color:#B4B4B6;
+		font-size:20px;
+
 	}
-	.cl-container-list.container-list-top {
-		margin-top: 27.98px;
+	.cl-first{
+		flex-direction:row;
 	}
-	.cl-pointLine {
-		display: inline-block;
-		position: absolute;
-		top: 0;
+	.cl-second{
+		flex-direction:row;
+		padding-left:30px;
 	}
-	.cl-number {
-		color: #444444;
-		font-size: 21.98px;
-		font-family: HelveticaNeue-Medium;
+	.cl-second-left{
+		flex: 0 1 auto;
+		width:500px;
+		flex-wrap:wrap;
 	}
-	.cl-splitCircle {
-		width: 7.96px;
-		height: 7.96px;
-		z-index: 100;
-		background: #444444;
+	.cl-second-right{
+		flex: 0 1 auto;
+		width:192px;
+		height:140px;
 	}
-	.cl-splitLine {
-		width: 1.96px;
-		height: 232.50px;
-		display: inline-block;
-		background: #DCDCDC;
-		position: absolute;
-		top: 25.96px;
-		left: 1.96px;
-		-webkit-transform: scaleX(0.5);
-		transform: scaleX(0.5);
+	.cl-image{
+		width:192px;
+		height:140px;
 	}
-	.cl-content {
-		width: 660px;
-		margin-left: 34.96px;
-		display: inline-block;
+	.cl-button{
+		flex-direction:row;
+		border-width:2px;
+		border-color:#dcdcdc;
+		border-style:solid;
+		border-radius: 14px;
+		width:120px;
+		height:38px;
+		line-height: 38px;
+		justify-content: center;
+		align-items: center;
 	}
-	.cl-text {
-		color: #B4B4B6;
-		font-size: 21.98px;
-		line-height: 21.98px;
+	.cl-icon-fire{
+		color:#FA4975;
+		font-size:22px;
 	}
-	.cl-middle {
-		display: flex;
+	.cl-zannumber{
+		color:#C8C8C8;
+		font-size:20px;
+		line-height: 38px;
+		margin:0 5px 0 5px;
+	}
+	.cl-icon-plus{
+		color:#808080;
+		font-size:18px;
+
+	}
+	.cl-item{
+		padding:30px 30px;
+	}
+	.cl-report{
+		flex-direction: row;
 		justify-content: space-between;
-		/*overflow: hidden;*/
-		/*height: 141.98px;*/
-		margin-bottom: 39.98px;
-		margin-top: 9.98px;
+		padding:20px 30px;
 	}
-	.cl-left {
-		/*width: 384px;*/
-		/*display: inline-block;*/
+	.cl-report-left{
+		flex-direction: row;
 	}
-	.cl-title {
-		color: #444444;
-		font-size: 31.96px;
-		line-height: 45.98px;
-		word-break: break-word;
+	.cl-report-righticon{
+		color:#03aef9;
+		font-size:30px;
+		margin-right:10px;
 	}
-	.cl-heatWrapper {
-		height: 37.96px;
-		margin-top: 18px;
-		width: max-content;
-		padding: 0 49.96px 0 15.98px;
-		position: relative;
-	}
-	.cl-addOne {
-		height: 42px;
-		position: absolute;
-		top: -55.96px;
-		left: 31.96px;
-		opacity: 0;
-		transition-delay: 1.5s;
-		-moz-transition-delay: 1.5s;
-		-webkit-transition-delay: 1.5s;
-		/* Safari 和 Chrome */
-		-o-transition-delay: 1.5s;
-		animation: addone 0.8s;
-		-moz-animation: addone 0.8s;
-		/* Firefox */
-		-webkit-animation: addone 0.8s;
-		/* Safari and Chrome */
-		-o-animation: addone 0.8s;
-		/* Opera */
-	}
-	.cl-i {
-		width: 0;
-		height: 0;
-		border-left: 6px solid transparent;
-		border-right: 6px solid transparent;
-		border-top: 6px solid #FA4975;
-		position: absolute;
-		top: 37.50px;
-		left: 12px;
-	}
-	.cl-text {
-		width: 45.98px;
-		height: 36px;
-		line-height: 36px;
-		color: #FFFFFF;
-		font-size: 21.98px;
-		text-align: center;
-		border-radius: 7.96px;
-		background: #FA4975;
-		display: inline-block;
-	}
-	.cl-text {
-		color: #C8C8C8;
-		font-size: 21.98px;
-		margin-right: 7.96px;
-		position: relative;
-		top: -5px;
-		left: 6px;
-	}
-	.cl-iconfont iconfont {
-		position: relative;
-		top: -6px;
-	}
-	.cl-iconfont iconfont.first {
-		color: #FA4975;
-		font-size: 22.50px;
-	}
-	.cl-iconfont iconfont.second {
-		color: #808080;
-		font-size: 18px;
-		top: -2px;
-		position: absolute !important;
-		right: 15.98px !important;
-	}
-	.cl-border-football:after {
-		border-radius: 15.98px;
-		border-color: #DCDCDC;
-	}
-	.cl-right {
-		/*float: right;*/
-		margin-left: 36px;
-		margin-right: 7.96px;
-	}
-	.cl-articleImg {
-		width: 193.96px;
-		height: 141.98px;
-		border-radius: 7.96px;
-		overflow: hidden;
-	}
-	.cl-image {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
+	.cl-report-span{
+		color:#444;
+		font-size:24px;
 	}
 </style>
