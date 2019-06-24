@@ -11,11 +11,11 @@
 				<view class="text">我们将为您推送每日热点推荐~</view>
 				<view class="setingStep">“设置”-“通知”-开启InweHub</view>
 
-				<view class="buttonWrapper sure alertConfirm">
+				<view class="buttonWrapper sure alertConfirm" @tap.stop.prevent="nowOpen">
 					<text class="font-family-medium">现在开启</text>
 					<view class="bot"></view>
 				</view>
-				<view class="buttonWrapper sure alertConfirm">
+				<view class="buttonWrapper sure alertConfirm"  @hidePopup="hidePopup()">
 					<text class="font-family-medium">稍后提醒</text>
 					<view class="bot"></view>
 				</view>
@@ -45,6 +45,9 @@
 			}
 		},
 		methods: {
+			nowOpen() {
+				this.$emit('nowOpens')
+			},
 			showDialog() {
 				this.show = true
 			},

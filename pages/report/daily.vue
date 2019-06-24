@@ -93,7 +93,7 @@
     />
     <alertSubscribeGZH ref="alertSubscribeGZH"></alertSubscribeGZH>
 		
-		<openNotice ref="openNotice" :showPopup="showPopup"></openNotice>
+		<openNotice ref="openNotice" :showPopup="showPopup" @nowOpen="nowOpens"></openNotice>
 		
   </view>
 </template>
@@ -150,7 +150,7 @@ export default {
     this.pageOption = option
     this.refreshPageData()
 		checkPermission('NOTIFITION', () => {}, () => {
-      
+      this.showPopup = true
     })
   },
   watch: {
@@ -169,6 +169,9 @@ export default {
     // #endif
   },
   methods: {
+		nowOpens() {
+			toSettingSystem('NOTIFITION')
+		},
     clickShare() {
       this.$refs.share.share()
       this.shareOption = getHomeDetail(
