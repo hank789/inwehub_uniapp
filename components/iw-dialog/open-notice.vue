@@ -15,7 +15,7 @@
 					<text class="font-family-medium">现在开启</text>
 					<view class="bot"></view>
 				</view>
-				<view class="buttonWrapper sure alertConfirm"  @hidePopup="hidePopup()">
+				<view class="buttonWrapper sure alertConfirm"  @tap.stop.prevent="hidePopup()">
 					<text class="font-family-medium">稍后提醒</text>
 					<view class="bot"></view>
 				</view>
