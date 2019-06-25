@@ -1,0 +1,285 @@
+<template>
+	<div>
+		<wxc-popup :show="isShow" :pos="bottom" :height="320" @wxcPopupOverlayClicked="hide">
+			<div class="iw-hot-home">
+				<div class="iw-heat-wrapper">
+					<div class="iw-menu-box">
+						<div class="iw-img-left">
+							<text class="iconfont iw-icon-sub">&#xe701;</text>
+							<image class="iw-hot-image" :lazy-load="true" mode="aspectFill" src="../../static/images/hotrecommend@3x.png" alt="" />
+						</div>
+						<div class="iw-menu-right">
+							<div class="iw-line" />
+							<div class="iw-menu-list" @click="subscribeApp">
+								<div :class="[isOpenAppPush === 1 ? 'iw-icon-grey':'']" class="iw-icon-box iw-phone">
+									<text :class="[isOpenAppPush ? 'iw-grey-text' : '']"  class="iconfont iw-icon-phone iw-icon-all" >&#xe6ff;</text>
+								</div>
+								<text class="iw-tip-text">{{ isOpenAppPush ? '已订阅':'APP推送' }}</text>
+							</div>
+							<div class="iw-menu-list" @tap.stop.prvent="subscribeEmail">
+								<div :class="[isOpenEmailPush ? 'iw-icon-grey':'']" class="iw-icon-box iw-email">
+									<text :class="[isOpenEmailPush ? 'iw-grey-text' : '']"  class="iconfont iw-icon-email iw-icon-all" >&#xe6fe;</text>
+								</div>
+								<text class="iw-tip-text">{{ isOpenEmailPush ? '已订阅':'邮件' }}</text>
+							</div>
+							<div class="iw-menu-list" @click="subscribeGZH">
+								<div :class="[isOpenWeChatPush ? 'iw-icon-grey' : '']" class="iw-icon-box iw-wechat">
+									<text :class="[isOpenWeChatPush ? 'iw-grey-text' : '']" class="iconfont iw-icon-wechat iw-icon-all" >&#xe6fd;</text>
+								</div>
+								<text class="iw-tip-text">{{ isOpenWeChatPush ? '已订阅':'微信服务号' }}</text>
+							</div>
+						</div>
+					</div>
+
+					<div class="iw-close" @click="cancelShare">
+						<div class="iw-bot" />
+						<text class="iw-close-text">取消123</text>
+					</div>
+				</div>
+			</div>
+		</wxc-popup>
+
+		<alertEmailSubscribe ref="alertEmailSubscribe" @emailChange="emailChange"></alertEmailSubscribe>
+		<alertSubscribeGZH ref="alertSubscribeGZH"></alertSubscribeGZH>
+	</div>
+</template>
+
+<script type="text/javascript">
+	import {
+		WxcPopup
+	} from 'weex-ui'
+	import {
+		setHotRecommendAppPushStatus,
+		setHotRecommendEmailStatus
+	} from '@/lib/push'
+	import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe.nvue'
+	import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh.nvue'
+	import nvueLib from '@/lib/ajaxRequest.js'
+
+	export default {
+		components: {
+			WxcPopup,
+			alertEmailSubscribe,
+			alertSubscribeGZH
+		},
+		props: {},
+		data() {
+			return {
+				isOpenAppPush: -1,
+				isOpenEmailPush: -1,
+				isOpenWeChatPush: -1,
+				emailText: '',
+				isShow: false
+			}
+		},
+		beforeCreate() {
+			const domModule = weex.requireModule('dom')
+			domModule.addRule('fontFace', {
+				'fontFamily': "iconfont",
+				'src': "url('../../static/fonts/iconfont.ttf')"
+			});
+		},
+		computed: {},
+		watch: {},
+		created() {
+			this.refreshPageData()
+		},
+		methods: {
+			hide() {
+				this.isShow = false
+			},
+			subscribeApp() {
+				if (!this.isOpenAppPush) {
+					setHotRecommendAppPushStatus(this, 1, () => {
+						this.isOpenAppPush = 1
+						// ui.toast('“APP订阅”成功')
+					}, () => {})
+				}
+			},
+			subscribeEmail() {
+				if (!this.isOpenEmailPush) {
+					if (!this.emailText) {
+						this.cancelShare()
+						this.$refs.alertEmailSubscribe.show()
+						return
+					}
+				}
+			},
+			emailChange(email) {
+				setHotRecommendEmailStatus(1, email, () => {
+					this.isOpenEmailPush = 1
+					this.$refs.alertEmailSubscribe.hide()
+				}, () => {})
+			},
+			subscribeGZH() {
+				this.cancelShare()
+				this.$refs.alertSubscribeGZH.show()
+				// setHotRecommendWechatStatus(this.isOpenWeChatPush, () => {
+				//   if (!this.isOpenWeChatPush) {
+				//     this.cancelShare()
+				//   } else {
+				//     this.isOpenWeChatPush = 0
+				//     // ui.toast('已关闭“微信订阅”')
+				//   }
+				// }, () => {
+				//   this.isOpenWeChatPush = 0
+				// })
+			},
+			getNotification() {
+				nvueLib.post(`notification/push/info`, {}, false, {}, 0, false).then(response => {
+					var code = response.code
+					if (code !== 1000) {
+						ui.alert(response.message)
+						return
+					}
+					var res = response.data
+
+					this.isOpenAppPush = res.push_daily_subscribe
+					this.emailText = res.email_daily_subscribe
+					this.isOpenWeChatPush = res.wechat_daily_subscribe
+					this.isOpenEmailPush = res.email_daily_subscribe
+					if (this.emailText) {
+						this.isOpenEmailPush = 1
+					}
+				})
+			},
+			refreshPageData() {
+				this.getNotification()
+			},
+			cancelShare() {
+				this.hide()
+			},
+			show() {
+				this.isShow = true
+			}
+		}
+	}
+</script>
+<style scoped>
+	.iw-bot {
+        position: absolute;
+        right: 0;
+		top: 0;
+        bottom: 0;
+        left: 0px;
+        height: 3px;
+		width: 750px;
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        background-color: rgb(220, 220, 220);
+    }
+	.iconfont {
+		font-family: iconfont;
+	}
+	.iw-hot-home {
+		position: absolute;
+		bottom: 0;
+		width:750px;
+		height:320px;
+		border-top-left-radius: 36px;
+		border-top-right-radius: 36px;
+	}
+	.iw-heat-wrapper {
+		width: 750px;
+		height:320px;
+		position: absolute;
+		bottom: 0;
+		z-index: 999;
+		padding-top: 40px;
+		background-color: #FFFFFF;
+		border-top-left-radius: 36px;
+		border-top-right-radius: 36px;
+	}
+	.iw-menu-box {
+		width:750px;
+		height: 142px;
+		overflow: hidden;
+		padding: 0 10px 40px;
+		display: flex;
+		justify-content: space-between;
+		flex-direction: row;
+		margin-bottom: 30px;
+	}
+	.iw-img-left {
+		width: 184px;
+		height: 284px;
+		margin-left: 60px;
+		text-align: center;
+	}
+	.iw-icon-sub {
+		color: #C8C8C8;
+		font-size: 42px;
+		margin-left: 25px;
+		margin-bottom: 40px;
+	}
+	.iw-hot-image {
+		width: 92px;
+		height: 52px;
+		position: relative;
+		top: -22px;
+	}
+	.iw-menu-right {
+		width: 566px;
+		height: 142px;
+		flex-direction: row;
+	}
+	.iw-line {
+		width: 2px;
+		height: 88px;
+		background-color: #DCDCDC;
+		margin-right: 30px;
+		position: relative;
+	}
+	.iw-menu-list {
+		width: 156px;
+		height: 142px;
+		padding: 0 30px;
+	}
+	.iw-icon-box {
+		width: 88px;
+		height: 88px;
+		color: #FFFFFF;
+		text-align: center;
+		border-radius: 50%;
+	}
+	.iw-icon-all {
+		text-align: center;
+		font-size: 46px;
+		position: relative;
+		top: 20px;
+		color: #FFFFFF;
+	}
+	.iw-tip-text {
+		color: #808080;
+		font-size: 22px;
+		text-align: center;
+		margin-top: 10px;
+	}
+	.iw-close {
+		width: 750px;
+		height: 102px;
+		position: relative;
+		text-align: center;
+	}
+	.iw-close-text {
+		color: #444444;
+		font-size: 32px;
+		text-align: center;
+		line-height: 104px;
+	}
+	.iw-phone {
+		background-color: #03AEF9;
+	}
+	.iw-email {
+		background-color: #5B84DE;
+	}
+	.iw-wechat {
+		background-color: #77C819;
+	}
+	.iw-icon-grey {
+		background-color: #F7F8FA;
+	}
+	.iw-grey-text {
+		color: #808080;
+	}
+</style>
