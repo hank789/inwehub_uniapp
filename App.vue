@@ -8,7 +8,6 @@
       try {
         this.$ls.set('appDeviceInfo', uni.getSystemInfoSync())
       } catch (e) {
-        this.$ls.set('appDeviceInfo', {platform: ''})
         console.log(e)
       }
       //#ifdef APP-PLUS
