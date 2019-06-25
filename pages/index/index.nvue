@@ -540,7 +540,7 @@
 		font-size: 20px;
 		color: #fff;
 	}
-	
+
 	.slider{
 		flex: 1;
 		width:100%;
@@ -572,6 +572,7 @@
 
 
 	.everyDayWrapper {
+		width:750px;
 		padding: 20px 32px 20px 32px;
 		height:108px;
 	}
@@ -628,6 +629,8 @@
 		color: #444444;
 		font-size: 30px;
 		line-height: 44px;
+		width:468px;
+		height:88px;
 		margin:15px 0;
 		align-items:flex-start;
 		justify-content: flex-start;
@@ -663,6 +666,7 @@
 	.cl-second-left{
 		flex: 0 1 auto;
 		width:500px;
+		height:160px;
 		flex-wrap:wrap;
 		padding-right:10px;
 	}
@@ -710,6 +714,7 @@
 		flex-direction: row;
 		justify-content: space-between;
 		padding:30px 30px 20px;
+		width:750px;
 	}
 	.cl-report-left{
 		flex-direction: row;
@@ -751,6 +756,7 @@
 	}
 
 	.download-tip{
+		width:750px;
 		height:60px;
 		background-color: #03AEF9;
 		justify-content: center;
