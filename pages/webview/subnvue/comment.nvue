@@ -1,98 +1,89 @@
 <template>
-	<div>
-		<text>这是底部预留的评论区</text>
-	</div>
+    <div class="wc-content">
+        <div class="wc-footer">
+            <div class="ws-input">
+                <text class="ws-text">说点什么</text>
+            </div>
+            <div class="wc-item">
+                <text class="iconfont">&#xe6a2;</text>
+                <text class="ws-number">6</text>
+            </div>
+            <div class="wc-item">
+                <text class="iconfont ws-active">&#xe6a1;</text>
+                <text class="ws-number ws-number-active">0</text>
+            </div>
+            <text class="iconfont">&#xe622;</text>
+        </div>
+    </div>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				lists: [],
-				interval: null,
-				yourTexts: [
-					{
-						name: '学员A',
-						content: '老师讲的真好',
-					}, {
-						name: '学员B',
-						content: 'uni-app值得学习',
-					}, {
-						name: '学员C',
-						content: '老师，还有实战例子吗？',
-					}, {
-						name: '学员D',
-						content: '老师，请问是不是要先学会vue才能学uni-app？',
-					}, {
-						name: '学员E',
-						content: '受教了，uni-app太牛了',
-					}
-				],
-			}
-		},
-		created() {
-			
-		},
-		methods: {
-			addItem() {
-				const vm = this;
-				vm.lists = [{
-					name: '学员E',
-					content: '受教了，uni-app太牛了',
-				}];
-				const dom = weex.requireModule('dom')
-				vm.interval = setInterval(() => {
-					if(vm.lists.length > 15) {
-						vm.lists.unshift();
-					}
-					vm.lists.push({
-						name: vm.yourTexts[vm.lists.length%4].name,
-						content: vm.yourTexts[vm.lists.length%4].content
-					});
-					if(vm.lists.length > 5) {
-						vm.$nextTick(() => {
-							if(vm.$refs['item' + (vm.lists.length - 1)]){
-								dom.scrollToElement(vm.$refs['item' + (vm.lists.length - 1)][0]);	
-							}
-						});
-					}
-				}, 3500);
-			},
-			closeItem() {
-				if(this.interval) clearInterval(this.interval);
-			}
-		}
-	}
+  export default {
+    data() {
+      return {
+        lists: []
+      }
+    },
+    created() {
+
+    },
+    methods: {}
+  }
 </script>
 
 <style>
-	.wrapper {
-		position: relative;
-		flex: 1;
-		background-color: transparent;
-	}
-	.list {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-color: rgba(0, 0, 0, 0.7);
-	}
-	.cell {
-		padding: 10px 0;
-		flex-direction: row;
-		flex-wrap: nowrap;
-	}
-	.name {
-		flex: none;
-		font-size: 20px;
-		margin-right: 20px;
-		color: #FF5A5F;
-	}
-	.content {
-		flex: 1;
-		font-size: 20px;
-		color: #F4F5F6;
-	}
+    .wc-content {
+        width: 750px;
+        height: 80px;
+    }
+
+    .iconfont {
+        font-family: iconfont;
+        color: #808080;
+        font-size: 30px;
+    }
+
+    .ws-active {
+        color: rgb(2, 173, 249);
+    }
+
+    .wc-footer {
+        width: 750px;
+        height: 80px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        padding: 3px 5px;
+    }
+
+    .ws-text {
+        color: #C8C8C8;
+        font-size: 28px;
+    }
+
+    .wc-item {
+        position: relative;
+        padding: 20px;
+    }
+
+    .ws-number {
+        position: absolute;
+        right: 3px;
+        top: -3px;
+        font-size: 24px;
+        color: #808080;
+    }
+
+    .ws-number-active {
+        color: rgb(2, 173, 249);
+    }
+
+    .ws-input {
+        height: 60px;
+        width: 466px;
+        border-radius: 8px;
+        background-color: rgb(243, 244, 246);
+        justify-content: center;
+        padding-left: 15px;
+    }
 </style>
