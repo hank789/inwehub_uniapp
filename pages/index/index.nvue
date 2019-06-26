@@ -95,7 +95,6 @@
 		</uni-tabs>
 		<BottomActions
         ref="BottomActions"
-        v-model="activeItem"
         :regions="regions"
         @clickDelete="clickDelete"
         @startAnimation="startAnimationEvent"
@@ -122,6 +121,8 @@
 	import BottomActions from '@/components/iw-article-bottomaction/iw-article-bottomaction.nvue'
 	import HotBottomActions from '@/components/iw-article-bottomaction/iw-hot-bottom-action.nvue'
 	import ls from '@/lib/localstorage.js'
+	import share from "@/lib/sharePlus.js";
+	import { getIndexByIdArray } from '@/lib/array.js'
 	
 	const domModule = weex.requireModule('dom')
 
@@ -176,6 +177,38 @@
 				}
 				return null
 			},
+			clickDelete () {
+        this.$refs.BottomActions.cancelShare()
+				uni.showModal({
+					title: '警告',
+					content: '确定删除吗',
+					showCancel: true,
+					success: (res) => {
+						if (res.confirm) {
+							console.log('用户点击确定:'+this.activeItem.id);
+							nvueLib.post('article/destroy-submission',{id: this.activeItem.id}).then(res => {
+								if (res.code === 1000) {
+									var index = getIndexByIdArray(this.newsitems[this.tabCurrentIndex].newsList, this.activeItem.id)
+									console.log(index)
+									this.newsitems[this.tabCurrentIndex].newsList.splice(index, 1)
+									uni.showToast({
+										title: '删除成功',
+										icon: 'none'
+									})
+								} else {
+									uni.showToast({
+										title: res.message,
+										icon: 'none'
+									})
+								}
+								
+							})
+						} else if (res.cancel) {
+								console.log('用户点击取消');
+						}
+					}
+				})
+      },
 			getHomeDetail (pathUrl, title, imgUrl) {
 				var link = ls.get('webRoot') + '/#' + pathUrl + '?noback=1' + '&uuid=' + this.getLocalUuid()
 
@@ -400,32 +433,91 @@
 
 				return true
 			},
-			showItemMore(item) {
-				item.feed_type = 16
-				item.user = {
-					id: 0
-				}
-				item.feed = {
-					is_bookmark: item.is_upvoted,
-					submission_id: item.id
-				}
-				this.shareIconMenus = [] // getIconMenus(item)
-				this.itemOptionsObj = item
-				this.shareOption = this.getHomeDetail(
-					'/c/' + item.category_id + '/' + item.slug, // item.link_url,
-					item.title,
-					item.img
-				)
-				this.shareOption.targetId = item.slug
-				this.shareOption.targetType = 'submission'
-				this.$refs.share.share()
+			showItemMore(item){
+				let shareInfo={
+					href: ls.get('webRoot') + '/#/c/' + item.category_id + '/' + item.slug,
+					title: item.title,
+					desc: '来自Inwehub，点击查看更多热度分享。',
+					imgUrl: item.img + '?x-oss-process=image/resize,h_100,w_100'
+				};
+				let shareList=[
+					{
+						icon:"/static/images/sharemenu/wx.png",
+						text:"微信好友",
+					},
+					{
+						icon:"/static/images/sharemenu/pyq.png",
+						text:"朋友圈"
+					},
+					{
+						icon:"/static/images/sharemenu/copy.png",
+						text:"复制"
+					},
+					{
+						icon:"/static/images/sharemenu/more.png",
+						text:"更多"
+					},
+				];
+				this.shareObj=share(shareInfo,shareList,function(index){
+					console.log("点击按钮的序号: " + index);
+					let shareObj={
+						href:shareInfo.href||"",
+						title:shareInfo.title||"",
+						summary:shareInfo.desc||"",
+						success:(res)=>{
+							console.log("success:" + JSON.stringify(res));
+						},
+						fail:(err)=>{
+							console.log("fail:" + JSON.stringify(err));
+						}
+					};
+					switch (index) {
+						case 0:
+							shareObj.provider="weixin";
+							shareObj.scene="WXSceneSession";
+							shareObj.type=0;
+							shareObj.imageUrl=shareInfo.imgUrl||"";
+							uni.share(shareObj);
+							break;
+						case 1:
+							shareObj.provider="weixin";
+							shareObj.scene="WXSenceTimeline";
+							shareObj.type=0;
+							shareObj.imageUrl=shareInfo.imgUrl||"";
+							uni.share(shareObj);
+							break;
+						case 2:
+							uni.setClipboardData({
+								data:shareInfo.href,
+								complete() {
+									uni.showToast({
+										title: "已复制到剪贴板"
+									})
+								}
+							})
+							break;
+						case 3:
+							plus.share.sendWithSystem({
+								type:"web",
+								title:shareInfo.title||"",
+								thumbs:[shareInfo.imgUrl||""],
+								href:shareInfo.href||"",
+								content: shareInfo.desc||"",
+							})
+							break;
+					};
+				});
+				this.$nextTick(()=>{
+					this.shareObj.alphaBg.show();
+					this.shareObj.shareMenu.show();
+				})
 			},
 			addHeat(item, itemIndex, listIndex) {
 				console.log('addHeat')
 				this.activeItem = item
 				this.activeItemIndex = itemIndex
 				this.activeListIndex = listIndex
-				this.$refs.BottomActions.show()
+				this.$refs.BottomActions.show(item)
 			},
 
 			isShowDate(item, index, list) {
