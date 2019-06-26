@@ -16,7 +16,7 @@
 								</div>
 								<text class="iw-tip-text">{{ isOpenAppPush ? '已订阅':'APP推送' }}</text>
 							</div>
-							<div class="iw-menu-list" @tap.stop.prvent="subscribeEmail">
+							<div class="iw-menu-list" @click="subscribeEmail">
 								<div :class="[isOpenEmailPush ? 'iw-icon-grey':'']" class="iw-icon-box iw-email">
 									<text :class="[isOpenEmailPush ? 'iw-grey-text' : '']"  class="iconfont iw-icon-email iw-icon-all" >&#xe6fe;</text>
 								</div>
@@ -97,6 +97,7 @@
 				}
 			},
 			subscribeEmail() {
+				console.log(this.isOpenEmailPush + ';' + this.emailText)
 				if (!this.isOpenEmailPush) {
 					if (!this.emailText) {
 						this.cancelShare()
