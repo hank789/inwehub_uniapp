@@ -33,7 +33,7 @@
 
 					<div class="iw-close" @click="cancelShare">
 						<div class="iw-bot" />
-						<text class="iw-close-text">取消123</text>
+						<text class="iw-close-text">取消</text>
 					</div>
 				</div>
 			</div>
