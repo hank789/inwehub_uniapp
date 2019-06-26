@@ -70,15 +70,15 @@
 							<text class="cl-domain">{{ item.domain }}</text>
 						</div>
 						<div class="cl-second">
-							<div class="cl-second-left">
-								<text class="cl-title">{{ item.title }}</text>
+							<div :class="[item.img?'cl-second-left':'cl-second-content']">
+								<text :class="['cl-title',item.img?'':'cl-title1']">{{ item.title }}</text>
 								<div class="cl-button" @click="addHeat(item, index, tabIndex)">
 									<text class="iconfont cl-icon-fire">&#xe6d3;</text>
 									<text class="cl-zannumber">{{ item.rate }}</text>
 									<text class="iconfont cl-icon-plus">&#xe6b1;</text>
 								</div>
 							</div>
-							<div class="cl-second-right">
+							<div class="cl-second-right" v-if="item.img">
 								<image mode="aspectFill" class="cl-image" :src="item.img | imageSuffix(96, 70)"></image>
 							</div>
 						</div>
@@ -629,13 +629,15 @@
 		color: #444444;
 		font-size: 30px;
 		line-height: 44px;
-		width:468px;
 		height:88px;
 		margin:15px 0;
 		align-items:flex-start;
 		justify-content: flex-start;
 		lines: 2;
 		word-wrap: break-word;
+	}
+	.cl-title1{
+		width: 650px;
 	}
 	.cl-report-lefticon{
 		color:#03aef9;
@@ -666,6 +668,13 @@
 	.cl-second-left{
 		flex: 0 1 auto;
 		width:500px;
+		height:160px;
+		flex-wrap:wrap;
+		padding-right:10px;
+	}
+	.cl-second-content{
+		flex: 0 1 auto;
+		width:750px;
 		height:160px;
 		flex-wrap:wrap;
 		padding-right:10px;

@@ -20,15 +20,14 @@
         <view class="mui-scroll-wrapper dropDownScrollWrapper">
           <view class="mui-scroll">
             <view class="listWrapper">
-              <view v-for="(item, index) in localTree" :class="{active: item.isShow}" class="list">
+              <view v-for="(item, index) in localTree" :key="index" :class="{active: item.isShow}" class="list">
                 <view :class="{active: item.isShow}" class="text ListTitle" @tap.stop.prevent="selectItem(item)">
                   <view class="span">{{ item.name }} {{ parseInt(item.children_count) > 0 ? '(' + item.children_count + ')' : '' }}</view>
                   <text class="iconfont icon-xiangshangjiantou " />
                 </view>
-
                 <DropDownMenuChild
                   v-if="item.children.length"
-                  :class="{active: item.isShow}"
+                  :class="{listChildrenActive: item.isShow, listChildrenHide: !item.isShow}"
                   :tree="item"
                   @selectChange="selectChange"
                 />
@@ -80,12 +79,13 @@ export default {
   data() {
     return {
       selectedIterms: [],
-      isShow: false,
-      localTree: this.tree
+      isShow: false
     }
   },
   computed: {
-
+    localTree() {
+      return JSON.parse(JSON.stringify(this.tree))
+    }
   },
   mounted() {
   },
@@ -97,7 +97,6 @@ export default {
       return item.isShow ? 'active' : ''
     },
     selectItem(item) {
-      console.log(item)
       if (item.children_count) {
         item.isShow = !item.isShow
         this.$forceUpdate()
@@ -236,8 +235,12 @@ export default {
     display: none;
   }
 
-  .dropDownScrollWrapper .list .listChildren.active{
+  .dropDownScrollWrapper .list .listChildrenActive{
     display: block;
+  }
+
+  .dropDownScrollWrapper .list .listChildrenHide{
+    display: none;
   }
 
   .dropDownScrollWrapper .list .text.active {
