@@ -58,12 +58,12 @@
 					</div>
 
 
-					<div class="cl-item" @click="navToDetails(item)">
+					<div class="cl-item">
 						<div class="cl-pointLine" v-if="tabCurrentIndex === 0">
 							<text class="cl-splitCircle" />
 							<text class="cl-splitLine" />
 						</div>
-						<div class="cl-first">
+						<div class="cl-first" @click="navToDetails(item)">
 							<text class="cl-number" v-if="tabCurrentIndex !== 0">{{ getLiIndex(index, tabIndex) }}.</text>
 							<text class="cl-time">{{ topTime(item) }}</text>
 							<text class="cl-split">.</text>
@@ -71,14 +71,14 @@
 						</div>
 						<div class="cl-second">
 							<div :class="[item.img?'cl-second-left':'cl-second-content']">
-								<text :class="['cl-title',item.img?'':'cl-title1']">{{ item.title }}</text>
+								<text @click="navToDetails(item)" :class="['cl-title',item.img?'':'cl-title1']">{{ item.title }}</text>
 								<div class="cl-button" @click="addHeat(item, index, tabIndex)">
 									<text class="iconfont cl-icon-fire">&#xe6d3;</text>
 									<text class="cl-zannumber">{{ item.rate }}</text>
 									<text class="iconfont cl-icon-plus">&#xe6b1;</text>
 								</div>
 							</div>
-							<div class="cl-second-right" v-if="item.img">
+							<div @click="navToDetails(item)" class="cl-second-right" v-if="item.img">
 								<image mode="aspectFill" class="cl-image" :src="item.img | imageSuffix(96, 70)"></image>
 							</div>
 						</div>

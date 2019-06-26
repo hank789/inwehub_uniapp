@@ -190,8 +190,6 @@
 						})
 					}
 				}
-				console.log(this.localItem.id)
-				console.log(tags)
 				nvueLib.post(`article/regionOperator`, {
 					id: this.localItem.id,
 					tags: tags
