@@ -735,6 +735,19 @@
       }
     },
     {
+      "path": "pages/my/articleList",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的专栏",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
       "path": "pages/wechat/bindPhone",
       "style": {
         "navigationStyle": "default",

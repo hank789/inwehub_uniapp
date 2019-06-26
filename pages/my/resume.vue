@@ -118,7 +118,7 @@
 					<view class="bot" v-if="resume.info.article_count || uuid === cuuid"></view>
 				</view>
 
-				<view class="specialColumn" v-if="resume.info.article_count || uuid === cuuid" @tap.stop.prevent="$router.pushPlus('/article/list/' + resume.info.uuid )">
+				<view class="specialColumn" v-if="resume.info.article_count || uuid === cuuid" @tap.stop.prevent="toRoute('/pages/my/articleList?uuid=' + resume.info.uuid )">
 					<view class="titleText">
 						<text class="iconfont icon-zhuanlan"></text>
 						<text class="tipTitle">文章专栏</text>
