@@ -209,7 +209,10 @@
       "path": "pages/dianping/products",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "产品服务"
+        "navigationBarTitleText": "产品服务",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
@@ -241,7 +244,6 @@
     {
       "path": "pages/dianping/comment",
       "style": {
-        "disableScroll": true,
         "navigationStyle": "default",
         "navigationBarTitleText": "点评",
         "app-plus": {
@@ -1076,7 +1078,10 @@
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#fff",
-    "backgroundColor": "#fff"
+    "backgroundColor": "#fff",
+    "usingComponents":{
+      "drop-down-menu-child":"/components/iw-category-select/iw-category-select-children"
+    }
   },
 	"condition" : { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)

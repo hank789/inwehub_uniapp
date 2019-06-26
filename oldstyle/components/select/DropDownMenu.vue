@@ -99,7 +99,7 @@
     display: none;
   }
 
-  .dropDownScrollWrapper .list .listChildren.active {
+  .dropDownScrollWrapper .list .listChildrenActive {
     display: block;
   }
 
