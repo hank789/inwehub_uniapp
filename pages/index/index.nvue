@@ -374,6 +374,7 @@
 					title: item.title,
 					url: item.link_url,
 					img: item.img,
+                    slug: item.slug,
 					h5Url: ls.get('webRoot') + '/#/c/' + item.category_id + '/' + item.slug
 				}
 

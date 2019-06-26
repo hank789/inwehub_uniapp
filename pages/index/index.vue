@@ -330,7 +330,8 @@ export default {
         id: item.id,
         title: item.title,
         url: item.link_url,
-        img: item.img
+        img: item.img,
+        slug: item.slug
       }
 
       uni.navigateTo({

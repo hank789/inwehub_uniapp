@@ -130,8 +130,10 @@
 				<view class="gray" v-if="resume.info.article_count || resume.info.skill_tags.length > 0 || uuid === cuuid"></view>
 
 			</view>
-			<view v-for="(item, index) in list" :key="index" class="iwItem">
-				<iw-feed-item :item="item" @showPageMore="showPageMore"></iw-feed-item>
+			<view class="marginApp">
+				<view v-for="(item, index) in list" :key="index" class="iwItem">
+					<iw-feed-item :item="item" @showPageMore="showPageMore"></iw-feed-item>
+				</view>
 			</view>
 
 		</iwList>
@@ -157,6 +159,8 @@
 	import iwPageMore from '@/components/iw-page-more/iw-page-more'
 	import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
 	import iwDialogReport from '@/components/iw-dialog/report.vue'
+	
+	import { getResumeDetail } from '@/lib/shareTemplate'
 	export default {
 		data() {
 			return {
@@ -173,7 +177,7 @@
 				uuid: '',
 				cuuid: '',
 				search_type: 5, // 1:关注,2:全部,3:问答,4:分享,5:他的动态,6:推荐,默认2
-				cssTop: 88,
+				cssTop: 0,
 				list: [],
 				resume: {
 					groups: [],
@@ -250,7 +254,17 @@
 		mounted() {
 		},
 
-		methods: {	
+		methods: {
+			toMsg () {
+				this.iconMenus = []
+				this.shareOption = getResumeDetail(
+					this.uuid,
+					this.resume.info.name,
+					this.resume.info.company,
+					this.resume.info.avatar_url
+				)
+				this.$refs.pageMore.show()
+			},
 			iconMenusClickedItem (item) {
 				iconMenusClickedItem(this, this.itemOptionsObj, item, () => {
 					this.iconMenus = getIconMenus(this.itemOptionsObj)
@@ -260,6 +274,7 @@
 				this.itemOptionsObj = data.item
 				this.iconMenus = getIconMenus(data.item)
 				this.shareOption = data.shareOption
+				console.log(data.shareOption, '分享数据')
 				this.$refs.pageMore.show()
 			},
 			scrollList(scrollTop) {
@@ -810,4 +825,9 @@
 			line-height: 88upx;
 		}
 	}
+	/* #ifdef APP-PLUS */
+	.marginApp {
+		margin-top: -270upx;
+	}
+	/* #endif */
 </style>

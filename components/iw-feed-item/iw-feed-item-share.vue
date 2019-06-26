@@ -26,8 +26,8 @@
         <view class="feed-link-box">
           <view class="linkImg"><image class="image" mode="aspectFill" :src="item.feed.img" width="44" height="44" /></view>
           <view class="linkText">
-            <view class="span firstSpan font-family-medium text-line-2">{{ item.feed.article_title }}</view>
-            <view class="span twoSpan">{{ item.feed.domain }}</view>
+            <view class="firstSpan font-family-medium text-line-2">{{ item.feed.article_title }}</view>
+            <view class="twoSpan">{{ item.feed.domain }}</view>
           </view>
         </view>
       </view>
@@ -267,19 +267,17 @@ export default {
                 .linkText {
                     width: 537.98upx;
                     margin-left: 19.96upx;
-                    .span {
-                        .firstSpan {
-                            width: inherit;
-                            color: #444444;
-                            font-size: 25.96upx;
-                            line-height: 39.98upx;
-                            letter-spacing: 0.98upx;
-                        }
-                        .twoSpan {
-                            color: #B4B4B6;
-                            font-size: 21.98upx;
-                        }
-                    }
+					.firstSpan {
+						width: inherit;
+						color: #444444;
+						font-size: 25.96upx;
+						line-height: 39.98upx;
+						letter-spacing: 0.98upx;
+					}
+					.twoSpan {
+						color: #B4B4B6;
+						font-size: 21.98upx;
+					}
                 }
             }
         }
@@ -301,12 +299,13 @@ export default {
                         color: #ffffff;
                         font-size: 67.96upx;
                         margin-top: 9.98upx;
+						line-height: 87.98upx;
                     }
                 }
                 .pdfText {
                     width: 537.98upx;
                     margin-left: 19.96upx;
-                    .span {
+                    .font-family-medium {
                         width: inherit;
                         color: #444444;
                         font-size: 25.96upx;
