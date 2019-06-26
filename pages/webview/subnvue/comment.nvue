@@ -1,33 +1,65 @@
 <template>
     <div class="wc-content">
         <div class="wc-footer">
-            <div class="ws-input">
+            <div class="ws-input" @click="toComment">
                 <text class="ws-text">说点什么</text>
             </div>
-            <div class="wc-item">
+            <div class="wc-item" @click="toComment">
                 <text class="iconfont">&#xe6a2;</text>
-                <text class="ws-number">6</text>
+                <text class="ws-number" v-if="detail.comments_number">{{ detail.comments_number }}</text>
             </div>
-            <div class="wc-item">
-                <text class="iconfont ws-active">&#xe6a1;</text>
-                <text class="ws-number ws-number-active">0</text>
+            <div class="wc-item" @click="support">
+                <text class="iconfont" :class="[activeClass]">&#xe6a1;</text>
+                <text class="ws-number ws-number-active" v-if="detail.upvotes">{{ detail.upvotes }}</text>
             </div>
-            <text class="iconfont">&#xe622;</text>
+            <text class="iconfont" @click="toShare">&#xe622;</text>
         </div>
     </div>
 </template>
 
 <script>
+  import {getDetail, support} from '@/lib/article'
   export default {
     data() {
       return {
-        lists: []
+        param: {},
+        detail: {}
+      }
+    },
+    computed: {
+      activeClass () {
+        return this.detail.is_bookmark ? 'ws-active' : ''
       }
     },
     created() {
-
+      uni.$on('refreshWebviewCommentPageData', (data) => {
+        this.param = data
+        console.log(data)
+        getDetail(data.slug, (detail) => {
+          this.detail = detail
+        })
+      })
     },
-    methods: {}
+    methods: {
+      toComment () {
+        uni.$emit('articleWebviewToComment')
+      },
+      toShare () {
+        uni.$emit('articleWebviewToShare')
+      },
+      support () {
+        if (!this.param.id) {
+          return
+        }
+        support(this.param.id, () => {
+          this.detail.upvotes++
+          this.detail.is_bookmark = 1
+        }, () => {
+          this.detail.upvotes--
+          this.detail.is_bookmark = 0
+        })
+      }
+    }
   }
 </script>
 
