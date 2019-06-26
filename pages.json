@@ -26,14 +26,20 @@
       "path": "pages/user/select",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "选择用户"
+        "navigationBarTitleText": "选择用户",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
       "path": "pages/tag/select",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "选择标签"
+        "navigationBarTitleText": "选择标签",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
@@ -42,6 +48,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "发布",
         "app-plus": {
+          "bounce": "none",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
@@ -110,6 +117,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "分享",
         "app-plus": {
+          "bounce": "none",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
@@ -166,6 +174,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "发布",
         "app-plus": {
+          "bounce": "none",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
@@ -209,6 +218,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "产品服务",
         "app-plus": {
+          "bounce": "none",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
@@ -231,10 +241,12 @@
     {
       "path": "pages/dianping/comment",
       "style": {
+        "disableScroll": true,
         "navigationStyle": "default",
         "navigationBarTitleText": "点评",
         "app-plus": {
           "animationType": "slide-in-bottom",
+          "bounce": "none",
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
@@ -266,6 +278,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "发布点评",
         "app-plus": {
+          "bounce": "none",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
