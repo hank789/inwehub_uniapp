@@ -39,7 +39,6 @@
             <view v-if="detail.type === 'review' && detail.data.img && detail.data.img.length" class="linkWrapper Column">
               <template v-for="(image, index) in detail.data.img">
                 <ImageAutoHeight
-                  :id="'image_' + index"
                   class="image discover_img lazyImg"
                   :src="image"
                 />

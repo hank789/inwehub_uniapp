@@ -26,14 +26,20 @@
       "path": "pages/user/select",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "选择用户"
+        "navigationBarTitleText": "选择用户",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
       "path": "pages/tag/select",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "选择标签"
+        "navigationBarTitleText": "选择标签",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
@@ -42,6 +48,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "发布",
         "app-plus": {
+          "bounce": "none",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
@@ -110,6 +117,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "分享",
         "app-plus": {
+          "bounce": "none",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
@@ -166,6 +174,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "发布",
         "app-plus": {
+          "bounce": "none",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
@@ -200,7 +209,10 @@
       "path": "pages/dianping/products",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "产品服务"
+        "navigationBarTitleText": "产品服务",
+        "app-plus": {
+          "bounce": "none"
+        }
       }
     },
     {
@@ -209,6 +221,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "产品服务",
         "app-plus": {
+          "bounce": "none",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
@@ -235,6 +248,7 @@
         "navigationBarTitleText": "点评",
         "app-plus": {
           "animationType": "slide-in-bottom",
+          "bounce": "none",
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
@@ -266,6 +280,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "发布点评",
         "app-plus": {
+          "bounce": "none",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
@@ -1063,7 +1078,10 @@
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#fff",
-    "backgroundColor": "#fff"
+    "backgroundColor": "#fff",
+    "usingComponents":{
+      "drop-down-menu-child":"/components/iw-category-select/iw-category-select-children"
+    }
   },
 	"condition" : { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)
