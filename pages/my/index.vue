@@ -1,17 +1,8 @@
 <template>
 	<view>
-		<view class="mui-bar">
-			<view class="setUp" @tap.stop.prevent="toRoute('/pages/my/setting')">
-				<text class="iconfont icon-shezhi"></text>
-			</view>
-			<view class="code" @tap.stop.prevent="toRoute('/pages/my/qrcode?uuid=' + uuid )">
-				<text class="iconfont icon-erweima"></text>
-			</view>
-		</view>
-
 		<view class="mui-content">
-			<view class="my-top" @tap.stop.prevent="toRoute('/pages/my/resume')">
-				<view class="account_info">
+			<view class="my-top">
+				<view class="account_info" @tap.stop.prevent="toRoute('/pages/my/resume')">
 					<text class="iconfont icon-jinru"></text>
 				</view>
 				<view class="professor">
@@ -23,12 +14,12 @@
 					</view>
 
 					<view class="my-personal">
-						<view class="my-info">
+						<view class="my-info" @tap.stop.prevent="toRoute('/pages/my/resume')">
 							<text class="userName font-family-medium">{{name}}</text>
 							<text class="userLevel">L{{ user_level }}</text>
 						</view>
-						<view class="my-detail">
-							<text class="followedMy" @tap.stop.prevent="toRoute('/pages/my/followedMeUser?id='+uuid)">关注我的人{{followed_number}}</text>
+						<view class="my-detail" @tap.stop.prevent="toRoute('/pages/my/followedMeUser?id='+uuid)">
+							<text class="followedMy">关注我的人{{followed_number}}</text>
 						</view>
 					</view>
 				</view>
@@ -139,6 +130,20 @@
 		onShow() {
 			this.getUserData()
 		},
+		onNavigationBarButtonTap(e) {
+			switch(e.index) {
+				case 0:
+					uni.navigateTo({
+						url: '/pages/my/setting'
+					});
+					break;
+				case 1:
+					uni.navigateTo({
+						url: '/pages/my/qrcode?uuid=' + this.uuid
+					})
+					break
+			}
+		},
 		onLoad() {
 			var userInfo = getLocalUserInfo()
 			if (userInfo && userInfo.name && /^手机用户/.test(userInfo.name)) {
@@ -232,7 +237,6 @@
 <style lang="less">
 	.mui-content {
 		background: #fff;
-		top: 100upx;
 	}
 
 	.gray {
@@ -252,32 +256,10 @@
 		background-color: rgb(220, 220, 220);
 	}
 
-	.mui-bar {
-		padding: 32upx 32upx 0;
-		display: flex;
-		justify-content: space-between;
-		margin-top: 10upx;
-
-		.iconfont {
-			font-size: 42upx;
-			color: #444444;
-		}
-
-		.setUp {
-			display: flex;
-			padding-left: 7.96upx;
-		}
-
-		.code {
-			display: flex;
-			padding-right: 7.96upx;
-		}
-	}
-
 	.account_info {
 		position: absolute;
 		right: 0;
-		top: 43.96upx;
+		top: 40upx;
 		height: 57.98upx;
 		border-radius: 199.96upx 0 0 199.96upx;
 		line-height: 57.98upx;
@@ -289,6 +271,7 @@
 
 		.iconfont {
 			color: #808080;
+			font-size: 25.96upx;
 		}
 	}
 
@@ -300,7 +283,6 @@
 	}
 
 	.professor {
-		margin-top: 30upx;
 		display: flex;
 
 		.my-img {
@@ -331,7 +313,6 @@
 	}
 
 	.my-personal {
-		margin-top: 7.96upx;
 		margin-left: 19.96upx;
 		position: relative;
 		z-index: 98;

@@ -307,7 +307,23 @@
         "navigationBarTitleText": "",
         "app-plus": {
           "bounce": "none",
-          "titleNView": false
+          "titleNView": {
+            "buttons": [
+              {
+                "text": "\ue6d8",
+                "float": "left",
+                "fontSize": "21px",
+								"fontSrc": "/static/fonts/iconfont.ttf",
+                "color": "#444444"
+              },
+              {
+                "text": "\ue6d7",
+                "color": "#444444",
+                "fontSrc": "/static/fonts/iconfont.ttf",
+                "fontSize": "21px"
+              }
+            ]
+          }
         }
       }
     },

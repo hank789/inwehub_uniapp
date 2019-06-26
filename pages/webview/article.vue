@@ -33,7 +33,16 @@
     onLoad(options)
     {
       this.detailData = JSON.parse(options.data);
-			uni.setNavigationBarTitle({
+
+      uni.$on('articleWebviewToComment', () => {
+        uni.navigateTo({ url: '/pages/dianping/comment?slug=' +  this.detailData.slug})
+      })
+
+      uni.$on('articleWebviewToShare', () => {
+        this.shareInfo()
+      })
+
+      uni.setNavigationBarTitle({
 					title: this.detailData.title
 			});
 			// #ifdef APP-PLUS
@@ -55,7 +64,10 @@
         let subNVue = uni.getSubNVueById('comment_footer')
 				
 				subNVue.show('fade-in', 200, () => {
-					
+                  uni.$emit('refreshWebviewCommentPageData', {
+                    slug: this.detailData.slug,
+                    id: this.detailData.id
+                  })
 				})
         // #endif
     },
