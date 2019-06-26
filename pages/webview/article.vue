@@ -34,7 +34,7 @@
     {
       this.detailData = JSON.parse(options.data);
 			if (!this.detailData.url) {
-				uni.navigateTo({
+				uni.redirectTo({
 					url: '/pages/discover/detail?slug=' + this.detailData.slug
 				})
 				return
