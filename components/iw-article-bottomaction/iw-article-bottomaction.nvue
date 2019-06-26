@@ -50,7 +50,7 @@
 			<div class="iw-operat-wrapper" v-if="isAdmin">
 				<div class="iw-bot"></div>
 				
-				<div class="iw-operat-list" @tap.stop.prevent="deleteItem">
+				<div class="iw-operat-list" @click="deleteItem">
 					<div class="iw-icon-opert">
 						<text class="iw-icon-del iconfont">&#xe661;</text>
 					</div>
@@ -62,10 +62,10 @@
 				<div class="iw-bot"></div>
 				<text class="iw-title">设置精选</text>
 				<div class="iw-choice-list">
-					<text class="iw-item-text" :class="[ item.selected ? 'iw-item-active': '' ]" @tap.stop.prevent="choiceItem(index, item)" v-for="(item, index) in localRegions" :key="index">{{ item.text }}</text>
+					<text v-if="item.id" :class="['iw-item-text', item.selected ? 'iw-item-active': '' ]" @click="choiceItem(index, item)" v-for="(item, index) in localRegionsC" :key="index">{{ item.text }}</text>
 				</div>
 				
-				<div class="iw-submit-text" @tap.stop.prevent="submit"><text class="iw-tip-sure">确定</text></div>
+				<div class="iw-submit-text" @click="submit"><text class="iw-tip-sure">确定</text></div>
 			</div>
 			
 			<div class="iw-close" @click="cancelShare">
@@ -84,7 +84,7 @@
 		WxcPopup
 	} from 'weex-ui'
 	import ls from '@/lib/localstorage.js'
-
+	
 	export default {
 		components: {
 			WxcPopup
@@ -95,18 +95,12 @@
 				default: () => {
 					return []
 				}
-			},
-			value: {
-				type: Object,
-				default: () => {
-					return {}
-				}
 			}
 		},
 		data() {
 			return {
 				localRegions: [],
-				localItem: this.value,
+				localItem: {},
 				showPopupBottomShare: false
 			}
 		},
@@ -118,30 +112,17 @@
 			});
 		},
 		computed: {
-			initTagsIds() {
-				var rtags = []
-
-				if (this.localItem.tags) {
-					rtags = this.localItem.tags
-				}
-				var tagsIds = rtags.map(tags => {
-					return tags.id
-				})
-				return tagsIds
-			},
 			isAdmin() {
 				return this.isUserAdmin()
+			},
+			localRegionsC() {
+				return this.localRegions
 			}
 		},
 		watch: {
 			localItem: function(newValue, oldValue) {
 				if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
 					this.$emit('input', newValue)
-				}
-			},
-			value: function(newValue, oldValue) {
-				if (newValue) {
-					this.localItem = newValue
 				}
 			}
 		},
@@ -175,7 +156,10 @@
 					}
 
 					var isFollowed = response.data.type === 'upvote' ? 1 : 0
-
+					uni.showToast({
+						title: response.data.tip,
+						icon: 'none'
+					})
 					// ui.toast(response.data.tip)
 					if (isFollowed) {
 						this.localItem.is_upvoted = 1
@@ -188,6 +172,9 @@
 						this.localItem.is_upvoted = 0
 						this.localItem.support_number--
 						this.cancelShare()
+						setTimeout(() => {
+							this.$emit('startAnimation', -1)
+						}, 300)
 					}
 				})
 			},
@@ -209,13 +196,17 @@
 				}).then(response => {
 					var code = response.code
 					if (code !== 1000) {
-						ui.toast(response.message)
+						uni.showToast({
+							title: response.message,
+							icon: 'none'
+						})
 						return
 					}
 
 					this.localItem.tags = newTags
 					uni.showToast({
-						title: response.message
+						title: response.message,
+						icon: 'none'
 					})
 
 					this.cancelShare()
@@ -224,7 +215,7 @@
 			choiceItem(index, item) {
 				item.selected = item.selected ? 0 : 1
 				this.localRegions[index] = item
-				//Vue.set(this.localRegions, index, item)
+				Vue.set(this.localRegions, index, item)
 			},
 			deleteItem() {
 				this.$emit('clickDelete')
@@ -251,19 +242,32 @@
 				this.showPopupBottomShare = false
 			},
 			resetRegions() {
+				var rtags = []
+
+				if (this.localItem.tags) {
+					rtags = this.localItem.tags
+				}
+				var tagsIds = rtags.map(tags => {
+					return tags.id
+				})
+				
 				this.localRegions = this.regions
 				for (var i = 0; i < this.localRegions.length; i++) {
 					var item = this.localRegions[i]
 					item.selected = 0
 
-					if (this.initTagsIds.indexOf(item.value) > -1) {
+					if (tagsIds.indexOf(item.value) > -1) {
 						item.selected = 1
 					}
 					this.localRegions[i] = item
 					//Vue.set(this.localRegions, i, item)
 				}
 			},
-			show() {
+			show(item) {
+				if (this.localItem.id != item.id) {
+					console.log(123)
+					this.localItem = item
+				}
 				this.resetRegions()
 				this.showPopupBottomShare = true
 			}

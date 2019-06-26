@@ -33,7 +33,12 @@
     onLoad(options)
     {
       this.detailData = JSON.parse(options.data);
-
+			if (!this.detailData.url) {
+				uni.redirectTo({
+					url: '/pages/discover/detail?slug=' + this.detailData.slug
+				})
+				return
+			}
       uni.$on('articleWebviewToComment', () => {
         uni.navigateTo({ url: '/pages/dianping/comment?slug=' +  this.detailData.slug})
       })

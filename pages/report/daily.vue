@@ -115,7 +115,7 @@ import { getHomeDetail } from '@/lib/shareTemplate'
 import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus, needNotifitionPermission } from '@/lib/push'
 import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh'
 import openNotice from '@/components/iw-dialog/open-notice.vue'
-import { checkPermission } from "@/lib/plus"
+import html5plus from "@/lib/html5plus.js"
 
 export default {
   components: {
@@ -149,16 +149,9 @@ export default {
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
     this.pageOption = option
     this.refreshPageData()
-		checkPermission('NOTIFITION', () => {}, () => {
+		html5plus.checkPermission('NOTIFITION', () => {}, () => {
       this.showPopup = true
     })
-  },
-  watch: {
-    '$route'(to, from) {
-      if (to.name === from.name) {
-        this.refreshPageData()
-      }
-    }
   },
   mounted() {
     this.getNotification()
