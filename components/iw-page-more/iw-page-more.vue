@@ -21,10 +21,6 @@
             <image mode="aspectFill" class="image" src="../../static/images/pengyouquan.png" />
             <text class="text">朋友圈</text>
           </view>
-          <view class="single" @tap.stop.prevent="shareToChat()">
-            <image mode="aspectFill" class="image" src="../../static/images/sendFriend@2x.png" />
-            <text class="text">私信</text>
-          </view>
           <view v-if="shareOption.link" class="single" @success="shareToCopyLink()">
             <image mode="aspectFill" class="image" src="../../static/images/copyLink@3x.png" />
             <text class="text">复制链接</text>
