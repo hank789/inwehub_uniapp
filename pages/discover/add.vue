@@ -2,7 +2,7 @@
   <view class="content">
     <textarea v-model="description" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
 
-    <scroll-view>
+    <scroll-view :scroll-x="true" class="scrollViewImages">
       <view class="container-upload-images">
         <view class="imageItem" v-for="(image, index) in waitUploadImages" :key="index" >
           <image class="image" :mode="'aspectFill'" :src="image.path" />
@@ -193,7 +193,7 @@ export default {
       uni.chooseImage({
         count: 9,
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ['album'], // 从相册选择
+        sourceType: ['album', 'camera'], // 从相册选择
         success: function(res) {
           res.tempFiles.forEach((item, index) => {
             if (that.waitUploadImages.length < 9) {
@@ -297,23 +297,30 @@ export default {
 </script>
 
 <style lang="less">
-    .content {
-        height: 100%;
-        background: #f3f4f6;
+    page, .content{
+      background-color: #f3f4f6;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .scrollViewImages{
+      height:182upx;
+      width:750upx;
     }
 
     .textarea {
         width: 100%;
-        height:calc(100% - 88upx);
+        height:calc(100% - 88upx - 24upx - 182upx);
         padding:24upx 30upx;
     }
 
-    .textarea.hasFile{
-      height:calc(100% - 88upx - 182upx);
+    .hasFile{
+      height:calc(100% - 88upx - 24upx - 182upx);
     }
 
-    .textarea.hasLink{
-      height:calc(100% - 88upx - 176upx);
+    .hasLink{
+      height:calc(100% - 88upx - 24upx - 176upx);
     }
 
     .container-bottom-menus {
