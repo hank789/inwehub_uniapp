@@ -21,7 +21,7 @@
       >
         <view class="list">
           <view v-for="(item, index) in list" :key="index" class="comment-product">
-            <view class="product-info" @tap.stop.prevent="toRoute('/pages/dianping/product?name=' + encodeURIComponent(item.name))">
+            <view class="product-info" @tap.stop.prevent="toDetail(item)">
               <view class="product-img border-football">
                 <image mode="aspectFill" :src="item.logo" alt="" class="image lazyImg" /></view>
               <view class="product-detail">
@@ -140,7 +140,8 @@ export default {
     this.refreshPageData()
   },
   methods: {
-    toRoute(url) {
+    toDetail(item) {
+			var url = '/pages/dianping/product?name=' + encodeURIComponent(item.name)
       uni.navigateTo({ url: url })
     },
     goBack() {

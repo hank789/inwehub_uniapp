@@ -250,7 +250,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "点评",
         "app-plus": {
-          "animationType": "slide-in-bottom",
+          "animationType": "slide-in-right",
           "bounce": "none",
           "titleNView": {
             "titleSize": "18px",
