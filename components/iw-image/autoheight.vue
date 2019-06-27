@@ -23,7 +23,7 @@
           style += 'width:' + this.width + ';'
         }
         if (this.height) {
-          style += 'height:' + this.height + ';'
+          // style += 'height:' + this.height + ';'
         }
         return style
       }
@@ -31,7 +31,7 @@
     props: {
       mode: {
         type: String,
-        default: 'aspectFill'
+        default: 'widthFix'
       },
       src: {
         type: String,

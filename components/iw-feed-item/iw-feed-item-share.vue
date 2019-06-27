@@ -19,7 +19,7 @@
         class="container-images container-images-discover"
         :class="'container-images-' + (itemObj.feed.img.length)"
       >
-        <view v-for="img in itemObj.feed.img" class="container-image"><image class="image" mode="aspectFit" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
+        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image" :class="'container-image-' + imgIndex"><image class="image" mode="aspectFill" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
       </view>
       <!--链接-->
       <view v-if="item.feed.submission_type === 'link'" class="container-feed-link-box" @tap.stop.prevent="goArticle()">
@@ -178,13 +178,79 @@ export default {
         this.item.user.name,
         this.item.feed.group.name
       )
-      this.$emit('showPageMore', {shareOption: this.shareOption, item: this.item})
+      this.$emit('showPageMore', { shareOption: this.shareOption, item: this.item })
     }
   }
 }
 </script>
 
 <style lang="less">
+  .container-images-2 .container-image{
+    width:216upx;
+    height:216upx;
+  }
+    .container-images-2 .container-image .image{
+      width:216upx;
+      height:216upx;
+    }
+  .container-images-3 .container-image{
+    width:216upx;
+    height:216upx;
+  }
+    .container-images-3 .container-image .image{
+      width:216upx;
+      height:216upx;
+    }
+
+  .container-images-4 .container-image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-4 .container-image .image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-5 .container-image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-5 .container-image .image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-6 .container-image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-6 .container-image .image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-7 .container-image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-7 .container-image .image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-8 .container-image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-8 .container-image .image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-9 .container-image{
+      width:216upx;
+      height:216upx;
+  }
+  .container-images-9 .container-image .image{
+      width:216upx;
+      height:216upx;
+  }
+
     .feed-currency {
         .line-river-after {
             margin-top: 19.96upx;
@@ -400,7 +466,6 @@ export default {
         }
     }
 
-
     .link {
         padding: 19.96upx 31.96upx 0;
         /*margin-bottom: 34.96upx;*/
@@ -493,7 +558,7 @@ export default {
     }
 
     .container-images-discover .image{
-      width:226px;
-      height:226px;
+      width:452upx;
+      height:452upx;
     }
 </style>

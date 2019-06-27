@@ -3,8 +3,8 @@
     <textarea v-model="description" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
 
     <scroll-view>
-      <view v-for="(image, index) in waitUploadImages" :key="index" class="container-upload-images">
-        <view class="imageItem">
+      <view class="container-upload-images">
+        <view class="imageItem" v-for="(image, index) in waitUploadImages" :key="index" >
           <image class="image" :mode="'aspectFill'" :src="image.path" />
           <text class="iconfont icon-times1" @tap.stop.prevent="delImg(index)" />
         </view>
@@ -189,12 +189,19 @@ export default {
     },
     uploadImage: function() {
       const that = this
+
       uni.chooseImage({
         count: 9,
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album'], // 从相册选择
         success: function(res) {
-          that.waitUploadImages = res.tempFiles
+          res.tempFiles.forEach((item, index) => {
+            if (that.waitUploadImages.length < 9) {
+              that.waitUploadImages.push(item)
+            } else {
+              that.isUploadImage = false
+            }
+          })
         }
       })
     },
