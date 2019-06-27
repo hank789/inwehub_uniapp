@@ -11,7 +11,7 @@
 			<div :style="{ height: statusBarHeight }"></div>
 			<div class="page-header-wrapper">
 				<div class="page-header-center" @click="toSearch">
-					<text class="search-input">输入关键字搜索</text>
+					<text class="search-input">搜产品、内容</text>
 				</div>
 				<div class="page-header-right" @click="toRoute('/pages/discover/addlink')">
 					<text class="logo iconfont">&#xe6b1;</text>
@@ -260,13 +260,6 @@
 			},
 			hideDownloadTip() {
 				this.downloadTipTop = false
-			},
-			getElSize(el) { //得到元素的size
-				return new Promise((res, rej) => {
-					const result = dom.getComponentRect(el, option => {
-						res(option.size);
-					})
-				})
 			},
 			//加载更多
 			loadMore(e){
