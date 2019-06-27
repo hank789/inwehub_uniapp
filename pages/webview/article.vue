@@ -51,30 +51,26 @@
 					title: this.detailData.title
 			});
 			// #ifdef APP-PLUS
-			var appInfo = this.$ls.get('appDeviceInfo')
-			console.log(JSON.stringify(appInfo));
-			var navBarTop = (appInfo.windowHeight - 44 - appInfo.statusBarHeight - 44)
-			console.log(navBarTop)
-        var wv = plus.webview.create("","custom-webview",{
-						progress: {
-							color: '#FF3333'
-						},
-						bottom: '44px',
-            plusrequire:"none", //禁止远程网页使用plus的API，有些使用mui制作的网页可能会监听plus.key，造成关闭页面混乱，可以通过这种方式禁止
-            top:uni.getSystemInfoSync().statusBarHeight+44 //放置在titleNView下方。如果还想在webview上方加个地址栏的什么的，可以继续降低TOP值
-        })
-        wv.loadURL(this.detailData.url)
-        var currentWebview = this.$mp.page.$getAppWebview() //获取当前页面的webview对象
-        currentWebview.append(wv);//一定要append到当前的页面里！！！才能跟随当前页面一起做动画，一起关闭
-        let subNVue = uni.getSubNVueById('comment_footer')
-				
-				subNVue.show('fade-in', 200, () => {
-                  uni.$emit('refreshWebviewCommentPageData', {
-                    slug: this.detailData.slug,
-                    id: this.detailData.id
-                  })
-				})
-        // #endif
+			var wv = plus.webview.create("","custom-webview",{
+					progress: {
+						color: '#FF3333'
+					},
+					bottom: '44px',
+					plusrequire:"none", //禁止远程网页使用plus的API，有些使用mui制作的网页可能会监听plus.key，造成关闭页面混乱，可以通过这种方式禁止
+					top:uni.getSystemInfoSync().statusBarHeight+44 //放置在titleNView下方。如果还想在webview上方加个地址栏的什么的，可以继续降低TOP值
+			})
+			wv.loadURL(this.detailData.url)
+			var currentWebview = this.$mp.page.$getAppWebview() //获取当前页面的webview对象
+			currentWebview.append(wv);//一定要append到当前的页面里！！！才能跟随当前页面一起做动画，一起关闭
+			let subNVue = uni.getSubNVueById('comment_footer')
+			
+			subNVue.show('fade-in', 200, () => {
+								uni.$emit('refreshWebviewCommentPageData', {
+									slug: this.detailData.slug,
+									id: this.detailData.id
+								})
+			})
+			// #endif
     },
 		methods: {
 			shareInfo(){

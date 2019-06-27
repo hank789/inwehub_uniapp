@@ -852,6 +852,7 @@
       "style": {
         "navigationStyle": "default",
         "app-plus": {
+					"animationType": "zoom-out",
           "titleNView": {
             "titleColor": "#3c3e44",
             "searchInput": {
@@ -860,7 +861,16 @@
               "placeholder": "搜产品、内容",
               "placeholderColor": "#CCCCCC",
               "autoFocus": true
-            }
+            },
+						"buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontSize": "16px",
+                "text": "取消",
+                "width": "auto"
+              }
+            ]
           }
         }
       }
@@ -985,11 +995,9 @@
               {
                 "type": "none",
                 "color": "rgb(3, 174, 249)",
-                "fontWeight": "bold",
                 "fontSize": "16px",
                 "text": "提建议",
-                "width": "auto",
-                "fontSrc": "/static/fonts/iconfont.ttf"
+                "width": "auto"
               }
             ]
           }
