@@ -1,126 +1,151 @@
 <template>
-  <wxc-popup
-    :show="isShow"
-    pos="bottom"
-    @wxcPopupOverlayClicked="hide"
-  >
-    <div class="EmailSubscribe">
-      <div class="close alertClose" @click="hide">
-        <text class="iconfont icon-times--">&#xe631;</text>
-      </div>
-
-      <div class="title font-family-medium"><text>热点推荐-服务号订阅</text></div>
-      <div class="text"><text>我们将为您推送每日热点推荐~</text></div>
-
-      <div class="inputWrapper">
-        <input type="text" v-model="email" placeholder="输入您的邮箱地址" class="input EmailText">
-      </div>
-
-      <div class="tipsInfo showEmailErrorTips" v-if="isShowError"><text>邮箱格式有误，请重新输入</text></div>
-
-      <div class="buttonWrapper sure alertConfirm">
-        <div class="span font-family-medium" @click="submit"><text>订阅</text></div>
-        <div class="bot"></div>
-      </div>
-    </div>
-  </wxc-popup>
+	<wxc-popup :show="isShow" pos="bottom" :height="430" @wxcPopupOverlayClicked="hide">
+		
+		<div class="iw-email-wrapper">
+			<text class="iconfont iw-icon-close" @click="hide">&#xe631;</text>
+			<div class="iw-title-wrapper">
+				<text class="iw-big-title">热点推荐-服务号订阅</text>
+				<text class="iw-small-title">我们将为您推送每日热点推荐~</text>
+			</div>
+			<div class="iw-input-wrapper">
+				<input class="iw-input-text" type="text" v-model="email" placeholder="输入您的邮箱地址"/>
+			</div>
+			
+			<text class="iw-tips-info" v-if="isShowError">邮箱格式有误，请重新输入</text>
+			
+			<div class="iw-close" @click="submit">
+				<div class="iw-bot" />
+				<text class="iw-close-text">订阅</text>
+			</div>
+			
+		</div>
+		
+	</wxc-popup>
 </template>
 
 <script>
-import { WxcPopup } from 'weex-ui'
-export default {
-  components: {
-    WxcPopup
-  },
-  data() {
-    return {
-      isShow: false,
-      isShowError: false,
-      email: ''
-    }
-  },
-  methods: {
-    hide() {
-      this.isShow = false
-    },
-    show() {
-      this.isShow = true
-    },
-    submit () {
-      var re = /^[.a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-      if (!re.test(this.email)) {
-        this.isShowError = true
-        return false
-      }
+	import {
+		WxcPopup
+	} from 'weex-ui'
+	export default {
+		components: {
+			WxcPopup
+		},
+		data() {
+			return {
+				isShow: false,
+				isShowError: false,
+				email: ''
+			}
+		},
+		beforeCreate() {
+			const domModule = weex.requireModule('dom')
+			domModule.addRule('fontFace', {
+				'fontFamily': "iconfont",
+				'src': "url('../../static/fonts/iconfont.ttf')"
+			});
+		},
+		methods: {
+			hide() {
+				this.isShow = false
+			},
+			show() {
+				this.isShow = true
+			},
+			submit() {
+				var re = /^[.a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+				if (!re.test(this.email)) {
+					this.isShowError = true
+					return false
+				}
 
-      this.$emit('emailChange', this.email)
-    }
-  }
-}
+				this.$emit('emailChange', this.email)
+			}
+		}
+	}
 </script>
 
 <style>
-    .bot {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0rem;
-        height:1px;
-        transform: scaleY(.5);
-        background-color: rgb(220, 220, 220);
-    }
-    .EmailSubscribe {
-        width: 600upx;
-        background: #ffffff;
-        text-align: center;
-        color: #000;
-        border-radius: 0.346rem;
-    }
-    .EmailSubscribe .inputWrapper {
-        width: 540upx;
-        margin: 30upx auto 0;
-    }
-    .EmailSubscribe .inputWrapper .input {
-        border-color: #DCDCDC;
-        padding:0;
-        margin-bottom:10px;
-    }
-    .EmailSubscribe .tipsInfo {
-        color: #FA4975;
-        font-size: 21.98upx;
-        text-align: left;
-        padding-left: 49.96upx;
-        margin: 20upx 0;
-    }
+	
+	.iconfont {
+		font-family: iconfont;
+	}
+	.iw-bot {
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		left: 0rem;
+		height: 1px;
+		transform: scaleY(.5);
+		background-color: rgb(220, 220, 220);
+	}
+	.iw-email-wrapper {
+		width: 750px;
+		height: 430px;
+		text-align: center;
+		background-color: #FFFFFF;
+	}
+	.iw-icon-close {
+		color: #808080;
+		font-size: 24px;
+		text-align: right;
+		margin-top: 30px;
+		margin-right: 30px;
+	}
+	.iw-title-wrapper {
+		text-align: center;
+	}
+	.iw-big-title {
+		color: #444444;
+		font-size: 36px;
+		line-height: 48px;
+		font-weight: 600;
+		margin-bottom: 18px;
+		text-align: center;
+	}
+	.iw-small-title {
+		color: #808080;
+		font-size: 24px;
+		line-height: 42px;
+		text-align: center;
+	}
+	.iw-input-wrapper {
+		width: 750px;
+		height: 80px;
+		margin-top: 30px;
+		/* margin-bottom: 30px; */
+		text-align: center;
+		align-items: center;
+	}
+	.iw-input-text {
+		width: 450px;
+		height: 80px;
+		font-size: 32px;
+		padding: 0 20px;
+		border-width: 2px;
+		border-style: solid;
+		border-radius: 8px;
+		border-color: #DCDCDC;
+	}
+	
+	.iw-close {
+		width: 750px;
+		height: 102px;
+		margin-top: 20px;
+		position: relative;
+		text-align: center;
+	}
+	.iw-close-text {
+		color: #03AEF9;
+		font-size: 32px;
+		text-align: center;
+		line-height: 104px;
+	}
+	.iw-tips-info {
+		color: #FA4975;
+		font-size: 20px;
+		margin: 20px 0 0px 150px;
+	}
 
-    .EmailSubscribe .close {
-        text-align: right;
-        padding: 30upx;
-        color: #808080;
-        font-size: 25.96upx;
-    }
-
-    .EmailSubscribe .buttonWrapper {
-        position: relative;
-        text-align: center;
-        color: #03AEF9;
-        line-height: 97.96upx;
-    }
-
-    .EmailSubscribe .buttonWrapper .bot {
-        top: 0;
-    }
-
-    .EmailSubscribe .title {
-        color: #444444;
-        font-size: 36upx;
-        line-height: 48upx;
-        margin-bottom: 19.96upx;
-    }
-
-    .EmailSubscribe .text {
-        color: #808080;
-        font-size: 25.96upx;
-        line-height: 42upx;
-    }
 </style>
