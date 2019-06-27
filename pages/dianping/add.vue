@@ -224,7 +224,11 @@ export default {
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album'], // 从相册选择
         success: function(res) {
-          that.images = res.tempFiles
+          res.tempFiles.forEach((item, index) => {
+            if (that.images.length < 9) {
+              that.images.push(item)
+            }
+          })
         }
       })
 
