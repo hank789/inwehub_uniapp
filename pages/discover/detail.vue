@@ -26,7 +26,8 @@
           <!--<view class="line-river lineMargin"></view>-->
 
           <view class="discoverContentWrapper">
-            <view class="contentWrapper quillDetailWrapper container-editor container-editor-app"
+            <view
+              class="contentWrapper quillDetailWrapper container-editor container-editor-app"
             >
               <view v-if="detail.type !== 'article'" v-html="textToLink(detail.title)" />
 
@@ -84,9 +85,6 @@
 
           <view class="timeContainer">
             <view class="makingCopy">著作权归作者所有</view>
-            <view v-if="detail.group.name" class="fromGroup">
-              <view @tap="toDetail(detail.group)"><view>来自圈子</view>{{ detail.group.name }}</view>
-            </view>
           </view>
 
           <!-- 关联问答 -->
@@ -261,7 +259,7 @@
 
     <AlertTextarea ref="AlertTextarea" />
 
-    <iwDialogReport ref="alertReport"></iwDialogReport>
+    <iwDialogReport ref="alertReport" />
   </view>
 </template>
 
@@ -277,7 +275,7 @@ import localEvent from '@/lib/localstorage'
 const currentUser = localEvent.get('UserInfo')
 import commentTextarea from '@/components/iw-comment-textarea/iw-comment-textarea.vue'
 import AlertTextarea from '@/components/iw-comment-alerttextarea/iw-comment-alerttextarea.vue'
-import userAbility from '@/lib/userAbility'
+import { urlencode } from '@/lib/string'
 import {
   upvote,
   downVote,
@@ -295,7 +293,6 @@ import iwDialogReport from '@/components/iw-dialog/report.vue'
 import { textToLinkHtml, transferTagToLink, addPreviewAttrForImg } from '@/lib/dom'
 import { showComment } from '@/lib/comment'
 import ImageAutoHeight from '@/components/iw-image/autoheight.vue'
-
 
 export default {
   components: {
@@ -504,10 +501,10 @@ export default {
     this.$refs.ShareBtn.show(true)
   },
   methods: {
-    toProduct (item) {
+    toProduct(item) {
       this.to('/pages/dianping/product?name=' + encodeURIComponent(item.name))
     },
-    onTap () {
+    onTap() {
 
     },
     to(url) {
@@ -726,17 +723,20 @@ export default {
         return
       }
 
-      if (detail.data.url.indexOf(process.env.H5_ROOT) === 0) {
-        openAppUrlByUrl(detail.data.url)
-      } else {
-        goThirdPartyArticle(
-          detail.data.url,
-          detail.id,
-          detail.data.title,
-          '/c/' + detail.category_id + '/' + detail.slug,
-          detail.data.img
-        )
+      this.navToDetails(detail)
+    },
+    navToDetails(item) {
+      const data = {
+        id: item.id,
+        title: item.title,
+        url: item.link_url,
+        img: item.img,
+        slug: item.slug
       }
+
+      uni.navigateTo({
+        url: `/pages/webview/article?data=${urlencode(JSON.stringify(data))}`
+      })
     },
     refreshPageDataNoLoading() {
       this.refreshPageData(false)
@@ -830,23 +830,6 @@ export default {
       if (contentWrapper && contentWrapper.offsetHeight > 300) {
         contentWrapper.classList.add('shortContentWrapper')
       }
-    },
-    getAnimObject(item) {
-      if (!this.animObjects[item]) {
-        var animObject = window.bodymovin.loadAnimation({
-          container: document.querySelector('.detailFollwers'),
-          renderer: 'svg',
-          loop: false,
-          autoplay: false,
-          animationData: upvoteAnim
-        })
-        animObject.addEventListener('complete', () => {
-          console.log('onComplete')
-        })
-        this.animObjects[item] = animObject
-      }
-
-      return this.animObjects[item]
     },
     upVote() {
       upvote(this, this.detail.id, (response) => {
