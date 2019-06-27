@@ -118,7 +118,7 @@
         "navigationBarTitleText": "分享",
         "app-plus": {
           "bounce": "none",
-          "animationType": "slide-in-bottom",
+          "animationType": "slide-in-right",
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
@@ -141,7 +141,10 @@
       "path": "pages/comment/index",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "评论"
+        "navigationBarTitleText": "评论",
+				"app-plus": {
+					"animationType": "slide-in-bottom"
+				}
       }
     },
     {
@@ -222,7 +225,7 @@
         "navigationBarTitleText": "产品服务",
         "app-plus": {
           "bounce": "none",
-          "animationType": "slide-in-bottom",
+          "animationType": "slide-in-right",
           "titleNView": {
             "titleSize": "18px",
             "titleColor": "#3c3e44",
@@ -247,7 +250,7 @@
         "navigationStyle": "default",
         "navigationBarTitleText": "点评",
         "app-plus": {
-          "animationType": "slide-in-bottom",
+          "animationType": "slide-in-right",
           "bounce": "none",
           "titleNView": {
             "titleSize": "18px",
@@ -899,7 +902,16 @@
               "placeholder": "搜产品、内容",
               "placeholderColor": "#CCCCCC",
               "autoFocus": false
-            }
+            },
+						"buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontSize": "16px",
+                "text": "取消",
+                "width": "auto"
+              }
+            ]
           }
         }
       }
@@ -927,7 +939,16 @@
               "placeholder": "搜产品、内容",
               "placeholderColor": "#CCCCCC",
               "autoFocus": false
-            }
+            },
+						"buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontSize": "16px",
+                "text": "取消",
+                "width": "auto"
+              }
+            ]
           }
         }
       }
@@ -955,7 +976,16 @@
               "placeholder": "搜产品、内容",
               "placeholderColor": "#CCCCCC",
               "autoFocus": false
-            }
+            },
+						"buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontSize": "16px",
+                "text": "取消",
+                "width": "auto"
+              }
+            ]
           }
         }
       }

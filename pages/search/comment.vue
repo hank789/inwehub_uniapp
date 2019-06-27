@@ -66,6 +66,7 @@
                   <DianPingFeed
                     :item="item"
                     :is-show-link="true"
+										:key="index"
                     @showPageMore="showItemMore"
                   />
                 </template>
@@ -125,6 +126,11 @@ export default {
       }
     }
   },
+	onNavigationBarButtonTap(e) {
+		uni.navigateBack({
+			animationType: 'none'
+		})
+	},
   computed: {
     dataList() {
       return { search_word: this.confirmSearchText }

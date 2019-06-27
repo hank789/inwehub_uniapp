@@ -137,6 +137,11 @@ export default {
       iconOptions: []
     }
   },
+	onNavigationBarButtonTap(e) {
+		uni.navigateBack({
+			animationType: 'none'
+		})
+	},
   computed: {
     dataList() {
       return { search_word: this.confirmSearchText }

@@ -39,6 +39,7 @@
             <view v-if="detail.type === 'review' && detail.data.img && detail.data.img.length" class="linkWrapper Column">
               <template v-for="(image, index) in detail.data.img">
                 <ImageAutoHeight
+								:key="index"
                   class="image discover_img lazyImg"
                   :src="image"
                 />
@@ -85,7 +86,7 @@
           @goComment="goComment"
           @delCommentSuccess="delCommentSuccess"
         />
-        <view v-if="detail.comments_number > 3" class="seeAll" @tap.stop.prevent="to('/pages/comment/index?category_id=' + detail.category_id + '&slug=' + detail.slug + '&id=' + detail.id)">查看全部{{ detail.comments_number }}条评论</view>
+        <view v-if="detail.comments_number > 3" class="seeAll" @tap.stop.prevent="toComment(detail)">查看全部{{ detail.comments_number }}条评论</view>
         <view class="river" />
 
         <view class="allDianPing font-family-medium">大家都在评</view>
@@ -94,7 +95,7 @@
         <view class="productList">
 
           <view v-for="(item, index) in detail.related_tags" :key="index" class="comment-product">
-            <view class="product-info" @tap.stop.prevent="to('/pages/dianping/product?name=' + encodeURIComponent(item.name))">
+            <view class="product-info" @tap.stop.prevent="toProduct(item)">
               <view class="product-img border-football">
                 <image mode="aspectFill" :src="item.logo" alt="" class="image lazyImg" /></view>
               <view class="product-detail">
@@ -330,7 +331,15 @@ export default {
     this.$refs.share.show(true)
   },
   methods: {
-    to (url) {
+		toProduct(item) {
+			var url = '/pages/dianping/product?name=' + encodeURIComponent(item.name)
+			this.toRoute(url)
+		},
+		toComment(detail) {
+			var url = '/pages/comment/index?category_id=' + detail.category_id + '&slug=' + detail.slug + '&id=' + detail.id
+			this.toRoute(url)
+		},
+    toRoute (url) {
       uni.navigateTo({ url: url})
     },
     finish () {
@@ -603,7 +612,7 @@ export default {
       }
     },
     change(editor) {
-      // ...
+      
     }
   }
 }

@@ -32,12 +32,14 @@
         </view>
         <view class="optionlList" v-if="detail.categories.length">
           <template v-for="(category, index) in detail.categories">
-            <view class="list" @tap.stop.prevent="toProducts(category)">
-              <view class="span">{{ category.name }}</view>
-              <view class="span ranking">No.{{ category.rate }}</view>
-              <text class="iconfont icon-jinru " />
-            </view>
-            <view v-if="index !== detail.categories.length-1" class="line-river-after line-river-after-top" />
+						<view :key="category.id">
+							<view class="list" @tap.stop.prevent="toProducts(category)">
+								<view class="span">{{ category.name }}</view>
+								<view class="span ranking">No.{{ category.rate }}</view>
+								<text class="iconfont icon-jinru " />
+							</view>
+							<view v-if="index !== detail.categories.length-1" class="line-river-after line-river-after-top" />
+						</view>
           </template>
         </view>
 
@@ -48,13 +50,13 @@
 
           <view v-if="productComments.length">
             <template v-for="(comment, index) in productComments">
-              <feedDianping :item="comment" :index="index" @showPageMore="showItemMore" />
+              <feedDianping :key="comment.id" :item="comment" :index="index" @showPageMore="showItemMore" />
             </template>
           </view>
 
           <view
             class="openAllDianPing font-family-medium"
-            @tap.stop.prevent="toRoute('/pages/dianping/comments?id=' + encodeURIComponent(detail.name))"
+            @tap.stop.prevent="toComment(detail)"
           >
             查看全部{{ detail.review_count ? detail.review_count + '条' : '' }}点评
           </view>
@@ -84,7 +86,7 @@
 
         <view class="productList" v-if="detail.related_tags && detail.related_tags.length">
           <view v-for="(tag, index) in detail.related_tags" :key="index" class="comment-product">
-            <view class="product-info" @tap.stop.prevent="toRoute('/pages/dianping/product?name=' + encodeURIComponent(tag.name))">
+            <view class="product-info" @tap.stop.prevent="toProduct(tag)">
               <view class="product-img border-football">
                 <image mode="aspectFit" :src="tag.logo | imageSuffix(43, 43)" alt="" class="image lazyImg" /></view>
               <view class="product-detail">
@@ -252,6 +254,14 @@ export default {
     toProducts (item) {
       this.toRoute('/pages/dianping/products?id=' + item.id + '&name=' + encodeURIComponent(item.name))
     },
+		toProduct (tag) {
+			var url = '/pages/dianping/product?name=' + encodeURIComponent(tag.name)
+			this.toRoute(url)
+		},
+		toComment (detail) {
+			var url = '/pages/dianping/comments?id=' + encodeURIComponent(detail.name)
+			this.toRoute(url)
+		},
     toRoute(url) {
       uni.navigateTo({ url: url })
     },
