@@ -16,6 +16,7 @@
 			uniTabContent,
 		},
 		render(createElement) {
+			console.log('render tabs')
 			const vnodes = this.$slots.default;
 			const newVNodes = []
 			if (vnodes && vnodes.length) {

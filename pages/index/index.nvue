@@ -115,7 +115,7 @@
 	import uniTabBar from '@/components/tab-nvue/tabbar.nvue'
 	import uniTabContent from '@/components/tab-nvue/tabContent.nvue'
 	import uniTabs from '@/components/tab-nvue/tabs.nvue'
-	import nvueLib from '@/lib/ajaxRequest.js'
+	import nvueLib from '@/lib/nvueLib.js'
 	import { urlencode } from '@/lib/string'
 	import { timeToHumanText, getTimestampByDateStr } from '@/lib/time'
 	import BottomActions from '@/components/iw-article-bottomaction/iw-article-bottomaction.nvue'
@@ -167,7 +167,10 @@
 				}
 			})
 			//获取数据，方法通过mixin混入
-			this.loadTabbars();
+			setTimeout(()=>{
+				this.loadTabbars();
+			}, 150)
+			
 		},
 		methods: {
 			getLocalUuid() {
@@ -186,7 +189,7 @@
 					success: (res) => {
 						if (res.confirm) {
 							console.log('用户点击确定:'+this.activeItem.id);
-							nvueLib.post('article/destroy-submission',{id: this.activeItem.id}).then(res => {
+							nvueLib.post('article/destroy-submission',{id: this.activeItem.id},false,res=>{
 								if (res.code === 1000) {
 									var index = getIndexByIdArray(this.newsitems[this.tabCurrentIndex].newsList, this.activeItem.id)
 									console.log(index)
@@ -201,7 +204,6 @@
 										icon: 'none'
 									})
 								}
-								
 							})
 						} else if (res.cancel) {
 								console.log('用户点击取消');
@@ -226,7 +228,7 @@
 				}
 			},
 			getHomeData(successCallback) {
-				nvueLib.post('home').then(res=>{
+				nvueLib.post('home', {}, false, (res)=> {
 					var code = res.code
 					if (code !== 1000) {
 						// window.mui.toast(res.message)
@@ -236,7 +238,7 @@
 				})
 			},
 			getListData(pageNum, typeValue, successCallback) {
-				nvueLib.post(`readList`, {page: pageNum, tagFilter: typeValue}, false).then(res => {
+				nvueLib.post(`readList`, {page: pageNum, tagFilter: typeValue}, false, res => {
 					var code = res.code
 					if (code !== 1000) {
 						// window.mui.toast(res.message)

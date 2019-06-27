@@ -54,7 +54,7 @@
 	} from '@/lib/push'
 	import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe.nvue'
 	import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh.nvue'
-	import nvueLib from '@/lib/ajaxRequest.js'
+	import nvueLib from '@/lib/nvueLib.js'
 
 	export default {
 		components: {
@@ -127,7 +127,7 @@
 				// })
 			},
 			getNotification() {
-				nvueLib.post(`notification/push/info`, {}, false, {}, 0, false).then(response => {
+				nvueLib.post(`notification/push/info`, {}, false, response => {
 					var code = response.code
 					if (code !== 1000) {
 						ui.alert(response.message)

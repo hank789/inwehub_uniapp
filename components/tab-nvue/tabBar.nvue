@@ -70,7 +70,9 @@ export default {
 			const el = this.$refs[this.tabBars[index].id + index][0]
 			let elSize = await this.getElSize(el);
 			console.log(elSize.left + ';' +elSize.width + ';' + index)
-			if (elSize.left < 0) {
+			if (index <= 1) {
+				dom.scrollToElement(el, {offset: 0});
+			} else if (elSize.left < 0) {
 				dom.scrollToElement(el, {offset: 300});
 			} else {
 				dom.scrollToElement(el, {offset: -300});

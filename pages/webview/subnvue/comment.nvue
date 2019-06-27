@@ -18,7 +18,8 @@
 </template>
 
 <script>
-  import {getDetail, support} from '@/lib/article'
+	import nvueLib from '@/lib/nvueLib.js'
+	
   export default {
     data() {
       return {
@@ -38,9 +39,17 @@
 			console.log('comment.nvue')
       uni.$on('refreshWebviewCommentPageData', (data) => {
         this.param = data
-        getDetail(data.slug, (detail) => {
-          this.detail = detail
-        })
+				nvueLib.post('article/detail-by-slug',{slug: data.slug}, false, response=> {
+					var code = response.code
+					if (code !== 1000) {
+						uni.showToast({
+							title: response.message,
+							icon: 'none'
+						})
+						return
+					}
+					this.detail = response.data
+				})
       })
     },
     methods: {
@@ -55,13 +64,30 @@
         if (!this.param.id) {
           return
         }
-        support(this.param.id, () => {
-          this.detail.upvotes++
-          this.detail.is_bookmark = 1
-        }, () => {
-          this.detail.upvotes--
-          this.detail.is_bookmark = 0
-        })
+				nvueLib.post('article/upvote-submission',{submission_id: this.param.id},false,response=>{
+					var code = response.code
+
+					if (code !== 1000) {
+						uni.showToast({
+							title: response.message,
+							icon: 'none'
+						})
+						return
+					}
+					var isUpvoted = response.data.type === 'upvote' ? 1 : 0
+					if (isUpvoted) {
+						this.detail.upvotes++
+						this.detail.is_bookmark = 1
+					} else {
+						this.detail.upvotes--
+						this.detail.is_bookmark = 0
+					}
+
+					uni.showToast({
+						title: response.message,
+						icon: 'none'
+					})
+				})
       }
     }
   }
