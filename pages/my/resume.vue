@@ -2,7 +2,7 @@
 	<view class="content">
 		<!-- 正文 -->
 		<iwList v-model="list" :api="'feed/list'" @scrollList="scrollList" ref="iwList" :cssTop="cssTop" :requestData="feedListParams">
-		<view class="header">
+		<view class="header" :class="iosSystem ? 'header-ios':''">
 			
 			<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
 				<view class="back">
@@ -161,6 +161,7 @@
 	import iwDialogReport from '@/components/iw-dialog/report.vue'
 	
 	import { getResumeDetail } from '@/lib/shareTemplate'
+	import { getPlatform } from "@/lib/allPlatform.js"
 	export default {
 		data() {
 			return {
@@ -218,7 +219,8 @@
 					targetId: ''
 				},
 				iconMenus: [],
-				itemOptionsObj: {}
+				itemOptionsObj: {},
+				iosSystem: false
 			};
 		},
 		components: {
@@ -246,6 +248,11 @@
 				this.uuid = option.id
 			}
 			this.getData()
+			var system = getPlatform()
+			if (system === 'ios') {
+				this.iosSystem = true
+			}
+			console.log(getPlatform(), '平台信息')
 		},
 		onReady() {},
 		onPageScroll(e) {
@@ -371,6 +378,9 @@
 		padding-top: var(--status-bar-height);
 
 		/*  #endif  */
+		&.header-ios{
+			position: sticky;
+		}
 		.before,
 		.after {
 			width: 100%;
@@ -798,6 +808,8 @@
 			}
 		}
 	}
+
+
 
 	.muiContent .specialColumn {
 		padding: 0 31.96upx;
