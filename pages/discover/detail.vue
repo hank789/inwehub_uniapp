@@ -160,7 +160,7 @@
           <view v-for="(item, index) in detail.related_tags" :key="index" class="comment-product">
             <view
               class="product-info"
-              @tap.stop.prevent="to('/pages/dianping/product?name=' + encodeURIComponent(item.name))"
+              @tap.stop.prevent="toProduct(item)"
             >
               <view class="product-img border-football">
                 <image mode="aspectFill" :src="item.logo" width="44" height="44" />
@@ -504,6 +504,9 @@ export default {
     this.$refs.ShareBtn.show(true)
   },
   methods: {
+    toProduct (item) {
+      this.to('/pages/dianping/product?name=' + encodeURIComponent(item.name))
+    },
     onTap () {
 
     },

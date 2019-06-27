@@ -508,7 +508,7 @@ export default {
         }
     }
 
-    
+
   .container-images-discover .image{
     width:452upx;
     height:452upx;
