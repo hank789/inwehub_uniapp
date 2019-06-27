@@ -333,7 +333,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="less">
 	page, .content{
 	  background-color: #fff;
 	  height: 100%;
@@ -830,4 +830,5 @@
 		margin-top: -270upx;
 	}
 	/* #endif */
+	
 </style>
