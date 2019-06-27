@@ -1,7 +1,6 @@
 <template>
 	<view class="content">
-		<!-- 正文 -->
-		<iwList v-model="list" :api="'feed/list'" @scrollList="scrollList" ref="iwList" :cssTop="cssTop" :requestData="feedListParams">
+		
 		<view class="header" :class="iosSystem ? 'header-ios':''">
 			
 			<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
@@ -24,8 +23,10 @@
 				</view>
 			</view>
 		</view>
-
-			
+		
+		<!-- 正文 -->
+		<iwList v-model="list" :api="'feed/list'" @scrollList="scrollList" ref="iwList" :cssTop="cssTop" :requestData="feedListParams">
+		
 			<view class="infoBg">
 				<image :src="resume.info.avatar_url" class="avatar bigImg"></image>
 				<view class="backMask"></view>

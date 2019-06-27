@@ -5,7 +5,7 @@
 				<view class="account_info" @tap.stop.prevent="toRoute('/pages/my/resume')">
 					<text class="iconfont icon-jinru"></text>
 				</view>
-				<view class="professor">
+				<view class="professor" @tap.stop.prevent="toRoute('/pages/my/resume')">
 					<view class="my-img" @tap.stop.prevent="toRoute('/pages/my/resume')">
 						<image :src="avatar" width="59" height="59" class="avatar"></image>
 						<view class="expert" v-if="expert_apply_status =='2'">
