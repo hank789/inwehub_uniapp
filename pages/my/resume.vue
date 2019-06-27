@@ -31,7 +31,7 @@
 				<view class="backMask"></view>
 			</view>
 
-			<view class="content" id="comments">
+			<view class="muiContent">
 
 				<view class="header-wrapper">
 					<view class="headers">
@@ -368,7 +368,7 @@
 		top: 0;
 		z-index: 10;
 		/*  #ifdef  APP-PLUS  */
-		top: var(--status-bar-height);
+		padding-top: var(--status-bar-height);
 
 		/*  #endif  */
 		.before,
@@ -381,7 +381,7 @@
 			position: fixed;
 			top: 0;
 			/*  #ifdef  APP-PLUS  */
-			top: var(--status-bar-height);
+			padding-top: var(--status-bar-height);
 			/*  #endif  */
 
 			.back {
@@ -799,7 +799,7 @@
 		}
 	}
 
-	.content .specialColumn {
+	.muiContent .specialColumn {
 		padding: 0 31.96upx;
 		display: flex;
 		height: 88upx;
@@ -825,10 +825,5 @@
 			line-height: 88upx;
 		}
 	}
-	/* #ifdef APP-PLUS */
-	.marginApp {
-		margin-top: -270upx;
-	}
-	/* #endif */
 	
 </style>
