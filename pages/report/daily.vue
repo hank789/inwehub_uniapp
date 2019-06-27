@@ -94,7 +94,7 @@
     <alertSubscribeGZH ref="alertSubscribeGZH"></alertSubscribeGZH>
 		
 		<openNotice ref="openNotice" :showPopup="showPopup" @nowOpen="nowOpens"></openNotice>
-		
+		<alertEmailSubscribe ref="alertEmailSubscribe" @emailChange="emailChange"></alertEmailSubscribe>
   </view>
 </template>
 
@@ -114,6 +114,7 @@ import { iconMenusClickedItem } from '@/lib/feed'
 import { getHomeDetail } from '@/lib/shareTemplate'
 import { setHotRecommendAppPushStatus, setHotRecommendEmailStatus, needNotifitionPermission } from '@/lib/push'
 import alertSubscribeGZH from '@/components/iw-dialog/subscribegzh'
+import alertEmailSubscribe from '@/components/iw-dialog/email-subscribe.vue'
 import openNotice from '@/components/iw-dialog/open-notice.vue'
 import html5plus from "@/lib/html5plus.js"
 
@@ -122,7 +123,8 @@ export default {
     BottomActions,
     PageMore,
     alertSubscribeGZH,
-		openNotice
+		openNotice,
+		alertEmailSubscribe
   },
   data() {
     return {
@@ -162,6 +164,12 @@ export default {
     // #endif
   },
   methods: {
+		emailChange(email) {
+				setHotRecommendEmailStatus(1, email, () => {
+					this.isOpenEmailPush = 1
+					this.$refs.alertEmailSubscribe.hide()
+				}, () => {})
+			},
 		nowOpens() {
 			toSettingSystem('NOTIFITION')
 		},
@@ -190,23 +198,10 @@ export default {
       }
     },
     subscribeGZH() {
-      if (!this.wechat_subscribe) {
-        this.$refs.alertSubscribeGZH.show()
-      }
+			this.$refs.alertSubscribeGZH.show()
     },
     setEmailSubscribe() {
-      if (!this.email_subscribe) {
-        alertEmailSubscribe(this, (num, text) => {
-          if (num === 0) {
-            this.email_subscribe = text
-            setHotRecommendEmailStatus(true, this.email_subscribe, () => {
-              // ui.toast('订阅成功，可前往设置进行订阅管理')
-            }, () => {
-              this.email_subscribe = ''
-            })
-          }
-        })
-      }
+			this.$refs.alertEmailSubscribe.show()
     },
     getNotification() {
       postRequest(`notification/push/info`, {}, false, {}, 0, false).then(response => {

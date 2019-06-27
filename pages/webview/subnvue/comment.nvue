@@ -31,10 +31,13 @@
         return this.detail.is_bookmark ? 'ws-active' : ''
       }
     },
+		beforeDestroy(){
+			uni.$off('refreshWebviewCommentPageData')
+		},
     created() {
+			console.log('comment.nvue')
       uni.$on('refreshWebviewCommentPageData', (data) => {
         this.param = data
-        console.log(data)
         getDetail(data.slug, (detail) => {
           this.detail = detail
         })
@@ -48,6 +51,7 @@
         uni.$emit('articleWebviewToShare')
       },
       support () {
+				console.log(this.param)
         if (!this.param.id) {
           return
         }
