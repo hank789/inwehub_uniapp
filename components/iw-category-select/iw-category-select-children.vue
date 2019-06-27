@@ -6,20 +6,21 @@
         <text class="iconfont icon-xiangshangjiantou " />
       </view>
     </view>
-    <template v-for="(child, childIndex) in localTree">
+    <view v-for="(child, childIndex) in localTree" :key="childIndex">
       <view class="list">
         <view :class="{textActive: child.isShow}" class="text ListTitle" @tap.stop.prevent="selectItem(child)">
           <view class="span">{{ child.name }} {{ parseInt(child.children_count) > 0 ? '(' + child.children_count + ')' : '' }}</view>
           <text class="iconfont icon-xiangshangjiantou " />
         </view>
-        <DropDownMenuChild
-          v-if="child.children && child.children.length"
-          :class="{listChildrenActive: child.isShow, listChildrenHide: !child.isShow}"
-          :tree="child"
-          @selectChange="selectChange"
-        ></DropDownMenuChild>
+        <view v-if="isHasChild(child)">
+          <DropDownMenuChild
+            :class="{listChildrenActive: child.isShow, listChildrenHide: !child.isShow}"
+            :tree="child"
+            @selectChange="selectChange"
+          ></DropDownMenuChild>
+        </view>
       </view>
-    </template>
+    </view>
   </view>
 </template>
 
@@ -34,6 +35,10 @@ const DropDownMenuChildObj = {
       default: () => {
         return {}
       }
+    },
+    depth: {
+      type: Number,
+      default: 0
     }
   },
   mounted() {
@@ -46,6 +51,12 @@ const DropDownMenuChildObj = {
   components: {
   },
   methods: {
+    count (child) {
+      return parseInt(child.children_count) > 0 ? '(' + child.children_count + ')' : ''
+    },
+    isHasChild (child) {
+      return this.depth < 3 && child.children && child.children.length
+    },
     selectItem(item) {
       if (item === 'all') {
         this.$emit('selectChange', { id: this.tree.id, name: this.tree.name })

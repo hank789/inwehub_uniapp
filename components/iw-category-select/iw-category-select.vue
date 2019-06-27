@@ -26,9 +26,10 @@
                   <text class="iconfont icon-xiangshangjiantou " />
                 </view>
                 <DropDownMenuChild
-                  v-if="item.children.length"
+                  v-if="item.children && item.children.length"
                   :class="{listChildrenActive: item.isShow, listChildrenHide: !item.isShow}"
                   :tree="item"
+                  :depth="1"
                   @selectChange="selectChange"
                 />
               </view>
