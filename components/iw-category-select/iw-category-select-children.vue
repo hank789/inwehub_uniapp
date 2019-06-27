@@ -16,6 +16,7 @@
           <DropDownMenuChild
             :class="{listChildrenActive: child.isShow, listChildrenHide: !child.isShow}"
             :tree="child"
+            :depth="depth+1"
             @selectChange="selectChange"
           ></DropDownMenuChild>
         </view>
@@ -45,7 +46,7 @@ const DropDownMenuChildObj = {
   },
   computed: {
     localTree() {
-      return JSON.parse(JSON.stringify(this.tree.children))
+      return this.tree.children
     }
   },
   components: {
@@ -55,7 +56,7 @@ const DropDownMenuChildObj = {
       return parseInt(child.children_count) > 0 ? '(' + child.children_count + ')' : ''
     },
     isHasChild (child) {
-      return this.depth < 3 && child.children && child.children.length
+      return !!this.depth < 3 && child.children && child.children.length
     },
     selectItem(item) {
       if (item === 'all') {
@@ -83,9 +84,7 @@ export default DropDownMenuChildObj
     display: block;
   }
 
-   .list .listChildren {
-    display: none;
-  }
+
 
    .list .listChildrenActive{
     display: block;

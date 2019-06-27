@@ -8,6 +8,7 @@
   >
     <view :class="positionClass" class="dropDownMenuWrapper shareWrapper mui-popover">
       <slot name="dropDownMenuHeader" />
+      <scroll-view :scroll-y="true" class="scrollViewHeight">
       <view class="container-select">
         <view class="select-top">
           <view class="type" @tap.stop.prevent="hide">
@@ -40,6 +41,7 @@
         </view>
 
       </view>
+      </scroll-view>
       <view v-if="showProductAddBack" id="productAddBack" class="font-family-medium productAddBack" @tap.stop.prevent="ProductAddBack">取消
         <view class="bot" />
       </view>
@@ -85,7 +87,7 @@ export default {
   },
   computed: {
     localTree() {
-      return JSON.parse(JSON.stringify(this.tree))
+      return this.tree
     }
   },
   mounted() {
@@ -107,6 +109,22 @@ export default {
     },
     selectChange(data) {
       this.hide()
+
+      // 兼容ios
+      if (data.detail) {
+        if (data.detail.__args__[0] && data.detail.__args__[0].detail.__args__[0]) {
+          data = data.detail.__args__[0].detail.__args__[0]
+        }
+      }
+
+      // 兼容android
+      if (data.detail) {
+        if (data.detail.__args__[0]) {
+          data = data.detail.__args__[0]
+        }
+      }
+      console.log(data)
+
       this.$emit('input', data)
     },
     autoScrollWrapperHeight() {
@@ -132,6 +150,9 @@ export default {
 </script>
 
 <style scoped="scoped" lang="less">
+  .scrollViewHeight{
+    height:600upx;
+  }
   .mui-scroll-wrapper {
     top: 67.96upx;
     margin-top: 0 !important;
