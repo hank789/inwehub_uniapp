@@ -40,7 +40,7 @@
 				return
 			}
       uni.$on('articleWebviewToComment', () => {
-        uni.navigateTo({ url: '/pages/dianping/comment?slug=' +  this.detailData.slug})
+        uni.navigateTo({ url: '/pages/comment/index?slug=' +  this.detailData.slug + '&id=' + this.detailData.id})
       })
 
       uni.$on('articleWebviewToShare', () => {
@@ -65,13 +65,21 @@
 			let subNVue = uni.getSubNVueById('comment_footer')
 			
 			subNVue.show('fade-in', 200, () => {
-								uni.$emit('refreshWebviewCommentPageData', {
-									slug: this.detailData.slug,
-									id: this.detailData.id
-								})
+				setTimeout(()=>{
+					console.log('show nvue')
+					uni.$emit('refreshWebviewCommentPageData', {
+					slug: this.detailData.slug,
+					id: this.detailData.id
+				})
+				},300)
 			})
 			// #endif
     },
+		onUnload() {
+			// 移除监听事件  
+      uni.$off('articleWebviewToComment')
+			uni.$off('articleWebviewToShare')
+		},
 		methods: {
 			shareInfo(){
 				let shareInfo={
