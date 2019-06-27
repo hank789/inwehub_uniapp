@@ -40,7 +40,7 @@
 				return
 			}
       uni.$on('articleWebviewToComment', () => {
-        uni.navigateTo({ url: '/pages/dianping/comment?slug=' +  this.detailData.slug})
+        uni.navigateTo({ url: '/pages/comment/index?slug=' +  this.detailData.slug + '&id=' + this.detailData.id})
       })
 
       uni.$on('articleWebviewToShare', () => {
