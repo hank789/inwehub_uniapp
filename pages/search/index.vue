@@ -262,6 +262,11 @@ export default {
       return 'result'
     }
   },
+	onNavigationBarButtonTap(e) {
+		uni.navigateBack({
+			animationType: 'none'
+		})
+	},
   watch: {
     searchText: function(newValue, oldValue) {
       searchTextFilter(newValue, (text) => {
