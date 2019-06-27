@@ -1,28 +1,7 @@
 <template>
 	<view class="content">
 		
-		<view class="header" :class="iosSystem ? 'header-ios':''">
-			
-			<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
-				<view class="back">
-					<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
-				</view>
-				<view class="middle">个人名片</view>
-				<view class="icon-btn">
-					<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
-				</view>
-			</view>
-			
-			<view class="after" :style="{ opacity: afterHeaderOpacity, zIndex: afterHeaderzIndex,}">
-				<view class="back">
-					<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
-				</view>
-				<view class="middle">个人名片</view>
-				<view class="icon-btn">
-					<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
-				</view>
-			</view>
-		</view>
+
 		
 		<!-- 正文 -->
 		<iwList v-model="list" :api="'feed/list'" @scrollList="scrollList" ref="iwList" :cssTop="cssTop" :requestData="feedListParams">
@@ -138,6 +117,29 @@
 			</view>
 
 		</iwList>
+
+		<view class="header" :class="iosSystem ? 'header-ios':''">
+
+			<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
+				<view class="back">
+					<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
+				</view>
+				<view class="middle">个人名片</view>
+				<view class="icon-btn">
+					<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
+				</view>
+			</view>
+
+			<view class="after" :style="{ opacity: afterHeaderOpacity, zIndex: afterHeaderzIndex,}">
+				<view class="back">
+					<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
+				</view>
+				<view class="middle">个人名片</view>
+				<view class="icon-btn">
+					<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
+				</view>
+			</view>
+		</view>
 		
 		<iw-page-more
 		  ref="pageMore"
