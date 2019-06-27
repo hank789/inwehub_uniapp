@@ -25,7 +25,7 @@
         class="container-images container-images-discover"
         :class="'container-images-' + (itemObj.feed.img.length)"
       >
-        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image"><image mode="aspectFit" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
+        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image"><image mode="aspectFill" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
       </view>
 
       <view v-if="item.feed.tags && isShowLink" class="link">
@@ -193,7 +193,71 @@ export default {
 </script>
 
 <style lang="less">
+  .container-images-2 .container-image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-2 .container-image .image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-3 .container-image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-3 .container-image .image{
+    width:216upx;
+    height:216upx;
+  }
 
+  .container-images-4 .container-image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-4 .container-image .image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-5 .container-image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-5 .container-image .image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-6 .container-image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-6 .container-image .image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-7 .container-image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-7 .container-image .image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-8 .container-image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-8 .container-image .image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-9 .container-image{
+    width:216upx;
+    height:216upx;
+  }
+  .container-images-9 .container-image .image{
+    width:216upx;
+    height:216upx;
+  }
     .commentList {
         margin-top: 39.98upx;
         .line-river-after {
@@ -444,8 +508,9 @@ export default {
         }
     }
 
-    .container-images-discover .image{
-      width:226px;
-      height:226px;
-    }
+    
+  .container-images-discover .image{
+    width:452upx;
+    height:452upx;
+  }
 </style>
