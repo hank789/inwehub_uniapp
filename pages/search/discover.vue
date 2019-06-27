@@ -64,6 +64,7 @@
 
             <FeedItem
               :item="item"
+							:key="item.id"
               @showPageMore="showItemMore"
             />
 
@@ -135,6 +136,11 @@ export default {
       }
     }
   },
+	onNavigationBarButtonTap(e) {
+		uni.navigateBack({
+			animationType: 'none'
+		})
+	},
   computed: {
     dataList() {
       return { search_word: this.confirmSearchText }

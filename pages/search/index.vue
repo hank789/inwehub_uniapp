@@ -76,15 +76,15 @@
           <view class="">
 
             <template v-for="(item, index) in list.question.list">
-              <view class="container-list-question" @tap.stop.prevent="toDetail(item.id,item.question_type)">
+              <view class="container-list-question" :key="item.id" @tap.stop.prevent="toDetail(item.id,item.question_type)">
                 <view class="question text-line-3">
                   <label v-if="item.price>0" class="component-label">{{ item.status_description }}</label><view class="span" v-html="textToLink(item.description)" />
                 </view>
                 <view v-if="item.question_type == 2" class="statistics">{{ item.answer_number }}回答<view class="span line-wall" />{{ item.follow_number }}关注</view>
                 <view v-if="item.question_type == 1" class="statistics">{{ item.comment_number }}评论<view class="span line-wall" />{{ item.support_number }}点赞<view v-if="item.average_rate" class="span line-wall" />{{ item.average_rate?item.average_rate:'' }}</view>
               </view>
-              <view v-if="index === 2 && index === list.question.list.length-1" class="line-river-after line-river-after-top" />
-              <view v-if="index !== 3 && index !== list.question.list.length-1" class="line-river-big" />
+              <view :key="item.id" v-if="index === 2 && index === list.question.list.length-1" class="line-river-after line-river-after-top" />
+              <view :key="item.id" v-if="index !== 3 && index !== list.question.list.length-1" class="line-river-big" />
             </template>
 
           </view>
