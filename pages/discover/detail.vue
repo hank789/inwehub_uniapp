@@ -729,8 +729,8 @@ export default {
       const data = {
         id: item.id,
         title: item.title,
-        url: item.link_url,
-        img: item.img,
+        url: item.data.url,
+        img: item.data.img,
         slug: item.slug
       }
 
