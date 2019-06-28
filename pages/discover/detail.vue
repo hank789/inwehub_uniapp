@@ -163,10 +163,10 @@
             </view>
 
             <view class="productList">
-              <view v-for="(item, index) in detail.related_tags" :key="item.name" class="comment-product">
+              <view v-for="(item, index) in detail.related_tags" :key="item.name" class="comment-product" @tap.stop.prevent="toProduct(item)"
+                    hover-class="hoverClass" :hover-stop-propagation="true">
                 <view
                   class="product-info"
-                  @tap.stop.prevent="toProduct(item)"
                 >
                   <view class="product-img border-football">
                     <image mode="aspectFill" :src="item.logo" width="44" height="44" />
