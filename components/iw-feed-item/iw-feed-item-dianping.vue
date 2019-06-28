@@ -1,7 +1,7 @@
 <template>
   <view>
-    <view class="commentList" @tap.stop.prevent="toDetail()">
-      <view class="commentUser" @tap.stop.prevent="toResume()">
+    <view class="commentList" @tap.stop.prevent="toDetail()" hover-class="hoverClass" :hover-stop-propagation="true">
+      <view class="commentUser" @tap.stop.prevent="toResume()" hover-class="hoverClass" :hover-stop-propagation="true">
         <view class="userInfo">
           <view class="avatar avatarInner">
             <image mode="aspectFill" class="image" :src="item.user.avatar" :is-lazyload="true" width="34" height="34" />
@@ -52,21 +52,21 @@
       </view>
 
       <view class="feed-moreOperation">
-        <view class="feed-mord" @tap.stop.prevent="showItemMore">
+        <view class="feed-mord" @tap.stop.prevent="showItemMore" hover-class="hoverClass" :hover-stop-propagation="true">
           <text class="iconfont icon-gengduo1 " />
         </view>
         <view class="feed-operation">
 
           <view class="first">
-            <view class="span" @tap.stop.prevent="toDetail()">
+            <view class="span" @tap.stop.prevent="toDetail()" hover-class="hoverClass" :hover-stop-propagation="true">
               <text class="iconfont icon-pinglun " /><view v-if="item.feed.comment_number" class="i">{{ item.feed.comment_number }}</view>
             </view>
 
-            <view class="span" :class="item.feed.is_downvoted ? 'activeSpan':''" @tap.stop.prevent="discoverDown()">
+            <view class="span" :class="item.feed.is_downvoted ? 'activeSpan':''" @tap.stop.prevent="discoverDown()" hover-class="hoverClass" :hover-stop-propagation="true">
               <text class="iconfont icon-cai " /><view v-if="item.feed.downvote_number" class="i">{{ item.feed.downvote_number }}</view>
             </view>
 
-            <view class="span" :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp()">
+            <view class="span" :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp()" hover-class="hoverClass" :hover-stop-propagation="true">
               <text class="iconfont icon-zan " /><view v-if="item.feed.support_number" class="i">{{ item.feed.support_number }}</view>
             </view>
           </view>
@@ -257,7 +257,7 @@ export default {
     height:216upx;
   }
     .commentList {
-        margin-top: 39.98upx;
+        padding-top: 39.98upx;
         .line-river-after {
             margin-top: 19.96upx;
             &:after {

@@ -858,3 +858,7 @@ text-align: center; }
     line-height: normal;
     top: 22.96upx;
     left: 21.0upx;}
+
+.hoverClass{
+    background-color: #f3f4f6;
+}

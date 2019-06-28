@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="container-feed-item feed-currency" @tap.stop.prevent="toDetail(item)">
+    <view class="container-feed-item feed-currency" @tap.stop.prevent="toDetail(item)" hover-class="hoverClass" :hover-stop-propagation="true">
       <UserInfo
         :uuid="item.user.uuid"
         :avatar="item.user.avatar"
@@ -10,6 +10,8 @@
         :time="item.created_at"
         :address="item.feed.current_address_name"
         :show-set-top="item.top"
+        hover-class="hoverClass"
+        :hover-stop-propagation="true"
       />
       <view class="currency-title text-line-5 feed-title"><view>{{ item.feed.title }}</view></view>
       <view class="feed-open-all font-family-medium" @tap.stop.prevent="extendAll">展开全部</view>
@@ -45,19 +47,19 @@
       <!--操作区-->
       <view class="feed-moreOperation">
 
-        <view class="feed-mord" @tap.stop.prevent="showItemMore">
+        <view class="feed-mord" @tap.stop.prevent="showItemMore" hover-class="hoverClass" :hover-stop-propagation="true">
           <text class="iconfont icon-gengduo1" />
         </view>
         <view class="feed-operation">
 
           <view class="first">
-            <view class="span" @tap.stop.prevent="toComment">
+            <view class="span" @tap.stop.prevent="toComment" hover-class="hoverClass" :hover-stop-propagation="true">
               <text class="iconfont icon-pinglun" /><view v-if="item.feed.comment_number" class="i">{{ item.feed.comment_number }}</view>
             </view>
-            <view class="span" :class="item.feed.is_downvoted ? 'activeSpan':''" @tap.stop.prevent="discoverDown()">
+            <view class="span" :class="item.feed.is_downvoted ? 'activeSpan':''" @tap.stop.prevent="discoverDown()" hover-class="hoverClass" :hover-stop-propagation="true">
               <text class="iconfont icon-cai" /><view v-if="item.feed.downvote_number" class="i">{{ item.feed.downvote_number }}</view>
             </view>
-            <view class="span" :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp()">
+            <view class="span" :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp()" hover-class="hoverClass" :hover-stop-propagation="true">
               <text class="iconfont icon-zan" /><view v-if="item.feed.support_number" class="i">{{ item.feed.support_number }}</view>
             </view>
           </view>
@@ -290,7 +292,7 @@ export default {
 
     .container-feed-item {
         position: relative;
-        margin-top: 39.98upx;
+        padding-top: 39.98upx;
         .feed-address {
             color: #B4B4B6;
             font-size: 21.98upx;
