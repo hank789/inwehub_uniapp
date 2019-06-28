@@ -57,19 +57,10 @@
             <view class="span" :class="item.feed.is_downvoted ? 'activeSpan':''" @tap.stop.prevent="discoverDown()">
               <text class="iconfont icon-cai" /><view v-if="item.feed.downvote_number" class="i">{{ item.feed.downvote_number }}</view>
             </view>
-          </view>
-
-          <view class="posiZan">
-
-            <view :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp(index)">
-              <text v-if="item.feed.is_upvoted === 0" class="iconfont icon-zan" />
-              <text v-if="item.feed.is_upvoted === 1" class="iconfont icon-yizan" />
-              <view v-if="item.feed.support_number" class="i numberColor">{{ item.feed.support_number }}</view>
+            <view class="span" :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp()">
+              <text class="iconfont icon-zan" /><view v-if="item.feed.support_number" class="i">{{ item.feed.support_number }}</view>
             </view>
-            <view v-show="showUpvo" class="upvoted" :class="'zan' + index" @tap.stop.prevent="dianpingDiscoverUp(index)" />
-
           </view>
-
         </view>
 
       </view>
@@ -446,9 +437,6 @@ export default {
                         display: inline-block;
                         font-style: normal;
                     }
-                }
-                .first {
-                    margin-right: 90upx;
                 }
                 .posiZan {
                     position: absolute;
