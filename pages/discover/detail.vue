@@ -203,7 +203,7 @@
             <template v-for="(item, index) in list">
 							<view :key="item.id">
               <view v-if="index === 5" class="line-river-big" />
-              <view class="component-item-article" @tap.stop.prevent="goDetail(item)">
+              <view class="component-item-article" @tap.stop.prevent="goDetail(item)" hover-class="hoverClass" :hover-stop-propagation="true">
                 <view class="itemArticleLeft">
                   <view class="titleWrapper">
                     <view class="title text-line-2 text-content">

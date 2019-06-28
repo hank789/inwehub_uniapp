@@ -39,7 +39,7 @@
           <view class="heatProduct">
 
             <view v-for="(item, index) in hotProductList" :key="index" class="productList" @tap.stop.prevent="toProductDetail(item)">
-              <view class="componentCarProduct">
+              <view class="componentCarProduct" hover-class="hoverClass" :hover-stop-propagation="true">
                 <view class="topInfo">
                   <view class="left">
                     <view class="logo">

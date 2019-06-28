@@ -860,5 +860,5 @@ text-align: center; }
     left: 21.0upx;}
 
 .hoverClass{
-    background-color: #f3f4f6;
+    background-color: #f3f4f6 !important;
 }

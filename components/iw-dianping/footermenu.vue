@@ -1,7 +1,7 @@
 <template>
   <view v-if="options.length" class="container-menuFooter">
     <template v-for="(item, index) in options">
-      <view class="menu" :class="[{lightWidth: item.isLight, is_FollWers: item.is_FollWers , disable: item.disable, 'new': item.isNew}, 'menu_' + index, item.class]" @tap.stop.prevent="clickItem(item)">
+      <view class="menu" :class="[{lightWidth: item.isLight, is_FollWers: item.is_FollWers , disable: item.disable, 'new': item.isNew}, 'menu_' + index, item.class]" @tap.stop.prevent="clickItem(item)" hover-class="hoverClass" :hover-stop-propagation="true">
         <view class="iconWrapper">
           <text class="iconfont " :class="item.icon" />
         </view>

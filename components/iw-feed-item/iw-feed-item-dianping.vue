@@ -59,15 +59,15 @@
 
           <view class="first">
             <view class="span" @tap.stop.prevent="toDetail()" hover-class="hoverClass" :hover-stop-propagation="true">
-              <text class="iconfont icon-pinglun " /><view v-if="item.feed.comment_number" class="i">{{ item.feed.comment_number }}</view>
+              <text class="iconfont icon-pinglun " /><view v-if="localItem.feed.comment_number" class="i">{{ localItem.feed.comment_number }}</view>
             </view>
 
-            <view class="span" :class="item.feed.is_downvoted ? 'activeSpan':''" @tap.stop.prevent="discoverDown()" hover-class="hoverClass" :hover-stop-propagation="true">
-              <text class="iconfont icon-cai " /><view v-if="item.feed.downvote_number" class="i">{{ item.feed.downvote_number }}</view>
+            <view class="span" :class="localItem.feed.is_downvoted ? 'activeSpan':''" @tap.stop.prevent="discoverDown()" hover-class="hoverClass" :hover-stop-propagation="true">
+              <text class="iconfont icon-cai " /><view v-if="localItem.feed.downvote_number" class="i">{{ localItem.feed.downvote_number }}</view>
             </view>
 
-            <view class="span" :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp()" hover-class="hoverClass" :hover-stop-propagation="true">
-              <text class="iconfont icon-zan " /><view v-if="item.feed.support_number" class="i">{{ item.feed.support_number }}</view>
+            <view class="span" :class="localItem.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp()" hover-class="hoverClass" :hover-stop-propagation="true">
+              <text class="iconfont icon-zan " /><view v-if="localItem.feed.support_number" class="i">{{ localItem.feed.support_number }}</view>
             </view>
           </view>
 
@@ -105,7 +105,8 @@ export default {
   },
   data() {
     return {
-      showUpvo: false
+      showUpvo: false,
+      localItem: this.item
     }
   },
   computed: {
@@ -155,22 +156,22 @@ export default {
     },
     dianpingDiscoverUp(index) {
       upvote(this, this.item.feed.submission_id, (response) => {
-        this.item.feed.support_number++
-        this.item.feed.is_upvoted = 1
+        this.localItem.feed.support_number++
+        this.localItem.feed.is_upvoted = 1
         this.showUpvo = true
       }, (response) => {
         this.showUpvo = false
-        this.item.feed.support_number--
-        this.item.feed.is_upvoted = 0
+        this.localItem.feed.support_number--
+        this.localItem.feed.is_upvoted = 0
       })
     },
     discoverDown() {
       downVote(this, this.item.feed.submission_id, (response) => {
-        this.item.feed.downvote_number++
-        this.item.feed.is_downvoted = response.data.support_percent
+        this.localItem.feed.downvote_number++
+        this.localItem.feed.is_downvoted = 1
       }, (response) => {
-        this.item.feed.downvote_number--
-        this.item.feed.is_downvoted = 0
+        this.localItem.feed.downvote_number--
+        this.localItem.feed.is_downvoted = 0
       })
     },
     showDownloadTip() {
