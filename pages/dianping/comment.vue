@@ -351,7 +351,7 @@ export default {
     detailMenuIcon(item) {
       switch (item.text) {
         case '评论':
-          this.to('/pages/comment/index?category_id=' + this.detail.category_id + '&slug=' + this.detail.slug + '&id=' + this.detail.id)
+          this.toRoute('/pages/comment/index?category_id=' + this.detail.category_id + '&slug=' + this.detail.slug + '&id=' + this.detail.id)
           break
         case '踩':
           this.detailDownVote()
