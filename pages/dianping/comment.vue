@@ -94,8 +94,8 @@
 
         <view class="productList">
 
-          <view v-for="(item, index) in detail.related_tags" :key="index" class="comment-product">
-            <view class="product-info" @tap.stop.prevent="toProduct(item)">
+          <view v-for="(item, index) in detail.related_tags" :key="index" class="comment-product" @tap.stop.prevent="toProduct(item)" hover-class="hoverClass" :hover-stop-propagation="true">
+            <view class="product-info">
               <view class="product-img border-football">
                 <image mode="aspectFill" :src="item.logo" alt="" class="image lazyImg" /></view>
               <view class="product-detail">
