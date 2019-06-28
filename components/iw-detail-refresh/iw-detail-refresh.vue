@@ -8,6 +8,7 @@
             <slot></slot>
 
             <!--<mix-load-more :status="loadMoreStatus" />-->
+            <view class="ios-footer-hakcer" v-if="platform === 'ios'"></view>
         </scroll-view>
     </mix-pulldown-refresh>
 </template>
@@ -15,6 +16,7 @@
   import mixPulldownRefresh from '@/components/mix-pulldown-refresh/mix-pulldown-refresh'
   import mixLoadMore from '@/components/mix-load-more/mix-load-more'
   import { postRequest } from '@/lib/request.js'
+  import { getPlatform } from '@/lib/allPlatform'
 
   export default {
     components: {
@@ -26,6 +28,7 @@
         detail: {},
         enableScroll: true,
         page: 0,
+        platform: '',
         loadMoreStatus: 0 // 加载更多 0加载前，1加载中，2没有更多了
       }
     },
@@ -48,6 +51,7 @@
     created() {
       // 获取屏幕宽度
       this.loadNewsList('add')
+      this.platform = getPlatform()
     },
     methods: {
       onPulldownReresh() {
@@ -98,6 +102,10 @@
 </script>
 
 <style scoped="scoped">
+    .ios-footer-hakcer{
+        height:100upx;
+        width:100%;
+    }
     .panel-scroll-box{
         height:100%;
     }

@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="content">
     <view class="mui-content">
       <MescrollDetail
           v-if="slug"
@@ -1135,7 +1135,7 @@ export default {
     }
 
     .mui-content {
-        bottom: 99.98upx;
+        bottom: 100upx;
         background: #fff;
     }
 
@@ -1152,6 +1152,13 @@ export default {
     .component-dianzanList .span {
         font-size: 25.96upx;
         color: #03aef9;
+    }
+
+    page, .content{
+      background-color: #fff;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
     }
 
     .contentWrapper .span {

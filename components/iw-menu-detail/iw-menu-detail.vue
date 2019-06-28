@@ -65,7 +65,7 @@ export default {
         bottom: 0;
         width: 750upx;
         left: 50%;
-        height: 87.98upx;
+        height: 100upx;
         overflow: hidden;
         margin-left: -375.0upx !important;
         background: #FFFFFF;
