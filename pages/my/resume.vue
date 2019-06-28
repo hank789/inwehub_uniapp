@@ -388,7 +388,7 @@
 		.after {
 			width: 100%;
 			padding: 0 4%;
-			height: 100upx;
+			height: 120upx;
 			display: flex;
 			align-items: center;
 			position: fixed;
