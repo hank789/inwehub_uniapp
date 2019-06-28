@@ -33,7 +33,7 @@
       </view>
       <!--PDF-->
       <view v-if="itemObj.feed.files.length" class="container-pdf-box">
-        <view v-for="(pdf, pdfIndex) in itemObj.feed.files":key="pdfIndex" class="feed-pdf-box">
+        <view v-for="(pdf, pdfIndex) in itemObj.feed.files" :key="pdfIndex" class="feed-pdf-box">
           <view class="pdfIcon">
             <text class="iconfont icon-pdf" />
           </view>
@@ -84,6 +84,7 @@
 import { upvote, downVote } from '@/lib/discover'
 import UserInfo from '@/components/iw-discover/user-info.vue'
 import { getTextDiscoverDetail } from '@/lib/shareTemplate'
+import { urlencode } from '@/lib/string'
 
 export default {
   components: {
@@ -168,7 +169,7 @@ export default {
 			url: item.feed.link_url,
 			img: item.feed.img,
 			slug: item.feed.slug,
-			h5Url: ls.get('webRoot') + '/#/' + item.feed.comment_url
+			h5Url: this.$ls.get('webRoot') + '/#/' + item.feed.comment_url
 		}
 
 		uni.navigateTo({

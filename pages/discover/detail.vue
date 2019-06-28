@@ -732,7 +732,7 @@ export default {
         url: item.data.url,
         img: item.data.img,
         slug: item.slug,
-				h5Url: ls.get('webRoot') + '/#/c/' + item.category_id + '/' + item.slug
+				h5Url: this.$ls.get('webRoot') + '/#/c/' + item.category_id + '/' + item.slug
       }
 
       uni.navigateTo({
