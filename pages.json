@@ -641,6 +641,19 @@
       }
     },
     {
+      "path": "pages/my/upload",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "修改头像",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
       "path": "pages/my/selectCompany",
       "style": {
         "navigationStyle": "default",

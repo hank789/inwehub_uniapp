@@ -74,24 +74,39 @@
 </template>
 
 <script>
-	import { getUserInfo, getLocalUserInfo } from '@/lib/user'
+	import { getLocalUserInfo } from '@/lib/user'
 	import ui from "@/lib/ui"
+	
+import localEvent from '@/lib/localstorage.js'
 	export default {
 		data() {
 			return {
-				user: {},
+				user: {
+					avatar_url: ''
+				},
 				work_city: '',
-				home_city: '',
-				getUserInfos: getLocalUserInfo()
+				home_city: ''
 			}
 		},
-		onLoad() {
-			this.getUserInfo()
-		},
-		created () {
+		onShow() {},
+		onLoad(option) {
 			this.getUserInfo()
 		},
 		methods: {
+			uploadAvatar () {
+				uni.chooseImage({
+					count: 1, // 默认9
+					sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+					success(res) {
+						const src = res.tempFilePaths[0];
+						
+						uni.redirectTo({
+							url: '/pages/my/upload?src=' + src
+						});
+					}
+				});
+			},
 			goEditData(type) {
 				// #ifdef APP-PLUS || MP-WEIXIN
 				switch (type) {
@@ -146,6 +161,7 @@
 			getUserInfo() {
 				let getUserInfo = getLocalUserInfo()
 				this.user = getUserInfo
+				this.userAvatar = this.user.avatar_url
 				this.work_city = getUserInfo.province.name + ' ' + getUserInfo.city.name
 				this.home_city = getUserInfo.hometown_province.name + ' ' + getUserInfo.hometown_city.name
 			},
