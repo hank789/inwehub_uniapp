@@ -851,21 +851,6 @@ export default {
             this.detail.supporter_list.splice(i, 1)
           }
         }
-
-        if (process.env.NODE_ENV === 'production' && window.mixpanel) {
-          // mixpanel
-          window.mixpanel.track(
-            'inwehub:support:success',
-            {
-              'app': 'inwehub',
-              'user_device': window.getUserAppDevice(),
-              'page': this.id,
-              'page_name': 'submission',
-              'page_title': 'cancelSupport',
-              'referrer_page': ''
-            }
-          )
-        }
       })
     },
     detailDownVote() {
@@ -875,41 +860,12 @@ export default {
         this.detail.support_description = response.data.support_description
         this.detail.support_percent = response.data.support_percent
         this.isUpvote = response.data.type
-        if (process.env.NODE_ENV === 'production' && window.mixpanel) {
-          // mixpanel
-          window.mixpanel.track(
-            'inwehub:downvote:success',
-            {
-              'app': 'inwehub',
-              'user_device': window.getUserAppDevice(),
-              'page': this.id,
-              'page_name': 'submission',
-              'page_title': 'downvote',
-              'referrer_page': ''
-            }
-          )
-        }
       }, (response) => {
         this.detail.downvotes--
         this.detail.support_description = response.data.support_description
         this.detail.support_percent = response.data.support_percent
         this.detail.is_downvoted = 0
         this.isUpvote = response.data.type
-
-        if (process.env.NODE_ENV === 'production' && window.mixpanel) {
-          // mixpanel
-          window.mixpanel.track(
-            'inwehub:downvote:success',
-            {
-              'app': 'inwehub',
-              'user_device': window.getUserAppDevice(),
-              'page': this.id,
-              'page_name': 'submission',
-              'page_title': 'cancelDownvote',
-              'referrer_page': ''
-            }
-          )
-        }
       })
     },
     delCommentSuccess() {
