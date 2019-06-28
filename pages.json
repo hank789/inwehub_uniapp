@@ -346,17 +346,11 @@
     {
       "path": "pages/my/resume",
       "style": {
-        "navigationBarTitleText": "个人名片",
-				"navigationBarBackgroundColor": "#FFFFFF",
+        "navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#f1f1f1",
         "onReachBottomDistance": 50,
-				"navigationBarTextStyle": "black",
         "app-plus": {
-          "titleNView": {
-						"type": "transparent",
-							"buttons": [{
-								"type": "share"
-							}]
-					},
+          "titleNView": false,
           "bounce": "none"
         }
       }
