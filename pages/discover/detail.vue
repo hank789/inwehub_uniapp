@@ -728,10 +728,11 @@ export default {
     navToDetails(item) {
       const data = {
         id: item.id,
-        title: item.data.title,
+        title: item.title,
         url: item.data.url,
         img: item.data.img,
-        slug: item.slug
+        slug: item.slug,
+				h5Url: ls.get('webRoot') + '/#/c/' + item.category_id + '/' + item.slug
       }
 
       uni.navigateTo({
