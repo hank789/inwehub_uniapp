@@ -1,10 +1,11 @@
 <template>
   <view>
-    <view class="commentList" @tap.stop.prevent="toDetail()">
-      <view class="commentUser" @tap.stop.prevent="toResume()">
+    <view class="commentList" @tap.stop.prevent="toDetail()" hover-class="hoverClass" :hover-stop-propagation="true">
+      <view class="commentUser" @tap.stop.prevent="toResume()" hover-class="hoverClass" :hover-stop-propagation="true">
         <view class="userInfo">
-          <view class="avatar">
+          <view class="avatar avatarInner">
             <image mode="aspectFill" class="image" :src="item.user.avatar" :is-lazyload="true" width="34" height="34" />
+            <text class="iconfont icon-zhuanjiabiaozhishixin"  v-show="isExpert"></text>
           </view>
           <view class="userName">
             <view class="userNameTop">
@@ -51,29 +52,23 @@
       </view>
 
       <view class="feed-moreOperation">
-        <view class="feed-mord" @tap.stop.prevent="showItemMore">
+        <view class="feed-mord" @tap.stop.prevent="showItemMore" hover-class="hoverClass" :hover-stop-propagation="true">
           <text class="iconfont icon-gengduo1 " />
         </view>
         <view class="feed-operation">
 
           <view class="first">
-            <view class="span" @tap.stop.prevent="toDetail()">
+            <view class="span" @tap.stop.prevent="toDetail()" hover-class="hoverClass" :hover-stop-propagation="true">
               <text class="iconfont icon-pinglun " /><view v-if="item.feed.comment_number" class="i">{{ item.feed.comment_number }}</view>
             </view>
 
-            <view class="span" :class="item.feed.is_downvoted ? 'activeSpan':''" @tap.stop.prevent="discoverDown()">
+            <view class="span" :class="item.feed.is_downvoted ? 'activeSpan':''" @tap.stop.prevent="discoverDown()" hover-class="hoverClass" :hover-stop-propagation="true">
               <text class="iconfont icon-cai " /><view v-if="item.feed.downvote_number" class="i">{{ item.feed.downvote_number }}</view>
             </view>
-          </view>
 
-          <view class="posiZan">
-
-            <view class="span" :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp(index)">
-              <text class="iconfont icon-zan " v-if="item.feed.is_upvoted === 0"/>
-              <text v-if="item.feed.is_upvoted === 1" class="iconfont icon-yizan yizan " /><view v-if="item.feed.support_number" class="i numberColor">{{ item.feed.support_number }}</view>
+            <view class="span" :class="item.feed.is_upvoted ? 'activeSpan':''" @tap.stop.prevent="dianpingDiscoverUp()" hover-class="hoverClass" :hover-stop-propagation="true">
+              <text class="iconfont icon-zan " /><view v-if="item.feed.support_number" class="i">{{ item.feed.support_number }}</view>
             </view>
-            <view v-show="showUpvo" :class="'zan' + index" class="span upvoted" @tap.stop.prevent="dianpingDiscoverUp(index)" />
-
           </view>
 
         </view>
@@ -114,6 +109,9 @@ export default {
     }
   },
   computed: {
+    isExpert () {
+      return !!this.item.user.is_expert
+    },
     itemObj() {
       var item = JSON.parse(JSON.stringify(this.item))
       if (typeof item.feed.img === 'string') {
@@ -259,7 +257,7 @@ export default {
     height:216upx;
   }
     .commentList {
-        margin-top: 39.98upx;
+        padding-top: 39.98upx;
         .line-river-after {
             margin-top: 19.96upx;
             &:after {
@@ -392,9 +390,7 @@ export default {
                         color: #03AEF9;
                     }
                 }
-                .first {
-                    margin-right: 70upx;
-                }
+
                 .posiZan {
                     position: absolute;
                     top: 6upx;
@@ -512,5 +508,19 @@ export default {
   .container-images-discover .image{
     width:452upx;
     height:452upx;
+  }
+
+  .avatarInner{
+    position: relative;
+  }
+
+  .avatarInner .iconfont{
+    position: absolute;
+    width: 39.98upx;
+    height: 39.98upx;
+    right: -7.50upx;
+    bottom: -5.26upx;
+    font-size: 24upx;
+    color: #03aef9;
   }
 </style>

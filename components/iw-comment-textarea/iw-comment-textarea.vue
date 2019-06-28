@@ -1,7 +1,7 @@
 <template>
   <view v-show="showTextarea || alwaysshow" class="commentWrapper" @tap.capture="onTap($event)">
     <view class="textareaWrapper">
-      <textarea v-model="textarea" autofocus="autofocus" class="textarea" :placeholder="targetUsername" />
+      <textarea v-model="textarea" :focus="focus" auto-height="true" class="textarea" :placeholder="targetUsername" />
       <!--<text class="iconfont icon-fasong"></text>-->
     </view>
     <view class="send font-family-medium" :class="text.length - 2 ? 'active' : ''" @tap.stop.prevent="sendMessage">发送</view>
@@ -31,7 +31,8 @@ const CommentTextarea = {
     commentData: [], // 评论时需要的参数
     historyDescription: [], // 历史内容
     focusCallback: null, // 获取焦点时的回调
-    allowBr: false
+    allowBr: false,
+		focus: false
   }),
   props: {
     alwaysshow: false
@@ -78,6 +79,7 @@ const CommentTextarea = {
       localEvent.remove('selected_comment_user' + this.id)
       // // this.$refs.myAddEditor.resetContent()
       this.showTextarea = false
+			this.focus = false
     },
     addressAppearDelete(text) {
       var users = localEvent.get('selected_comment_user' + this.id)
@@ -186,7 +188,7 @@ const CommentTextarea = {
       // window.mui.closeWaitingBlank()
       console.log('comment blur')
       this.showTextarea = false
-
+			this.focus = false
       this.setHistoryDescription()
     },
     delCurrentHistoryDescription() {
@@ -244,7 +246,12 @@ const CommentTextarea = {
       this.textarea = ''
 
       this.getHistoryDescription()
-
+			if (this.focus === false) {
+				this.focus = true
+			} else {
+				this.focus = false
+			}
+			
       console.log('comment-textarea:' + this.textarea)
     },
     finish() {
@@ -290,7 +297,6 @@ export default CommentTextarea
         width: 750upx;
         bottom: 0;
         left: 0;
-        height: 90upx;
         overflow: hidden;
         padding: 9.98upx 30upx;
         z-index: 3;
@@ -300,13 +306,13 @@ export default CommentTextarea
         position: relative;
         background: #fff;
         border-radius: 9.98upx;
-        height: 69.98upx;
         width: 88%;
+				min-height:150upx;
     }
     .commentWrapper .send {
         position: absolute;
         right: 31.96upx;
-        bottom: 24upx;
+        bottom: 12upx;
         color: #B4B4B6;
         font-size: 30upx;
     }

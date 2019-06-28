@@ -3,7 +3,7 @@
         <view class="avatar">
             <view class="avatarInner" @tap.stop.prevent="toResume()">
                 <image mode="aspectFill" :src="avatar" class="image"/>
-                <text class="iconfont icon-zhuanjiabiaojishixin"  v-show="isExpert"></text>
+                <text class="iconfont icon-zhuanjiabiaozhishixin"  v-show="isExpert"></text>
             </view>
         </view>
 
@@ -259,7 +259,7 @@
         height: 39.98upx;
         right: -7.50upx;
         bottom: -5.26upx;
-        font-size: 48upx;
+        font-size: 24upx;
         color: #03aef9;
     }
 

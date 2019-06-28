@@ -85,8 +85,8 @@ export default {
       } else {
         const content = '举报类型:' + this.type + '/举报内容:' + this.content + '/链接:' + link
         feedback('举报内容', content, () => {
-          this.resetData()
           this.hide()
+          this.resetData()
         })
       }
     },
@@ -94,6 +94,7 @@ export default {
       this.isShow = true
     },
     hide() {
+      console.log('hide')
       this.isShow = false
     },
     setLink (link) {

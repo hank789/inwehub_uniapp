@@ -42,7 +42,7 @@
                             <view class="avatar">
                                 <view class="avatarInner" @tap.stop.prevent="">
                                     <image class="image" :src="item.avatar_url" @tap.stop.prevent="toAvatar(item.uuid)"></image>
-                                    <text class="iconfont icon-zhuanjiabiaojishixin"></text>
+                                    <text class="iconfont icon-zhuanjiabiaozhishixin"></text>
                                 </view>
                             </view>
 
@@ -406,7 +406,7 @@
         position: absolute;
         right: -12upx;
         bottom: -1.96upx;
-        font-size: 48upx;
+        font-size: 24upx;
         color: #03aef9;
         line-height: normal;
     }

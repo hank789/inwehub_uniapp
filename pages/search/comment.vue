@@ -82,7 +82,7 @@
 
             </view>
             <PageMore
-              ref="share"
+              ref="pageMore"
               :share-option="shareOption"
               :hide-share-btn="true"
               :icon-menu="iconMenus"
@@ -90,8 +90,10 @@
               @fail="shareFail"
               @clickedItem="iconMenusClickedItem"
             />
-          </view>
 
+            <iwDialogReport ref="alertReport"></iwDialogReport>
+
+          </view>
 </template>
 
 <script>
@@ -102,12 +104,15 @@ import DianPingFeed from '@/components/iw-feed-item/iw-feed-item'
 import PageMore from '@/components/iw-page-more/iw-page-more'
 import { autoBlur } from '@/lib/dom'
 import { setNavbarSearchInputText } from '@/lib/allPlatform'
+import iwDialogReport from '@/components/iw-dialog/report.vue'
+import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
 
 export default {
   components: {
     RefreshList,
     DianPingFeed,
-    PageMore
+    PageMore,
+    iwDialogReport
   },
   data() {
     return {
@@ -193,9 +198,11 @@ export default {
     },
     showItemMore(data) {
       let shareOption = data.shareOption
+      this.iconMenus = getIconMenus(data.item)
       let item = data.item
+      this.itemOptionsObj = item
       this.shareOption = shareOption
-      this.$refs.share.share()
+      this.$refs.pageMore.share()
     },
     shareFail() {
 
@@ -203,7 +210,10 @@ export default {
     shareSuccess() {
 
     },
-    iconMenusClickedItem() {
+    iconMenusClickedItem(item) {
+      iconMenusClickedItem(this, this.itemOptionsObj, item, () => {
+        this.iconMenus = getIconMenus(this.itemOptionsObj)
+      })
     },
     focus: function() {
       this.confirmSearchText = ''

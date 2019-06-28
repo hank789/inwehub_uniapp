@@ -8,7 +8,7 @@
 				<view class="professor" @tap.stop.prevent="toRoute('/pages/my/resume')">
 					<view class="my-img" @tap.stop.prevent="toRoute('/pages/my/resume')">
 						<image :src="avatar" width="59" height="59" class="avatar"></image>
-						<view class="expert" v-if="expert_apply_status =='2'">
+						<view class="expert">
 							<text class="iconfont icon-zhuanjiabiaozhishixin"></text>
 						</view>
 					</view>

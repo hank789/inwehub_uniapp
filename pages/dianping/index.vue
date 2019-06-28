@@ -16,79 +16,81 @@
       <view class="line-river-after line-river-after-top marginTop" />
 
       <view class="main-content">
-        <view class="topTitle font-family-medium">热门专题</view>
-        <view class="heatAlbum">
+        <scroll-view scroll-y="true" class="scrollView">
+          <view class="topTitle font-family-medium">热门专题</view>
+          <view class="heatAlbum">
 
-          <view v-for="(item, indexAlbum) in hotAlbum" :key="indexAlbum"
-          class="albumList"
-          @tap.stop.prevent="toProductList(item)">
-            <view class="componentCarAlbum">
-              <view class="albumName font-family-medium">{{ item.name }}</view>
-              <view class="tags"><label>{{ item.tips }}</label></view>
-              <view v-if="indexAlbum === 0" class="backgroundBig">
-                <image mode="aspectFill" class="image" src="../../static/images/remen_zhunti_big1@3x.png" /></view>
-              <view v-else class="backgroundSmall">
-                <image mode="aspectFill" class="image" src="../../static/images/remen_zhunti_small2@3x.png" style="width: 100%;" /></view>
+            <view v-for="(item, indexAlbum) in hotAlbum" :key="indexAlbum"
+            class="albumList"
+            @tap.stop.prevent="toProductList(item)">
+              <view class="componentCarAlbum">
+                <view class="albumName font-family-medium">{{ item.name }}</view>
+                <view class="tags"><label>{{ item.tips }}</label></view>
+                <view v-if="indexAlbum === 0" class="backgroundBig">
+                  <image mode="aspectFill" class="image" src="../../static/images/remen_zhunti_big1@3x.png" /></view>
+                <view v-else class="backgroundSmall">
+                  <image mode="aspectFill" class="image" src="../../static/images/remen_zhunti_small2@3x.png" style="width: 100%;" /></view>
+              </view>
             </view>
+
           </view>
 
-        </view>
+          <view class="topTitle font-family-medium">热门产品</view>
+          <view class="heatProduct">
 
-        <view class="topTitle font-family-medium">热门产品</view>
-        <view class="heatProduct">
+            <view v-for="(item, index) in hotProductList" :key="index" class="productList" @tap.stop.prevent="toProductDetail(item)">
+              <view class="componentCarProduct">
+                <view class="topInfo">
+                  <view class="left">
+                    <view class="logo">
+                      <image mode="aspectFit" class="image" :src="item.logo | imageSuffix(42, 42)" /></view>
+                    <view class="nameMark">
+                      <view class="title font-family-medium text-line-1">{{ item.name }}</view>
+                      <view class="stars">
+                        <StarView :rating="item.review_average_rate" />
+                        <view class="span span">{{ item.review_average_rate }}分</view>
+                      </view>
+                    </view>
+                  </view>
+                  <view class="right">
+                    <view class="heatICon">
+                      <image mode="aspectFit" class="image" src="../../static/images/zhuanti_fill@3x.png" /></view>
+                    <view class="textNumber">{{ item.support_rate }}</view>
+                  </view>
+                </view>
+                <view class="bottom">
+                  <view class="describe text-line-2">{{ item.summary }}</view>
+                </view>
+              </view>
+            </view>
 
-          <view v-for="(item, index) in hotProductList" :key="index" class="productList" @tap.stop.prevent="toProductDetail(item)">
-            <view class="componentCarProduct">
-              <view class="topInfo">
-                <view class="left">
-                  <view class="logo">
-                    <image mode="aspectFit" class="image" :src="item.logo | imageSuffix(42, 42)" /></view>
-                  <view class="nameMark">
-                    <view class="title font-family-medium text-line-1">{{ item.name }}</view>
-                    <view class="stars">
-                      <StarView :rating="item.review_average_rate" />
-                      <view class="span span">{{ item.review_average_rate }}分</view>
+          </view>
+
+          <view class="topTitle font-family-medium">更多专题</view>
+          <view class="specialWrapper">
+
+            <scroll-view class="moreAlbum" scroll-x="true">
+              <template v-for="(item, index) in albumList">
+                <view class="display">
+                  <view v-for="(itemList, itemIndex) in item" :key="itemIndex">
+                    <view v-if="itemList.type === 'product_album'" class="specialList" @tap.stop.prevent="toProductList(itemList)">
+                      <view class="mask" />
+                      <view class="img"><image mode="aspectFill" class="image" :src="itemList.icon | imageSuffix(166, 79)" /></view>
+                      <view class="text font-family-medium">{{ itemList.name }}</view>
+                    </view>
+                    <view v-if="itemList.type === 'lastElement'" class="expectWrapper specialList" @tap.stop.prevent="showExpect">
+                      <view class="content">
+                        <text class="iconfont icon-tianjia iconfont " />
+                        <view class="span expectText">我期待</view>
+                      </view>
                     </view>
                   </view>
                 </view>
-                <view class="right">
-                  <view class="heatICon">
-                    <image mode="aspectFit" class="image" src="../../static/images/zhuanti_fill@3x.png" /></view>
-                  <view class="textNumber">{{ item.support_rate }}</view>
-                </view>
-              </view>
-              <view class="bottom">
-                <view class="describe text-line-2">{{ item.summary }}</view>
-              </view>
-            </view>
+
+              </template>
+            </scroll-view>
           </view>
-
-        </view>
-
-        <view class="topTitle font-family-medium">更多专题</view>
-        <view class="specialWrapper">
-
-          <scroll-view class="moreAlbum" scroll-x="true">
-            <template v-for="(item, index) in albumList">
-              <view class="display">
-                <view v-for="(itemList, itemIndex) in item" :key="itemIndex">
-                  <view v-if="itemList.type === 'product_album'" class="specialList" @tap.stop.prevent="toProductList(itemList)">
-                    <view class="mask" />
-                    <view class="img"><image mode="aspectFill" class="image" :src="itemList.icon | imageSuffix(166, 79)" /></view>
-                    <view class="text font-family-medium">{{ itemList.name }}</view>
-                  </view>
-                  <view v-if="itemList.type === 'lastElement'" class="expectWrapper specialList" @tap.stop.prevent="showExpect">
-                    <view class="content">
-                      <text class="iconfont icon-tianjia iconfont " />
-                      <view class="span expectText">我期待</view>
-                    </view>
-                  </view>
-                </view>
-              </view>
-
-            </template>
-          </scroll-view>
-        </view>
+        </scroll-view>
       </view>
 
     </view>
@@ -285,6 +287,9 @@ export default {
 </script>
 
 <style scoped lang="less">
+  .scrollView{
+    height:100%;
+  }
   page, .content{
     background-color: #fff;
     height: 100%;

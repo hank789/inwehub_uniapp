@@ -89,7 +89,7 @@
     </view>
 
     <PageMore
-      ref="share"
+      ref="pageMore"
       :share-option="shareOption"
       :hide-share-btn="true"
       :icon-menu="iconMenus"
@@ -97,6 +97,8 @@
       @fail="shareFail"
       @clickedItem="iconMenusClickedItem"
     />
+
+    <iwDialogReport ref="alertReport"></iwDialogReport>
 
   </view>
 </template>
@@ -111,12 +113,14 @@ import { autoBlur } from '@/lib/dom'
 import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
 import ui from '@/lib/ui'
 import { setNavbarSearchInputText } from '@/lib/allPlatform'
+import iwDialogReport from '@/components/iw-dialog/report.vue'
 
 export default {
   components: {
     RefreshList,
     FeedItem,
-    PageMore
+    PageMore,
+    iwDialogReport
   },
   data() {
     return {
@@ -201,7 +205,7 @@ export default {
       this.iconMenus = getIconMenus(item)
       this.itemOptionsObj = item
       this.shareOption = shareOption
-      this.$refs.share.share()
+      this.$refs.pageMore.share()
     },
     shareFail() {
 

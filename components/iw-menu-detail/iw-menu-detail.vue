@@ -5,7 +5,7 @@
     </view>
     <view class="footerRight">
 
-      <view v-for="(menuItem, index) in iconOptions" :key="index" class="collectionComment" :class="[{showNumer: menuItem.showNumber || menuItem.ShowIsUpVote }]" :title="menuItem.text" @tap.stop.prevent="detailMenuIcon(menuItem)">
+      <view v-for="(menuItem, index) in iconOptions" :key="index" class="collectionComment" :class="[{showNumer: menuItem.showNumber || menuItem.ShowIsUpVote }]" :title="menuItem.text" @tap.stop.prevent="detailMenuIcon(menuItem)" hover-class="hoverClass" :hover-stop-propagation="true">
         <view class="iconWrapper" :class="{active: menuItem.showClass}" :title="menuItem.text">
           <text class="iconfont" :class="menuItem.icon" />
         </view>
@@ -65,7 +65,7 @@ export default {
         bottom: 0;
         width: 750upx;
         left: 50%;
-        height: 87.98upx;
+        height: 100upx;
         overflow: hidden;
         margin-left: -375.0upx !important;
         background: #FFFFFF;

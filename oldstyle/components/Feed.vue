@@ -32,7 +32,7 @@
 
   .container-feed-item {
     position: relative;
-    margin-top: 39.98upx;
+    padding-top: 39.98upx;
     .feed-address {
       color: #B4B4B6;
       font-size: 21.98upx;
@@ -286,7 +286,7 @@
   /*点评样式*/
 
   .commentList {
-    margin-top: 39.98upx;
+    padding-top: 39.98upx;
     .line-river-after {
       margin-top: 19.96upx;
       &:after {

@@ -24,7 +24,7 @@
                             <view class="list-item-discuss"  @tap.stop.prevent="clickComment(item, list)" :key="index">
                                 <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
                                     <image mode="aspectFill" v-if="item.owner.avatar" :src="item.owner.avatar"/>
-                                    <text class="iconfont icon-zhuanjiabiaojishixin"></text>
+                                    <text class="iconfont icon-zhuanjiabiaozhishixin"></text>
                                 </view>
                                 <view class="lidR">
                                     <view class="lidR1">{{ item.owner.name }}</view>

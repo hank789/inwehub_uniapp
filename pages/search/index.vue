@@ -178,7 +178,7 @@
     </view>
 
     <PageMore
-      ref="share"
+      ref="pageMore"
       :share-option="shareOption"
       :hide-share-btn="true"
       :icon-menu="iconMenus"
@@ -186,6 +186,8 @@
       @fail="shareFail"
       @clickedItem="iconMenusClickedItem"
     />
+
+    <iwDialogReport ref="alertReport"></iwDialogReport>
 
   </view>
 </template>
@@ -201,13 +203,15 @@ import StarView from '@/components/iw-star/iw-star'
 import PageMore from '@/components/iw-page-more/iw-page-more'
 import { getIconMenus, iconMenusClickedItem } from '@/lib/feed'
 import { setNavbarSearchInputText } from '@/lib/allPlatform'
+import iwDialogReport from '@/components/iw-dialog/report.vue'
 
 export default {
   components: {
     RefreshList,
     FeedItem,
     StarView,
-    PageMore
+    PageMore,
+    iwDialogReport
   },
   data() {
     return {
@@ -325,7 +329,7 @@ export default {
       this.iconMenus = getIconMenus(item)
       this.itemOptionsObj = item
       this.shareOption = shareOption
-      this.$refs.share.share()
+      this.$refs.pageMore.share()
     },
     toDetail(id, type) {
       uni.navigateTo('/ask/offer/answers/' + id, 'list-detail-page', true, 'pop-in', 'hide', true)

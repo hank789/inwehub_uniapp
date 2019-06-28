@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="content">
     <view  class="mui-content">
       <MescrollDetail
         v-if="id"
@@ -618,9 +618,16 @@ export default {
 }
 </script>
 <style scoped lang="less">
+
+    page, .content{
+      background-color: #fff;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
     .mui-content {
-        background: #ffffff;
-        bottom: 44px; /* px不转换 */
+      bottom: 100upx;
+      background: #fff;
     }
     .mark {
         display: flex;
