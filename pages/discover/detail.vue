@@ -1,237 +1,248 @@
 <template>
   <view>
+    <view class="mui-content">
+      <MescrollDetail
+          v-if="slug"
+          ref="mescrollDetail"
+          v-model="detail"
+          :api="'article/detail-by-slug'"
+          :request-data="requestData"
+          @finish="finish"
+      >
+        <view  v-if="!loading">
+          <view v-if="isShow">
 
-    <view v-show="!loading" class="mui-content">
-      <view v-if="isShow">
+            <view v-if="detail.type === 'article' && detail.data.img" class="topImg container-image">
+              <image mode="aspectFill" :src="detail.data.img" />
+            </view>
 
-        <view v-if="detail.type === 'article' && detail.data.img" class="topImg container-image">
-          <image mode="aspectFill" :src="detail.data.img" />
-        </view>
+            <view class="mui-table-view detail-discover">
+              <UserInfo
+                :uuid="detail.owner.uuid"
+                :avatar="detail.owner.avatar"
+                :realname="detail.owner.name"
+                :is-follow="isFollow"
+                :is-followed="detail.is_followed_author?true:false"
+                :is-show-position-and-company="false"
+                :is-expert="detail.owner.is_expert?1:0"
+                :time="detail.created_at"
+                @setFollowStatus="setFollowStatus"
+              />
 
-        <view class="mui-table-view detail-discover">
-          <UserInfo
-            :uuid="detail.owner.uuid"
-            :avatar="detail.owner.avatar"
-            :realname="detail.owner.name"
-            :is-follow="isFollow"
-            :is-followed="detail.is_followed_author?true:false"
-            :is-show-position-and-company="false"
-            :is-expert="detail.owner.is_expert?1:0"
-            :time="detail.created_at"
-            @setFollowStatus="setFollowStatus"
-          />
+              <view v-if="detail.type === 'article' && detail.title" class="detailTitle">{{ detail.title }}</view>
 
-          <view v-if="detail.type === 'article' && detail.title" class="detailTitle">{{ detail.title }}</view>
+              <!--<view class="line-river lineMargin"></view>-->
 
-          <!--<view class="line-river lineMargin"></view>-->
+              <view class="discoverContentWrapper">
+                <view
+                  class="contentWrapper quillDetailWrapper container-editor container-editor-app"
+                >
+                  <view v-if="detail.type !== 'article'" v-html="textToLink(detail.title)" />
 
-          <view class="discoverContentWrapper">
-            <view
-              class="contentWrapper quillDetailWrapper container-editor container-editor-app"
-            >
-              <view v-if="detail.type !== 'article'" v-html="textToLink(detail.title)" />
+                  <view v-show="detail.type === 'article'" class="richText container-editor container-editor-app">
+                    <view class="quill-editor">
+                      <view class="ql-container ql-snow">
+                        <view class="ql-editor discoverContent" />
+                      </view>
+                    </view>
+                  </view>
 
-              <view v-show="detail.type === 'article'" class="richText container-editor container-editor-app">
-                <view class="quill-editor">
-                  <view class="ql-container ql-snow">
-                    <view class="ql-editor discoverContent" />
+                </view>
+
+                <view
+                  v-if="detail.type === 'text' && detail.data.files && detail.data.files.length"
+                  class="container-pdf-list"
+                >
+                  <view
+                    v-for="(pdf, index) in detail.data.files"
+                    :key="index"
+                    class="pdf"
+                    @tap.stop.prevent="seePdf(pdf)"
+                  ><view class="text-line-2">{{ pdf.name }}</view></view>
+                </view>
+
+                <view
+                  v-if="detail.type === 'text' && detail.data.img && detail.data.img.length"
+                  class="linkWrapper Column"
+                >
+                  <template v-for="(image, index) in detail.data.img">
+                    <ImageAutoHeight
+                      :key="image"
+                      :src="image"
+                      :mode="'aspectFit'"
+                      class="discover_img lazyImg"
+                    />
+                  </template>
+                </view>
+              </view>
+
+              <!-- 新增链接样式 -->
+              <view v-if="detail.type === 'link' && detail.data.url" class="link">
+                <view class="linkBox" @tap.stop.prevent="goArticle(detail)">
+                  <view v-if="!detail.data.img" class="linkIimg">
+                    <text class="iconfont icon-biaozhunlogoshangxiayise" />
+                  </view>
+                  <image v-else :key="detail.data.img" :src="detail.data.img" mode="aspectFill" />
+                  <view class="linkContent">
+                    <view v-if="detail.data.title" class="text-line-2">{{ detail.data.title }}</view>
+                    <view v-else class="seat" />
+                    <view class="text-line-1">{{ detail.data.domain }}</view>
                   </view>
                 </view>
               </view>
 
-            </view>
+              <view class="timeContainer">
+                <view class="makingCopy">著作权归作者所有</view>
+              </view>
 
-            <view
-              v-if="detail.type === 'text' && detail.data.files && detail.data.files.length"
-              class="container-pdf-list"
-            >
+              <!-- 关联问答 -->
               <view
-                v-for="(pdf, index) in detail.data.files"
-                :key="index"
-                class="pdf"
-                @tap.stop.prevent="seePdf(pdf)"
-              ><view class="text-line-2">{{ pdf.name }}</view></view>
-            </view>
+                v-if="detail.related_question"
+                class="answer"
+                @tap.stop.prevent="toAnswerDetail(detail.related_question)"
+              >
+                <view class="answerBox">
+                  <view class="answerContent">
+                    <view class="price">
+                      <view />{{ detail.related_question.status_description }}
+                    </view>
+                    {{ detail.related_question.title }}
 
-            <view
-              v-if="detail.type === 'text' && detail.data.img && detail.data.img.length"
-              class="linkWrapper Column"
-            >
-              <template v-for="(image, index) in detail.data.img">
-                <ImageAutoHeight
-                  :key="image"
-                  :src="image"
-                  :mode="'aspectFit'"
-                  class="discover_img lazyImg"
-                />
-              </template>
-            </view>
-          </view>
-
-          <!-- 新增链接样式 -->
-          <view v-if="detail.type === 'link' && detail.data.url" class="link">
-            <view class="linkBox" @tap.stop.prevent="goArticle(detail)">
-              <view v-if="!detail.data.img" class="linkIimg">
-                <text class="iconfont icon-biaozhunlogoshangxiayise" />
-              </view>
-              <image v-else :key="detail.data.img" :src="detail.data.img" mode="aspectFill" />
-              <view class="linkContent">
-                <view v-if="detail.data.title" class="text-line-2">{{ detail.data.title }}</view>
-                <view v-else class="seat" />
-                <view class="text-line-1">{{ detail.data.domain }}</view>
-              </view>
-            </view>
-          </view>
-
-          <view class="timeContainer">
-            <view class="makingCopy">著作权归作者所有</view>
-          </view>
-
-          <!-- 关联问答 -->
-          <view
-            v-if="detail.related_question"
-            class="answer"
-            @tap.stop.prevent="toAnswerDetail(detail.related_question)"
-          >
-            <view class="answerBox">
-              <view class="answerContent">
-                <view class="price">
-                  <view />{{ detail.related_question.status_description }}
-                </view>
-                {{ detail.related_question.title }}
-
-              </view>
-              <view class="followAnswer">
-                <view class="follow">{{ detail.related_question.follow_number }}人关注 </view>
-                <view class="rightLine" />
-                <view class="replay">
-                  <image v-for="(answerUser, index) in detail.related_question.answer_users" mode="aspectFill" :src="answerUser.avatar" />
-                  <view>等{{ detail.related_question.answer_number }}人回答</view>
-                </view>
-              </view>
-            </view>
-          </view>
-
-          <view class="share">
-            <view v-show="detail.data.current_address_name" class="location">
-              <text class="iconfont icon-dingwei1" />
-              <view>{{ detail.data.current_address_name }}</view>
-            </view>
-          </view>
-        </view>
-
-        <!--<view class="river" v-if="detail.supporter_list.length"></view>-->
-        <view class="river" />
-
-        <ArticleDiscuss
-          v-if="detail.slug"
-          id="commentTitle"
-          ref="discuss"
-          class="commentTitle"
-          :list-api="'article/comments'"
-          :list-params="discussListParams"
-          :store-api="'article/comment-store'"
-          :store-params="discussStoreParams"
-          @comment="comment"
-          @commentFinish="commentFinish"
-          @goComment="goComment"
-          @delCommentSuccess="delCommentSuccess"
-        />
-        <view
-          v-if="detail.comments_number > 3"
-          class="seeAll"
-          @tap.stop.prevent="to('/pages/comment/index?category_id=' + detail.category_id + '&slug=' + detail.slug + '&id=' + detail.id)"
-        >
-          查看全部{{ detail.comments_number }}条评论
-        </view>
-      </view>
-
-      <!--私密的样式-->
-      <view v-if="isShow && detail.related_tags.length !== 0" class="container-recommentProduct">
-        <view class="river" />
-        <view class="title">
-          <view class="text font-family-medium">相关产品</view>
-          <view class="line-river line-river-full" />
-        </view>
-
-        <view class="productList">
-          <view v-for="(item, index) in detail.related_tags" :key="index" class="comment-product">
-            <view
-              class="product-info"
-              @tap.stop.prevent="toProduct(item)"
-            >
-              <view class="product-img border-football">
-                <image mode="aspectFill" :src="item.logo" width="44" height="44" />
-                <!--<image mode="aspectFill" src="../../static/images/uicon.jpg" alt="">-->
-              </view>
-              <view class="product-detail">
-                <view class="productName font-family-medium text-line-1">{{ item.name }}</view>
-                <view class="productMark">
-                  <view class="stars">
-                    <StarView :rating="item.review_average_rate" />
                   </view>
-                  <view class="starsText">
-                    <view class="span">{{ item.review_average_rate }}分</view>
-                    <view class="i" /><view>{{ item.review_count }}条评论</view>
+                  <view class="followAnswer">
+                    <view class="follow">{{ detail.related_question.follow_number }}人关注 </view>
+                    <view class="rightLine" />
+                    <view class="replay">
+                      <image v-for="(answerUser, index) in detail.related_question.answer_users" mode="aspectFill" :src="answerUser.avatar" />
+                      <view>等{{ detail.related_question.answer_number }}人回答</view>
+                    </view>
                   </view>
                 </view>
               </view>
+
+              <view class="share">
+                <view v-show="detail.data.current_address_name" class="location">
+                  <text class="iconfont icon-dingwei1" />
+                  <view>{{ detail.data.current_address_name }}</view>
+                </view>
+              </view>
             </view>
-            <view
-              v-if="index !== detail.related_tags.length - 1"
-              class="line-river-after line-river-after-top"
+
+            <!--<view class="river" v-if="detail.supporter_list.length"></view>-->
+            <view class="river" />
+
+            <ArticleDiscuss
+              v-if="detail.slug"
+              id="commentTitle"
+              ref="discuss"
+              class="commentTitle"
+              :list-api="'article/comments'"
+              :list-params="discussListParams"
+              :store-api="'article/comment-store'"
+              :store-params="discussStoreParams"
+              @comment="comment"
+              @commentFinish="commentFinish"
+              @goComment="goComment"
+              @delCommentSuccess="delCommentSuccess"
             />
+            <view
+              v-if="detail.comments_number > 3"
+              class="seeAll"
+              @tap.stop.prevent="to('/pages/comment/index?category_id=' + detail.category_id + '&slug=' + detail.slug + '&id=' + detail.id)"
+            >
+              查看全部{{ detail.comments_number }}条评论
+            </view>
           </view>
-        </view>
 
-      </view>
+          <!--私密的样式-->
+          <view v-if="isShow && detail.related_tags.length !== 0" class="container-recommentProduct">
+            <view class="river" />
+            <view class="title">
+              <view class="text font-family-medium">相关产品</view>
+              <view class="line-river line-river-full" />
+            </view>
 
-      <view v-if="isShow" class="river" />
-      <view v-if="isShow" class="guessLike">
-        <view class="component-block-title">
-          <view class="left">猜您喜欢</view>
-        </view>
-        <view class="line-river-after" />
-        <template v-for="(item, index) in list">
-          <view v-if="index === 5" class="line-river-big" />
-          <view class="component-item-article" @tap.stop.prevent="goDetail(item)">
-            <view class="itemArticleLeft">
-              <view class="titleWrapper">
-                <view class="title text-line-2 text-content">
-                  <!--<view class="number" v-if="index < 5">{{index+1}}.</view>-->{{ item.data.title }}
+            <view class="productList">
+              <view v-for="(item, index) in detail.related_tags" :key="index" class="comment-product">
+                <view
+                  class="product-info"
+                  @tap.stop.prevent="toProduct(item)"
+                >
+                  <view class="product-img border-football">
+                    <image mode="aspectFill" :src="item.logo" width="44" height="44" />
+                    <!--<image mode="aspectFill" src="../../static/images/uicon.jpg" alt="">-->
+                  </view>
+                  <view class="product-detail">
+                    <view class="productName font-family-medium text-line-1">{{ item.name }}</view>
+                    <view class="productMark">
+                      <view class="stars">
+                        <StarView :rating="item.review_average_rate" />
+                      </view>
+                      <view class="starsText">
+                        <view class="span">{{ item.review_average_rate }}分</view>
+                        <view class="i" /><view>{{ item.review_count }}条评论</view>
+                      </view>
+                    </view>
+                  </view>
                 </view>
-              </view>
-              <view class="explain">
-                <label v-if="item.tips">{{ item.tips }}</label><view
-                  v-if="item.type_description"
-                >{{ item.type_description }}</view>
-                {{ timeago(item.created_at) }}
+                <view
+                  v-if="index !== detail.related_tags.length - 1"
+                  class="line-river-after line-river-after-top"
+                />
               </view>
             </view>
-            <view class="itemArticleRight"><image mode="aspectFill" :src="item.data.img" /></view>
-          </view>
-          <view v-if="index !== 4 && index !== list.length-1" class="line-river-after line-river-after-short" />
-        </template>
-      </view>
-      <view v-if="isShow" class="river" />
 
-      <view v-if="isShow" class="openAppReadBox">
-        <view class="openAppRead" @tap.stop.prevent="openApp()">
-          <view class="font-family-medium">打开APP</view>
-          <view>阅读更多推荐</view>
-        </view>
-        <view class="river openAppReadRiver" />
-        <view class="followCode">
-          <view class="CodeImg">
-            <image mode="aspectFill" src="../../static/images/xiaohaWeChat@3x.png" alt="" />
           </view>
-          <view class="codeText">
-            <view>长按添加平台联络官“小哈”微信</view>
-            <view>加行业群/互动交流/探索更多</view>
+
+          <view v-if="isShow" class="river" />
+          <view v-if="isShow" class="guessLike">
+            <view class="component-block-title">
+              <view class="left">猜您喜欢</view>
+            </view>
+            <view class="line-river-after" />
+            <template v-for="(item, index) in list">
+              <view v-if="index === 5" class="line-river-big" />
+              <view class="component-item-article" @tap.stop.prevent="goDetail(item)">
+                <view class="itemArticleLeft">
+                  <view class="titleWrapper">
+                    <view class="title text-line-2 text-content">
+                      <!--<view class="number" v-if="index < 5">{{index+1}}.</view>-->{{ item.data.title }}
+                    </view>
+                  </view>
+                  <view class="explain">
+                    <label v-if="item.tips">{{ item.tips }}</label><view
+                      v-if="item.type_description"
+                    >{{ item.type_description }}</view>
+                    {{ timeago(item.created_at) }}
+                  </view>
+                </view>
+                <view class="itemArticleRight"><image mode="aspectFill" :src="item.data.img" /></view>
+              </view>
+              <view v-if="index !== 4 && index !== list.length-1" class="line-river-after line-river-after-short" />
+            </template>
+          </view>
+          <view v-if="isShow" class="river" />
+
+          <view v-if="isShow" class="openAppReadBox">
+            <view class="openAppRead" @tap.stop.prevent="openApp()">
+              <view class="font-family-medium">打开APP</view>
+              <view>阅读更多推荐</view>
+            </view>
+            <view class="river openAppReadRiver" />
+            <view class="followCode">
+              <view class="CodeImg">
+                <image mode="aspectFill" src="../../static/images/xiaohaWeChat@3x.png" alt="" />
+              </view>
+              <view class="codeText">
+                <view>长按添加平台联络官“小哈”微信</view>
+                <view>加行业群/互动交流/探索更多</view>
+              </view>
+            </view>
+            <view class="river openAppReadRiver" />
           </view>
         </view>
-        <view class="river openAppReadRiver" />
-      </view>
+      </MescrollDetail>
+
     </view>
 
     <PageMore
@@ -293,6 +304,7 @@ import iwDialogReport from '@/components/iw-dialog/report.vue'
 import { textToLinkHtml, transferTagToLink, addPreviewAttrForImg } from '@/lib/dom'
 import { showComment } from '@/lib/comment'
 import ImageAutoHeight from '@/components/iw-image/autoheight.vue'
+import MescrollDetail from '@/components/iw-detail-refresh/iw-detail-refresh.vue'
 
 export default {
   components: {
@@ -304,7 +316,8 @@ export default {
     StarView,
     AlertTextarea,
     iwDialogReport,
-    ImageAutoHeight
+    ImageAutoHeight,
+    MescrollDetail
   },
   data() {
     return {
@@ -366,19 +379,13 @@ export default {
     }
   },
   computed: {
-    isShow() {
-      var ispublic = this.detail.group.public
-      var type = this.detail.group.is_joined
-      //  公开的都展示
-      if (ispublic) {
-        return true
-      } else {
-        if (type === 1 || type === 3) {
-          return true
-        } else {
-          return false
-        }
+    requestData() {
+      return {
+        slug: this.slug
       }
+    },
+    isShow() {
+      return true
     },
     discussStoreParams() {
       return { 'submission_id': this.detail.id }
@@ -488,7 +495,10 @@ export default {
   },
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
     this.pageOption = option
-    this.getDetail()
+    this.slug = this.pageOption.slug
+    this.shareOption.targetId = this.slug
+    this.noback = !!this.pageOption.noback
+    this.link = getCurrentRoute()
   },
   watch: {
 
@@ -755,61 +765,41 @@ export default {
       newDate.setTime(Date.parse(time.replace(/-/g, '/')))
       return newDate
     },
+    finish () {
+      this.getDetail()
+    },
     getDetail: function(loading = true) {
       this.loading = loading
-      this.slug = this.pageOption.slug
-      this.shareOption.targetId = this.slug
-      this.noback = !!this.pageOption.noback
-      this.link = getCurrentRoute()
 
       if (!this.slug) {
-        this.$router.back()
+        uni.navigateBack()
         return
       }
 
-      if (this.$refs.mescrollDetail) {
-        this.$refs.mescrollDetail.scrollToTop(100)
+      if (!this.detail.group) {
+        this.detail.group = {
+          is_joined: 1,
+          id: null,
+          public: 1,
+          name: ''
+        }
       }
 
-      postRequest(`article/detail-by-slug`, { slug: this.slug }).then(response => {
-        var code = response.code
-        if (code !== 1000) {
-          ui.toast(response.message)
-          uni.navigateBack()
-          return
+      var shareOption = getTextDiscoverDetail('/pages/discover/detail?slug=' + this.detail.slug, this.detail.title, this.detail.owner.avatar, this.detail.owner.name, this.detail.group.name)
+      this.shareOption = Object.assign(this.shareOption, shareOption)
+      if (this.detail.type === 'article') {
+        this.title = this.detail.title
+        var objs = JSON.parse(this.detail.data.description)
+        this.editorReadContentObj = objs
+        if (this.editorReadObj) {
+          this.editorReadObj.setContents(objs)
         }
+      } else {
+        this.title = '分享'
+      }
 
-        this.detail = response.data
-
-        if (!this.detail.group) {
-          this.detail.group = {
-            is_joined: 1,
-            id: null,
-            public: 1,
-            name: ''
-          }
-        }
-
-        var shareOption = getTextDiscoverDetail('/pages/discover/detail?slug=' + this.detail.slug, this.detail.title, this.detail.owner.avatar, this.detail.owner.name, this.detail.group.name)
-        this.shareOption = Object.assign(this.shareOption, shareOption)
-        if (this.detail.type === 'article') {
-          this.title = this.detail.title
-          var objs = JSON.parse(this.detail.data.description)
-          this.editorReadContentObj = objs
-          if (this.editorReadObj) {
-            this.editorReadObj.setContents(objs)
-          }
-        } else {
-          this.title = '分享'
-        }
-
-        this.loading = false
-        this.recommendRead()
-
-        if (this.$refs.mescrollDetail) {
-          this.$refs.mescrollDetail.finish()
-        }
-      })
+      this.loading = false
+      this.recommendRead()
     },
     setFollowStatus(status) {
       this.detail.is_followed_author = status
