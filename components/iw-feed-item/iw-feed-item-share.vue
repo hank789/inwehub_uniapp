@@ -22,7 +22,7 @@
         <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image" :class="'container-image-' + imgIndex"><image class="image" mode="aspectFill" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
       </view>
       <!--链接-->
-      <view v-if="item.feed.submission_type === 'link'" class="container-feed-link-box" @tap.stop.prevent="goArticle()">
+      <view v-if="item.feed.submission_type === 'link'" class="container-feed-link-box" @tap.stop.prevent="goArticle(item)">
         <view class="feed-link-box">
           <view class="linkImg"><image class="image" mode="aspectFill" :src="item.feed.img" width="44" height="44" /></view>
           <view class="linkText">
@@ -33,7 +33,7 @@
       </view>
       <!--PDF-->
       <view v-if="itemObj.feed.files.length" class="container-pdf-box">
-        <view v-for="(pdf, pdfIndex) in itemObj.feed.files":key="pdfIndex" class="feed-pdf-box">
+        <view v-for="(pdf, pdfIndex) in itemObj.feed.files" :key="pdfIndex" class="feed-pdf-box">
           <view class="pdfIcon">
             <text class="iconfont icon-pdf" />
           </view>
@@ -84,6 +84,7 @@
 import { upvote, downVote } from '@/lib/discover'
 import UserInfo from '@/components/iw-discover/user-info.vue'
 import { getTextDiscoverDetail } from '@/lib/shareTemplate'
+import { urlencode } from '@/lib/string'
 
 export default {
   components: {
@@ -161,6 +162,20 @@ export default {
         this.item.feed.is_downvoted = 0
       })
     },
+	goArticle(item) {
+		const data = {
+			id: item.feed.submission_id,
+			title: item.feed.article_title,
+			url: item.feed.link_url,
+			img: item.feed.img,
+			slug: item.feed.slug,
+			h5Url: this.$ls.get('webRoot') + '/#/' + item.feed.comment_url
+		}
+
+		uni.navigateTo({
+			url: `/pages/webview/article?data=${urlencode(JSON.stringify(data))}`
+		})
+	},
     toDetail(item) {
       uni.navigateTo({ url: '/pages/discover/detail?slug=' + item.feed.slug })
     },
