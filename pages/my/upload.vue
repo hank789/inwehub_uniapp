@@ -23,6 +23,7 @@
 	import weCropper from '@/lib/weCropper.js';
 	import { getLocalUserInfo } from '@/lib/user'
 	import localEvent from '@/lib/localstorage.js'
+	import { pathToBase64 } from '@/lib/image'
 	
 	const device = uni.getSystemInfoSync();
 	const width = device.windowWidth;
@@ -76,36 +77,33 @@ export default {
 			let _this = this;
 			this.weCropper.getCropperImage(avatar => {
 				if (avatar) {
-					
-					postRequest(`profile/updateAvatar`, {user_avatar:avatar }).then(response => {
-						var code = response.code
-						console.log(avatar, '返回信息')
-						if (code !== 1000) {
+					pathToBase64(avatar).then((base64) => {
+						postRequest(`profile/updateAvatar`, {user_avatar: base64 }).then(response => {
+							var code = response.code
+							if (code !== 1000) {
+								uni.showToast({
+									icon: 'none',
+									title: response.message
+								})
+								return
+							}
+							var userAvatarUrl = response.data.user_avatar_url
+							var userInfo = localEvent.get('UserInfo')
+							userInfo.avatar_url = userAvatarUrl
+							localEvent.set('UserInfo', userInfo)
+							
 							uni.showToast({
 								icon: 'none',
-								title: response.message
+								title: '上传成功'
 							})
-							return
-						}
-						var userAvatarUrl = response.data.user_avatar_url
-						var userInfo = localEvent.get('UserInfo')
-						userInfo.avatar_url = userAvatarUrl
-						localEvent.set('UserInfo', userInfo)
-						
-						uni.showToast({
-							icon: 'none',
-							title: '上传成功'
+							
+							setTimeout(() => {
+								wx.redirectTo({
+								  url: '/pages/my/info'
+								})
+							}, 500)
 						})
-						
-						setTimeout(() => {
-							wx.redirectTo({
-							  url: '/pages/my/info'
-							})
-						}, 500)
 					})
-					
-					
-					
 				} else {
 					uni.showToast({
 						icon: 'none',
