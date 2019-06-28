@@ -55,7 +55,7 @@
                 >
                   <view
                     v-for="(pdf, index) in detail.data.files"
-                    :key="index"
+                    :key="pdf"
                     class="pdf"
                     @tap.stop.prevent="seePdf(pdf)"
                   ><view class="text-line-2">{{ pdf.name }}</view></view>
@@ -65,7 +65,7 @@
                   v-if="detail.type === 'text' && detail.data.img && detail.data.img.length"
                   class="linkWrapper Column"
                 >
-                  <template v-for="(image, index) in detail.data.img">
+                  <template v-for="image in detail.data.img">
                     <ImageAutoHeight
                       :key="image"
                       :src="image"
@@ -113,7 +113,7 @@
                     <view class="follow">{{ detail.related_question.follow_number }}人关注 </view>
                     <view class="rightLine" />
                     <view class="replay">
-                      <image v-for="(answerUser, index) in detail.related_question.answer_users" mode="aspectFill" :src="answerUser.avatar" />
+                      <image v-for="answerUser in detail.related_question.answer_users" :key="answerUser.avatar" mode="aspectFill" :src="answerUser.avatar" />
                       <view>等{{ detail.related_question.answer_number }}人回答</view>
                     </view>
                   </view>
@@ -163,7 +163,7 @@
             </view>
 
             <view class="productList">
-              <view v-for="(item, index) in detail.related_tags" :key="index" class="comment-product">
+              <view v-for="(item, index) in detail.related_tags" :key="item.name" class="comment-product">
                 <view
                   class="product-info"
                   @tap.stop.prevent="toProduct(item)"
@@ -201,6 +201,7 @@
             </view>
             <view class="line-river-after" />
             <template v-for="(item, index) in list">
+							<view :key="item.id">
               <view v-if="index === 5" class="line-river-big" />
               <view class="component-item-article" @tap.stop.prevent="goDetail(item)">
                 <view class="itemArticleLeft">
@@ -219,6 +220,7 @@
                 <view class="itemArticleRight"><image mode="aspectFill" :src="item.data.img" /></view>
               </view>
               <view v-if="index !== 4 && index !== list.length-1" class="line-river-after line-river-after-short" />
+							</view>
             </template>
           </view>
           <view v-if="isShow" class="river" />
@@ -816,11 +818,12 @@ export default {
         this.showAllContentWrapper()
         return
       }
-
+			// #ifdef H5
       var contentWrapper = document.querySelector('.discoverContentWrapper')
       if (contentWrapper && contentWrapper.offsetHeight > 300) {
         contentWrapper.classList.add('shortContentWrapper')
       }
+			// #endif
     },
     upVote() {
       upvote(this, this.detail.id, (response) => {

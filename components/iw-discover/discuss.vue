@@ -41,7 +41,9 @@
               </view>
               <view class="lidR">
                 <view class="lidR1">{{ item.owner.name }}</view>
-                <view class="lidR2 textToLink" v-html="textToLink(item.content)" />
+                <view class="lidR2 textToLink">
+								<text>{{ textToLink(item.content) }}</text>
+								</view>
                 <view class="lidR3">
                   <view class="lidRtime"> {{ item.created_at | timeago }} </view>
                   <view class="lidROption" :class="{active:item.is_supported}" @tap.stop.prevent="vote(item)">
