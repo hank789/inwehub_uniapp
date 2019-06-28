@@ -728,9 +728,9 @@ export default {
     navToDetails(item) {
       const data = {
         id: item.id,
-        title: item.title,
-        url: item.link_url,
-        img: item.img,
+        title: item.data.title,
+        url: item.data.url,
+        img: item.data.img,
         slug: item.slug
       }
 
