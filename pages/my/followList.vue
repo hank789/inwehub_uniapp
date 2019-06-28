@@ -36,7 +36,7 @@
 						
 						<user-directory v-if="tabItem.id == 1" :phones="tabItem.newsList" @paramClick="paramClick"></user-directory>
 						<view v-if="tabItem.id == 2"  v-for="(item, index) in tabItem.newsList" :key="index" class="comment-product">
-							<view class="product-info" @tap.stop.prevent="toRoute('/pages/dianping/product?name=' + encodeURIComponent(item.name))">
+							<view class="product-info" @tap.stop.prevent="toProduct(item)">
 									<view class="product-img">
 										<image mode="aspectFill" lazy-load :src="item.logo" alt="" class="image lazyImg" /></view>
 									<view class="product-detail">
@@ -99,6 +99,9 @@
 
 		},
 		methods: {
+		  	toProduct (item) {
+              this.toRoute('/pages/dianping/product?name=' + encodeURIComponent(item.name))
+			},
 			paramClick (e) {
 				console.log(e)
 				uni.navigateTo({

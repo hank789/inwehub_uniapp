@@ -142,7 +142,7 @@
           <view class="">
             <view class="productList">
               <view v-for="(tag, index) in list.product.list" :key="index" class="comment-product">
-                <view class="product-info" @tap.stop.prevent="$uni.navigateTo('/dianping/product/' + encodeURIComponent(tag.name))">
+                <view class="product-info" @tap.stop.prevent="toProduct(tag)">
                   <view class="product-img border-football">
                     <image :src="tag.logo" mode="aspectFill" alt="" class="image lazyImg" />
                   </view>
@@ -299,6 +299,9 @@ export default {
     this.searchText = e.text
   },
   methods: {
+    toProduct(item) {
+      this.to('/dianping/product/' + encodeURIComponent(item.name))
+    },
     to(url) {
       uni.navigateTo({ url: url })
     },

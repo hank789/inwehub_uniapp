@@ -1,14 +1,17 @@
 <template>
 	<view class="content">
-		<!-- 正文 -->
-		<iwList v-model="list" :api="'feed/list'" ref="iwList" :cssTop="cssTop" :requestData="feedListParams">
+		
 
+		
+		<!-- 正文 -->
+		<iwList v-model="list" :api="'feed/list'" @scrollList="scrollList" ref="iwList" :cssTop="cssTop" :requestData="feedListParams">
+		
 			<view class="infoBg">
 				<image :src="resume.info.avatar_url" class="avatar bigImg"></image>
 				<view class="backMask"></view>
 			</view>
 
-			<view class="content" id="comments">
+			<view class="muiContent">
 
 				<view class="header-wrapper">
 					<view class="headers">
@@ -87,10 +90,10 @@
 						<text class="tipTitle">擅长领域</text>
 					</view>
 					<template v-for="(industry, index) in resume.info.skill_tags">
-						<view :key="industry.id" class="tags" @tap.stop.prevent="toTagDetail(industry.text)"><text class="text">{{industry.text}}</text></view>
+						<view class="tags" @tap.stop.prevent="toTagDetail(industry.text)"><text class="text">{{industry.text}}</text></view>
 					</template>
 					<view class="addTags" v-show="uuid == cuuid" @tap.stop.prevent="toRoute('/pages/my/advantage')">
-						<text class="iconfont icon-plus--"></text>{{ 1 > resume.info.skill_tags.length ? '添加专业形象，对接更多机遇':'添加' }}
+						<text class="iconfont icon-plus--"></text>{{ resume.info.skill_tags.length < 1 ? '添加专业形象，对接更多机遇':'添加' }}
 					</view>
 					<view class="bot" v-if="resume.info.article_count || uuid === cuuid"></view>
 				</view>
@@ -114,6 +117,29 @@
 			</view>
 
 		</iwList>
+
+		<view class="header" :class="iosSystem ? 'header-ios':''">
+
+			<view class="before" :style="{ opacity: 1 - afterHeaderOpacity, zIndex: beforeHeaderzIndex }">
+				<view class="back">
+					<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
+				</view>
+				<view class="middle">个人名片</view>
+				<view class="icon-btn">
+					<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
+				</view>
+			</view>
+
+			<view class="after" :style="{ opacity: afterHeaderOpacity, zIndex: afterHeaderzIndex,}">
+				<view class="back">
+					<view class="iconfont icon-fanhui" @tap="back" v-if="showBack"></view>
+				</view>
+				<view class="middle">个人名片</view>
+				<view class="icon-btn">
+					<view class="iconfont icon-shoucang-xiao" @tap="toMsg"></view>
+				</view>
+			</view>
+		</view>
 		
 		<iw-page-more
 		  ref="pageMore"
@@ -138,6 +164,7 @@
 	import iwDialogReport from '@/components/iw-dialog/report.vue'
 	
 	import { getResumeDetail } from '@/lib/shareTemplate'
+	import { getPlatform } from "@/lib/allPlatform.js"
 	export default {
 		data() {
 			return {
@@ -195,7 +222,8 @@
 					targetId: ''
 				},
 				iconMenus: [],
-				itemOptionsObj: {}
+				itemOptionsObj: {},
+				iosSystem: false
 			};
 		},
 		components: {
@@ -223,6 +251,11 @@
 				this.uuid = option.id
 			}
 			this.getData()
+			var system = getPlatform()
+			if (system === 'ios') {
+				this.iosSystem = true
+			}
+			console.log(getPlatform(), '平台信息')
 		},
 		onReady() {},
 		onPageScroll(e) {
@@ -230,9 +263,7 @@
 		},
 		mounted() {
 		},
-		onNavigationBarButtonTap(e) {
-			this.toMsg()
-		},
+
 		methods: {
 			toMsg () {
 				this.iconMenus = []
@@ -266,6 +297,9 @@
 				uni.navigateTo({
 					url: url
 				})
+			},
+			back() {
+				uni.navigateBack();
 			},
 			back() {
 				uni.navigateBack();
@@ -344,9 +378,12 @@
 		top: 0;
 		z-index: 10;
 		/*  #ifdef  APP-PLUS  */
-		top: var(--status-bar-height);
+		padding-top: var(--status-bar-height);
 
 		/*  #endif  */
+		&.header-ios{
+			position: sticky;
+		}
 		.before,
 		.after {
 			width: 100%;
@@ -357,7 +394,7 @@
 			position: fixed;
 			top: 0;
 			/*  #ifdef  APP-PLUS  */
-			top: var(--status-bar-height);
+			padding-top: var(--status-bar-height);
 			/*  #endif  */
 
 			.back {
@@ -775,7 +812,9 @@
 		}
 	}
 
-	.content .specialColumn {
+
+
+	.muiContent .specialColumn {
 		padding: 0 31.96upx;
 		display: flex;
 		height: 88upx;
@@ -801,10 +840,5 @@
 			line-height: 88upx;
 		}
 	}
-	/* #ifdef APP-PLUS */
-	.marginApp {
-		margin-top: -270upx;
-	}
-	/* #endif */
 	
 </style>
