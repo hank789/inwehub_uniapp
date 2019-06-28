@@ -3,8 +3,9 @@
     <view class="commentList" @tap.stop.prevent="toDetail()">
       <view class="commentUser" @tap.stop.prevent="toResume()">
         <view class="userInfo">
-          <view class="avatar">
+          <view class="avatar avatarInner">
             <image mode="aspectFill" class="image" :src="item.user.avatar" :is-lazyload="true" width="34" height="34" />
+            <text class="iconfont icon-zhuanjiabiaozhishixin"  v-show="isExpert"></text>
           </view>
           <view class="userName">
             <view class="userNameTop">
@@ -108,6 +109,9 @@ export default {
     }
   },
   computed: {
+    isExpert () {
+      return !!this.item.user.is_expert
+    },
     itemObj() {
       var item = JSON.parse(JSON.stringify(this.item))
       if (typeof item.feed.img === 'string') {
@@ -504,5 +508,19 @@ export default {
   .container-images-discover .image{
     width:452upx;
     height:452upx;
+  }
+
+  .avatarInner{
+    position: relative;
+  }
+
+  .avatarInner .iconfont{
+    position: absolute;
+    width: 39.98upx;
+    height: 39.98upx;
+    right: -7.50upx;
+    bottom: -5.26upx;
+    font-size: 24upx;
+    color: #03aef9;
   }
 </style>

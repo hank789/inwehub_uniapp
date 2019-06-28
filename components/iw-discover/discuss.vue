@@ -10,7 +10,7 @@
         <view class="list-item-discuss">
           <view class="lidL">
             <image mode="aspectFill" :src="info.avatar_url" />
-            <text class="iconfont icon-zhuanjiabiaojishixin" />
+            <text class="iconfont icon-zhuanjiabiaozhishixin" />
           </view>
           <view class="lidR">
             <view class="lidR1">{{ info.name }}</view>
@@ -37,7 +37,7 @@
             <view :key="index" class="list-item-discuss" @tap.stop.prevent="clickComment(item, list)">
               <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
                 <image mode="aspectFill" :src="item.owner.avatar" />
-                <text class="iconfont icon-zhuanjiabiaojishixin" />
+                <text class="iconfont icon-zhuanjiabiaozhishixin" />
               </view>
               <view class="lidR">
                 <view class="lidR1">{{ item.owner.name }}</view>
@@ -429,6 +429,7 @@ export default Discuss
 
     .lidL .iconfont{
         position: absolute;
+        color:#03aef9;
         top:39.98upx;
         right:-6upx;
     }
