@@ -9,12 +9,12 @@
         <view class="line-river-after line-river-after-top" />
       </view>
 
-      <view v-show="urlTitle" class="linkWrapper">
+      <view v-if="urlTitle" class="linkWrapper">
         <view class="leftText">
           <view class="text font-family-medium text-line-2">{{ urlTitle }}</view>
           <text class="iconfont icon-times--" @tap.stop.prevent="resetData"/>
         </view>
-        <view v-show="urlImage" class="right">
+        <view v-if="urlImage" class="right">
           <view class="articleImg">
             <image mode="aspectFill" :src="urlImage" width="97" height="71" />
           </view>
