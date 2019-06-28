@@ -38,6 +38,10 @@ image{will-change: transform}
     position: relative;
     top: 6upx;
 }
+.container-control-logoAndTabsAndSearch .addIcon .iconfont{
+    font-size: 36upx;
+    color: #444444;
+}
 .container-control-logoAndTabsAndSearch .logoIcon {
     font-size: 162upx;
     position: relative;
@@ -92,13 +96,13 @@ image{will-change: transform}
     background: #F3F4F6;
     color: #C8C8C8;
     border-radius: 199.96upx;}
-.container-control-logoAndTabsAndSearch .topSearchWrapper .searchFrame span {
+.container-control-logoAndTabsAndSearch .topSearchWrapper .searchFrame .span {
     font-size: 27.98upx;
+    line-height:normal;
 }
-.container-control-logoAndTabsAndSearch .topSearchWrapper .searchFrame .icon {
-    font-size: 33.98upx;}
-.container-control-logoAndTabsAndSearch.searchBoxShadow {
-    box-shadow:0upx 3.98upx 51.98upx 0upx rgba(240,242,245,1);
+.container-control-logoAndTabsAndSearch .topSearchWrapper .searchFrame .iconfont {
+    font-size: 33.98upx;
+    margin-right:10upx;
 }
 
 .download-tip {
