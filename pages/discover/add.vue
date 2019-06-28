@@ -32,19 +32,19 @@
 
     <view class="container-bottom-menus">
       <view class="leftItems">
-        <view class="leftItem" @tap.stop.prevent="toUser">
+        <view class="leftItem" @tap.stop.prevent="toUser" hover-class="hoverClass" :hover-stop-propagation="true">
           <text class="iconfont icon-icon-test2" />
         </view>
-        <view class="leftItem" @tap.stop.prevent="totags">
+        <view class="leftItem" @tap.stop.prevent="totags" hover-class="hoverClass" :hover-stop-propagation="true">
           <text class="iconfont icon-biaoqian2" />
         </view>
-        <view class="leftItem" :class="{'disable': !isUploadImage}" @tap.stop.prevent="uploadImage">
+        <view class="leftItem" :class="{'disable': !isUploadImage}" @tap.stop.prevent="uploadImage" hover-class="hoverClass" :hover-stop-propagation="true">
           <text class="iconfont icon-tupian" />
         </view>
         <!--<view class="leftItem" :class="{'disable': !isUploadPdf}" @tap.stop.prevent="uploadPdf">-->
           <!--<text class="iconfont icon-wenjian" />-->
         <!--</view>-->
-        <view class="leftItem" :class="{'disable': !isUploadLink}" @tap.stop.prevent="promptUrl">
+        <view class="leftItem" :class="{'disable': !isUploadLink}" @tap.stop.prevent="promptUrl" hover-class="hoverClass" :hover-stop-propagation="true">
           <text class="iconfont icon-lianjie2" />
         </view>
       </view>
