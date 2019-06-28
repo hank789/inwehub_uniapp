@@ -34,7 +34,7 @@
         >
 
           <template v-for="(item, index) in list" v-if="index < 3">
-            <view :key="index" class="list-item-discuss" @tap.stop.prevent="clickComment(item, list)">
+            <view :key="index" class="list-item-discuss" @tap.stop.prevent="clickComment(item, list)" hover-class="hoverClass" :hover-stop-propagation="true">
               <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
                 <image mode="aspectFill" :src="item.owner.avatar" />
                 <text class="iconfont icon-zhuanjiabiaozhishixin" />
@@ -46,7 +46,7 @@
 								</view>
                 <view class="lidR3">
                   <view class="lidRtime"> {{ item.created_at | timeago }} </view>
-                  <view class="lidROption" :class="{active:item.is_supported}" @tap.stop.prevent="vote(item)">
+                  <view class="lidROption" :class="{active:item.is_supported}" @tap.stop.prevent="vote(item)" hover-class="hoverClass" :hover-stop-propagation="true">
                     <text class="iconfont icon-zan" /><text v-if="item.supports">{{ item.supports }}</text>
                   </view>
                 </view>
@@ -385,6 +385,10 @@ export default Discuss
 </script>
 
 <style scoped="scoped" lang="less">
+    .lidROption{
+      display: inline-block;
+      padding:10upx;
+    }
     .lidR2 {
         .lidframe {
             width: 607.96upx;

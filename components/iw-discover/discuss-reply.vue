@@ -10,7 +10,7 @@
                     <view class="lidR2 textToLink" v-html="textToLink(child.content)"></view>
                     <view class="lidR3">
                         <view class="lidRtime">{{ child.created_at | timeago }}</view>
-                        <view class="lidROption" @tap.stop.prevent="vote(child)" :class="{active:child.is_supported}">
+                        <view class="lidROption" @tap.stop.prevent="vote(child)" :class="{active:child.is_supported}"  hover-class="hoverClass" :hover-stop-propagation="true">
                             <text class="iconfont icon-zan"></text><view v-if="child.supports">{{ child.supports }}</view>
                         </view>
                     </view>
@@ -89,3 +89,10 @@
   }
   export default Discuss
 </script>
+
+<style scoped="scoped" lang="less">
+    .lidROption{
+        display: inline-block;
+        padding:10upx;
+    }
+</style>
