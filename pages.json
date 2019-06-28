@@ -126,7 +126,6 @@
               {
                 "type": "none",
                 "color": "#3C3E44",
-                "fontWeight": "bold",
                 "fontSize": "21px",
                 "text": "\ue6d4",
                 "width": "auto",
@@ -233,7 +232,6 @@
               {
                 "type": "none",
                 "color": "#3C3E44",
-                "fontWeight": "bold",
                 "fontSize": "21px",
                 "text": "\ue6d4",
                 "width": "auto",
@@ -259,7 +257,6 @@
               {
                 "type": "none",
                 "color": "#3C3E44",
-                "fontWeight": "bold",
                 "fontSize": "21px",
                 "text": "\ue6d4",
                 "width": "auto",
