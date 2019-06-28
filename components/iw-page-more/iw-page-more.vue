@@ -105,14 +105,14 @@ export default {
       this.showPopupBottomShare = false
       // uni.showTabBar()
 
-      if (this.isHaveNavigationBar) {
-        setTimeout(() => {
-          uni.setNavigationBarColor({
-            frontColor: '#000000',
-            backgroundColor: '#ffffff'
-          })
-        }, 100)
-      }
+//      if (this.isHaveNavigationBar) {
+//        setTimeout(() => {
+//          uni.setNavigationBarColor({
+//            frontColor: '#000000',
+//            backgroundColor: '#ffffff'
+//          })
+//        }, 100)
+//      }
     },
     shareToCopyLink() {
       // todo 复制到剪切板
@@ -177,15 +177,15 @@ export default {
 
       this.isHaveNavigationBar = false
 
-      if (isHaveNavigationBar) {
-        this.isHaveNavigationBar = true
-        setTimeout(() => {
-          uni.setNavigationBarColor({
-            frontColor: '#000000',
-            backgroundColor: '#b3b3b3'
-          })
-        }, 100)
-      }
+//      if (isHaveNavigationBar) {
+//        this.isHaveNavigationBar = true
+//        setTimeout(() => {
+//          uni.setNavigationBarColor({
+//            frontColor: '#000000',
+//            backgroundColor: '#b3b3b3'
+//          })
+//        }, 100)
+//      }
     },
     shareToPengyouQuan() {
 
