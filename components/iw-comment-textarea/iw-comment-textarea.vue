@@ -233,6 +233,11 @@ const CommentTextarea = {
       var targetUsername = data.targetUsername
       console.log('comment targetUsername:' + targetUsername)
       this.commentData = data.commentData
+			if (this.focus === false) {
+				this.focus = true
+			} else {
+				this.focus = false
+			}
       if (targetUsername === '') {
         this.showTextarea = !this.showTextarea
       } else {
@@ -244,11 +249,6 @@ const CommentTextarea = {
       this.targetUsername = targetUsername ? '回复' + targetUsername : '在此留言'
 
       this.getHistoryDescription()
-			if (this.focus === false) {
-				this.focus = true
-			} else {
-				this.focus = false
-			}
 			
 			var pages = getCurrentPages();
 			var page = pages[pages.length - 1];
