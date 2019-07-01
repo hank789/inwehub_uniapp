@@ -54,7 +54,7 @@
               </view>
 
 
-              <view v-if="isLocalSelect(key + '_' + index)" class="selectUser" @tap.stop.prevent="collectProfessor(key + '_' + index, item)">
+              <view v-if="!!Selected[key + '_' + index]" class="selectUser" @tap.stop.prevent="collectProfessor(key + '_' + index, item)">
                 <view class="select active">
                   <text class="iconfont icon-check-circle" />
                 </view>
