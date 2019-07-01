@@ -347,6 +347,8 @@ export default {
             this.detail.followers++
             this.isFollwers = true
             this.is_FollWers = true
+            this.detail.followers++
+            this.detail.is_followed = 1
           }, () => {
             this.is_FollWers = false
             this.isFollwers = true

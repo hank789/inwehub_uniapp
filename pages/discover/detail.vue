@@ -140,6 +140,7 @@
               :list-params="discussListParams"
               :store-api="'article/comment-store'"
               :store-params="discussStoreParams"
+              :autoLoading="false"
               @comment="comment"
               @commentFinish="commentFinish"
               @goComment="goComment"
@@ -803,6 +804,9 @@ export default {
 
       this.loading = false
       this.recommendRead()
+      setTimeout(() => {
+        this.$refs.discuss.resetList()
+      }, 300)
     },
     setFollowStatus(status) {
       this.detail.is_followed_author = status

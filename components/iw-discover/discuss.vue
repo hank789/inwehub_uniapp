@@ -100,6 +100,10 @@ const Discuss = {
     info: { name: '游客', is_expert: 0, avatar_url: 'https://cdn.inwehub.com/system/user_default_avatar.png' }
   }),
   props: {
+    autoLoading: {
+      type: Boolean,
+      default: true
+    },
     listApi: {
       type: String,
       default: ''
@@ -363,7 +367,9 @@ const Discuss = {
   },
   mounted() {
     this.getInfo()
-    this.resetList()
+    if (this.autoLoading) {
+      this.resetList()
+    }
   },
   created() {
 
