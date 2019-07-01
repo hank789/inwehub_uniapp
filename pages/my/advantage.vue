@@ -65,8 +65,8 @@
 				isupload: 1
 			}
 		},
-		onLoad() {
-			if (this.$route.query.form) {
+		onLoad(option) {
+			if (option.type !== '0') {
 				this.type = 1
 			} else {
 				this.type = 0
@@ -111,6 +111,9 @@
 				uni.showToast({
 					title: '保存成功'
 				})
+				uni.navigateBack({
+					delta: 1
+				})
 			})
 		  },
 				
@@ -120,6 +123,7 @@
 			var index = getIndexByIdArray(this.skill_tags, item.value, 'value')
 			if (index >= 0) {
 				uni.showToast({
+					icon: 'none',
 					title: '重复添加'
 				})
 			} else {
@@ -186,7 +190,7 @@
 				})
 			},
 			skillTags() {
-				if (this.type) {
+				if (this.type !== 0) {
 					var url = 'followed/tags'
 					var data = {
 						'perPage': 100
@@ -200,8 +204,8 @@
 					if (code !== 1000) {
 						return
 					}
-					if (this.type && response.data.data.length >= 0) {
-						this.skill_tags = response.data.data.data
+					if (this.type && response.data.length >= 0) {
+						this.skill_tags = response.data.data
 					}
 					if (!this.type && response.data.info.skill_tags.length >= 0) {
 						this.skill_tags = response.data.info.skill_tags
