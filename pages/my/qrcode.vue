@@ -10,7 +10,7 @@
 
         <view class="myCode">
           <view class="myCodeWrapper">
-						<tki-qrcode v-if="!loading" ref="qrcode" :val="shareUrl" :size="size" :unit="unit" :background="background" :foreground="foreground" :pdground="pdground" :icon="icon" :iconSize="iconsize" :onval="onval" :loadMake="loadMake" :usingComponents="true" @result="qrR" />
+						<tki-qrcode v-if="!loading" cid="qrcode2" ref="qrcode" :val="shareUrl" :size="size" :unit="unit" :icon="icon" :iconSize="iconsize" :onval="onval" :loadMake="loadMake" :usingComponents="true" @result="qrR" />
           </view>
         </view>
 
@@ -33,11 +33,8 @@
 				generateImgIng: 0,
 				resume: {},
 				uuid: '',
-				size: 155,
-				unit: 'px',
-				background: '#000000',
-				foreground: '#ffffff',
-				pdground: '#ffffff',
+				size: 300,
+				unit: 'upx',
 				icon: '',
 				iconsize: 40,
 				onval: true,
@@ -77,6 +74,9 @@
           if (code !== 1000) {
             return
           }
+					this.resume = response.data
+          this.shareUrl = this.$store.state.webRoot + '/#/share/resume/' + this.uuid + '?uuid=' + getLocalUuid()
+          this.loading = 0
 					uni.downloadFile({
 						url: response.data.info.avatar_url,
 						success: (res) => {
@@ -90,9 +90,6 @@
 						}
 					});
 					
-          this.resume = response.data
-          this.shareUrl = this.$store.state.webRoot + '/#/share/resume/' + this.uuid + '?uuid=' + getLocalUuid()
-          this.loading = 0
         })
       }
 		}
