@@ -1,5 +1,5 @@
 {
-    "name" : "InweHub",
+    "name" : "InweHubTest",
     "appid" : "__UNI__3FD074B",
     "description" : "",
     "versionName" : "1.0.0",
@@ -114,7 +114,7 @@
             "orientation" : [ "portrait-primary" ],
             "icons" : {
                 "ios" : {
-                    "appstore" : "/Users/wanghui/www/interv/mui/inwehub_test/unpackage/res/icons/1024x1024.png",
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
                     "ipad" : {
                         "app" : "unpackage/res/icons/76x76.png",
                         "app@2x" : "unpackage/res/icons/152x152.png",
