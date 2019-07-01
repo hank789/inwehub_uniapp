@@ -22,8 +22,8 @@
         if (this.width) {
           style += 'width:' + this.width + ';'
         }
-        if (this.height) {
-          // style += 'height:' + this.height + ';'
+        if (parseInt(this.height) < 320) {
+          style += 'height:' + this.height + ';'
         }
         return style
       }
