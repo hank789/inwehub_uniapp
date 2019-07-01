@@ -123,8 +123,6 @@
 	import ls from '@/lib/localstorage.js'
 	import share from "@/lib/sharePlus.js";
 	import { getIndexByIdArray } from '@/lib/array.js'
-	
-	const domModule = weex.requireModule('dom')
 
 	export default { 
 		components: {
@@ -156,7 +154,7 @@
 			const domModule = weex.requireModule('dom')
 			domModule.addRule('fontFace', {
 			    'fontFamily': "iconfont",
-			    'src': "url('../../static/fonts/iconfont.ttf')",
+			    'src': "url('https://cdn.inwehub.com/static/fonts/iconfont.ttf')",
 			});
 		},
 		created() {
