@@ -1,7 +1,7 @@
 <template>
   <view v-show="showTextarea || alwaysshow" class="commentWrapper" @tap.capture="onTap($event)">
     <view class="textareaWrapper">
-      <textarea v-model="textarea" :focus="focus" auto-height="true" class="textarea" :placeholder="targetUsername" />
+      <textarea v-if="showTextarea" v-model="textarea" :focus="focus" auto-height="true" class="textarea" :placeholder="targetUsername" />
       <!--<text class="iconfont icon-fasong"></text>-->
     </view>
     <view class="send font-family-medium" :class="text.length - 2 ? 'active' : ''" @tap.stop.prevent="sendMessage">发送</view>
@@ -233,6 +233,11 @@ const CommentTextarea = {
       var targetUsername = data.targetUsername
       console.log('comment targetUsername:' + targetUsername)
       this.commentData = data.commentData
+			if (this.focus === false) {
+				this.focus = true
+			} else {
+				this.focus = false
+			}
       if (targetUsername === '') {
         this.showTextarea = !this.showTextarea
       } else {
@@ -243,14 +248,14 @@ const CommentTextarea = {
 
       this.targetUsername = targetUsername ? '回复' + targetUsername : '在此留言'
 
-      this.textarea = ''
-
       this.getHistoryDescription()
-			if (this.focus === false) {
-				this.focus = true
-			} else {
-				this.focus = false
-			}
+			
+			var pages = getCurrentPages();
+			var page = pages[pages.length - 1];
+			// #ifdef APP-PLUS
+			var currentWebview = page.$getAppWebview();
+			currentWebview.setStyle({softinputMode: 'adjustResize'})
+			// #endif
 			
       console.log('comment-textarea:' + this.textarea)
     },
@@ -283,6 +288,7 @@ const CommentTextarea = {
         noticeUsers: this.noticeUsers,
         commentData: this.commentData
       }
+			this.textarea = ''
       this.$emit('sendMessage', data)
     }
   }
