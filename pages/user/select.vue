@@ -1,208 +1,194 @@
 <template>
 
-    <view>
-        <!--导航栏-->
-        <view class="mui-content">
-            <!--搜索区域-->
-            <Contact :list="list" v-model="lastList" :search="search">
+  <view>
+    <!--导航栏-->
+    <view class="mui-content">
+      <!--搜索区域-->
+      <Contact v-model="lastList" :list="list" :search="search">
+        <view slot="header" class="indexHeader">
+          <view v-if="!apperClose" class="searchWrapper">
+            <text class="iconfont icon-sousuo" />
+            <input v-model.trim="search" class="input" type="text" placeholder="输入用户名">
+          </view>
+          <!--确定搜索框-->
+          <view v-if="apperClose" class="searchContainer">
+            <view class="searchContainerTwo">
+              <text class="iconfont icon-sousuo" />
+              <input v-model.trim="search" type="text" placeholder="输入用户名">
+              <text v-if="search" @tap.stop.prevent="empty()">
+                <text class="iconfont icon-guanbi" />
+              </text>
+            </view>
+            <view class="searchContainerOne" @tap.stop.prevent="submitInfo()">确定</view>
+          </view>
 
-                <view slot="header" class="indexHeader">
-                    <view class="searchWrapper" v-if="!apperClose">
-                        <text class="iconfont icon-sousuo"></text>
-                        <input class="input" type="text" placeholder="输入用户名" v-model.trim="search">
-                    </view>
-                    <!--确定搜索框-->
-                    <view class="searchContainer" v-if="apperClose">
-                        <view class="searchContainerTwo">
-                            <text class="iconfont icon-sousuo"></text>
-                            <input type="text" placeholder="输入用户名" v-model.trim="search"/>
-                            <text @tap.stop.prevent="empty()" v-if="search">
-                 <text class="iconfont icon-guanbi"></text>
-               </text>
-                        </view>
-                        <view class="searchContainerOne" @tap.stop.prevent="submitInfo()">确定</view>
-                    </view>
-
-                    <view class="notFound">
-                        找不到成员？<text>添加新的关注</text>
-                    </view>
-                </view>
-
-
-                <view class="indexTitle">
-                    已关注的成员
-                  </view>
-
-                <view class="groupWrapper">
-                    <view v-for="(list, key) in lastList" class="index-bar-group">
-                        <view :id="key" class="index-bar-cell index-bar-cell-head">{{key}}</view>
-                        <view v-for="(item, index) in list" :data-raw="item.raw" class="index-bar-cell tap-active"
-                            :class="{bottomBorder:index !== list.length-1  }">
-
-                            <view class="avatar">
-                                <view class="avatarInner" @tap.stop.prevent="">
-                                    <image class="image" :src="item.avatar_url" @tap.stop.prevent="toAvatar(item.uuid)"></image>
-                                    <text class="iconfont icon-zhuanjiabiaozhishixin"></text>
-                                </view>
-                            </view>
-
-                            <view class="textBody ">
-                                <view class="name mui-ellipsis">{{item.name}} &nbsp;</view>
-                                <view class="desc mui-ellipsis">{{item.description}} &nbsp;</view>
-                            </view>
-
-                            <view class="selectUser" v-if="Selected[key + '_' + index]" @tap.stop.prevent="collectProfessor(key + '_' + index, item)">
-                                <view class="select active">
-                                    <text class="iconfont icon-check-circle"></text>
-                                </view>
-                            </view>
-                            <view class="selectUser" v-else @tap.stop.prevent="collectProfessor(key + '_' + index, item)">
-                                <view class="select" ></view>
-                            </view>
-                        </view>
-                    </view>
-                </view>
-            </Contact>
-
+          <view class="notFound">
+            找不到成员？<text>添加新的关注</text>
+          </view>
         </view>
+
+        <view class="indexTitle">
+          已关注的成员
+        </view>
+
+        <view class="groupWrapper">
+          <view v-for="(sonlist, key) in lastList" :key="key" class="index-bar-group">
+            <view class="index-bar-cell index-bar-cell-head">{{ key }}</view>
+            <view
+              v-for="(item, index) in sonlist"
+              :key="index"
+              :data-raw="item.raw"
+              class="index-bar-cell tap-active"
+              :class="{bottomBorder:index !== sonlist.length-1 }"
+            >
+              <view class="avatar">
+                <view class="avatarInner">
+                  <image class="image" :src="item.avatar_url" />
+                  <text class="iconfont icon-zhuanjiabiaozhishixin" />
+                </view>
+              </view>
+
+              <view class="textBody ">
+                <view class="name mui-ellipsis">{{ item.name }} &nbsp;</view>
+                <view class="desc mui-ellipsis">{{ item.description }} &nbsp;</view>
+              </view>
+
+
+              <view v-if="isLocalSelect[key + '_' + index]" class="selectUser" @tap.stop.prevent="collectProfessor(key + '_' + index, item)">
+                <view class="select active">
+                  <text class="iconfont icon-check-circle" />
+                </view>
+              </view>
+              <view v-else class="selectUser" @tap.stop.prevent="collectProfessor(key + '_' + index, item)">
+                <view class="select" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </Contact>
     </view>
+  </view>
 </template>
 <script>
-  import Contact from '@/components/iw-index/iw-index.vue'
-  import { postRequest } from '@/lib/request'
-  import localEvent from '@/lib/localstorage'
-  import localStorageKey from '@/lib/localstoragekey'
-  import Vue from 'vue'
-  const currentUser = localEvent.get('UserInfo')
+import Contact from '@/components/iw-index/iw-index.vue'
+import { postRequest } from '@/lib/request'
+import localEvent from '@/lib/localstorage'
+import localStorageKey from '@/lib/localstoragekey'
+import Vue from 'vue'
 
-  export default {
-    data () {
-      return {
-        pageOption: {},
-        apperClose: false,
-        id: 0,
-        search: '',
-        username: '',
-        shareUrl: '',
-        shareImg: '',
-        answernum: 0,
-        followednum: 0,
-        title: '',
-        list: [],
-        lastList: [],
-        userId: currentUser.user_id,
-        Selected: []
+export default {
+  components: {
+    Contact
+  },
+  data() {
+    return {
+      pageOption: {},
+      apperClose: false,
+      id: 0,
+      search: '',
+      username: '',
+      shareUrl: '',
+      shareImg: '',
+      answernum: 0,
+      followednum: 0,
+      title: '',
+      list: [],
+      lastList: [],
+      userId: 0,
+      loading: 1,
+      Selected: []
+    }
+  },
+  onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
+    this.pageOption = option
+    const currentUser = localEvent.get('UserInfo')
+    this.userId = currentUser.user_id
+    this.getList()
+  },
+  created() {
+    console.log(this.lastList)
+  },
+  methods: {
+    isLocalSelect (key) {
+      return !!this.Selected[key]
+    },
+    submitInfo() {
+      uni.navigateBack()
+    },
+    empty() {
+      this.search = ''
+    },
+    // 点击选择；
+    collectProfessor(index, item) {
+      item.listindex = index
+
+      var value = this.Selected[index] ? false : item
+      this.Selected[index] = value
+      Vue.set(this.Selected, index, value)
+
+      var options = []
+      for (var i in this.Selected) {
+        if (this.Selected[i]) {
+          options.push(this.Selected[i])
+        }
+      }
+      // 判断是否有带确定的输入框出现
+      if (options.length) {
+        this.apperClose = true
+      } else {
+        this.apperClose = false
+      }
+
+      if (this.pageOption.from === 'discover') {
+        localEvent.set(localStorageKey.discover_select_user, options)
+      } else if (this.pageOption.from === 'comment') {
+
+      } else {
+        return false
       }
     },
-    components: {
-      Contact
-    },
-    onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-        this.pageOption = option
-    },
-    methods: {
-      submitInfo () {
-        uni.navigateBack()
-      },
-      empty () {
-        this.search = ''
-      },
-      toAvatar (uuid) {
-        if (!uuid) {
-          return false
+    // 数据；
+    getList() {
+      postRequest(`followed/searchUsers`, {}).then(response => {
+        var code = response.code
+        if (code !== 1000) {
+          window.mui.alert(response.data.message)
+          uni.navigateBack()
+          return
         }
-        this.$router.pushPlus('/share/resume?id=' + uuid + '&goback=1' + '&time=' + (new Date().getTime()))
-      },
-      // 点击选择；
-      collectProfessor (index, item) {
-        item.listindex = index
-        var value = this.Selected[index] ? false : item
-        Vue.set(this.Selected, index, value)
-        console.log(this.Selected)
-        var options = []
-        for (var i in this.Selected) {
-          if (this.Selected[i]) {
-            options.push(this.Selected[i])
-          }
-        }
-//       判断是否有带确定的输入框出现
-        if (options.length) {
-          this.apperClose = true
-        } else {
-          this.apperClose = false
-        }
-
-        if (this.pageOption.from === 'discover') {
-          localEvent.set(localStorageKey.discover_select_user, options)
-        } else if (this.pageOption.from === 'comment') {
-
-        } else {
-          return false
-        }
-      },
-      // 数据；
-      getList () {
-        postRequest(`followed/searchUsers`, {}).then(response => {
-          var code = response.code
-          if (code !== 1000) {
-            window.mui.alert(response.data.message)
-            uni.navigateBack()
-            return
-          }
-          if (response.data.length > 0) {
-            var arr = response.data
-            for (var i = 0; i < arr.length; i++) {
-              if (!arr[i].user_name) {
-                continue
-              }
-              var item = {
-                id: arr[i].user_id,
-                name: arr[i].user_name,
-                avatar_url: arr[i].user_avatar_url,
-                description: arr[i].description,
-                is_expert: arr[i].is_expert,
-                is_followed: arr[i].is_followed,
-                uuid: arr[i].uuid
-
-              }
-              this.list = this.list.concat(item)
+        if (response.data.length > 0) {
+          var arr = response.data
+          for (var i = 0; i < arr.length; i++) {
+            if (!arr[i].user_name) {
+              continue
             }
+            var item = {
+              id: arr[i].user_id,
+              name: arr[i].user_name,
+              avatar_url: arr[i].user_avatar_url,
+              description: arr[i].description,
+              is_expert: arr[i].is_expert,
+              is_followed: arr[i].is_followed,
+              uuid: arr[i].uuid
+
+            }
+            this.list = this.list.concat(item)
           }
-          this.loading = 0
-        })
-      }
-    },
-    activated () {
-      this.Selected = []
-      if (this.pageOption.from === 'discover') {
-        var user = localEvent.get(localStorageKey.discover_select_user)
-        for (var num = 0; num < user.length; num++) {
-          this.collectProfessor(user[num].listindex, user[num])
-        }
-      } else if (this.pageOption.from === 'comment') {
 
-      } else {
-        return false
-      }
-    },
-    watch: {},
-    mounted () {
-      this.getList()
-      if (this.pageOption.from === 'discover') {
-        var user = localEvent.get(localStorageKey.discover_select_user)
-        for (var num = 0; num < user.length; num++) {
-          this.collectProfessor(user[num].listindex, user[num])
-        }
-      } else if (this.pageOption.from === 'comment') {
+          if (this.pageOption.from === 'discover') {
+            var user = localEvent.get(localStorageKey.discover_select_user)
+            for (var num = 0; num < user.length; num++) {
+              this.collectProfessor(user[num].listindex, user[num])
+            }
+          } else if (this.pageOption.from === 'comment') {
 
-      } else {
-        return false
-      }
-    },
-    created () {
-      console.log(this.lastList)
+          }
+        }
+        this.loading = 0
+      })
     }
   }
+}
 </script>
 
 <style lang="less">
@@ -294,7 +280,6 @@
     .select.active{
         background:#FFFFFF;
         border: 1.96upx solid #FFFFFF;
-
 
     }
     .select.active .iconfont{
@@ -504,8 +489,6 @@
         text-align: center;
         border-radius: 50%;
     }
-
-
 
     .tap-active {
         font-size: 27.98upx;

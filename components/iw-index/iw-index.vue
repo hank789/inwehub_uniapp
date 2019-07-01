@@ -7,7 +7,7 @@
             </view>
             <view class="index-bar" @tap="chooseIndex">
                 <view class="index-bar-list">
-                    <view v-for="char in chars" class="index-bar-item">{{char}}</view>
+                    <view v-for="(char, charIndex) in chars" :key="charIndex" class="index-bar-item">{{char}}</view>
                 </view>
             </view>
         </view>
