@@ -115,7 +115,7 @@ export default {
 		const domModule = weex.requireModule('dom')
 		domModule.addRule('fontFace', {
 				'fontFamily': "iconfont",
-				'src': "url('../../static/fonts/iconfont.ttf')"
+				'src': "url('https://cdn.inwehub.com/static/fonts/iconfont.ttf')"
 		});
 	},
   computed: {
