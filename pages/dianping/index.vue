@@ -96,6 +96,7 @@
     </view>
 
     <iwLoading v-model="loading"></iwLoading>
+    <iwExpectSpecial ref="iwExpectSpecial"></iwExpectSpecial>
 
   </view>
 </template>
@@ -105,11 +106,13 @@ import { getRecommandProductList, getCategories, getHotProduct, gethotAlbum, get
 import StarView from '@/components/iw-star/iw-star'
 import localEvent from '@/lib/localstorage'
 import iwLoading from '@/components/iw-loading/iw-loading'
+import iwExpectSpecial from '@/components/iw-dialog/expect-special'
 
 export default {
   components: {
     StarView,
-    iwLoading
+    iwLoading,
+    iwExpectSpecial
   },
   data() {
     return {
@@ -170,12 +173,7 @@ export default {
       uni.navigateTo({ url: url })
     },
     showExpect() {
-      alertExpect(this, (num, text) => {
-        if (num === 0) {
-          submitFeedback(this, text, (res) => {
-          })
-        }
-      })
+      this.$refs.iwExpectSpecial.show()
     },
     goGroups() {
       window.mui('#dropDownMenuWrapper').popover('toggle')
