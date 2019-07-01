@@ -1,0 +1,272 @@
+<template>
+    <wxc-popup
+            :show="showPopupBottomShare"
+						:height="800"
+            pos="bottom"
+            @wxcPopupOverlayClicked="hidePopup">
+    <div class="heat-wrapper">
+      <div class="heatTop">
+        <div class="left">
+          <div class="fire"><image class="image" mode="aspectFill" src="https://cdn.inwehub.com/static/images/fire@3x.png"></image></div>
+          <div class="heat"><image class="image" mode="aspectFill" src="https://cdn.inwehub.com/static/images/heat@2x.png"></image></div>
+        </div>
+        <div class="right">
+          <div class="oneLine" />
+
+          <div class="iconList " @click="clickItem('分享')">
+            <div class="addNumber">
+              <div class="span"><text>+3</text></div>
+            </div>
+            <div class="span iconCircular">
+              <text class="iconfont icon-shoucang-xiao">&#xe6be;</text>
+            </div>
+            <div class="text"><text>分享</text></div>
+          </div>
+
+          <div class="iconList" @click="clickItem('评论')">
+            <div class="addNumber">
+              <div class="span"><text>+2</text></div>
+            </div>
+            <div class="span iconCircular">
+              <text class="iconfont icon-pinglun">&#xe6a2;</text>
+            </div>
+            <div class="text active"><text>评论</text><div class="i"><text>{{ localItem.comment_number }}</text></div></div>
+          </div>
+
+          <div class="iconList" :class="[localItem.is_upvoted ? 'active' : '']" @click="vote">
+            <div class="addNumber">
+              <div class="span"><text>+1</text></div>
+            </div>
+            <div class="span iconCircular">
+              <text class="iconfont icon-zan">&#xe6a1;</text>
+            </div>
+            <div class="text"><text>{{ localItem.is_upvoted ? '已赞' : '赞' }}</text></div>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="isAdmin" class="deleteWrapper">
+        <div class="bot"></div>
+        <div class="single alertConfirm" @click="deleteItem">
+          <div class="span iconW">
+            <text class="iconfont icon-shanchu1">&#xe661;</text>
+          </div>
+          <div class="span text"><text>删除</text></div>
+        </div>
+      </div>
+
+      <div v-if="isAdmin" class="choiceWrapper">
+        <div class="bot"></div>
+        <div class="title"><text>设置精选</text></div>
+        <div class="choiceList">
+          <div
+            v-for="(item, index) in localRegions"
+            :key="index"
+            class="span"
+            :class="{active: item.selected }"
+            @click="choiceItem(index, item)"
+          ><text>{{ item.text }}</text></div>
+        </div>
+      </div>
+
+      <div v-if="isAdmin" class="submit" @click="submit">
+        <div class="span"><text>确定</text></div>
+      </div>
+
+      <div class="cancelW" @click="cancelShare">
+        <div class="bot"></div>
+        <div class="span"><text>取消</text></div>
+      </div>
+    </div>
+    </wxc-popup>
+</template>
+
+<script type="text/javascript">
+import nvueLib from '@/lib/nvueLib.js'
+import { WxcPopup } from 'weex-ui'
+import ls from '@/lib/localstorage.js'
+
+export default {
+  components: {
+    WxcPopup
+  },
+  props: {
+    regions: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
+    value: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
+  data() {
+    return {
+      localRegions: [],
+      localItem: this.value,
+      showPopupBottomShare: false
+    }
+  },
+	beforeCreate(){
+		const domModule = weex.requireModule('dom')
+		domModule.addRule('fontFace', {
+				'fontFamily': "iconfont",
+				'src': "url('https://cdn.inwehub.com/static/fonts/iconfont.ttf')"
+		});
+	},
+  computed: {
+    initTagsIds() {
+      var rtags = []
+
+      if (this.localItem.tags) {
+        rtags = this.localItem.tags
+      }
+      var tagsIds = rtags.map(tags => { return tags.id })
+      return tagsIds
+    },
+    isAdmin() {
+      return this.isUserAdmin()
+    }
+  },
+  watch: {
+    localItem: function(newValue, oldValue) {
+      if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+        this.$emit('input', newValue)
+      }
+    },
+    value: function(newValue, oldValue) {
+      if (newValue) {
+        this.localItem = newValue
+      }
+    }
+  },
+  created() {},
+  methods: {
+    setItem(item) {
+      this.localItem = item
+    },
+		isUserAdmin () {
+			var userInfo = ls.get('UserInfo')
+			console.log(userInfo)
+			if (userInfo && userInfo.is_admin) {
+				return true
+			}
+			return false
+		},
+    vote() {
+			nvueLib.post('article/upvote-submission',{submission_id: this.localItem.id}, false, response=>{
+				var code = response.code
+				if (code !== 1000) {
+					if (code === 6108) {
+						
+					}
+
+					uni.showToast({
+						title: esponse.message
+					})
+					return
+				}
+
+				var isFollowed = response.data.type === 'upvote' ? 1 : 0
+
+				// ui.toast(response.data.tip)
+				if (isFollowed) {
+					this.localItem.is_upvoted = 1
+					this.localItem.support_number++
+					this.cancelShare()
+					setTimeout(() => {
+						this.$emit('startAnimation', 1)
+					}, 300)
+				} else {
+					this.localItem.is_upvoted = 0
+					this.localItem.support_number--
+					this.cancelShare()
+				}
+			})
+    },
+    submit() {
+      var tags = []
+      var newTags = []
+      for (var i = 0; i < this.localRegions.length; i++) {
+        if (this.localRegions[i].selected) {
+          tags.push(this.localRegions[i].value)
+          newTags.push({
+            id: this.localRegions[i].value,
+            name: this.localRegions[i].text
+          })
+        }
+      }
+      nvueLib.post(`article/regionOperator`, {
+        id: this.localItem.id,
+        tags: tags
+      }, false, response=>{
+				var code = response.code
+        if (code !== 1000) {
+          ui.toast(response.message)
+          return
+        }
+
+        this.localItem.tags = newTags
+				uni.showToast({
+					title: response.message
+				})
+        
+        this.cancelShare()
+			})
+    },
+    choiceItem(index, item) {
+      item.selected = item.selected ? 0 : 1
+			this.localRegions[index] = item
+      //Vue.set(this.localRegions, index, item)
+    },
+    deleteItem() {
+      this.$emit('clickDelete')
+    },
+    clickItem(text) {
+      switch (text) {
+        case '评论':
+          this.cancelShare()
+          uni.navigateTo({url: '/pages/comment/index?category_id=' + this.localItem.category_id + '&slug=' + this.localItem.slug + '&id=' + this.localItem.id})
+          break
+        case '分享':
+          this.cancelShare()
+          this.$emit('showItemMore', this.localItem)
+          break
+      }
+    },
+    cancelShare() {
+      this.hidePopup()
+    },
+    hidePopup() {
+      this.showPopupBottomShare = false
+    },
+    resetRegions() {
+			this.localRegions = this.regions
+      for (var i = 0; i < this.localRegions.length; i++) {
+        var item = this.localRegions[i]
+        item.selected = 0
+
+        if (this.initTagsIds.indexOf(item.value) > -1) {
+          item.selected = 1
+        }
+				this.localRegions[i] = item
+        //Vue.set(this.localRegions, i, item)
+      }
+    },
+    show() {
+        this.resetRegions()
+        this.showPopupBottomShare = true
+    }
+  }
+}
+</script>
+<style>
+  /* 字体图标 */
+	.iconfont {
+		font-family: iconfont;
+	}
+</style>

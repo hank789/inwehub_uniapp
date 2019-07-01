@@ -1,0 +1,109 @@
+<template>
+	<wxc-popup :show="isShow" pos="bottom" :height="580" @wxcPopupOverlayClicked="hide">
+		
+		<div class="iw-GZH-wrapper">
+			
+			<text class="iconfont iw-icon-close" @click="hide">&#xe631;</text>
+			<div class="iw-title-wrapper">
+				<text class="iw-big-title">热点推荐-服务号订阅</text>
+				<text class="iw-small-title">请先微信扫码关注InweHub服务号</text>
+				<text class="iw-small-title">我们将为您推送每日热点推荐~</text>
+			</div>
+			<div class="iw-GZH-img">
+				<image class="iw-image" src="https://cdn.inwehub.com/static/images/GZHcode@3x.png" mode=""></image>
+			</div>
+			
+		</div>
+		
+	</wxc-popup>
+</template>
+
+<script>
+	import {
+		WxcPopup
+	} from 'weex-ui'
+	export default {
+		components: {
+			WxcPopup
+		},
+		data() {
+			return {
+				isShow: false
+			}
+		},
+		beforeCreate() {
+			const domModule = weex.requireModule('dom')
+			domModule.addRule('fontFace', {
+				'fontFamily': "iconfont",
+				'src': "url('https://cdn.inwehub.com/static/fonts/iconfont.ttf')"
+			});
+		},
+		methods: {
+			hide() {
+				this.isShow = false
+			},
+			show() {
+				this.isShow = true
+			}
+		}
+	}
+</script>
+
+<style>
+	.iconfont {
+		font-family: iconfont;
+	}
+	.iw-bot {
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		left: 0rem;
+		height: 1px;
+		transform: scaleY(.5);
+		background-color: rgb(220, 220, 220);
+	}
+	
+	.iw-GZH-wrapper {
+		width: 750px;
+		text-align: center;
+		align-items: center;
+		background-color: #FFFFFF;
+		position: relative;
+	}
+	.iw-icon-close {
+		color: #808080;
+		font-size: 24px;
+		position: absolute;
+		right:30px;
+		top:30px;
+	}
+	.iw-title-wrapper {
+		text-align: center;
+		margin-top: 100px;
+	}
+	.iw-big-title {
+		color: #444444;
+		font-size: 36px;
+		line-height: 48px;
+		font-weight: 600;
+		margin-bottom: 18px;
+		text-align: center;
+	}
+	.iw-small-title {
+		color: #808080;
+		font-size: 24px;
+		line-height: 42px;
+		text-align: center;
+	}
+	.iw-GZH-img {
+		width: 294px;
+    height: 300px;
+		text-align: center;
+	}
+	.iw-image {
+		width: 294px;
+    height: 300px;
+		text-align: center;
+	}
+</style>

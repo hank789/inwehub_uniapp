@@ -1,191 +1,470 @@
 <template>
-	<view style="background: #FFFFFF;overflow: hidden;">
-		<view class="">
-			<image src="../../static/images/loginbj.jpg" mode="widthFix" style="width: 100%;"></image>
-		</view>
-		<view class="" style="overflow: hidden;position: absolute;top: 140upx;left: 50%;transform: translate(-50%, -50%);">
-		</view>
-		<view class="" style="position: absolute;top: 200upx;left:5%;width: 90%;box-shadow:0 0 0.16rem rgba(7, 138, 255, 0.5);background: #FFFFFF;border-radius: 16upx;padding: 60upx 0">
-			<view style="text-align: center;"><image src="../../static/images/logo.png" mode="widthFix" style="width: 130upx;height: 130upx;"></image></view>
-			<view class="content">
-				<view class="grace-form" style="margin-top:50upx;width: 90%;">
-					<form @submit="submitLogin">
-						<view class="grace-items grace-items-wbg" style="border-bottom: 1px solid #F1F1F1!important;border-radius: 0;">
-							<input type="number" focus=true class="input" v-model.trim="phone" placeholder="请输入手机号" style="margin-left: 0;line-height: 40upx;"></input>
-						</view>
-						<view class="grace-space-between" style="margin-top:28upx;border-bottom: 2upx solid #f1f1f1;">
-							<view class="grace-items grace-items-wbg" style="width:66%;">
-								<input type="number" class="input" :focus="yzmFocus" v-model.trim="yzm" placeholder="请输入验证码" style="margin-left: 0;"></input>
-							</view>
-							<view style="width: 36%;">
-								<button class="thisBtn" @tap.stop.prevent="entryYzm">{{get_msg_btn}}</button>
-							</view>
-						</view>
-						<view class="memo noCount">验证即可登录，未注册用户将根据手机号自动创建账号</view>
-						<button :disabled="btnDisabled" form-type='submit' type='primary' style='background:#076cD4; margin-top:20px;border-radius: 88upx;'>
-							登录
-						</button>
-					</form>
-				</view>
-			</view>
-		</view>
-	</view>
+  <view class="mui-content">
+    <view class="login">
+      <view class="logo">
+        <text class="iconfont icon-logowenzi" />
+      </view>
+      <view class="inputWrapper half">
+        <text class="iconfont icon-shoujihao" />
+        <input
+          ref="phone"
+          v-model="phone"
+          focus="true"
+          placeholder="请输入手机号"
+          pattern="\d*"
+          autofocus="autofocus"
+          placeholder-class="inputPlaceholder"
+          type="number"
+          name="phone"
+          autocomplete="off"
+          class="input inputPhone text"
+        >
+
+        <text v-if="!isCanGetCode" class="getYzm disabled" @tap.stop.prevent="">{{ get_msg_btn }}</text>
+        <text v-else class="getYzm" @tap.stop.prevent="entryYzm">{{ get_msg_btn }}</text>
+      </view>
+      <view class="inputWrapper">
+        <text class="iconfont icon-yanzhengma" />
+        <input
+          ref="yzmInput"
+          v-model.trim="yzm"
+          placeholder="请输入验证码"
+          :focus="yzmFocus"
+          type="number"
+          name="code"
+          autocomplete="off"
+          class="input text"
+        >
+      </view>
+
+      <button
+        type="button"
+        class="mui-btn mui-btn-block mui-btn-primary"
+        :disabled="btnDisabled"
+        @click.prevent="submitLogin"
+      >登录
+      </button>
+      <view class="registerPassword">
+        <text class="firstSpan" />
+        <text class="firstSpan">验证即可登录，未注册用户将根据手机号自动创建账号</text>
+      </view>
+
+      <view class="weChat" @tap.stop.prevent="wechatLogin()">
+        <view class="weChatIcon">
+          <text class="iconfont icon-wechat" />
+        </view>
+        <text class="span">微信授权登录</text>
+      </view>
+
+      <view class="protocol">注册即同意<text class="span" @tap.stop.prevent="navToProtocol">《用户注册服务协议》</text></view>
+    </view>
+    <oauth ref="oauth" service-id="weixin" :is-show-btn="false" @success="wechatLoginSuccess" @fail="wechatLoginFail" />
+  </view>
 </template>
 
 <script>
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex'
-	export default {
-		data() {
-			return {
-			  phone: '',
-			  yzm: '',
-			  get_msg_btn: '获取验证码',
-			  can_send_msg: true,
-			  btnDisabled: false,
-			  yzmFocus: false
-			}
-		},
-		created() {
-			console.log(this.$ls.get('token'))
-		},
-		methods: {
-			...mapMutations(['setUser', 'setToken']),
-			entryYzm() {
-				let phone = this.phone;
-				if (!this.can_send_msg) {
-					return
-				}
-				if (!phone) {
-					uni.showToast({
-						title: "请输入手机号",
-						icon: "none"
-					})
-					return;
-				}
-				this.$ajax.post('auth/sendPhoneCode',{mobile: phone, type: 'login'}).then(res => {
-					console.log(res)
-					if (res.code == 1000) {
-						uni.showToast({
-							title: "验证码发送成功",
-						});
-						this.can_send_msg = false;
-						this.get_msg_btn = 59;
-						this.yzmFocus = true;
-						let timer = setInterval(() => {
-							this.get_msg_btn--;
-							if (this.get_msg_btn == 0) {
-								this.get_msg_btn = "获取验证码";
-								this.can_send_msg = true;
-								clearInterval(timer)
-							}
-						}, 1000)
-					} else {
-						uni.showToast({
-							title: res.message,
-							icon: 'none'
-						})
-					}
-				})
-			},
-			submitLogin() {
-				let params = {
-					mobile: this.phone,
-					phoneCode: this.yzm
-				}
-				console.log(params);
-				if (!this.phone) {
-					uni.showToast({
-						title: '请填写手机号',
-						icon: 'none'
-					})
-					return;
-				}
-				if (!this.yzm) {
-					uni.showToast({
-						title: '请填写验证码',
-						icon: 'none'
-					})
-					return;
-				}
-				this.btnDisabled = true
-				this.$ajax.post('auth/login', params).then(res => {
-					console.log(res);
-					this.btnDisabled = false
-					if(res.code==1000){
-						this.setUser(res.data)
-						this.setToken(res.data.token)
-						this.$ls.set('token',res.data.token)
-						if (!res.data.name) {
-							uni.reLaunch({
-								url: '/pages/login/updateInfo'
-							})
-						} else {
-							uni.reLaunch({
-								url: '/pages/index/index'
-							})
-						}
-					}else{
-						uni.showToast({
-							title:res.message,
-							icon:'none'
-						})
-					}
-				})
-			}
-		}
-	}
+import {
+  mapMutations
+} from 'vuex'
+import { saveLocationInfo } from '@/lib/allPlatform.js'
+import oauth from '@/components/oauth/oauth.vue'
+import html5plus from '@/lib/html5plus.js'
+
+export default {
+  components: {
+    oauth
+  },
+  data() {
+    return {
+      isCanGetCode: true,
+      phone: '',
+      yzm: '',
+      get_msg_btn: '获取验证码',
+      get_msg_second: 60,
+      can_send_msg: true,
+      btnDisabled: false,
+      yzmFocus: false
+    }
+  },
+  onLoad: function(option) {
+    this.pageOption = option
+  },
+  methods: {
+    ...mapMutations(['setUser', 'setToken']),
+    entryYzm() {
+      const phone = this.phone
+      if (!this.can_send_msg) {
+        return
+      }
+      if (!phone) {
+        uni.showToast({
+          title: '请输入手机号',
+          icon: 'none'
+        })
+        return
+      }
+      this.$request.post('auth/sendPhoneCode', { mobile: phone, type: 'login' }).then(res => {
+        console.log(res)
+        if (res.code === 1000) {
+          uni.showToast({
+            title: '验证码发送成功'
+          })
+          this.can_send_msg = false
+          this.get_msg_second = 59
+          this.get_msg_btn = '验证码(' + this.get_msg_second + '秒)'
+          this.yzmFocus = true
+          const timer = setInterval(() => {
+            this.get_msg_second--
+            this.get_msg_btn = '验证码(' + this.get_msg_second + '秒)'
+            if (this.get_msg_second === 0) {
+              this.get_msg_btn = '获取验证码'
+              this.can_send_msg = true
+              clearInterval(timer)
+            }
+          }, 1000)
+        } else {
+          uni.showToast({
+            title: res.message,
+            icon: 'none'
+          })
+        }
+      })
+    },
+    submitLogin() {
+      const params = {
+        mobile: this.phone,
+        phoneCode: this.yzm
+      }
+      console.log(params)
+      if (!this.phone) {
+        uni.showToast({
+          title: '请填写手机号',
+          icon: 'none'
+        })
+        return
+      }
+      if (!this.yzm) {
+        uni.showToast({
+          title: '请填写验证码',
+          icon: 'none'
+        })
+        return
+      }
+      this.btnDisabled = true
+      this.$request.post('auth/login', params).then(res => {
+        console.log(res)
+        this.btnDisabled = false
+        if (res.code === 1000) {
+          this.setUser(res.data)
+          this.setToken(res.data.token)
+          this.$ls.set('token', res.data.token)
+          this.$ls.set('UserInfo', res.data.info)
+          html5plus.saveDeviceInfo(this)
+          saveLocationInfo()
+          uni.switchTab({
+            url: '/pages/index/index'
+          })
+        } else {
+          uni.showToast({
+            title: res.message,
+            icon: 'none'
+          })
+        }
+      })
+    },
+    wechatLoginSuccess(token, openid, nickname = '', isNewUser = '') {
+      console.log(token)
+      console.log(openid)
+      if (token) {
+        this.$ls.set('token', token)
+        saveLocationInfo()
+        this.$request.get('profile/info').then(response => {
+          this.$ls.set('UserInfo', response.data.info)
+          uni.hideLoading()
+          uni.switchTab({
+            url: '/pages/index/index'
+          })
+        })
+      } else {
+        uni.hideLoading()
+        uni.showToast({
+          title: '登陆失败',
+          icon: 'none'
+        })
+      }
+    },
+    wechatLoginFail(errorMessage) {
+      console.log(errorMessage)
+      uni.hideLoading()
+      uni.showToast({
+        title: errorMessage
+      })
+    },
+    wechatLogin() {
+      uni.showLoading({
+        title: ''
+      })
+      this.$refs.oauth.login()
+    },
+    navToProtocol() {
+      uni.navigateTo({
+        url: '/pages/protocol/register'
+      })
+    }
+  }
+}
 </script>
 
-<style>
-	.content {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+<style lang="less" rel="stylesheet/less" scoped>
 
-		text-align: center;
-	}
+    .registerPassword {
+        padding: 0 73.96upx;
+        display: flex;
+        justify-content: space-between;
 
-	.thisBtn {
-		background: #FFFFFF;
-		color: #076cD4;
-		font-size: 14px;
-		width: 100%;
-		height: 80upx;
-		line-height: 80upx;
-	}
+        .firstSpan {
+            color: #B4B4B6;
+            font-size: 24upx;
+            text-align: left;
+        }
+        .twoSpan {
+            color: #444444;
+            font-size: 30upx;
+        }
 
-	.input {
-		margin-left: 0 ! !important;
-		color: #333333;
-	}
+    }
+    .weChat {
+        position: absolute;
+        bottom: 111.98upx;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        .weChatIcon {
+            width: 79.96upx;
+            height: 79.96upx;
+            margin: 0 auto;
+            color: #FFFFFF;
+            line-height: 79.96upx;
+            border-radius: 50%;
+            background: linear-gradient(155deg,#7ADF75 0%,#51C944 100%);
+            .iconfont{
+                font-size: 49.96upx;
+            }
+        }
+        .span {
+            color: #B4B4B6;
+            font-size: 21.98upx;
+            margin-top: 12upx;
+        }
+    }
+    .mui-content{
+        background: #FFFFFF;
+        min-height: 1135.96upx;
+    }
+    .login {
+        position: absolute;
+        width: 100%;
+        min-height: 100%;
+        background: #FFFFFF;
+        background-size: cover;
+    }
+    /*协议*/
+    .protocol {
+        position: absolute;
+        bottom: 39.98upx;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #808080;
+        text-align: center;
+        font-size: 24upx;
+        .span {
+            color: #3C95F9;
+        }
+    }
 
-	.memo {
-		color: #999999;
-		font-size: 22upx;
-		text-align: left;
-	}
+    /*登录*/
+    .button, .mui-btn {
+        border-radius: 9.98upx;
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 30upx;
+        margin-bottom: 24upx;
+        background:#03aef9;
+        color:#fff;
+        line-height:40px;
+        font-size:16px;
+    }
 
-	.registeText {
-		color: #076cD4;
-		margin-left: 10upx;
-	}
+    button {
+        border-radius: 9.98upx;
+        &:disabled {
+            background: #DCDCDC;
+            border: 1.96upx solid #dcdcdc;
+            color: #b4b4b6;
+        }
+    }
 
-	.noCount {
-		text-align: center;
-		margin-top: 20upx;
-	}
+    /*邀请码*/
+    .help {
+        font-size: 27.98upx;
+        color: #3c95f9;
+        text-align: center;
 
-	.titleName {
-		text-align: center;
-	}
+    }
 
-	.titleName {
-		color: #076DD4;
-		font-size: 36upx;
-		font-weight: bold;
-		padding-bottom: 40upx;
-	}
+    /*小箭头*/
+
+    .leftNav {
+
+        position: absolute;
+        left: 24upx;
+        top: 30upx;
+        font-size: 39.98upx;
+        color: #808080;
+    }
+
+    /*图标*/
+    .logo{
+        font-size: 295.96upx;
+        text-align: center;
+        margin: 9.98upx 0;
+        padding-top: 39.98upx;
+        height: 295.96upx;
+    }
+    .logo .iconfont {
+        font-size: 295.96upx;
+        position: relative;
+        top:-120upx;
+    }
+
+    /*输入框的内容*/
+    .inputWrapper {
+        margin: 0 66upx 49.96upx;
+        position: relative;
+        width: 80%;
+        margin-left: 10%;
+        .iconfont {
+            position: absolute;
+            top: 9.98upx;
+            font-size: 43.96upx;
+            color: #c8c8c8;
+            left: 0;
+        }
+    }
+
+    .inputWrapper.focus {
+        &:after {
+            background-color: #3c95f9;
+        }
+        .iconfont {
+            color: #3c95f9;
+        }
+    }
+
+    /*验证码*/
+    .inputWrapper .getYzm {
+        display: inline-block;
+        font-size: 27.98upx;
+        color: #444444;
+        position: absolute;
+        right: 3.98upx;
+        top: 9.0upx;
+        height: 60upx;
+        padding: 0 30upx;
+        line-height: 60upx;
+        border-radius: 9.98upx;
+        border: 1.96upx solid #dcdcdc;
+    }
+
+    .inputWrapper .getYzm.disabled {
+        border: 1.96upx solid #DCDCDC;
+        color: #C8C8C8;
+    }
+
+    .inputWrapper:after {
+        position: absolute;
+        right: 0;
+        bottom: 6upx;
+        left: 0;
+        height: 1.96upx;
+        content: '';
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        background-color: rgb(220, 220, 220);
+    }
+
+    .inputWrapper .input {
+        color: #444;
+        border: none;
+        margin: 0;
+        font-size: 27.98upx;
+        background: none;
+        display: inline-block;
+        height: 72upx;
+        line-height: 72upx;
+        margin-left: 30upx;
+        position: relative;
+        top:10upx;
+        padding-top:0;
+        padding-bottom:0;
+    }
+
+    /*手机号input输入框的调整*/
+    .inputPhone {
+        color: #444;
+        border: none;
+        margin: 0;
+        font-size: 27.98upx;
+        background: none;
+        display: inline-block;
+        height: 72upx;
+        margin-left: 24upx;
+        /*background: #ccc;*/
+        width: 60%;
+        padding-top:0;
+        padding-bottom:0;
+        margin-right: 40%;
+    }
+
+    .half:after {
+        position: absolute;
+        right: 36%;
+        bottom: 6upx;
+        left: 0;
+        height: 1.96upx;
+        content: '';
+        -webkit-transform: scaleY(0.5);
+        transform: scaleY(0.5);
+        background-color: #dcdcdc;
+    }
+
+    /*2 3图标大小的微调*/
+    .inputWrapper:nth-of-type(3) .iconfont {
+        position: absolute;
+        top: 6upx;
+        font-size: 49.96upx;
+        /*color: #c8c8c8;*/
+        left: 0;
+    }
+
+    .inputWrapper:nth-of-type(4) .iconfont {
+        position: absolute;
+        top: 6upx;
+        font-size: 49.96upx;
+        /*color: #c8c8c8;*/
+        left: 0;
+    }
+
+    .inputWrapper:nth-of-type(5) .iconfont {
+        position: absolute;
+        top: 9.98upx;
+        font-size: 39.98upx;
+        /*color: #c8c8c8;*/
+        left: 0;
+    }
+
+    uni-button[disabled] {
+        color:#b4b4b6;
+        opacity: .6;
+    }
 </style>

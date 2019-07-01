@@ -1,25 +1,1166 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-	    {
-			"path" : "pages/login/login",
-			"style" : {
-				"app-plus" : {
-					"titleNView" : false //禁用原生导航栏
-				},
-				"navigationBarTitleText" : "登录"
-			}
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+  "pages": [
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/guide/guide",
+      "style": {
+        "navigationBarTitleText": "",
+        "app-plus": {
+          "titleNView": false
+        }
+      }
+    },
+    // #endif
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/user/select",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "选择用户",
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/tag/select",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "选择标签",
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/discover/add",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "发布",
+        "app-plus": {
+          "bounce": "none",
+          "animationType": "slide-in-bottom",
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontWeight": "bold",
+                "fontSize": "16px",
+                "text": "确认分享",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/webview/article",
+      "style": {
+        "navigationBarTitleText": "加载中...",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom",
+				"app-plus": {
+					"subNVues": [
+						{
+							"id": "comment_footer",
+							"path": "pages/webview/subnvue/comment",
+							"style": {
+								"position": "absolute",
+								"dock": "bottom",
+								"bottom": "0px",
+								"height": "40px"
+							}
+						}
+					],
+          "titleNView": {
+            "buttons": [
+              {
+                "text": "\ue622",
+                "color": "#808080",
+                "fontSrc": "/static/fonts/iconfont.ttf",
+                "fontSize": "21px"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/discover/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "navigationStyle": "default",
+        "app-plus": {
+          "bounce": "none",
+          "titleNView": false
+        }
+      }
+    },
+    {
+      "path": "pages/discover/detail",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "分享",
+        "app-plus": {
+          "bounce": "none",
+          "animationType": "slide-in-right",
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "#3C3E44",
+                "fontSize": "21px",
+                "text": "\ue6d4",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/comment/index",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "评论",
+				"app-plus": {
+					"animationType": "slide-in-bottom"
+				}
+      }
+    },
+    {
+      "path": "pages/inform/index",
+      "style": {
+        "navigationBarTitleText": "通知",
+        "app-plus": {
+          "titleNView": {
+            "buttons": [
+              {
+                "text": "设置",
+                "float": "left",
+                "fontSize": "14px",
+                "color": "#808080"
+              },
+              {
+                "text": "\ue6b7",
+                "color": "#808080",
+                "fontSrc": "/static/fonts/iconfont.ttf",
+                "fontSize": "21px"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/discover/addlink",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "发布",
+        "app-plus": {
+          "bounce": "none",
+          "animationType": "slide-in-bottom",
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontWeight": "bold",
+                "fontSize": "16px",
+                "text": "确认发布",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/dianping/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/dianping/products",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "产品服务",
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/dianping/product",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "产品服务",
+        "app-plus": {
+          "bounce": "none",
+          "animationType": "slide-in-right",
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "#3C3E44",
+                "fontSize": "21px",
+                "text": "\ue6d4",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/dianping/comment",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "点评",
+        "app-plus": {
+          "animationType": "slide-in-right",
+          "bounce": "none",
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "#3C3E44",
+                "fontSize": "21px",
+                "text": "\ue6d4",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/dianping/comments",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "点评"
+      }
+    },
+    {
+      "path": "pages/dianping/add",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "发布点评",
+        "app-plus": {
+          "bounce": "none",
+          "animationType": "slide-in-bottom",
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontWeight": "bold",
+                "fontSize": "16px",
+                "text": "确认发布",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/index",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "",
+        "app-plus": {
+          "bounce": "none",
+          "titleNView": {
+            "buttons": [
+              {
+                "text": "\ue6d8",
+                "float": "left",
+                "fontSize": "21px",
+								"fontSrc": "/static/fonts/iconfont.ttf",
+                "color": "#444444"
+              },
+              {
+                "text": "\ue6d7",
+                "color": "#444444",
+                "fontSrc": "/static/fonts/iconfont.ttf",
+                "fontSize": "21px"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/advantage",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的擅长",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/resume",
+      "style": {
+        "navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#f1f1f1",
+        "onReachBottomDistance": 50,
+        "app-plus": {
+          "titleNView": false,
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/my/detailInfo",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "详细资料",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/basicName",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "平台昵称",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "fontSize": "16px",
+                "text": "保存",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/realName",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "真实姓名",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "fontSize": "16px",
+                "text": "保存",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/textddress",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "详细地址",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "fontSize": "16px",
+                "text": "保存",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/position",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "当前职位",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "fontSize": "16px",
+                "text": "保存",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/email",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "电子邮箱",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "fontSize": "16px",
+                "text": "保存",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/description",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "个性签名",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "fontSize": "16px",
+                "text": "保存",
+                "width": "auto",
+                "fontSrc": "/static/fonts/iconfont.ttf"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/basic",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "基本资料",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/privacy",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "隐私设置",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/jobs",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "工作经历",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/job",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "工作经历",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/focus",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "关注",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/followed",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "关注",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/edus",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "教育经历",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/editEdu",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "教育经历",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/trains",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "培训经历",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/infos/editTrain",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "培训经历",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/info",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "个人名片",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/upload",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "修改头像",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/selectCompany",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "企业",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/contactUs",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "联系我们",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/group/my",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的圈子",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/publish/publishArticle",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的发布",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/publish/publishComment",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的发布",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/publish/publishComments",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的发布",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/setting",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "设置",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/my/articleList",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的专栏",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/wechat/bindPhone",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "更换手机号",
+        "app-plus": {
+          "titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44"
+          }
+        }
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": false,
+          "animationType": "slide-in-bottom"
+        },
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
+      "path": "pages/wechat/register",
+      "style": {
+        "navigationBarTitleText": "登录验证"
+      }
+    },
+    {
+      "path": "pages/inform/setting/pushSetting",
+      "style": {
+        "navigationBarTitleText": "设置"
+      }
+    },
+    {
+      "path": "pages/inform/setting/pushSettingAboutMe",
+      "style": {
+        "navigationBarTitleText": "与我相关"
+      }
+    },
+    {
+      "path": "pages/inform/setting/pushSettingFollow",
+      "style": {
+        "navigationBarTitleText": "我的关注"
+      }
+    },
+    {
+      "path": "pages/inform/setting/pushSettingSubscribe",
+      "style": {
+        "navigationBarTitleText": "订阅热点推荐"
+      }
+    },
+    {
+      "path": "pages/inform/task",
+      "style": {
+        "navigationBarTitleText": "任务通知"
+      }
+    },
+    {
+      "path": "pages/inform/informbar",
+      "style": {
+        "enablePullDownRefresh": true,
+        "navigationBarTitleText": "通知公告"
+      }
+    },
+    {
+      "path": "pages/inform/balancebar",
+      "style": {
+        "navigationBarTitleText": "余额变动"
+      }
+    },
+    {
+      "path": "pages/inform/questionbar",
+      "style": {
+        "navigationBarTitleText": "问答通知"
+      }
+    },
+    {
+      "path": "pages/inform/readbar",
+      "style": {
+        "navigationBarTitleText": "动态通知"
+      }
+    },
+    {
+      "path": "pages/report/daily",
+      "style": {
+        "navigationBarTitleText": "今日热点推荐"
+      }
+    },
+    // #ifndef APP-PLUS
+    {
+      "path": "pages/search/index",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    // #endif
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/search/index",
+      "style": {
+        "navigationStyle": "default",
+        "app-plus": {
+					"animationType": "zoom-out",
+          "titleNView": {
+            "titleColor": "#3c3e44",
+            "searchInput": {
+              "backgroundColor": "#F3F4F6",
+              "borderRadius": "6px",
+              "placeholder": "搜产品、内容",
+              "placeholderColor": "#CCCCCC",
+              "autoFocus": true
+            },
+						"buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontSize": "16px",
+                "text": "取消",
+                "width": "auto"
+              }
+            ]
+          }
+        }
+      }
+    },
+    // #endif
+
+    // #ifndef APP-PLUS
+    {
+      "path": "pages/search/discover",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    // #endif
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/search/discover",
+      "style": {
+        "navigationStyle": "default",
+        "app-plus": {
+          "titleNView": {
+            "titleColor": "#3c3e44",
+            "searchInput": {
+              "backgroundColor": "#F3F4F6",
+              "borderRadius": "6px",
+              "placeholder": "搜产品、内容",
+              "placeholderColor": "#CCCCCC",
+              "autoFocus": false
+            },
+						"buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontSize": "16px",
+                "text": "取消",
+                "width": "auto"
+              }
+            ]
+          }
+        }
+      }
+    },
+    // #endif
+    // #ifndef APP-PLUS
+    {
+      "path": "pages/search/product",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    // #endif
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/search/product",
+      "style": {
+        "navigationStyle": "default",
+        "app-plus": {
+          "titleNView": {
+            "titleColor": "#3c3e44",
+            "searchInput": {
+              "backgroundColor": "#F3F4F6",
+              "borderRadius": "6px",
+              "placeholder": "搜产品、内容",
+              "placeholderColor": "#CCCCCC",
+              "autoFocus": false
+            },
+						"buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontSize": "16px",
+                "text": "取消",
+                "width": "auto"
+              }
+            ]
+          }
+        }
+      }
+    },
+    // #endif
+    // #ifndef APP-PLUS
+    {
+      "path": "pages/search/comment",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    // #endif
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/search/comment",
+      "style": {
+        "navigationStyle": "default",
+        "app-plus": {
+          "titleNView": {
+            "titleColor": "#3c3e44",
+            "searchInput": {
+              "backgroundColor": "#F3F4F6",
+              "borderRadius": "6px",
+              "placeholder": "搜产品、内容",
+              "placeholderColor": "#CCCCCC",
+              "autoFocus": false
+            },
+						"buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontSize": "16px",
+                "text": "取消",
+                "width": "auto"
+              }
+            ]
+          }
+        }
+      }
+    },
+    // #endif
+    {
+      "path": "pages/chat/chat",
+      "style": {}
+    },
+    {
+      "path": "pages/protocol/register",
+      "style": {
+        "navigationBarTitleText": "注册协议"
+      }
+    },
+    {
+      "path": "pages/position/select",
+      "style": {
+        "navigationBarTitleText": "所在位置"
+      }
+    },
+    {
+      "path": "pages/protocol/aboutus",
+      "style": {
+        "navigationBarTitleText": "关于我们"
+      }
+    },
+    {
+      "path": "pages/help/help",
+      "style": {
+        "navigationBarTitleText": "帮助与反馈",
+				"app-plus": {
+					"titleNView": {
+            "titleSize": "18px",
+            "titleColor": "#3c3e44",
+            "buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontSize": "16px",
+                "text": "提建议",
+                "width": "auto"
+              }
+            ]
+          }
+				}
+      }
+    },
+    {
+      "path": "pages/my/qrcode",
+      "style": {
+        "navigationBarTitleText": "我的二维码"
+      }
+    },
+    {
+      "path": "pages/test/test",
+      "style": {
+        "navigationBarTitleText": "我的二维码"
+      }
+    },
+    {
+      "path": "pages/my/visitors",
+      "style": {
+        "enablePullDownRefresh": true,
+        "navigationBarTitleText": "我的人气",
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/my/followedMeUser",
+      "style": {
+        "enablePullDownRefresh": true,
+        "navigationBarTitleText": "关注我的",
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/my/collectList",
+      "style": {
+        "navigationBarTitleText": "我的收藏",
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/my/publishList",
+      "style": {
+        "navigationBarTitleText": "我的发布",
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/my/followList",
+      "style": {
+        "navigationBarTitleText": "我的关注",
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/my/addressBook",
+      "style": {
+        "navigationBarTitleText": "通讯录好友",
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/icon/index",
+      "style": {
+        "enablePullDownRefresh": true,
+        "navigationBarTitleText": "我的人气"
+      }
+    }
+  ],
+  "tabBar": {
+    "color": "#B4B4B6",
+    "selectedColor": "#444",
+    "borderStyle": "black",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/images/tabbar-1.png",
+        "selectedIconPath": "static/images/tabbar-1-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/discover/index",
+        "iconPath": "static/images/tabbar-2.png",
+        "selectedIconPath": "static/images/tabbar-2-active.png",
+        "text": "关注"
+      },
+      {
+        "pagePath": "pages/dianping/index",
+        "iconPath": "static/images/tabbar-3.png",
+        "selectedIconPath": "static/images/tabbar-3-active.png",
+        "text": "社区"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "iconPath": "static/images/tabbar-4.png",
+        "selectedIconPath": "static/images/tabbar-4-active.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#fff",
+    "usingComponents":{
+      "drop-down-menu-child":"/components/iw-category-select/iw-category-select-children"
+    }
+  },
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			
+		]
 	}
 }

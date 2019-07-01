@@ -1,63 +1,182 @@
 {
-	"name" : "inwehub_uniapp",
-	"appid" : "__UNI__3FD074B",
-	"description": "",
-	"versionName": "1.0.0",
-	"versionCode": "100",
-	"transformPx": false,
-	"app-plus": { /* 5+App特有相关 */
-		"usingComponents": true,
-		"splashscreen": {
-			"alwaysShowBeforeRender": true,
-			"waiting": true,
-			"autoclose": true,
-			"delay": 0
-		},
-		"modules": { /* 模块配置 */
-
-		},
-		"distribute": { /* 应用发布信息 */
-			"android": { /* android打包配置 */
-				"permissions": ["<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
-					"<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
-					"<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
-					"<uses-permission android:name=\"android.permission.VIBRATE\"/>",
-					"<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
-					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
-					"<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
-					"<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
-					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
-					"<uses-permission android:name=\"android.permission.CAMERA\"/>",
-					"<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
-					"<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
-					"<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
-					"<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
-					"<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
-					"<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
-					"<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
-					"<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
-					"<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
-					"<uses-feature android:name=\"android.hardware.camera\"/>",
-					"<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
-					"<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-				]
-			},
-			"ios": { /* ios打包配置 */
-
-			},
-			"sdkConfigs": { /* SDK配置 */
-
-			}
-		}
-	},
-	"quickapp": { /* 快应用特有相关 */
-
-	},
-	"mp-weixin": { /* 小程序特有相关 */
-		"appid": "",
-		"setting": {
-			"urlCheck": false
-		},
-		"usingComponents": true
-	}
+    "name" : "InweHubTest",
+    "appid" : "__UNI__3FD074B",
+    "description" : "",
+    "versionName" : "1.0.0",
+    "versionCode" : "100",
+    "transformPx" : false,
+    "app-plus" : {
+        /* 5+App特有相关 */
+        "usingComponents" : true,
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : true,
+            "waiting" : false,
+            "autoclose" : true,
+            "delay" : 0
+        },
+        "compatible" : {
+            "ignoreVersion" : true //true表示忽略版本检查提示框，HBuilderX1.9.0及以上版本支持  
+        },
+        "modules" : {
+            "OAuth" : {},
+            "Payment" : {},
+            "Share" : {},
+            "Maps" : {},
+            "Push" : {}
+        },
+        /* 模块配置 */
+        "distribute" : {
+            /* 应用发布信息 */
+            "android" : {
+                "schemes" : [ "inwehubtest" ],
+                /* android打包配置 */
+                "permissions" : [
+                    "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+                    "<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>",
+                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+                ]
+            },
+            "ios" : {
+                "urltypes" : [
+                    {
+                        "urlschemes" : [ "inwehubtest" ],
+                        "id" : "com.inwehub.InwehubTest"
+                    }
+                ],
+                "privacyDescription" : {
+                    "NSCameraUsageDescription" : "我们需要使用照相机拍照上传图片",
+                    "NSPhotoLibraryUsageDescription" : "我们需要使用您的相册上传图片",
+                    "NSPhotoLibraryAddUsageDescription" : "我们需要使用您的相册存储图片",
+                    "NSMicrophoneUsageDescription" : "录制音频文件/语音识别",
+                    "NSLocationWhenInUseUsageDescription" : "我们需要通过您的地理位置信息获取您周边的好友和企业相关数据",
+                    "NSLocationAlwaysUsageDescription" : "我们需要通过您的地理位置信息获取您周边的好友和企业相关数据",
+                    "NSLocationAlwaysAndWhenInUseUsageDescription" : "我们需要通过您的地理位置信息获取您周边的好友和企业相关数据",
+                    "NSContactsUsageDescription" : "InweHub访问您的通讯录仅作为匹配识别好友，不作它用，如果不允许，我们将无法给您推荐通讯录好友"
+                }
+            },
+            /* ios打包配置 */
+            "sdkConfigs" : {
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "wx1670e9d7c14e00e4",
+                        "appsecret" : "e71a7e85acc8fc8366931ca4587eaae9"
+                    }
+                },
+                "payment" : {
+                    "weixin" : {
+                        "appid" : "wx1670e9d7c14e00e4"
+                    },
+                    "appleiap" : {}
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wx1670e9d7c14e00e4",
+                        "appsecret" : "e71a7e85acc8fc8366931ca4587eaae9"
+                    }
+                },
+                "maps" : {
+                    "baidu" : {
+                        "appkey_ios" : "HEMNYUQlPrkilhpzGcL5fkiDqW156eFQ",
+                        "appkey_android" : "KO1zE1KRCdt32qbRjYycyoYhFI3uaGvT"
+                    }
+                },
+                "push" : {
+                    "igexin" : {
+                        "appid" : "vVFgR8EHrv70JAdn7uRRY5",
+                        "appkey" : "2AzXCOA6MqA4O7l7J6aBG9",
+                        "appsecret" : "5HVX700H4OA2zOR7GDdDj2"
+                    }
+                }
+            },
+            "orientation" : [ "portrait-primary" ],
+            "icons" : {
+                "ios" : {
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "ipad" : {
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                    },
+                    "iphone" : {
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                    }
+                },
+                "android" : {
+                    "hdpi" : "unpackage/res/icons/72x72.png",
+                    "ldpi" : "unpackage/res/icons/48x48.png",
+                    "mdpi" : "unpackage/res/icons/48x48.png",
+                    "xhdpi" : "unpackage/res/icons/96x96.png",
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                }
+            },
+            "splashscreen" : {
+                "android" : {
+                    "hdpi" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/安卓/android480x762.png",
+                    "xhdpi" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/安卓/android720x1242.png",
+                    "xxhdpi" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/安卓/android1080x1882.png"
+                },
+                "ios" : {
+                    "iphone" : {
+                        "retina35" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/ios/ios640x960.png",
+                        "retina40" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/ios/ios640x1136.png",
+                        "retina47" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/ios/ ios750x1334.png",
+                        "iphonex" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/ios/启动页1125-2436.png",
+                        "iphonexl" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/ios/启动页2436-1125.png",
+                        "retina55" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/ios/ios1242x2208.png",
+                        "retina55l" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/ios/ios2208x1242.png",
+                        "portrait-896h@3x" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/ios/ios1242x2208_gaitubao_1242x2688.png",
+                        "portrait-896h@2x" : "/Users/wanghui/www/interv/inwehub_ued/app2.0/切图/启动页，其他传播页等/ios/启动页1125-2436_gaitubao_828x1792.png"
+                    }
+                }
+            }
+        }
+    },
+    /* SDK配置 */
+    "quickapp" : {},
+    /* 快应用特有相关 */
+    "mp-weixin" : {
+        /* 小程序特有相关 */
+        "appid" : "",
+        "setting" : {
+            "urlCheck" : false
+        },
+        "usingComponents" : true
+    }
 }

@@ -1,0 +1,480 @@
+<template>
+	<wxc-popup :show="showPopupBottomShare" :height="height" pos="bottom" @wxcPopupOverlayClicked="hidePopup">
+		
+		<div class="iw-article-heat">
+			
+			<div class="iw-top-menu">
+				
+				<div class="iw-top-left">
+					<image class="iw-img-fire" mode="aspectFill" src="https://cdn.inwehub.com/static/images/fire@3x.png">
+					<image class="iw-img-heat" mode="aspectFill" src="https://cdn.inwehub.com/static/images/heat@2x.png">
+				</div>
+				
+				<div class="iw-top-right">
+					
+					<div class="iw-line"></div>
+					<div class="iw-icon-list" @click="clickItem('分享')">
+						<div class="iw-icon-box">
+							<text class="iconfont iw-icon-all">&#xe6be;</text>
+						</div>
+						<div class="iw-num-box"><text class="iw-num-text">+3</text></div>
+						<div class="ie-tips-text">
+							<text class="iw-text-desc">分享</text>
+						</div>
+					</div>
+					
+					<div class="iw-icon-list" @click="clickItem('评论')">
+						<div class="iw-icon-box">
+							<text class="iconfont iw-icon-all">&#xe6a2;</text>
+						</div>
+						<div class="iw-num-box"><text class="iw-num-text">+2</text></div>
+						<div class="ie-tips-text">
+							<text class="iw-text-desc">评论</text><text class="iw-text-num">{{ localItem.comment_number }}</text>
+						</div>
+					</div>
+					
+					<div class="iw-icon-list" @click="vote">
+						<div class="iw-icon-box" :class="[localItem.is_upvoted ? 'iw-upvoted-active' : '']">
+							<text class="iconfont iw-icon-all" :class="[localItem.is_upvoted ? 'iw-icon-active' : '']">&#xe6a1;</text>
+						</div>
+						<div class="iw-num-box"><text class="iw-num-text">+1</text></div>
+						<div class="ie-tips-text">
+							<text class="iw-text-desc">{{ localItem.is_upvoted ? '已赞' : '赞' }}</text>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div class="iw-operat-wrapper" v-if="isAdmin">
+				<div class="iw-bot"></div>
+				
+				<div class="iw-operat-list" @click="deleteItem">
+					<div class="iw-icon-opert">
+						<text class="iw-icon-del iconfont">&#xe661;</text>
+					</div>
+					<text class="iw-text-desc">删除</text>
+				</div>
+			</div>
+			
+			<div class="iw-choice-wrapper">
+				<div class="iw-bot"></div>
+				<text class="iw-title">设置精选</text>
+				<div class="iw-choice-list">
+					<text v-if="item.id" :class="['iw-item-text', item.selected ? 'iw-item-active': '' ]" @click="choiceItem(index, item)" v-for="(item, index) in localRegionsC" :key="index">{{ item.text }}</text>
+				</div>
+				
+				<div class="iw-submit-text" @click="submit"><text class="iw-tip-sure">确定</text></div>
+			</div>
+			
+			<div class="iw-close" @click="cancelShare">
+				<div class="iw-bot" />
+				<text class="iw-close-text">取消</text>
+			</div>
+			
+		</div>
+		
+	</wxc-popup>
+</template>
+
+<script type="text/javascript">
+	import nvueLib from '@/lib/nvueLib.js'
+	import {
+		WxcPopup
+	} from 'weex-ui'
+	import ls from '@/lib/localstorage.js'
+	
+	export default {
+		components: {
+			WxcPopup
+		},
+		props: {
+			regions: {
+				type: Array,
+				default: () => {
+					return []
+				}
+			}
+		},
+		data() {
+			return {
+				localRegions: [],
+				localItem: {},
+				showPopupBottomShare: false,
+				height: 1004
+			}
+		},
+		beforeCreate() {
+			const domModule = weex.requireModule('dom')
+			domModule.addRule('fontFace', {
+				'fontFamily': "iconfont",
+				'src': "url('https://cdn.inwehub.com/static/fonts/iconfont.ttf')"
+			});
+		},
+		computed: {
+			isAdmin() {
+				return this.isUserAdmin()
+			},
+			localRegionsC() {
+				return this.localRegions
+			}
+		},
+		watch: {
+			localItem: function(newValue, oldValue) {
+				if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+					this.$emit('input', newValue)
+				}
+			}
+		},
+		created() {},
+		mounted() {
+			this.heightPop()
+		},
+		methods: {
+			setItem(item) {
+				this.localItem = item
+			},
+			isUserAdmin() {
+				var userInfo = ls.get('UserInfo')
+				if (userInfo && userInfo.is_admin) {
+					return true
+				}
+				return false
+			},
+			heightPop () {
+				if (this.isAdmin) {
+					this.height = 1004
+				} else {
+					this.height = 824
+				}
+			},
+			vote() {
+				nvueLib.post('article/upvote-submission', {
+					submission_id: this.localItem.id
+				}, false, response => {
+					var code = response.code
+					if (code !== 1000) {
+						if (code === 6108) {
+
+						}
+
+						uni.showToast({
+							title: esponse.message
+						})
+						return
+					}
+
+					var isFollowed = response.data.type === 'upvote' ? 1 : 0
+					uni.showToast({
+						title: response.data.tip,
+						icon: 'none'
+					})
+					// ui.toast(response.data.tip)
+					if (isFollowed) {
+						this.localItem.is_upvoted = 1
+						this.localItem.support_number++
+						this.cancelShare()
+						setTimeout(() => {
+							this.$emit('startAnimation', 1)
+						}, 300)
+					} else {
+						this.localItem.is_upvoted = 0
+						this.localItem.support_number--
+						this.cancelShare()
+						setTimeout(() => {
+							this.$emit('startAnimation', -1)
+						}, 300)
+					}
+				})
+			},
+			submit() {
+				var tags = []
+				var newTags = []
+				for (var i = 0; i < this.localRegions.length; i++) {
+					if (this.localRegions[i].selected) {
+						tags.push(this.localRegions[i].value)
+						newTags.push({
+							id: this.localRegions[i].value,
+							name: this.localRegions[i].text
+						})
+					}
+				}
+				nvueLib.post(`article/regionOperator`, {
+					id: this.localItem.id,
+					tags: tags
+				},false,response=>{
+					var code = response.code
+					if (code !== 1000) {
+						uni.showToast({
+							title: response.message,
+							icon: 'none'
+						})
+						return
+					}
+
+					this.localItem.tags = newTags
+					uni.showToast({
+						title: response.message,
+						icon: 'none'
+					})
+
+					this.cancelShare()
+				})
+			},
+			choiceItem(index, item) {
+				item.selected = item.selected ? 0 : 1
+				this.localRegions[index] = item
+				Vue.set(this.localRegions, index, item)
+			},
+			deleteItem() {
+				this.$emit('clickDelete')
+			},
+			clickItem(text) {
+				switch (text) {
+					case '评论':
+						this.cancelShare()
+						uni.navigateTo({
+							url: '/pages/comment/index?category_id=' + this.localItem.category_id + '&slug=' + this.localItem.slug +
+								'&id=' + this.localItem.id
+						})
+						break
+					case '分享':
+						this.cancelShare()
+						this.$emit('showItemMore', this.localItem)
+						break
+				}
+			},
+			cancelShare() {
+				this.hidePopup()
+			},
+			hidePopup() {
+				this.showPopupBottomShare = false
+			},
+			resetRegions() {
+				var rtags = []
+
+				if (this.localItem.tags) {
+					rtags = this.localItem.tags
+				}
+				var tagsIds = rtags.map(tags => {
+					return tags.id
+				})
+				
+				this.localRegions = this.regions
+				for (var i = 0; i < this.localRegions.length; i++) {
+					var item = this.localRegions[i]
+					item.selected = 0
+
+					if (tagsIds.indexOf(item.value) > -1) {
+						item.selected = 1
+					}
+					this.localRegions[i] = item
+					//Vue.set(this.localRegions, i, item)
+				}
+			},
+			show(item) {
+				if (this.localItem.id != item.id) {
+					console.log(123)
+					this.localItem = item
+				}
+				this.resetRegions()
+				this.showPopupBottomShare = true
+			}
+		}
+	}
+</script>
+<style>
+	/* 字体图标 */
+	.iconfont {
+		font-family: iconfont;
+	}
+	.iw-bot {
+        position: absolute;
+        right: 0;
+		top: 0;
+        left: 0px;
+        height: 3px;
+		width: 750px;
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        background-color: rgb(220, 220, 220);
+    }
+	.iw-line {
+		width: 2px;
+		height: 88px;
+		background-color: #DCDCDC;
+		margin-right: 30px;
+		position: relative;
+		top: 20px;
+	}
+	
+	.iw-article-heat {
+		width: 750px;
+		height: 1004px;
+		padding-top: 38px;
+		background-color:  #FFFFFF;
+	}
+	.iw-top-menu {
+		width: 750px;
+		height: 182px;
+		padding: 0 30px;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	.iw-top-left {
+		margin-top: 26px;
+		display: flex;
+		flex-direction: row;
+	}
+	.iw-img-fire {
+		width:43px;
+		height:50px;
+		margin-left: 30px;
+	}
+	.iw-img-heat {
+		width:68px;
+		height:72px;
+		margin-left: 16px;
+	}
+	
+	.iw-top-right {
+		display: flex;
+		flex-direction: row;
+	}
+	.iw-icon-list {
+		width: 111px;
+		margin: 0 20px;
+		text-align: center;
+		position: relative;
+	}
+	.iw-num-box {
+		width: 45px;
+		height: 28px;
+		position: absolute;
+		right: 0px;
+		top: 6px;
+		border-radius: 18px;
+		background-color: #E5E5E5;
+	}
+	.iw-num-text {
+		color: #808080;
+		font-size: 20px;
+		text-align: center;
+	}
+	.iw-icon-box {
+		width: 88px;
+		height: 88px;
+		border-radius: 50%;
+		background-color: #F7F8FA;
+	}
+	.iw-icon-all {
+		color: #808080;
+		font-size: 32px;
+		text-align: center;
+		line-height: 88px;
+	}
+	.ie-tips-text {
+		width: 88px;
+		justify-content: center;
+		flex-direction: row;
+	}
+	.iw-text-desc {
+		color: #808080;
+		font-size: 22px;
+		margin-top: 10px;
+		text-align: center;
+	}
+	.iw-text-num {
+		color: #FA4975;
+		position: relative;
+		top: 10px;
+	}
+	.iw-upvoted-active {
+		background-color: #03AEF9;
+	}
+	.iw-icon-active {
+		color: #FFFFFF;
+	}
+	
+	.iw-operat-wrapper {
+		padding: 30px;
+		flex-direction: row;
+	}
+	.iw-operat-list {
+		width: 88px;
+		margin: 0 30px;
+		text-align: center;
+	}
+	.iw-icon-opert {
+		width: 88upx;
+        height: 88upx;
+        line-height: 98upx;
+        text-align: center;
+        border-radius: 16upx;
+		border-color: #DCDCDC;
+		border-width: 2px;
+		border-style: solid;
+	}
+	.iw-icon-del {
+		font-size: 40px;
+		color: #C8C8C8;
+		text-align: center;
+        line-height: 88upx;
+	}
+	
+	.iw-choice-wrapper {
+		padding: 24px 60px 0;
+	}
+	.iw-title {
+		color: #B4B4B6;
+		font-size: 22px;
+		margin-bottom: 5px;
+	}
+	.iw-choice-list {
+		width: 690px;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	.iw-item-text {
+		padding: 0 20px;
+		height:54px;
+		line-height: 54px;
+		color: #444444;
+		font-size: 24px;
+		text-align: center;
+		border-radius: 100px;
+		background-color: #F3F4F6;
+		margin: 18px 18px 0 0;
+	}
+	.iw-item-active {
+		color: #FFFFFF;
+		background-color: #03AEF9;
+	}
+	.iw-submit-text {
+		width: 630px;
+		height: 88px;
+		margin-top: 30px;
+		border-radius: 44px;
+		background-color: #03AEF9;
+	}
+	.iw-tip-sure {
+		color: #FFFFFF;
+		font-size: 32px;
+		line-height: 88px;
+		text-align: center;
+	}
+	.iw-close {
+		width: 750px;
+		height: 102px;
+		margin-top: 30px;
+		position: relative;
+		text-align: center;
+	}
+	.iw-close-text {
+		color: #444444;
+		font-size: 32px;
+		text-align: center;
+		line-height: 104px;
+	}
+</style>

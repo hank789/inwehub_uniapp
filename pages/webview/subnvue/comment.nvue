@@ -1,0 +1,151 @@
+<template>
+    <div class="wc-content">
+        <div class="wc-footer">
+            <div class="ws-input" @click="toComment">
+                <text class="ws-text">说点什么</text>
+            </div>
+            <div class="wc-item" @click="toComment">
+                <text class="iconfont">&#xe6a2;</text>
+                <text class="ws-number" v-if="detail.comments_number">{{ detail.comments_number }}</text>
+            </div>
+            <div class="wc-item" @click="support">
+                <text class="iconfont" :class="[activeClass]">&#xe6a1;</text>
+                <text class="ws-number ws-number-active" v-if="detail.upvotes">{{ detail.upvotes }}</text>
+            </div>
+            <text class="iconfont" @click="toShare">&#xe622;</text>
+        </div>
+    </div>
+</template>
+
+<script>
+	import nvueLib from '@/lib/nvueLib.js'
+	
+  export default {
+    data() {
+      return {
+        param: {},
+        detail: {}
+      }
+    },
+    computed: {
+      activeClass () {
+        return this.detail.is_bookmark ? 'ws-active' : ''
+      }
+    },
+		beforeDestroy(){
+			uni.$off('refreshWebviewCommentPageData')
+		},
+    created() {
+			console.log('comment.nvue')
+      uni.$on('refreshWebviewCommentPageData', (data) => {
+        this.param = data
+				nvueLib.post('article/detail-by-slug',{slug: data.slug}, false, response=> {
+					var code = response.code
+					if (code !== 1000) {
+						uni.showToast({
+							title: response.message,
+							icon: 'none'
+						})
+						return
+					}
+					this.detail = response.data
+				})
+      })
+    },
+    methods: {
+      toComment () {
+        uni.$emit('articleWebviewToComment')
+      },
+      toShare () {
+        uni.$emit('articleWebviewToShare')
+      },
+      support () {
+				console.log(this.param)
+        if (!this.param.id) {
+          return
+        }
+				nvueLib.post('article/upvote-submission',{submission_id: this.param.id},false,response=>{
+					var code = response.code
+
+					if (code !== 1000) {
+						uni.showToast({
+							title: response.message,
+							icon: 'none'
+						})
+						return
+					}
+					var isUpvoted = response.data.type === 'upvote' ? 1 : 0
+					if (isUpvoted) {
+						this.detail.upvotes++
+						this.detail.is_bookmark = 1
+					} else {
+						this.detail.upvotes--
+						this.detail.is_bookmark = 0
+					}
+
+					uni.showToast({
+						title: response.message,
+						icon: 'none'
+					})
+				})
+      }
+    }
+  }
+</script>
+
+<style>
+    .wc-content {
+        width: 750px;
+        height: 80px;
+    }
+
+    .iconfont {
+        font-family: iconfont;
+        color: #808080;
+        font-size: 30px;
+    }
+
+    .ws-active {
+        color: rgb(2, 173, 249);
+    }
+
+    .wc-footer {
+        width: 750px;
+        height: 80px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        padding: 3px 5px;
+    }
+
+    .ws-text {
+        color: #C8C8C8;
+        font-size: 28px;
+    }
+
+    .wc-item {
+        position: relative;
+        padding: 20px;
+    }
+
+    .ws-number {
+        position: absolute;
+        right: 3px;
+        top: -3px;
+        font-size: 24px;
+        color: #808080;
+    }
+
+    .ws-number-active {
+        color: rgb(2, 173, 249);
+    }
+
+    .ws-input {
+        height: 60px;
+        width: 466px;
+        border-radius: 8px;
+        background-color: rgb(243, 244, 246);
+        justify-content: center;
+        padding-left: 15px;
+    }
+</style>
