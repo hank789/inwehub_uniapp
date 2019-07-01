@@ -2,8 +2,11 @@
 	import devEnv from './dev.env.js'
 	import prodEnv from './prod.env.js'
 	import ls from '@/lib/localstorage.js'
-	
-	if (process.env.NODE_ENV === 'development') {
+	var appid = ''
+	//#ifdef APP-PLUS
+	appid = plus.runtime.appid
+	//#endif
+	if (process.env.NODE_ENV === 'development' || appid === '__UNI__3FD074B') {
 		store.commit('setBaseApiUrl', devEnv.BASE_API_URL)
     store.commit('setWebRoot', devEnv.H5_ROOT)
 		ls.set('baseApiUrl',devEnv.BASE_API_URL)

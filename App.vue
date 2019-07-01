@@ -5,7 +5,7 @@
   export default {
     onLaunch: function () {
       console.log('App Launch');
-      try {
+			try {
         this.$ls.set('appDeviceInfo', uni.getSystemInfoSync())
       } catch (e) {
         console.log(e)
