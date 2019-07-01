@@ -1,5 +1,5 @@
 <template>
-	<wxc-popup :show="showPopupBottomShare" pos="bottom" @wxcPopupOverlayClicked="hidePopup">
+	<wxc-popup :show="showPopupBottomShare" :height="height" pos="bottom" @wxcPopupOverlayClicked="hidePopup">
 		
 		<div class="iw-article-heat">
 			
@@ -101,7 +101,8 @@
 			return {
 				localRegions: [],
 				localItem: {},
-				showPopupBottomShare: false
+				showPopupBottomShare: false,
+				height: 1004
 			}
 		},
 		beforeCreate() {
@@ -127,17 +128,26 @@
 			}
 		},
 		created() {},
+		mounted() {
+			this.heightPop()
+		},
 		methods: {
 			setItem(item) {
 				this.localItem = item
 			},
 			isUserAdmin() {
 				var userInfo = ls.get('UserInfo')
-				console.log(userInfo)
 				if (userInfo && userInfo.is_admin) {
 					return true
 				}
 				return false
+			},
+			heightPop () {
+				if (this.isAdmin) {
+					this.height = 1004
+				} else {
+					this.height = 824
+				}
 			},
 			vote() {
 				nvueLib.post('article/upvote-submission', {
