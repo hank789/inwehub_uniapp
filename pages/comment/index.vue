@@ -31,8 +31,8 @@
                                     <view class="lidR2 textToLink" v-html="textToLink(item.content)"></view>
                                     <view class="lidR3">
                                         <view class="lidRtime"> {{item.created_at | timeago}}</view>
-                                        <view class="lidROption" @tap.stop.prevent="vote(item)" :class="{active:item.is_supported}">
-                                            <text class="iconfont icon-zan"></text><view v-if="item.supports">{{item.supports}}</view>
+                                        <view class="lidROption" @tap.stop.prevent="vote(item)" :class="{active:item.is_supported}" hover-class="hoverClass" :hover-stop-propagation="true">
+                                            <text class="iconfont icon-zan"></text><text class="span" v-if="item.supports">{{item.supports}}</text>
                                         </view>
                                     </view>
                                 </view>

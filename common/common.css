@@ -452,9 +452,14 @@ input, textarea, select{
     justify-content: space-between;
     color: #B4B4B6;
     font-size: 24upx; }
+.container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption{
+    padding:10upx;
+    position: relative;
+    top:-10upx;
+}
 .container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption.active {
     color: #03AEF9; }
-.container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption .icon {
+.container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption .iconfont {
     font-size: 28.96upx; }
 .container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption .span {
     margin-left: 9.98upx; }
