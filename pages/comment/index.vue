@@ -21,7 +21,7 @@
                 <view class="container-list-discuss container-list-marginTop">
                     <view class="message">
                         <template v-for="(item, index) in list">
-                            <view class="list-item-discuss"  @tap.stop.prevent="clickComment(item, list)" :key="index">
+                            <view class="list-item-discuss"  @tap.stop.prevent="clickComment(item, list)" :key="index" hover-class="hoverClass" :hover-stop-propagation="true">
                                 <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
                                     <image mode="aspectFill" v-if="item.owner.avatar" :src="item.owner.avatar"/>
                                     <text class="iconfont icon-zhuanjiabiaozhishixin"></text>
