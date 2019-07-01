@@ -73,7 +73,7 @@
   import commentTextarea from '@/components/iw-comment-textarea/iw-comment-textarea.vue'
   import Vue from 'vue'
   import { textToLinkHtml, transferTagToLink } from '@/lib/dom'
-  import DiscussReplay from '@/components/iw-discover/discuss.vue'
+  import DiscussReplay from '@/components/iw-discover/discuss-reply.vue'
   import userAbility from '@/lib/userAbility'
   import AlertTextarea from '@/components/iw-comment-alerttextarea/iw-comment-alerttextarea.vue'
   import { showComment } from '@/lib/comment'

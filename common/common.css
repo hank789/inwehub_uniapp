@@ -420,11 +420,19 @@ input, textarea, select{
     justify-content: space-around;
     padding: 19.96upx 0; }
 .container-list-discuss .list-item-discuss .lidL {
+    position: relative;
     width: 67.96upx; }
 .container-list-discuss .list-item-discuss .lidL image {
     width: 67.96upx;
     height: 67.96upx;
     border-radius: 50%; }
+.container-list-discuss .list-item-discuss .lidL .iconfont {
+    position: absolute;
+    right:0;
+    top:26upx;
+    color:#03AEF9;
+    font-size:32upx;
+}
 .container-list-discuss .list-item-discuss .lidR {
     -webkit-box-flex: 2;
     -ms-flex-positive: 2;
