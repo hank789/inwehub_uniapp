@@ -22,7 +22,8 @@
             "Payment" : {},
             "Share" : {},
             "Maps" : {},
-            "Push" : {}
+            "Push" : {},
+            "Contacts" : {}
         },
         /* 模块配置 */
         "distribute" : {
