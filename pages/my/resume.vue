@@ -92,7 +92,7 @@
 					<template v-for="(industry, index) in resume.info.skill_tags">
 						<view class="tags" @tap.stop.prevent="toTagDetail(industry.text)"><text class="text">{{industry.text}}</text></view>
 					</template>
-					<view class="addTags" v-show="uuid == cuuid" @tap.stop.prevent="toRoute('/pages/my/advantage')">
+					<view class="addTags" v-show="uuid == cuuid" @tap.stop.prevent="toRoute('/pages/my/advantage?type=0')">
 						<text class="iconfont icon-plus--"></text>{{ resume.info.skill_tags.length < 1 ? '添加专业形象，对接更多机遇':'添加' }}
 					</view>
 					<view class="bot" v-if="resume.info.article_count || uuid === cuuid"></view>
