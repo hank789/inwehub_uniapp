@@ -5,6 +5,11 @@
   export default {
     onLaunch: function () {
       console.log('App Launch');
+			try {
+        this.$ls.set('appDeviceInfo', uni.getSystemInfoSync())
+      } catch (e) {
+        console.log(e)
+      }
       //#ifdef APP-PLUS
       plus.screen.lockOrientation('portrait-primary');
       html5plus.checkUpdate(this)
