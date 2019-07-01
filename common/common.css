@@ -431,7 +431,7 @@ input, textarea, select{
     -webkit-box-flex: 2;
     -ms-flex-positive: 2;
     flex-grow: 2;
-    padding-left: 9.98upx; }
+    padding-left: 20upx; }
 .container-list-discuss .list-item-discuss .lidR .lidR1 {
     color: #808080;
     font-size: 25.96upx; }

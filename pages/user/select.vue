@@ -54,7 +54,7 @@
               </view>
 
 
-              <view v-if="!!Selected[key + '_' + index]" class="selectUser" @tap.stop.prevent="collectProfessor(key + '_' + index, item)">
+              <view v-if="!!SelectedIds[item.id]" class="selectUser" @tap.stop.prevent="collectProfessor(key + '_' + index, item)">
                 <view class="select active">
                   <text class="iconfont icon-check-circle" />
                 </view>
@@ -96,7 +96,8 @@ export default {
       lastList: [],
       userId: 0,
       loading: 1,
-      Selected: []
+      Selected: [],
+      SelectedIds: {}
     }
   },
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
@@ -127,9 +128,12 @@ export default {
       Vue.set(this.Selected, index, value)
 
       var options = []
+      this.SelectedIds = {}
       for (var i in this.Selected) {
-        if (this.Selected[i]) {
-          options.push(this.Selected[i])
+        let sitem = this.Selected[i]
+        if (sitem) {
+          Vue.set(this.SelectedIds, sitem.id, true)
+          options.push(sitem)
         }
       }
       // 判断是否有带确定的输入框出现
@@ -280,7 +284,7 @@ export default {
     .select.active{
         background:#FFFFFF;
         border: 1.96upx solid #FFFFFF;
-
+        top:-28upx;
     }
     .select.active .iconfont{
         font-size:45.98upx;
@@ -341,12 +345,7 @@ export default {
         font-size: 33.98upx;
     }
     .searchContainer text{
-        width:36upx;
-        height:36upx;
-        background: #c8c8c8;
-        border-radius: 50%;
-        position: relative;
-        float:right;
+
     }
     .searchContainer text .iconfont{
         color: #FFFFFF;
