@@ -1,5 +1,5 @@
 <template>
-	<wxc-popup :show="showPopupBottomShare" :height="1004" pos="bottom" @wxcPopupOverlayClicked="hidePopup">
+	<wxc-popup :show="showPopupBottomShare" pos="bottom" @wxcPopupOverlayClicked="hidePopup">
 		
 		<div class="iw-article-heat">
 			
