@@ -10,7 +10,7 @@
           <view class="span">搜产品、内容</view>
         </view>
       </view>
-      <view class="addIcon" @tap.stop.prevent="toDiscoverAdd">
+      <view class="addIcon" @tap.stop.prevent="toDiscoverAdd" hover-class="hoverClass" :hover-stop-propagation="true">
         <text class="iconfont icon-tianjia" />
       </view>
     </view>

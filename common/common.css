@@ -34,9 +34,7 @@ image{will-change: transform}
 .container-control-logoAndTabsAndSearch .addIcon {
     font-size: 36upx;
     color: #444444;
-    padding-left: 30upx;
-    position: relative;
-    top: 6upx;
+    padding: 6upx 30upx;
 }
 .container-control-logoAndTabsAndSearch .addIcon .iconfont{
     font-size: 36upx;
