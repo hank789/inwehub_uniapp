@@ -69,7 +69,7 @@
   import RefreshList from '@/components/iw-list/iw-list.vue'
   import { postRequest } from '@/lib/request'
   import { getLocalUserInfo } from '@/lib/user'
-  import { getIndexByIdArray } from '@/lib/array'
+  import { getIndexByIdArray, getListByIdArray } from '@/lib/array'
   import commentTextarea from '@/components/iw-comment-textarea/iw-comment-textarea.vue'
   import Vue from 'vue'
   import { textToLinkHtml, transferTagToLink } from '@/lib/dom'
@@ -242,6 +242,7 @@
 
         console.log('discuss:parentid:' + parentId)
         if (parentId) {
+          this.commentTarget.list = getListByIdArray(parentId, this.list)
           var parentIndex = getIndexByIdArray(this.commentTarget.list, parentId)
           console.log('discuss:parentIndex:' + parentIndex)
           if (parentIndex > 0) {
@@ -301,6 +302,8 @@
             ui.toast(response.message)
             return
           }
+
+          this.delList = getListByIdArray(this.delCommentId, this.list)
           var index = getIndexByIdArray(this.delList, this.delCommentId)
           if (index) {
             this.delList = this.delList.splice(index, 1)

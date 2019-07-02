@@ -78,7 +78,7 @@
 import ui from '@/lib/ui'
 import { postRequest } from '@/lib/request'
 import { getLocalUserInfo } from '@/lib/user'
-import { getIndexByIdArray } from '@/lib/array'
+import { getIndexByIdArray, getListByIdArray } from '@/lib/array'
 import Vue from 'vue'
 import DiscussReplay from '@/components/iw-discover/discuss-reply.vue'
 import { textToLinkHtml } from '@/lib/dom'
@@ -202,6 +202,7 @@ const Discuss = {
           ui.toast(response.message)
           return
         }
+        this.delList = getListByIdArray(this.delCommentId, this.list)
         var index = getIndexByIdArray(this.delList, this.delCommentId)
         if (index) {
           this.delList = this.delList.splice(index, 1)
@@ -316,6 +317,7 @@ const Discuss = {
 
       console.log('discuss:parentid:' + parentId)
       if (parentId) {
+        this.commentTarget.list = getListByIdArray(parentId, this.list)
         var parentIndex = getIndexByIdArray(this.commentTarget.list, parentId)
         console.log('discuss:parentIndex:' + parentIndex)
         if (parentIndex > 0) {
