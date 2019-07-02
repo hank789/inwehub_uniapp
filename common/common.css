@@ -34,9 +34,7 @@ image{will-change: transform}
 .container-control-logoAndTabsAndSearch .addIcon {
     font-size: 36upx;
     color: #444444;
-    padding-left: 30upx;
-    position: relative;
-    top: 6upx;
+    padding: 6upx 30upx;
 }
 .container-control-logoAndTabsAndSearch .addIcon .iconfont{
     font-size: 36upx;
@@ -422,16 +420,24 @@ input, textarea, select{
     justify-content: space-around;
     padding: 19.96upx 0; }
 .container-list-discuss .list-item-discuss .lidL {
+    position: relative;
     width: 67.96upx; }
 .container-list-discuss .list-item-discuss .lidL image {
     width: 67.96upx;
     height: 67.96upx;
     border-radius: 50%; }
+.container-list-discuss .list-item-discuss .lidL .iconfont {
+    position: absolute;
+    right:0;
+    top:26upx;
+    color:#03AEF9;
+    font-size:32upx;
+}
 .container-list-discuss .list-item-discuss .lidR {
     -webkit-box-flex: 2;
     -ms-flex-positive: 2;
     flex-grow: 2;
-    padding-left: 9.98upx; }
+    padding-left: 20upx; }
 .container-list-discuss .list-item-discuss .lidR .lidR1 {
     color: #808080;
     font-size: 25.96upx; }
@@ -452,9 +458,14 @@ input, textarea, select{
     justify-content: space-between;
     color: #B4B4B6;
     font-size: 24upx; }
+.container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption{
+    padding:10upx;
+    position: relative;
+    top:-10upx;
+}
 .container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption.active {
     color: #03AEF9; }
-.container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption .icon {
+.container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption .iconfont {
     font-size: 28.96upx; }
 .container-list-discuss .list-item-discuss .lidR .lidR3 .lidROption .span {
     margin-left: 9.98upx; }

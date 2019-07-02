@@ -81,6 +81,7 @@
           :list-params="discussListParams"
           :store-api="'article/comment-store'"
           :store-params="discussStoreParams"
+          :autoLoading="false"
           @comment="comment"
           @commentFinish="commentFinish"
           @goComment="goComment"
@@ -347,6 +348,10 @@ export default {
       var shareOption = getDianpingCommentDetail(this.detail.slug, this.detail.title, this.detail.owner.avatar, this.detail.owner.name, this.detail.rate_star)
       this.shareOption = Object.assign(this.shareOption, shareOption)
       this.loading = 0
+
+      setTimeout(() => {
+        this.$refs.discuss.resetList()
+      }, 300)
     },
     detailMenuIcon(item) {
       switch (item.text) {

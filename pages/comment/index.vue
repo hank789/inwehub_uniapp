@@ -21,7 +21,7 @@
                 <view class="container-list-discuss container-list-marginTop">
                     <view class="message">
                         <template v-for="(item, index) in list">
-                            <view class="list-item-discuss"  @tap.stop.prevent="clickComment(item, list)" :key="index">
+                            <view class="list-item-discuss"  @tap.stop.prevent="clickComment(item, list)" :key="index" hover-class="hoverClass" :hover-stop-propagation="true">
                                 <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
                                     <image mode="aspectFill" v-if="item.owner.avatar" :src="item.owner.avatar"/>
                                     <text class="iconfont icon-zhuanjiabiaozhishixin"></text>
@@ -31,8 +31,8 @@
                                     <view class="lidR2 textToLink" v-html="textToLink(item.content)"></view>
                                     <view class="lidR3">
                                         <view class="lidRtime"> {{item.created_at | timeago}}</view>
-                                        <view class="lidROption" @tap.stop.prevent="vote(item)" :class="{active:item.is_supported}">
-                                            <text class="iconfont icon-zan"></text><view v-if="item.supports">{{item.supports}}</view>
+                                        <view class="lidROption" @tap.stop.prevent="vote(item)" :class="{active:item.is_supported}" hover-class="hoverClass" :hover-stop-propagation="true">
+                                            <text class="iconfont icon-zan"></text><text class="span" v-if="item.supports">{{item.supports}}</text>
                                         </view>
                                     </view>
                                 </view>
@@ -73,7 +73,7 @@
   import commentTextarea from '@/components/iw-comment-textarea/iw-comment-textarea.vue'
   import Vue from 'vue'
   import { textToLinkHtml, transferTagToLink } from '@/lib/dom'
-  import DiscussReplay from '@/components/iw-discover/discuss.vue'
+  import DiscussReplay from '@/components/iw-discover/discuss-reply.vue'
   import userAbility from '@/lib/userAbility'
   import AlertTextarea from '@/components/iw-comment-alerttextarea/iw-comment-alerttextarea.vue'
   import { showComment } from '@/lib/comment'

@@ -4,7 +4,7 @@
       <view class="component-mark">
         <view class="span">{{ markTips ? markTips : '就您的感受而言，您会给他打多少分？' }}</view>
         <view class="stars">
-          <starRating  @change="changeStarRating" :size="32"/>
+          <starRating  :value="star" @change="changeStarRating" :size="32"/>
           <view v-if="star" class="ratingNumber">{{ star }}分</view>
         </view>
         <view class="line-river-after line-river-after-top" />
@@ -157,10 +157,8 @@ export default {
         return
       }
 
-      var dianpingRating = localEvent.get('dianping_rating')
-      if (dianpingRating && dianpingRating.rating) {
-        this.star = dianpingRating.rating
-        localEvent.remove('dianping_rating')
+      if (this.pageOption.rating) {
+        this.star = this.pageOption.rating
       }
       this.initData()
       const id = this.pageOption.id

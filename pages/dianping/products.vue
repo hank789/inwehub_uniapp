@@ -2,12 +2,12 @@
   <view>
     <view class="mui-content">
       <view class="listSelect">
-        <view @tap.stop.prevent="showDropdownMenu()" class="listSelectItem">
+        <view class="listSelectItem" @tap.stop.prevent="showDropdownMenu()">
           <view class="span font-family-medium">{{ !category.name ? '选择类型' : category.name }}</view>
           <text class="iconfont icon-xiangxiajiantou " />
         </view>
-        <view @tap.stop.prevent="selectSort()" class="listSelectItem">
-          <view class="span font-family-medium">{{ orderByName }}</view>
+        <view class="listSelectItem" @tap.stop.prevent="selectSort()">
+          <view class="span font-family-medium">{{ orderByName() }}</view>
           <text class="iconfont icon-paixu " />
         </view>
       </view>
@@ -16,7 +16,7 @@
         ref="RefreshList"
         v-model="list"
         :api="'tags/productList'"
-        :requestData="prevOtherData"
+        :request-data="prevOtherData"
         class="listWrapper"
       >
         <view class="list">
@@ -32,7 +32,7 @@
                   </view>
                   <view class="starsText">
                     <view class="span spanFirst">{{ item.review_average_rate }}分</view>
-                    <view class="i"></view><view class="span">{{ item.review_count }}条评论</view>
+                    <view class="i" /><view class="span">{{ item.review_count }}条评论</view>
                   </view>
                 </view>
                 <view class="line-river-after line-river-after-top" />
@@ -47,12 +47,11 @@
     </view>
 
     <DropDownMenu
+      v-if="localCategories.length"
       ref="dropdownMenu"
       v-model="category"
-      v-if="localCategories.length"
       :tree="localCategories"
-    >
-    </DropDownMenu>
+    />
 
     <Options
       :id="'itemOptions'"
@@ -91,9 +90,9 @@ export default {
     }
   },
   computed: {
-    localCategories () {
-      function addIsShow (arr) {
-        return arr.map(function(currentValue, index){
+    localCategories() {
+      function addIsShow(arr) {
+        return arr.map(function(currentValue, index) {
           currentValue.isShow = false
           if (currentValue.name === '产品' || currentValue.name === '服务') {
             currentValue.isShow = true
@@ -112,7 +111,13 @@ export default {
     },
     nextOtherData() {
       return { category_id: this.category.id, orderBy: this.orderBy }
-    },
+    }
+  },
+  onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
+    this.pageOption = option
+    this.refreshPageData()
+  },
+  methods: {
     orderByName() {
       switch (this.orderBy) {
         case 0:
@@ -122,26 +127,9 @@ export default {
         case 2:
           return '热度'
       }
-    }
-  },
-  onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
-    this.pageOption = option
-  },
-  watch: {
-    '$route'(to, from) {
-      if (to.name === from.name) {
-        this.refreshPageData()
-      }
-    }
-  },
-  mounted() {
-  },
-  created() {
-    this.refreshPageData()
-  },
-  methods: {
+    },
     toDetail(item) {
-			var url = '/pages/dianping/product?name=' + encodeURIComponent(item.name)
+      var url = '/pages/dianping/product?name=' + encodeURIComponent(item.name)
       uni.navigateTo({ url: url })
     },
     goBack() {

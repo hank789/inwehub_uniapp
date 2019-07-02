@@ -88,6 +88,8 @@
           page: this.page + 1
         }, this.requestData)
 
+        this.loadMoreStatus = 1
+
         postRequest(this.api, requestData).then(res => {
           var code = res.code
           if (code !== 1000) {
