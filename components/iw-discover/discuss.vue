@@ -169,6 +169,7 @@ const Discuss = {
     clickCommentChild (event) {
       let platform = getPlatform()
       console.log('platform:' + platform)
+      console.log(event)
       let data = {}
       if (platform === 'web') {
         data = event

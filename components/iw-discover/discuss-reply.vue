@@ -32,6 +32,7 @@
 
 <script>
   import { textToLinkHtml } from '@/lib/dom'
+  import { getPlatform } from '@/lib/allPlatform'
 
   const Discuss = {
     name: 'DiscussReplay',
@@ -82,7 +83,15 @@
       vote (item) {
         this.$emit('vote', item)
       },
-      clickCommentChild (data) {
+      clickCommentChild (event) {
+        let platform = getPlatform()
+        let data = {}
+        if (platform === 'web') {
+          data = event
+        } else {
+          data = event.detail.__args__[0]
+        }
+
         const comment = data.comment
         const list = data.list
         this.clickComment(comment, list)
