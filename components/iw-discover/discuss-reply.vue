@@ -1,7 +1,7 @@
 <template>
     <view>
         <template v-for="(child, childIndex) in children">
-            <view class="list-item-discuss list-item-discuss-children" v-show="childIndex < 2 || isShow" :key="child.id" @tap.stop.prevent="clickComment(child, children)">
+            <view class="list-item-discuss list-item-discuss-children" v-if="childIndex < 2 || isShow" :key="child.id" @tap.stop.prevent="clickComment(child, children)">
                 <view class="lidL" @tap.stop.prevent="toResume(child.owner.uuid)">
                     <image :src="child.owner.avatar"/>
                 </view>

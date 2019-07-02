@@ -25,7 +25,7 @@
         </view>
       </view>
 
-      <view v-show="list.length !== 0 && showList" class="container-list-discuss">
+      <view v-if="list.length !== 0 && showList" class="container-list-discuss">
 
         <scroll-view
           scroll-y="true"
@@ -34,7 +34,7 @@
         >
 
           <template v-for="(item, index) in list" v-if="index < 3">
-            <view :key="index" class="list-item-discuss" @tap.stop.prevent="clickComment(item, list)" hover-class="hoverClass" :hover-stop-propagation="true">
+            <view class="list-item-discuss" @tap.stop.prevent="clickComment(item, list)" hover-class="hoverClass" :hover-stop-propagation="true">
               <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
                 <image mode="aspectFill" :src="item.owner.avatar" />
                 <text class="iconfont icon-zhuanjiabiaozhishixin" />
@@ -198,7 +198,7 @@ const Discuss = {
     delComment(comment, list) {
       this.delCommentId = comment.id
       this.delList = list
-      ui.confirm('删除我的回复', '', ['取消', '确定'], (e) => {
+      ui.confirm('提示', '删除我的回复', ['取消', '确定'], (e) => {
         if (e.index === 1) {
           this.doDelComment()
         }
@@ -339,13 +339,15 @@ const Discuss = {
       postRequest(this.listApi, params).then(response => {
         var code = response.code
         if (code !== 1000) {
-          ui.alert(response.message)
+          ui.toast(response.message)
           return
         }
         this.total = response.data.total
         if (response.data.data.length > 0) {
           this.list = this.list.concat(response.data.data)
         }
+
+        this.$forceUpdate()
 
         if (response.data.data.length < 10) {
           this.busy = true
