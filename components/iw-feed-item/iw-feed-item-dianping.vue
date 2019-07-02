@@ -477,18 +477,19 @@ export default {
                     margin-top: 0;
                     .text {
                         color: #FCC816;
-                        margin-top: 0 !important;
+                        margin-top: 6upx !important;
                     }
                     .i {
                         width: 3.98upx;
                         height: 3.98upx;
                         background: #B4B4B6;
                         border-radius: 50%;
-                        margin: 19.50upx 9.98upx 0;
+                        margin: 26upx 9.98upx 0;
                     }
                     .comment {
                         color: #B4B4B6;
                         font-size: 21.98upx;
+												margin-top: 6upx;
                     }
                 }
             }
