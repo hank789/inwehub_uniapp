@@ -1,7 +1,7 @@
 <template>
     <view>
         <template v-for="(child, childIndex) in children">
-            <view class="list-item-discuss list-item-discuss-children" v-show="childIndex < 2 || isShow" :key="child.id" @tap.stop.prevent="clickComment(child, children)">
+            <view class="list-item-discuss list-item-discuss-children" v-if="childIndex < 2 || isShow" :key="child.id" @tap.stop.prevent="clickComment(child, children)">
                 <view class="lidL" @tap.stop.prevent="toResume(child.owner.uuid)">
                     <image :src="child.owner.avatar"/>
                 </view>
@@ -22,7 +22,7 @@
                     :children="child.children"
                     :parentOwnerName="child.owner.name"
                     :isShow="isShow"
-                    @comment="clickComment"
+                    @comment="clickCommentChild"
                     @vote="vote"
             ></DiscussReplay>
 
@@ -82,8 +82,13 @@
       vote (item) {
         this.$emit('vote', item)
       },
+      clickCommentChild (data) {
+        const comment = data.comment
+        const list = data.list
+        this.clickComment(comment, list)
+      },
       clickComment (comment, children) {
-        this.$emit('comment', comment, children)
+        this.$emit('comment', {comment: comment, list:children})
       }
     }
   }

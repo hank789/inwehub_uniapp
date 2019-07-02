@@ -1154,7 +1154,8 @@
     "navigationBarBackgroundColor": "#fff",
     "backgroundColor": "#fff",
     "usingComponents":{
-      "drop-down-menu-child":"/components/iw-category-select/iw-category-select-children"
+      "drop-down-menu-child":"/components/iw-category-select/iw-category-select-children",
+      "discuss-replay":"/components/iw-discover/discuss-reply"
     }
   },
 	"condition" : { //模式配置，仅开发期间生效

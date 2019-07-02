@@ -44,7 +44,7 @@
                                         :children="item.children"
                                         :parentOwnerName="item.owner.name"
                                         :isShow="true"
-                                        @comment="clickComment"
+                                        @comment="clickCommentChild"
                                         @vote="vote"
                                 ></DiscussReplay>
                             </view>
@@ -261,7 +261,13 @@
           }
         }
       },
+      clickCommentChild (data) {
+        const comment = data.comment
+        const list = data.list
+        this.clickComment(comment, list)
+      },
       clickComment (comment, list) {
+
         var commentUid = comment.owner.uuid
         var userInfo = getLocalUserInfo()
         var uuid = userInfo.uuid
