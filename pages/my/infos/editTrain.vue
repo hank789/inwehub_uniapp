@@ -26,7 +26,7 @@
 			</view>
 			<view class="accountTitle">
 				<view class="title"> 培训和认证经历详情描述 </view>
-				<textarea class="description" v-model.trim="description" placeholder="请详细填写该培训经历的详细信息"></textarea>
+				<textarea class="description" maxlength="-1" v-model.trim="description" placeholder="请详细填写该培训经历的详细信息"></textarea>
 			</view>
 			<view class="options">
 				<text class="close common" @tap.stop.prevent="muiViewBack">取消</text>

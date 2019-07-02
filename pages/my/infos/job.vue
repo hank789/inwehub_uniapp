@@ -12,7 +12,7 @@
 				</view>
 				<view class="inputRow">
 					<view class="title">职位</view>
-					<input class="inputBox" type="text" v-model.trim="job.title" placeholder="必填">
+					<input class="inputBox" maxlength="-1" type="text" v-model.trim="job.title" placeholder="必填">
 				</view>
 				<view class="inputRow" @tap="fixSelect">
 					<view class="title">行业领域</view>
@@ -44,7 +44,7 @@
 			</view>
 			<view class="accountTitle">
 				<view class="title"> 工作经历详情描述 </view>
-				<textarea class="description" v-model.trim="description" placeholder="请详细填写该工作经历的详细信息"></textarea>
+				<textarea class="description" maxlength="-1" v-model.trim="description" placeholder="请详细填写该工作经历的详细信息"></textarea>
 			</view>
 			<view class="options">
 				<text class="close common" @tap.stop.prevent="muiViewBack">取消</text>
