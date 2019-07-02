@@ -44,6 +44,7 @@ import ui from '@/lib/ui'
 import { addLink, getRegions } from '@/lib/article'
 import { searchText } from '@/lib/search'
 import { fetchArticle, isUrl } from '@/lib/url'
+import { urlencode } from '@/lib/string'
 import Vue from 'vue'
 
 export default {
@@ -104,15 +105,42 @@ export default {
         }
       }
 
-      addLink(this.urlTitle, this.url, selectedTags, () => {
-        this.resetData()
-        uni.navigateBack()
+      addLink(this.urlTitle, this.url, selectedTags, (res) => {
+				uni.showToast({
+					title: '发布成功！',
+					icon: 'none'
+				})
+				console.log(res)
+        let data = {
+					id: res.id,
+					title: res.title,
+					url: res.data.url,
+					img: res.data.img,
+          slug: res.slug,
+					h5Url: this.$ls.get('webRoot') + '/#/c/' + res.category_id + '/' + res.slug
+				}
+				uni.redirectTo({
+					url: `/pages/webview/article?data=${urlencode(JSON.stringify(data))}`
+				})
       }, (res) => {
         var code = res.code
         if (code === 6101) {
           // 已存在
-          this.$ui.toast(res.message)
-          uni.redirectTo({ url: res.data.exist_url })
+					let url = res.data.exist_url.split('/')
+					uni.showModal({
+						title: '提示',
+						content: res.message,
+						success: (res) => {
+								if (res.confirm) {
+										console.log('用户点击确定');
+										uni.redirectTo({ 
+											url: '/pages/discover/detail?slug='+url[3]
+										})
+								} else if (res.cancel) {
+										console.log('用户点击取消');
+								}
+						}
+					})
           return
         }
       })
