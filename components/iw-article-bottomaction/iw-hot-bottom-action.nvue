@@ -204,7 +204,7 @@
 	.iw-img-left {
 		width: 184px;
 		height: 284px;
-		margin-left: 60px;
+		margin-left: 40px;
 		text-align: center;
 	}
 	.iw-icon-sub {
@@ -228,13 +228,14 @@
 		width: 2px;
 		height: 88px;
 		background-color: #DCDCDC;
-		margin-right: 30px;
+		margin-right: 20px;
 		position: relative;
 	}
 	.iw-menu-list {
-		width: 156px;
+		width: 170px;
 		height: 142px;
-		padding: 0 30px;
+		padding: 0 25px;
+		align-items: center;
 	}
 	.iw-icon-box {
 		width: 88px;
