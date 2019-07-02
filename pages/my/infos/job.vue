@@ -5,8 +5,10 @@
 			<view class="tableBox">
 				<view class="inputRow">
 					<view class="title">公司</view>
-					<input class="inputBox" type="text" v-model.trim="job.company" placeholder="必填" @tap.stop.prevent="toselectcompany"
-					 readonly>
+					<text class="companyTitle textTips" v-if="job.company" @tap.stop.prevent="toselectcompany">{{ job.company }}</text>
+					<text class="companyTitle textTips description" v-else @tap.stop.prevent="toselectcompany">必填</text>
+					<!-- <input class="inputBox" type="text" v-model.trim="job.company" placeholder="必填" @tap.stop.prevent="toselectcompany"
+					 readonly> -->
 				</view>
 				<view class="inputRow">
 					<view class="title">职位</view>
@@ -432,6 +434,12 @@
 				height: 64upx;
 				color: #3f3f3f;
 				padding-right: 0;
+				&.companyTitle {
+					right: 32upx;
+				}
+				&.description {
+					color: #b4b4b6;
+				}
 			}
 
 			.mui-ellipsis {

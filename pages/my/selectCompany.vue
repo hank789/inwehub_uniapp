@@ -1,39 +1,36 @@
 <template>
-	<view class="">
-		<view class="mui-content">
-			<view class="searchContainer">
-				<view class="inputBox">
-					<text class="iconfont icon-sousuo"></text>
-					<input class="textInput" type="text" placeholder="输入公司名称" v-model.trim="searchText" />
-					<text class="close" v-if="isShow" @tap.stop.prevent="empty()">
-						<text class="iconfont icon-guanbi"></text>
-					</text>
-				</view>
-				<view class="determine" @tap.stop.prevent="submitInfo()">确定</view>
+	<view class="content">
+		<view class="searchContainer">
+			<view class="inputBox">
+				<text class="iconfont icon-sousuo"></text>
+				<input class="textInput" type="text" placeholder="输入公司名称" v-model.trim="searchText" />
+				<text class="close" v-if="isShow" @tap.stop.prevent="empty()">
+					<text class="iconfont icon-guanbi"></text>
+				</text>
 			</view>
-
-			<iw-list class="listWrapper" v-if="dataList != null" v-model="list" :api="'company/nearbySearch'" :css-top="cssTop" :request-data="dataList">
-				<view class="boxUl">
-					<view class="boxLi" v-for="(item, index) in list" @tap.stop.prevent="submit(item.name)">
-						<view class="container-image">
-							<image :src="item.logo" ></image>
-						</view>
-						<view class="container-info">
-							<view class="companyName text-line-2">{{item.name}}</view>
-							<view class="mui-ellipsis">
-								<text class="tagsBox" v-for="(tags, index) in item.tags" @tap.stop.prevent="toTagDetail(tags)"> {{tags}} <text class="line"></text></text>
-							</view>
-							<view class="distance">
-								<text>{{item.address_province}}</text> 
-								<text> < {{item.distance_format}}</text>
-							</view> 
-						</view>
-						<i class="bottom"></i>
-					</view>
-				</view>
-			</iw-list>
-
+			<view class="determine" @tap.stop.prevent="submitInfo()">确定</view>
 		</view>
+
+		<iw-list class="listWrapper" v-if="dataList != null" v-model="list" :api="'company/nearbySearch'" :css-top="cssTop" :request-data="dataList">
+			<view class="boxUl">
+				<view class="boxLi" v-for="(item, index) in list" @tap.stop.prevent="submit(item.name)">
+					<view class="container-image">
+						<image :src="item.logo" ></image>
+					</view>
+					<view class="container-info">
+						<view class="companyName text-line-2">{{item.name}}</view>
+						<view class="mui-ellipsis">
+							<text class="tagsBox" v-for="(tags, index) in item.tags" @tap.stop.prevent="toTagDetail(tags)"> {{tags}} <text class="line"></text></text>
+						</view>
+						<view class="distance">
+							<text>{{item.address_province}}</text> 
+							<text> < {{item.distance_format}}</text>
+						</view> 
+					</view>
+					<i class="bottom"></i>
+				</view>
+			</view>
+		</iw-list>
 	</view>
 </template>
 
@@ -43,24 +40,32 @@
 	import userAbility from'@/lib/userAbility'
 	import localEvent from "@/lib/localstorage"
 	import { getLocalUserInfo } from "@/lib/user"
-	const currentUser = getLocalUserInfo()
+	import { getGeoPosition, getPlatform } from "@/lib/allPlatform"
+	import { toSettingSystem } from "@/lib/html5plus"
 	export default {
 		data() {
 			return {
 				searchText: '',
 				isShow: false,
 				list: [],
-				dataList: null,
-				cssTop: 88,
+				cssTop: 0,
 				value: '',
 				optionFrom: '',
 				loading: 1,
-				id: currentUser.info.id
+				id: '',
+				page: 1,
+				searchRule: 1,
+				lat: '',
+				longt: '',
+				dataList: null
 			}
 		},
 		onLoad: function(option) {
-			console.log('currentUser.user_id:', this.id)
+			this.searchRule = option.from === 'infobasic' ? 2 : 1
+			let userInfo = getLocalUserInfo()
+			this.id = userInfo.id
 			this.optionFrom = option.from
+			this.getSysetmPlatform()
 		},
 		components: {
 			iwList
@@ -70,11 +75,7 @@
 				if (newValue) {
 					this.value = newValue
 					this.dataList = {
-						name: newValue,
-						page: this.page,
-						longitude: this.longt,
-						latitude: this.lat,
-						searchRule: this.searchRule
+						name: newValue
 					}
 					this.isShow = true
 				} else {
@@ -83,6 +84,38 @@
 			}
 		},
 		methods: {
+			getSysetmPlatform() {
+					let plus = getPlatform()
+					console.log(plus, ':平台信息')
+				getGeoPosition((position) => {
+					this.dataList = {
+						longitude: position.longt,
+						latitude: position.lat
+					}
+					this.longt = position.longt
+					this.lat = position.lat
+				}, () => {
+					// 获取权限失败的回调
+					if (plus === 'ios' || plus === 'android') {
+						uni.showModal({
+							title: '提示',
+							content: '请在设置中打开定位服务',
+							success: function (res) {
+								if (res.confirm) {
+									toSettingSystem('LOCATION')
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
+							}
+						})
+					} else if (plus === null) {
+						uni.showToast({
+							icon: 'none',
+							title: '请开启定位服务。'
+						})
+					}
+				})
+			},
 			toTagDetail (name) {
 				userAbility.jumpToTagDetail(name)
 			},
@@ -172,6 +205,11 @@
 </script>
 
 <style lang="less">
+	.content {
+		background-color: #fff;
+		height: 100%;
+		overflow: hidden;
+	}
 	.listWrapper {
 		margin-top: 106upx;
 	}
