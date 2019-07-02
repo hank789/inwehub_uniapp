@@ -35,7 +35,7 @@
             <text class="iconfont icon-biaozhunlogoshangxiayise " />
           </view>
           <view v-else class="productLogo border-football">
-            <image mode="aspectFill" class="image" :src="item.feed.tags[0].logo" :is-lazyload="true" width="45" height="45" />
+            <image mode="aspectFit" class="image" :src="item.feed.tags[0].logo  | imageSuffix(45, 45)" :lazy-load="true" width="45" height="45" />
           </view>
           <view class="linkContent">
             <view v-if="item.feed.tags[0].name" class="div text-line-1">{{ item.feed.tags[0].name }}</view>

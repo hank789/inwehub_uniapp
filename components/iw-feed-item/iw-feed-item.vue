@@ -64,7 +64,7 @@
       },
       isShowLink: {
         type: Boolean,
-        default: false
+        default: true
       }
     },
     created() {
