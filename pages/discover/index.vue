@@ -17,7 +17,7 @@
 
     <iw-list v-model="list" :api="'feed/list'" :css-top="cssTop" :request-data="{search_type: 2}">
       <view v-for="(item, index) in list" :key="index" class="iwItem">
-        <iw-feed-item :item="item" @showPageMore="showPageMore" />
+        <iw-feed-item :item="item" @showPageMore="showPageMore" :isShowLink="true" />
       </view>
     </iw-list>
 
@@ -99,5 +99,6 @@ page, .content{
 .searchBoxShadow{
   z-index:10;
   background: #fff;
+	box-shadow: 0px 2upx 26upx 0px rgba(240,242,245,1);
 }
 </style>

@@ -21,9 +21,10 @@
         class="container-images container-images-discover"
         :class="'container-images-' + (itemObj.feed.img.length)"
       >
+
         <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image" :class="'container-image-' + imgIndex">
           <autoWidthHeight :src="img" v-if="itemObj.feed.img.length === 1"></autoWidthHeight>
-          <image mode="aspectFill" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" v-else />
+          <image mode="aspectFit" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" v-else />
           </view>
       </view>
       <!--链接-->
@@ -563,5 +564,6 @@ export default {
     .container-images-discover .image{
       width:452upx;
       height:452upx;
+	  object-fit: contain;
     }
 </style>
