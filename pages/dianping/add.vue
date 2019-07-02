@@ -13,7 +13,7 @@
       <textarea class="textarea" maxlength="-1" v-model="html" :placeholder="descPlaceholder" />
 
       <view class="container-images">
-        <view v-for="(image, index) in images" class="container-image">
+        <view :key="image" v-for="(image, index) in images" class="container-image">
           <text class="iconfont icon-times1 " @tap.stop.prevent="delImg(index)"/>
           <image :id="'image_' + index" mode="aspectFill" class="image" :src="image.path" />
         </view><view v-if="images.length < maxImageCount" class="component-photograph" @tap.stop.prevent="uploadImage()"><text class="iconfont icon-xiangji1 " /></view>
