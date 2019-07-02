@@ -309,8 +309,8 @@ export default {
                     .span {
                         &.spanFirst {
                             color: #444444;
-                            font-size: 25.96upx;
-                            line-height: 36.98upx;
+                            font-size: 26upx;
+                            line-height: 37upx;
                         }
                         &.spanSecond {
 

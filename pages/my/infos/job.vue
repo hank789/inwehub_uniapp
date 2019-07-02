@@ -97,7 +97,6 @@
 					title: '',
 					begin_time: '',
 					end_time: '',
-					description: '',
 					industry_tags: '',
 					product_tags: ''
 				},
@@ -217,7 +216,6 @@
 				if (this.type !== '0') {
 					var jobs = localEvent.get('jobs')
 					this.job = jobs[this.type]
-					this.description = this.job.description
 					this.bak = JSON.stringify(this.job)
 					this.loading = true
 				} else {

@@ -21,7 +21,7 @@
         class="container-images container-images-discover"
         :class="'container-images-' + (itemObj.feed.img.length)"
       >
-        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image" :class="'container-image-' + imgIndex"><image class="image" mode="aspectFill" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
+        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image" :class="'container-image-' + imgIndex"><image class="image" mode="aspectFit" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
       </view>
       <!--链接-->
       <view v-if="item.feed.submission_type === 'link'" class="container-feed-link-box" @tap.stop.prevent="goArticle(item)">
@@ -558,5 +558,6 @@ export default {
     .container-images-discover .image{
       width:452upx;
       height:452upx;
+	  object-fit: contain;
     }
 </style>
