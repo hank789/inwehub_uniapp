@@ -70,6 +70,7 @@
     align-items: center;
     width: 100%;
     height: 100vh;
+		z-index: 1500;
     background: rgba(0, 0, 0, .2);
     transition: opacity .2s linear;
   }
