@@ -289,17 +289,18 @@ export default {
       }
     },
     addDiscover() {
-      if (!this.description) {
-        ui.toast('请填写分享内容')
-        return
-      }
-
       if (this.links.length) {
+				if (!this.description) {
+					this.description = this.links[0].title
+				}
         addLink(this.description, this.links[0].url, this.group_id, (res) => {
           uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
         })
       } else {
-
+				if (!this.description) {
+					ui.toast('请填写分享内容')
+					return
+				}
         addDiscover(
           this.description,
           this.tags,
