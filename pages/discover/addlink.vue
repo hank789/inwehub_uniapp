@@ -122,7 +122,7 @@ export default {
       Vue.set(this.regions, index, item)
     },
     fetchUrlInfo(url) {
-      fetchArticle(this, url, (data) => {
+      fetchArticle(url, (data) => {
         this.urlTitle = data.title || ''
         this.urlImage = data.img_url
       })

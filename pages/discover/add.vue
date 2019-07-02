@@ -2,7 +2,7 @@
   <view class="content">
     <textarea v-model="description" focus="true" maxlength="-1" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
 
-    <scroll-view :scroll-x="true" class="scrollViewImages">
+    <scroll-view :scroll-x="true" class="scrollViewImages" v-if="waitUploadImages.length">
       <view class="container-upload-images">
         <view class="imageItem" v-for="(image, index) in waitUploadImages" :key="index" >
           <image class="image" :mode="'aspectFill'" :src="image.path" />
@@ -77,7 +77,7 @@
 <script>
 import ui from '@/lib/ui'
 import localStorageKey from '@/lib/localstoragekey'
-import { addDiscover } from '@/lib/discover'
+import { addDiscover, addLink } from '@/lib/discover'
 import Prompt from '@/components/zz-prompt/index.vue'
 import { fetchArticle } from '@/lib/url'
 import { imagesToBase64, uploadImagesByBase64 } from '@/lib/image'
