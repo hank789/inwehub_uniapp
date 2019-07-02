@@ -10,7 +10,7 @@
         <view class="line-river-after line-river-after-top" />
       </view>
 
-      <textarea class="textarea" v-model="html" :placeholder="descPlaceholder" />
+      <textarea class="textarea" maxlength="-1" v-model="html" :placeholder="descPlaceholder" />
 
       <view class="container-images">
         <view v-for="(image, index) in images" class="container-image">

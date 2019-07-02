@@ -3,7 +3,7 @@
     <view class="prompt">
       <view class="prompt-top">
         <text class="prompt-title">{{title}}</text>
-        <input class="prompt-input" type="text" :placeholder="placeholder" v-model="value">
+        <input class="prompt-input" type="text" :placeholder="placeholder" v-model="value" maxlength="-1">
       </view>
       <slot></slot>
       <view class="prompt-buttons">

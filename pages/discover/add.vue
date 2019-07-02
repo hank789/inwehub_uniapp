@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <textarea v-model="description" focus="true" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
+    <textarea v-model="description" focus="true" maxlength="-1" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
 
     <scroll-view :scroll-x="true" class="scrollViewImages">
       <view class="container-upload-images">

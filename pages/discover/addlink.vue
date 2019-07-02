@@ -5,7 +5,7 @@
       <view class="shareTitle font-family-medium">分享到首页</view>
 
       <view class="inputWrapper">
-        <input v-model="url" focus="true" type="text" placeholder="输入文章链接" class="input">
+        <input v-model="url" focus="true" type="text" placeholder="输入文章链接" class="input" maxlength="-1">
         <view class="line-river-after line-river-after-top" />
       </view>
 
