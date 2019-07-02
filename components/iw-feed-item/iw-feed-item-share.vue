@@ -21,7 +21,11 @@
         class="container-images container-images-discover"
         :class="'container-images-' + (itemObj.feed.img.length)"
       >
-        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image" :class="'container-image-' + imgIndex"><image class="image" mode="aspectFit" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
+
+        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image" :class="'container-image-' + imgIndex">
+          <autoWidthHeight :src="img" v-if="itemObj.feed.img.length === 1"></autoWidthHeight>
+          <image mode="aspectFit" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" v-else />
+          </view>
       </view>
       <!--链接-->
       <view v-if="item.feed.submission_type === 'link'" class="container-feed-link-box" @tap.stop.prevent="goArticle(item)">
@@ -78,10 +82,12 @@ import { upvote, downVote } from '@/lib/discover'
 import UserInfo from '@/components/iw-discover/user-info.vue'
 import { getTextDiscoverDetail } from '@/lib/shareTemplate'
 import { urlencode } from '@/lib/string'
+import autoWidthHeight from '@/components/iw-image/autowidthheight'
 
 export default {
   components: {
-    UserInfo
+    UserInfo,
+    autoWidthHeight
   },
   props: {
     item: {
