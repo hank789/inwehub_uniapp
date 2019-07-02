@@ -77,6 +77,7 @@
   import userAbility from '@/lib/userAbility'
   import AlertTextarea from '@/components/iw-comment-alerttextarea/iw-comment-alerttextarea.vue'
   import { showComment } from '@/lib/comment'
+  import { getPlatform } from '@/lib/allPlatform'
 
   export default {
     data () {
@@ -261,13 +262,22 @@
           }
         }
       },
-      clickCommentChild (data) {
+      clickCommentChild (event) {
+        let platform = getPlatform()
+        console.log('platform:' + platform)
+        console.log(event)
+        let data = {}
+        if (platform === 'web') {
+          data = event
+        } else {
+          data = event.detail.__args__[0]
+        }
+
         const comment = data.comment
         const list = data.list
         this.clickComment(comment, list)
       },
       clickComment (comment, list) {
-
         var commentUid = comment.owner.uuid
         var userInfo = getLocalUserInfo()
         var uuid = userInfo.uuid
@@ -306,7 +316,7 @@
         this.delCommentId = comment.id
         this.delList = list
 
-        ui.confirm('删除我的回复', '', ['取消', '确定'], (event) => {
+        ui.confirm('提示', '删除我的回复', ['取消', '确定'], (event) => {
           if (event.index === 1) {
             this.doDelComment()
           }

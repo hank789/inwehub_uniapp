@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <textarea v-model="description" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
+    <textarea v-model="description" focus="true" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
 
     <scroll-view :scroll-x="true" class="scrollViewImages">
       <view class="container-upload-images">
@@ -66,9 +66,9 @@
       :visible.sync="promptVisible"
       title="插入链接卡片"
       placeholder="输入链接地址"
-      default-value=""
       main-color="#007aff"
       @confirm="addLink"
+			@updateVisible="updatePromptVisible"
     />
   </view>
 
@@ -170,6 +170,9 @@ export default {
     linkClose() {
       this.links = []
     },
+		updatePromptVisible(val) {
+			this.promptVisible = val
+		},
     addLink(url) {
       fetchArticle(url, (data) => {
         this.links = [{
@@ -340,13 +343,13 @@ export default {
     .container-bottom-menus .leftItem{
         display: block;
         float: left;
-        padding: 0 15.0upx;
-        font-size: 37.96upx;
+        padding: 0 30upx;
+        font-size: 40upx;
         color: grey;
     }
 
     .container-bottom-menus .leftItem .iconfont{
-        font-size: 37.96upx;
+        font-size: 50upx;
     }
 
     .container-bottom-menus .component-labelWithIcon{

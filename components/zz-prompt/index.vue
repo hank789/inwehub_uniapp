@@ -48,7 +48,7 @@
     },
     methods: {
       close() {
-        this.$emit('update:visible', false)
+        this.$emit('updateVisible', false)
       }
     }
   }
