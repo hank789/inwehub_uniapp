@@ -269,7 +269,7 @@
     }
 
     .userInfoWrapper {
-        padding: 30upx;
+        padding: 0 30upx;
     }
 
 </style>
