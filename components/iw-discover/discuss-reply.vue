@@ -22,7 +22,7 @@
                     :children="child.children"
                     :parentOwnerName="child.owner.name"
                     :isShow="isShow"
-                    @comment="clickComment"
+                    @comment="clickCommentChild"
                     @vote="vote"
             ></DiscussReplay>
 
@@ -82,8 +82,13 @@
       vote (item) {
         this.$emit('vote', item)
       },
+      clickCommentChild (data) {
+        const comment = data.comment
+        const list = data.list
+        this.clickComment(comment, list)
+      },
       clickComment (comment, children) {
-        this.$emit('comment', comment, children)
+        this.$emit('comment', {comment: comment, list:children})
       }
     }
   }

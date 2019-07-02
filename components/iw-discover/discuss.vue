@@ -59,7 +59,7 @@
                 :children="item.children"
                 :parent-owner-name="item.owner.name"
                 :is-show="true"
-                @comment="clickComment"
+                @comment="clickCommentChild"
                 @vote="vote"
               />
             </view>
@@ -83,6 +83,7 @@ import Vue from 'vue'
 import DiscussReplay from '@/components/iw-discover/discuss-reply.vue'
 import { textToLinkHtml } from '@/lib/dom'
 import userAbility from '@/lib/userAbility'
+import { getPlatform } from '@/lib/allPlatform'
 
 const Discuss = {
   data: () => ({
@@ -165,7 +166,23 @@ const Discuss = {
     rootComment() {
       this.comment(0, '', this.list)
     },
+    clickCommentChild (event) {
+      let platform = getPlatform()
+      console.log('platform:' + platform)
+      let data = {}
+      if (platform === 'web') {
+        data = event
+      } else {
+        data = event.detail.__args__[0]
+      }
+      console.log(data)
+
+      const comment = data.comment
+      const list = data.list
+      this.clickComment(comment, list)
+    },
     clickComment(comment, list) {
+      console.log(comment)
       var commentUid = comment.owner.uuid
       var userInfo = getLocalUserInfo()
       var uuid = userInfo.uuid
