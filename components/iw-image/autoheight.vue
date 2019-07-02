@@ -22,9 +22,8 @@
         if (this.width) {
           style += 'width:' + this.width + ';'
         }
-        if (parseInt(this.height) < 320) {
-          style += 'height:' + this.height + ';'
-        }
+
+        style += 'height:' + this.height + ';'
         return style
       }
     },
@@ -44,13 +43,15 @@
     methods: {
       loaded(event) {
         let width = event.detail.width
-        if (width > 375) {
+        let height = event.detail.height
+        if (width > 345) {
+          height = height * 345 / width
           width = '100%'
         } else {
           width += 'px'
         }
         this.width = width
-        this.height = event.detail.height + 'px'
+        this.height = height + 'px'
       }
     }
   }
