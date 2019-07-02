@@ -26,7 +26,10 @@
         class="container-images container-images-discover"
         :class="'container-images-' + (itemObj.feed.img.length)"
       >
-        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image"><image mode="aspectFill" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
+        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image">
+          <autoWidthHeight :src="img" v-if="itemObj.feed.img.length === 1"></autoWidthHeight>
+          <image mode="aspectFill" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" v-else />
+        </view>
       </view>
 
       <view v-if="item.feed.tags && isShowLink" class="link">
@@ -82,10 +85,12 @@
 import { getDianpingCommentDetail } from '@/lib/shareTemplate'
 import { upvote, downVote } from '@/lib/discover'
 import StarView from '@/components/iw-star/iw-star'
+import autoWidthHeight from '@/components/iw-image/autowidthheight'
 
 export default {
   components: {
-    StarView
+    StarView,
+    autoWidthHeight
   },
   props: {
     item: {

@@ -733,8 +733,6 @@ input, textarea, select{
 .container-images .container-image {
     margin: 0 20upx 20upx 0;
     float: left;
-    width: 122upx;
-    height: 122upx;
     border-radius: 8upx
 }
 
@@ -746,21 +744,7 @@ input, textarea, select{
     clear: both
 }
 
-.container-images .container-image:only-child {
-    width: 452upx;
-    height: auto;
-    max-width: 452upx;
-    max-height: 452upx
-}
 
-.container-images .container-image:only-child img {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 452upx;
-    -o-object-fit: contain;
-    object-fit: contain
-}
 
 .container-images.container-images-4 .container-image:nth-of-type(2n) {
     margin-right: 0
