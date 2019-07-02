@@ -92,12 +92,11 @@ export default {
         freeMode: true
       },
       group_id: 0,
+      maxImageCount: 9,
       description: '',
       address: '所在位置',
       placeholder: '在这里输入您的分享内容\n底部的按钮可以添加：标签、链接、附件',
-      isUploadImage: true,
       isUploadPdf: true,
-      isUploadLink: true,
       selectedGroup: {
         name: ''
       },
@@ -123,6 +122,26 @@ export default {
       this.group_id = option.group_id
     }
     this.pageOption = option
+  },
+  computed: {
+    isUploadImage () {
+      if (this.waitUploadImages.length >= this.maxImageCount) {
+        return false
+      }
+      if (this.links.length) {
+        return false
+      }
+      return true
+    },
+    isUploadLink () {
+      if (this.waitUploadImages.length) {
+        return false
+      }
+      if (this.links.length) {
+        return false
+      }
+      return true
+    }
   },
   methods: {
     resetData () {
@@ -192,6 +211,14 @@ export default {
     },
     uploadImage: function() {
       const that = this
+
+      if (this.waitUploadImages.length >= this.maxImageCount) {
+        return false
+      }
+
+      if (this.links.length) {
+        return false
+      }
 
       uni.chooseImage({
         count: 9,
@@ -446,6 +473,12 @@ export default {
           height: 31.96upx;
           color: #808080;
         }
+      }
+    }
+
+    .disable{
+      .iconfont{
+        color:#DCDCDC;
       }
     }
 </style>
