@@ -25,7 +25,7 @@
         <view class="title">所属领域</view>
 
         <view class="tagsList">
-          <text v-for="(item, index) in regions" v-if="item.value>0" class="span" :class="{active: item.selected}" @tap.stop.prevent="choiceItem(index, item)">{{ item.text }}</text>
+          <text v-for="(item, index) in regions" v-if="item.value>0" :key="item.text" class="span" :class="{active: item.selected}" @tap.stop.prevent="choiceItem(index, item)">{{ item.text }}</text>
         </view>
       </view>
 
@@ -218,7 +218,7 @@ export default {
 
     .footerWrapper {
         position: absolute;
-        bottom: 60upx;
+        bottom: 10upx;
         left: 49.96upx;
         .text {
             color: #C8C8C8;
