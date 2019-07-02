@@ -474,7 +474,7 @@ export default {
             var code = response.code
             // 如果请求不成功提示信息 并且返回上一页；
             if (code !== 1000) {
-              ui.alert(response.message)
+              ui.toast(response.message)
               uni.navigateBack()
               return
             }
