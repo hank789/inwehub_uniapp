@@ -24,7 +24,7 @@
                             <view class="list-item-discuss"  @tap.stop.prevent="clickComment(item, list)" :key="index" hover-class="hoverClass" :hover-stop-propagation="true">
                                 <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
                                     <image mode="aspectFill" v-if="item.owner.avatar" :src="item.owner.avatar"/>
-                                    <text class="iconfont icon-zhuanjiabiaozhishixin"></text>
+                                    <text class="iconfont icon-zhuanjiabiaozhishixin" v-show="item.owner.is_expert"></text>
                                 </view>
                                 <view class="lidR">
                                     <view class="lidR1">{{ item.owner.name }}</view>
