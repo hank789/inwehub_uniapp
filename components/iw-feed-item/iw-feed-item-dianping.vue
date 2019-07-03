@@ -475,21 +475,21 @@ export default {
                 .mark {
                     padding: 0;
                     margin-top: 0;
+                    display: flex;
+                    align-items: center;
                     .text {
                         color: #FCC816;
-                        margin-top: 6upx !important;
                     }
                     .i {
                         width: 3.98upx;
                         height: 3.98upx;
                         background: #B4B4B6;
                         border-radius: 50%;
-                        margin: 26upx 9.98upx 0;
+                        margin: 9.98upx;
                     }
                     .comment {
                         color: #B4B4B6;
-                        font-size: 21.98upx;
-												margin-top: 6upx;
+                        font-size: 24upx;
                     }
                 }
             }
@@ -505,7 +505,6 @@ export default {
             .text {
                 color: #FCC816;
                 font-size: 21.98upx;
-                margin-top: 3.98upx;
                 margin-left: 6upx;
             }
         }

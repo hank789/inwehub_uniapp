@@ -106,7 +106,7 @@
                     <StarView :rating="item.review_average_rate" />
                   </view>
                   <view class="starsText">
-                    <view class="span">{{ item.review_average_rate }}分</view>
+                    <view class="span spanFirst">{{ item.review_average_rate }}分</view>
                     <view class="i" /><view class="span">{{ item.review_count }}条评论</view>
                   </view>
                 </view>
@@ -639,6 +639,7 @@ export default {
         padding: 0 31.96upx;
         margin-top: -15.98upx;
         margin-bottom: 13.96upx;
+        align-items: center;
         .stars {
             color: #FCC816;
             .iconfont{
@@ -647,9 +648,9 @@ export default {
         }
         .text {
             color: #FCC816;
-            font-size: 21.98upx;
-            margin-top: 3.98upx;
+            font-size: 24upx;
             margin-left: 6upx;
+            line-height: 24upx;
         }
     }
     .seeAll {
@@ -840,15 +841,15 @@ export default {
                 }
                 .productMark {
                     display: flex;
+                    align-items: center;
                     .iconfont{
                         color: #FCC816;
                         font-size: 24upx;
                     }
                     .span {
                         color: #B4B4B6;
-                        font-size: 21.98upx;
-                        line-height: 30upx;
-                        &:nth-of-type(1) {
+                        font-size: 24upx;
+                        &.spanFirst {
                             color: #FCC816;
                             margin-left: 6upx;
                         }
@@ -856,7 +857,7 @@ export default {
                     .i {
                         width: 3.98upx;
                         height: 3.98upx;
-                        margin-right: 9.98upx;
+                        margin: 9.98upx;
                         vertical-align: middle;
                         border-radius: 50%;
                         background: #B4B4B6;

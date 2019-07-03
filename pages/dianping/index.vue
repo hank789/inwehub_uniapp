@@ -444,11 +444,10 @@ export default {
           .stars {
             display: flex;
             margin-top: -9.98upx;
+            align-items: center;
             .span {
-              font-size: 21.98upx;
-              line-height: 30upx;
+              font-size: 24upx;
               margin-left: 6upx;
-              margin-top: 10upx;
               display: inline-block;
             }
           }

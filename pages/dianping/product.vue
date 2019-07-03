@@ -416,8 +416,6 @@ export default {
             .stars {
                 display: inline-block;
                 margin-right:5upx;
-                position: relative;
-                top:-4upx;
             }
 
             .starsText {
@@ -430,7 +428,7 @@ export default {
             .i {
                 width: 3.98upx;
                 height: 3.98upx;
-                margin-right: 9.98upx;
+                margin: 9.98upx;
                 vertical-align: middle;
                 border-radius: 50%;
                 background: #B4B4B6;
@@ -624,8 +622,9 @@ export default {
                 }
                 .productMark {
                     display: flex;
+                    align-items: center;
                     .stars {
-                        margin-top: 1.96upx;
+
                     }
                     .iconfont{
                         color: #FCC816;
@@ -633,8 +632,7 @@ export default {
                     }
                     .span {
                         color: #B4B4B6;
-                        font-size: 21.98upx;
-                        line-height: 30upx;
+                        font-size: 24upx;
                         &:nth-of-type(1) {
                             color: #FCC816;
                             margin-left: 6upx;
@@ -643,7 +641,7 @@ export default {
                     .i {
                         width: 3.98upx;
                         height: 3.98upx;
-                        margin-right: 9.98upx;
+                        margin: 9.98upx;
                         vertical-align: middle;
                         border-radius: 50%;
                         background: #B4B4B6;
