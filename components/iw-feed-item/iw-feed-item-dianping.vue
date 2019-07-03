@@ -504,7 +504,7 @@ export default {
             }
             .text {
                 color: #FCC816;
-                font-size: 21.98upx;
+                font-size: 24upx;
                 margin-left: 6upx;
             }
         }

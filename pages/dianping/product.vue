@@ -17,10 +17,10 @@
             <view class="stars">
               <StarView :rating="detail.review_average_rate" />
             </view>
-            <view class="starsText">
-              <view class="span">{{ detail.review_average_rate }}分</view>
-              <view class="i" /><view class="span comment">{{ detail.review_count }}条评论</view>
-            </view>
+
+            <view class="span">{{ detail.review_average_rate }}分</view>
+            <view class="i" /><view class="span comment">{{ detail.review_count }}条评论</view>
+
           </view>
           <view class="companyDescribe">{{ detail.summary }}</view>
           <view
@@ -406,8 +406,6 @@ export default {
         }
         .companyMark {
             color: #FCC816;
-            font-size: 21.98upx;
-            line-height: 30upx;
             text-align: center;
             margin-top: 15.98upx;
             display: flex;
@@ -420,8 +418,12 @@ export default {
 
             .starsText {
                 display: inline-block;
+              font-size: 24upx;
             }
 
+            .span {
+              font-size: 24upx;
+            }
             .comment {
                 color: #B4B4B6;
             }
