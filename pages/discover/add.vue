@@ -224,17 +224,11 @@ export default {
       }
 
       uni.chooseImage({
-        count: 9,
+        count: 9 - this.waitUploadImages.length,
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 从相册选择
         success: function(res) {
-          res.tempFiles.forEach((item, index) => {
-            if (that.waitUploadImages.length < 9) {
-              that.waitUploadImages.push(item)
-            } else {
-              that.isUploadImage = false
-            }
-          })
+					that.waitUploadImages = that.waitUploadImages.concat(res.tempFiles)
         }
       })
     },
@@ -311,8 +305,13 @@ export default {
           this.noticeUsers,
           this.selectedAddress,
           (res) => {
+					uni.showLoading({
+							title: '图片上传中',
+							mask: true
+					})
           var id = res.data.id
           this.lastUploadImage(id, () => {
+						uni.hideLoading()
             ui.toast('发布成功！')
             this.resetData()
             uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
