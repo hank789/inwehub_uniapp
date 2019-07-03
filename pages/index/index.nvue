@@ -79,7 +79,7 @@
 								</div>
 							</div>
 							<div @click="navToDetails(item)" class="cl-second-right" v-if="item.img">
-								<image resize="contain" class="cl-image" :src="item.img"></image>
+								<image resize="stretch" class="cl-image" :src="item.img | imageSuffix(96, 70)"></image>
 							</div>
 						</div>
 					</div>
