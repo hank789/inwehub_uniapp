@@ -107,7 +107,7 @@ export default {
 
     .component-report {
         width: 100%;
-        position: absolute;
+        position: relative;
         bottom: 0;
         z-index: 999;
         background: #ffffff;
