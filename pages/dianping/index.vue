@@ -527,6 +527,7 @@ export default {
         left: 30upx;
         white-space: normal;
         padding-right: 30upx;
+				z-index: 9;
       }
       .mask {
         width: 333.0upx;
