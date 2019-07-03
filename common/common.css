@@ -93,6 +93,8 @@ image{will-change: transform}
     line-height: 67.96upx;
     background: #F3F4F6;
     color: #C8C8C8;
+    display: flex;
+    align-items: center;
     border-radius: 199.96upx;}
 .container-control-logoAndTabsAndSearch .topSearchWrapper .searchFrame .span {
     font-size: 27.98upx;
