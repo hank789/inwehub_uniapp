@@ -6,11 +6,11 @@
 			<view class="tableBox">
 				<view class="inputRow">
 					<view class="title">学校</view>
-					<input class="inputBox" type="text" v-model.trim="edu.school" placeholder="必填" readonly>
+					<input class="inputBox" type="text" maxlength="-1" v-model.trim="edu.school" placeholder="必填" readonly>
 				</view>
 				<view class="inputRow">
 					<view class="title">专业</view>
-					<input class="inputBox" type="text" v-model.trim="edu.major" placeholder="必填">
+					<input class="inputBox" type="text" maxlength="-1" v-model.trim="edu.major" placeholder="必填">
 				</view>
 				<view class="inputRow" @tap="fixSelect">
 					<view class="title">学历</view>
@@ -45,7 +45,7 @@
 			</view>
 			<view class="accountTitle">
 				<view class="title"> 教育经历详情描述 </view>
-				<textarea class="description" v-model.trim="description" placeholder="请详细填写该教育经历的详细信息"></textarea>
+				<textarea class="description" maxlength="-1" v-model.trim="description" placeholder="请详细填写该教育经历的详细信息"></textarea>
 			</view>
 			<view class="options">
 				<text class="close common" @tap.stop.prevent="muiViewBack">取消</text>

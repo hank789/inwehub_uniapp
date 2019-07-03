@@ -5,12 +5,14 @@
 			<view class="tableBox">
 				<view class="inputRow">
 					<view class="title">公司</view>
-					<input class="inputBox" type="text" v-model.trim="job.company" placeholder="必填" @tap.stop.prevent="toselectcompany"
-					 readonly>
+					<text class="companyTitle textTips" v-if="job.company" @tap.stop.prevent="toselectcompany">{{ job.company }}</text>
+					<text class="companyTitle textTips description" v-else @tap.stop.prevent="toselectcompany">必填</text>
+					<!-- <input class="inputBox" type="text" v-model.trim="job.company" placeholder="必填" @tap.stop.prevent="toselectcompany"
+					 readonly> -->
 				</view>
 				<view class="inputRow">
 					<view class="title">职位</view>
-					<input class="inputBox" type="text" v-model.trim="job.title" placeholder="必填">
+					<input class="inputBox" maxlength="-1" type="text" v-model.trim="job.title" placeholder="必填">
 				</view>
 				<view class="inputRow" @tap="fixSelect">
 					<view class="title">行业领域</view>
@@ -42,7 +44,7 @@
 			</view>
 			<view class="accountTitle">
 				<view class="title"> 工作经历详情描述 </view>
-				<textarea class="description" v-model.trim="description" placeholder="请详细填写该工作经历的详细信息"></textarea>
+				<textarea class="description" maxlength="-1" v-model.trim="description" placeholder="请详细填写该工作经历的详细信息"></textarea>
 			</view>
 			<view class="options">
 				<text class="close common" @tap.stop.prevent="muiViewBack">取消</text>
@@ -95,7 +97,6 @@
 					title: '',
 					begin_time: '',
 					end_time: '',
-					description: '',
 					industry_tags: '',
 					product_tags: ''
 				},
@@ -215,7 +216,6 @@
 				if (this.type !== '0') {
 					var jobs = localEvent.get('jobs')
 					this.job = jobs[this.type]
-					this.description = this.job.description
 					this.bak = JSON.stringify(this.job)
 					this.loading = true
 				} else {
@@ -432,6 +432,12 @@
 				height: 64upx;
 				color: #3f3f3f;
 				padding-right: 0;
+				&.companyTitle {
+					right: 32upx;
+				}
+				&.description {
+					color: #b4b4b6;
+				}
 			}
 
 			.mui-ellipsis {

@@ -25,7 +25,7 @@
         </view>
       </view>
 
-      <view v-show="list.length !== 0 && showList" class="container-list-discuss">
+      <view v-if="list.length !== 0 && showList" class="container-list-discuss">
 
         <scroll-view
           scroll-y="true"
@@ -34,7 +34,7 @@
         >
 
           <template v-for="(item, index) in list" v-if="index < 3">
-            <view :key="index" class="list-item-discuss" @tap.stop.prevent="clickComment(item, list)" hover-class="hoverClass" :hover-stop-propagation="true">
+            <view class="list-item-discuss" @tap.stop.prevent="clickComment(item, list)" hover-class="hoverClass" :hover-stop-propagation="true">
               <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
                 <image mode="aspectFill" :src="item.owner.avatar" />
                 <text class="iconfont icon-zhuanjiabiaozhishixin" />
@@ -59,7 +59,7 @@
                 :children="item.children"
                 :parent-owner-name="item.owner.name"
                 :is-show="true"
-                @comment="clickComment"
+                @comment="clickCommentChild"
                 @vote="vote"
               />
             </view>
@@ -78,11 +78,12 @@
 import ui from '@/lib/ui'
 import { postRequest } from '@/lib/request'
 import { getLocalUserInfo } from '@/lib/user'
-import { getIndexByIdArray } from '@/lib/array'
+import { getIndexByIdArray, getListByIdArray } from '@/lib/array'
 import Vue from 'vue'
 import DiscussReplay from '@/components/iw-discover/discuss-reply.vue'
 import { textToLinkHtml } from '@/lib/dom'
 import userAbility from '@/lib/userAbility'
+import { getPlatform } from '@/lib/allPlatform'
 
 const Discuss = {
   data: () => ({
@@ -100,6 +101,10 @@ const Discuss = {
     info: { name: '游客', is_expert: 0, avatar_url: 'https://cdn.inwehub.com/system/user_default_avatar.png' }
   }),
   props: {
+    autoLoading: {
+      type: Boolean,
+      default: true
+    },
     listApi: {
       type: String,
       default: ''
@@ -161,7 +166,24 @@ const Discuss = {
     rootComment() {
       this.comment(0, '', this.list)
     },
+    clickCommentChild (event) {
+      let platform = getPlatform()
+      console.log('platform:' + platform)
+      console.log(event)
+      let data = {}
+      if (platform === 'web') {
+        data = event
+      } else {
+        data = event.detail.__args__[0]
+      }
+      console.log(data)
+
+      const comment = data.comment
+      const list = data.list
+      this.clickComment(comment, list)
+    },
     clickComment(comment, list) {
+      console.log(comment)
       var commentUid = comment.owner.uuid
       var userInfo = getLocalUserInfo()
       var uuid = userInfo.uuid
@@ -180,6 +202,7 @@ const Discuss = {
           ui.toast(response.message)
           return
         }
+        this.delList = getListByIdArray(this.delCommentId, this.list)
         var index = getIndexByIdArray(this.delList, this.delCommentId)
         if (index) {
           this.delList = this.delList.splice(index, 1)
@@ -194,7 +217,7 @@ const Discuss = {
     delComment(comment, list) {
       this.delCommentId = comment.id
       this.delList = list
-      ui.confirm('删除我的回复', '', ['取消', '确定'], (e) => {
+      ui.confirm('提示', '删除我的回复', ['取消', '确定'], (e) => {
         if (e.index === 1) {
           this.doDelComment()
         }
@@ -294,6 +317,7 @@ const Discuss = {
 
       console.log('discuss:parentid:' + parentId)
       if (parentId) {
+        this.commentTarget.list = getListByIdArray(parentId, this.list)
         var parentIndex = getIndexByIdArray(this.commentTarget.list, parentId)
         console.log('discuss:parentIndex:' + parentIndex)
         if (parentIndex > 0) {
@@ -335,13 +359,15 @@ const Discuss = {
       postRequest(this.listApi, params).then(response => {
         var code = response.code
         if (code !== 1000) {
-          ui.alert(response.message)
+          ui.toast(response.message)
           return
         }
         this.total = response.data.total
         if (response.data.data.length > 0) {
           this.list = this.list.concat(response.data.data)
         }
+
+        this.$forceUpdate()
 
         if (response.data.data.length < 10) {
           this.busy = true
@@ -363,7 +389,9 @@ const Discuss = {
   },
   mounted() {
     this.getInfo()
-    this.resetList()
+    if (this.autoLoading) {
+      this.resetList()
+    }
   },
   created() {
 

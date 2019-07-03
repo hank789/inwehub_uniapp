@@ -81,6 +81,7 @@
           :list-params="discussListParams"
           :store-api="'article/comment-store'"
           :store-params="discussStoreParams"
+          :autoLoading="false"
           @comment="comment"
           @commentFinish="commentFinish"
           @goComment="goComment"
@@ -347,6 +348,10 @@ export default {
       var shareOption = getDianpingCommentDetail(this.detail.slug, this.detail.title, this.detail.owner.avatar, this.detail.owner.name, this.detail.rate_star)
       this.shareOption = Object.assign(this.shareOption, shareOption)
       this.loading = 0
+
+      setTimeout(() => {
+        this.$refs.discuss.resetList()
+      }, 300)
     },
     detailMenuIcon(item) {
       switch (item.text) {
@@ -469,7 +474,7 @@ export default {
             var code = response.code
             // 如果请求不成功提示信息 并且返回上一页；
             if (code !== 1000) {
-              ui.alert(response.message)
+              ui.toast(response.message)
               uni.navigateBack()
               return
             }

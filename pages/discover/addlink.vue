@@ -5,7 +5,7 @@
       <view class="shareTitle font-family-medium">分享到首页</view>
 
       <view class="inputWrapper">
-        <input v-model="url" type="text" placeholder="输入文章链接" class="input">
+        <input v-model="url" focus="true" type="text" placeholder="输入文章链接" class="input" maxlength="-1">
         <view class="line-river-after line-river-after-top" />
       </view>
 
@@ -25,7 +25,7 @@
         <view class="title">所属领域</view>
 
         <view class="tagsList">
-          <text v-for="(item, index) in regions" v-if="item.value>0" class="span" :class="{active: item.selected}" @tap.stop.prevent="choiceItem(index, item)">{{ item.text }}</text>
+          <text v-for="(item, index) in regions" v-if="item.value>0" :key="item.text" class="span" :class="{active: item.selected}" @tap.stop.prevent="choiceItem(index, item)">{{ item.text }}</text>
         </view>
       </view>
 
@@ -44,6 +44,7 @@ import ui from '@/lib/ui'
 import { addLink, getRegions } from '@/lib/article'
 import { searchText } from '@/lib/search'
 import { fetchArticle, isUrl } from '@/lib/url'
+import { urlencode } from '@/lib/string'
 import Vue from 'vue'
 
 export default {
@@ -104,15 +105,42 @@ export default {
         }
       }
 
-      addLink(this.urlTitle, this.url, selectedTags, () => {
-        this.resetData()
-        uni.navigateBack()
+      addLink(this.urlTitle, this.url, selectedTags, (res) => {
+				uni.showToast({
+					title: '发布成功！',
+					icon: 'none'
+				})
+				console.log(res)
+        let data = {
+					id: res.id,
+					title: res.title,
+					url: res.data.url,
+					img: res.data.img,
+          slug: res.slug,
+					h5Url: this.$ls.get('webRoot') + '/#/c/' + res.category_id + '/' + res.slug
+				}
+				uni.redirectTo({
+					url: `/pages/webview/article?data=${urlencode(JSON.stringify(data))}`
+				})
       }, (res) => {
         var code = res.code
         if (code === 6101) {
           // 已存在
-          this.$ui.toast(res.message)
-          uni.redirectTo({ url: res.data.exist_url })
+					let url = res.data.exist_url.split('/')
+					uni.showModal({
+						title: '提示',
+						content: res.message,
+						success: (res) => {
+								if (res.confirm) {
+										console.log('用户点击确定');
+										uni.redirectTo({ 
+											url: '/pages/discover/detail?slug='+url[3]
+										})
+								} else if (res.cancel) {
+										console.log('用户点击取消');
+								}
+						}
+					})
           return
         }
       })
@@ -122,7 +150,7 @@ export default {
       Vue.set(this.regions, index, item)
     },
     fetchUrlInfo(url) {
-      fetchArticle(this, url, (data) => {
+      fetchArticle(url, (data) => {
         this.urlTitle = data.title || ''
         this.urlImage = data.img_url
       })
@@ -218,7 +246,7 @@ export default {
 
     .footerWrapper {
         position: absolute;
-        bottom: 60upx;
+        bottom: 10upx;
         left: 49.96upx;
         .text {
             color: #C8C8C8;

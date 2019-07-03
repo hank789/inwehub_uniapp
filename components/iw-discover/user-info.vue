@@ -8,18 +8,18 @@
         </view>
 
 
-        <view class="mui-media-body realnameMtop">
+        <view class="mui-media-body realnameMtop font-family-medium">
             {{ realname }}
 
       <view class="detail" v-if="isShowPositionAndCompany">
-            <view class="position">{{ position }}</view>
+            <view class="position timeCreated">{{ position }}</view>
             <view class="split"></view>
             <view class="company">{{ company }}</view>
         </view>
 
             <view class="detail" v-if="time">
-                <view class="position" v-if="isTime(time)"> {{timeago(time)}} </view>
-                <view class="position" v-else>{{time}}</view>
+                <view class="position timeCreated" v-if="isTime(time)"> {{timeago(time)}} </view>
+                <view class="position timeCreated" v-else>{{time}}</view>
             </view>
 
             <view class="followWrapper" v-if="isFollowStatus">
@@ -150,7 +150,7 @@
   }
 </script>
 
-<style scoped="scoped">
+<style scoped="scoped" lang="less">
 
     .avatar {
         z-index: 0;
@@ -202,9 +202,14 @@
     }
 
     .detail {
-        font-size: 24upx;
-        color: #C8C8C8;
+        font-size: 20upx;
+        color: #B4B4B6;
         margin-top: -6upx;
+				.timeCreated {
+					font-size: 20upx;
+					color: #B4B4B6;
+					margin-top: -12upx;
+				}
     }
 
     .split {
@@ -237,8 +242,8 @@
     }
 
     .mui-media-body {
-        font-size: 25.96upx;
-        color: #808080;
+        font-size: 26upx;
+        color: #444;
         position: relative;
         margin-top: -3.76upx;
     }
@@ -264,7 +269,7 @@
     }
 
     .userInfoWrapper {
-        padding: 30upx;
+        padding: 0 30upx;
     }
 
 </style>

@@ -1,15 +1,18 @@
 <template>
   <view class="content">
-    <textarea v-model="description" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
+    <textarea v-model="description" focus="true" maxlength="-1" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
 
-    <scroll-view :scroll-x="true" class="scrollViewImages">
-      <view class="container-upload-images">
-        <view class="imageItem" v-for="(image, index) in waitUploadImages" :key="index" >
-          <image class="image" :mode="'aspectFill'" :src="image.path" />
-          <text class="iconfont icon-times1" @tap.stop.prevent="delImg(index)" />
+    <view class="scrollViewImagesWrapper" v-if="waitUploadImages.length">
+      <scroll-view :scroll-x="true" class="scrollViewImages">
+        <view class="container-upload-images">
+          <view class="imageItem" v-for="(image, index) in waitUploadImages" :key="index" >
+            <image class="image" :mode="'aspectFill'" :src="image.path" />
+            <text class="iconfont icon-times1" @tap.stop.prevent="delImg(index)" />
+          </view>
         </view>
-      </view>
-    </scroll-view>
+      </scroll-view>
+    </view>
+
 
     <view v-for="(link, index) in links" v-if="links.length" :key="index" class="link">
       <view class="linkBox">
@@ -66,9 +69,9 @@
       :visible.sync="promptVisible"
       title="插入链接卡片"
       placeholder="输入链接地址"
-      default-value=""
       main-color="#007aff"
       @confirm="addLink"
+			@updateVisible="updatePromptVisible"
     />
   </view>
 
@@ -77,10 +80,11 @@
 <script>
 import ui from '@/lib/ui'
 import localStorageKey from '@/lib/localstoragekey'
-import { addDiscover } from '@/lib/discover'
+import { addDiscover, addLink } from '@/lib/discover'
 import Prompt from '@/components/zz-prompt/index.vue'
 import { fetchArticle } from '@/lib/url'
 import { imagesToBase64, uploadImagesByBase64 } from '@/lib/image'
+import { getGeoPosition } from '@/lib/allPlatform'
 
 export default {
   components: { Prompt },
@@ -92,14 +96,17 @@ export default {
         freeMode: true
       },
       group_id: 0,
+      maxImageCount: 9,
       description: '',
       address: '所在位置',
       placeholder: '在这里输入您的分享内容\n底部的按钮可以添加：标签、链接、附件',
-      isUploadImage: true,
       isUploadPdf: true,
-      isUploadLink: true,
       selectedGroup: {
         name: ''
+      },
+      position: {
+        longt: 0,
+        lat: 0
       },
       waitUploadImages: [],
       selectedAddress: '所在位置',
@@ -123,6 +130,31 @@ export default {
       this.group_id = option.group_id
     }
     this.pageOption = option
+    getGeoPosition((position) => {
+      if (position.addresses) {
+        this.position = position
+      }
+    })
+  },
+  computed: {
+    isUploadImage () {
+      if (this.waitUploadImages.length >= this.maxImageCount) {
+        return false
+      }
+      if (this.links.length) {
+        return false
+      }
+      return true
+    },
+    isUploadLink () {
+      if (this.waitUploadImages.length) {
+        return false
+      }
+      if (this.links.length) {
+        return false
+      }
+      return true
+    }
   },
   methods: {
     resetData () {
@@ -170,6 +202,9 @@ export default {
     linkClose() {
       this.links = []
     },
+		updatePromptVisible(val) {
+			this.promptVisible = val
+		},
     addLink(url) {
       fetchArticle(url, (data) => {
         this.links = [{
@@ -190,18 +225,20 @@ export default {
     uploadImage: function() {
       const that = this
 
+      if (this.waitUploadImages.length >= this.maxImageCount) {
+        return false
+      }
+
+      if (this.links.length) {
+        return false
+      }
+
       uni.chooseImage({
-        count: 9,
+        count: 9 - this.waitUploadImages.length,
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 从相册选择
         success: function(res) {
-          res.tempFiles.forEach((item, index) => {
-            if (that.waitUploadImages.length < 9) {
-              that.waitUploadImages.push(item)
-            } else {
-              that.isUploadImage = false
-            }
-          })
+					that.waitUploadImages = that.waitUploadImages.concat(res.tempFiles)
         }
       })
     },
@@ -259,30 +296,40 @@ export default {
       }
     },
     addDiscover() {
-      if (!this.description) {
-        ui.toast('请填写分享内容')
-        return
-      }
-
+      console.log('in addDiscover')
       if (this.links.length) {
+				if (!this.description) {
+					this.description = this.links[0].title
+				}
         addLink(this.description, this.links[0].url, this.group_id, (res) => {
           uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
         })
       } else {
-
+				if (!this.description) {
+					ui.toast('请填写分享内容')
+					return
+				}
         addDiscover(
           this.description,
           this.tags,
           this.newTags,
           this.noticeUsers,
           this.selectedAddress,
+          this.position,
           (res) => {
-          var id = res.data.id
-          this.lastUploadImage(id, () => {
-            ui.toast('发布成功！')
-            this.resetData()
-            uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
-          })
+						if (this.waitUploadImages.length >0) {
+							uni.showLoading({
+									title: '图片上传中',
+									mask: true
+							})
+						}
+						var id = res.data.id
+						this.lastUploadImage(id, () => {
+							uni.hideLoading()
+							ui.toast('发布成功！')
+							this.resetData()
+							uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
+						})
         })
       }
     },
@@ -297,6 +344,9 @@ export default {
 </script>
 
 <style lang="less">
+   .selectedAddress{
+     max-width:200upx;
+   }
     page, .content{
       background-color: #f3f4f6;
       height: 100%;
@@ -304,9 +354,16 @@ export default {
       position: relative;
     }
 
-    .scrollViewImages{
+    .scrollViewImagesWrapper{
       height:182upx;
       width:750upx;
+      padding:0 10upx;
+    }
+
+    .scrollViewImages{
+      height:182upx;
+      width:100%;
+      white-space: nowrap;
     }
 
     .textarea {
@@ -340,13 +397,13 @@ export default {
     .container-bottom-menus .leftItem{
         display: block;
         float: left;
-        padding: 0 15.0upx;
-        font-size: 37.96upx;
+        padding: 0 30upx;
+        font-size: 40upx;
         color: grey;
     }
 
     .container-bottom-menus .leftItem .iconfont{
-        font-size: 37.96upx;
+        font-size: 50upx;
     }
 
     .container-bottom-menus .component-labelWithIcon{
@@ -443,6 +500,12 @@ export default {
           height: 31.96upx;
           color: #808080;
         }
+      }
+    }
+
+    .disable{
+      .iconfont{
+        color:#DCDCDC;
       }
     }
 </style>

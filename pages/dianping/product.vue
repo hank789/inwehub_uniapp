@@ -66,19 +66,7 @@
 
         <view class="component-score">
           <view class="text">就您的感受而言，您会给他打多少分？</view>
-          <!--<starRating-->
-          <!--v-model="star"-->
-          <!--:increment="1"-->
-          <!--:padding="4"-->
-          <!--:active-color="'#fcc816'"-->
-          <!--:star-size="23"-->
-          <!--:show-rating="false"-->
-          <!--:border-color="'#fcc816'"-->
-          <!--:border-width="3"-->
-          <!--:inactive-color="'#FFFFFF'"-->
-          <!--:star-points="[48.3,190.9,46.5,190.8,43.2,189.7,41.6,188.7,40.4,187.7,38.4,185.2,37.2,182.3,36.9,179.1,37.1,177.5,46,125.9,8.5,89.4,7.4,88.2,5.9,85.4,5.1,82.4,5.2,79.3,5.6,77.7,6.2,76.2,8,73.6,10.4,71.6,13.2,70.3,14.8,69.9,66.6,62.4,89.8,15.4,90.6,14,92.7,11.7,95.4,10,98.4,9.1,100,9,101.6,9.1,104.7,10,107.3,11.6,109.4,14,110.2,15.4,133.4,62.4,185.2,69.9,186.8,70.2,189.7,71.5,192.1,73.5,193.8,76.2,194.4,77.7,194.8,79.3,194.9,82.4,194.1,85.4,192.6,88.2,191.5,89.4,154,125.9,162.9,177.5,163.1,179.1,162.7,182.2,161.5,185.1,159.6,187.6,158.4,188.7,157,189.6,154.1,190.7,151,190.9,147.9,190.2,146.4,189.6,100,165.2,53.7,189.6,51,190.6,48.3,190.9,48.3,190.9]"-->
-          <!--@rating-selected="waitGoDianping"-->
-          <!--/>-->
+          <starRating  @change="changeStarRating" :size="32"/>
         </view>
         <view class="line-river-big" />
         <view class="allDianPing font-family-medium"  v-if="detail.related_tags && detail.related_tags.length">相关推荐</view>
@@ -156,6 +144,7 @@ import { urlencode } from '@/lib/string'
 import StarView from '@/components/iw-star/iw-star'
 import { getLocalName } from '@/lib/user'
 import MescrollDetail from '@/components/iw-detail-refresh/iw-detail-refresh.vue'
+import starRating from '@/components/iw-star/star-rating.vue'
 
 export default {
   components: {
@@ -163,7 +152,8 @@ export default {
     FooterMenu,
     PageMore,
     StarView,
-    MescrollDetail
+    MescrollDetail,
+    starRating
   },
   data() {
     return {
@@ -172,6 +162,7 @@ export default {
       loading: 1,
       id: '',
       userName: currentUser.name,
+      rating: 0,
       detail: {
         reviews: 0,
         followers: 0,
@@ -251,6 +242,10 @@ export default {
     this.$refs.share.show(true)
   },
   methods: {
+    changeStarRating (val) {
+      this.rating = val.value
+      this.goDianping()
+    },
     toProducts (item) {
       this.toRoute('/pages/dianping/products?id=' + item.id + '&name=' + encodeURIComponent(item.name))
     },
@@ -323,7 +318,7 @@ export default {
       this.shareOption = Object.assign(this.shareOption, shareOption)
     },
     goDianping() {
-      userAbility.jumpToDianpingAdd(this, urlencode(this.detail.name))
+      userAbility.jumpToDianpingAdd(this, urlencode(this.detail.name), this.rating)
     },
     getAnimObject(item) {
 
@@ -347,6 +342,8 @@ export default {
             this.detail.followers++
             this.isFollwers = true
             this.is_FollWers = true
+            this.detail.followers++
+            this.detail.is_followed = 1
           }, () => {
             this.is_FollWers = false
             this.isFollwers = true
@@ -413,17 +410,20 @@ export default {
             line-height: 30upx;
             text-align: center;
             margin-top: 15.98upx;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             .stars {
                 display: inline-block;
+                margin-right:5upx;
+                position: relative;
+                top:-4upx;
             }
-            .starViewWrapper {
-                top:7.96upx;
-            }
+
             .starsText {
                 display: inline-block;
-                position: relative;
-                top: -1.96upx;
             }
+
             .comment {
                 color: #B4B4B6;
             }

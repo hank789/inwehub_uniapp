@@ -20,7 +20,7 @@
             <view class="middle">
               <view class="left">
                 <view class="title font-family-medium text-line-2">{{ item.title }}</view>
-                <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, index)">
+                <view class="heatWrapper border-football" @tap.stop.prevent="addHeat(item, index)" hover-class="hoverClass" :hover-stop-propagation="true">
                   <view v-if="item.startAnimation" class="addOne">
                     <text class="i"/>
                     <view class="span">+{{ startAnimationNum }}</view>
@@ -390,8 +390,11 @@ export default {
                             height: 37.96upx;
                             margin-top: 18upx;
                             width: max-content;
-                            padding: 0 49.96upx 0 15.98upx;
+                            padding: 0 15.98upx 0 15.98upx;
                             position: relative;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-around;
                             .addOne {
                                 height: 42upx;
                                 position: absolute;
@@ -431,25 +434,17 @@ export default {
                             .span {
                                 color: #C8C8C8;
                                 font-size: 21.98upx;
-                                margin-right: 7.96upx;
-                                position: relative;
-                                top: -7.0upx;
-                                left: 6upx;
+                                margin:0 7.96upx;
+                                line-height: normal;
                             }
-                            .iconfont{
-                                position: relative;
-                                top: -6upx;
-                                &.iconfontFirst {
-                                    color: #FA4975;
-                                    font-size: 22.50upx;
-                                }
-                                &.iconfontTwo {
-                                    color: #808080;
-                                    font-size: 18upx;
-                                    top: -2upx;
-                                    position: absolute !important;
-                                    right: 15.98upx !important;
-                                }
+
+                           .iconfontFirst {
+                             color: #FA4975;
+                             font-size: 22.50upx;
+                            }
+                            .iconfontTwo {
+                              color: #808080;
+                              font-size: 18upx;
                             }
                         }
                         .border-football {

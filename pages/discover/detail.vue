@@ -123,7 +123,7 @@
               <view class="share">
                 <view v-show="detail.data.current_address_name" class="location">
                   <text class="iconfont icon-dingwei1" />
-                  <view>{{ detail.data.current_address_name }}</view>
+                  <text class="span">{{ detail.data.current_address_name }}</text>
                 </view>
               </view>
             </view>
@@ -140,6 +140,7 @@
               :list-params="discussListParams"
               :store-api="'article/comment-store'"
               :store-params="discussStoreParams"
+              :autoLoading="false"
               @comment="comment"
               @commentFinish="commentFinish"
               @goComment="goComment"
@@ -803,6 +804,9 @@ export default {
 
       this.loading = false
       this.recommendRead()
+      setTimeout(() => {
+        this.$refs.discuss.resetList()
+      }, 300)
     },
     setFollowStatus(status) {
       this.detail.is_followed_author = status
@@ -1168,7 +1172,7 @@ export default {
             }
         }
         .span {
-            margin-left: -7.96upx;
+            margin-left: 7.96upx;
             font-size: 24upx;
             color: #B4B4B6;
         }

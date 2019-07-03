@@ -22,8 +22,9 @@
         if (this.width) {
           style += 'width:' + this.width + ';'
         }
-
-        style += 'height:' + this.height + ';'
+        if (parseInt(this.height) < 320) {
+          style += 'height:' + this.height + ';'
+        }
         return style
       }
     },
@@ -35,7 +36,15 @@
       src: {
         type: String,
         default: ''
-      }
+      },
+      maxWidth: {
+        type: Number,
+        default: 216
+      },
+      maxHeight: {
+        type: Number,
+        default: 216
+      },
     },
     created() {
 
@@ -44,13 +53,20 @@
       loaded(event) {
         let width = event.detail.width
         let height = event.detail.height
-        if (width > 345) {
-          height = height * 345 / width
-          width = '100%'
+
+        if (width >= height) {
+          if (width > this.maxWidth) {
+            height = height * this.maxWidth / width
+            width = this.maxWidth
+          }
         } else {
-          width += 'px'
+          if (height > this.maxHeight) {
+            width = width * this.maxHeight / height
+            height = this.maxHeight
+          }
         }
-        this.width = width
+
+        this.width = width + 'px'
         this.height = height + 'px'
       }
     }

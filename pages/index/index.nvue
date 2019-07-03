@@ -79,7 +79,7 @@
 								</div>
 							</div>
 							<div @click="navToDetails(item)" class="cl-second-right" v-if="item.img">
-								<image resize="cover" class="cl-image" :src="item.img | imageSuffix(96, 70)"></image>
+								<image resize="stretch" class="cl-image" :src="item.img | imageSuffix(96, 70)"></image>
 							</div>
 						</div>
 					</div>
@@ -767,11 +767,11 @@
 	}
 	.cl-second-right{
 		flex: 0 1 auto;
-		width:192px;
+		width:140px;
 		height:140px;
 	}
 	.cl-image{
-		width:192px;
+		width:140px;
 		height:140px;
 		border-radius: 8px;
 	}

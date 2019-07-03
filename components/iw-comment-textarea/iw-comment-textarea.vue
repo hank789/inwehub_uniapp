@@ -1,7 +1,7 @@
 <template>
   <view v-show="showTextarea || alwaysshow" class="commentWrapper" @tap.capture="onTap($event)">
     <view class="textareaWrapper">
-      <textarea v-if="showTextarea" v-model="textarea" :focus="focus" auto-height="true" class="textarea" :placeholder="targetUsername" />
+      <textarea v-if="showTextarea" maxlength="-1" v-model="textarea" :focus="focus" auto-height="true" class="textarea" :placeholder="targetUsername" />
       <!--<text class="iconfont icon-fasong"></text>-->
     </view>
     <view class="send font-family-medium" :class="text.length - 2 ? 'active' : ''" @tap.stop.prevent="sendMessage">发送</view>

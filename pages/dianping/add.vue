@@ -4,13 +4,13 @@
       <view class="component-mark">
         <view class="span">{{ markTips ? markTips : '就您的感受而言，您会给他打多少分？' }}</view>
         <view class="stars">
-          <starRating  @change="changeStarRating" :size="32"/>
+          <starRating  :value="star" @change="changeStarRating" :size="32"/>
           <view v-if="star" class="ratingNumber">{{ star }}分</view>
         </view>
         <view class="line-river-after line-river-after-top" />
       </view>
 
-      <textarea class="textarea" v-model="html" :placeholder="descPlaceholder" />
+      <textarea class="textarea" maxlength="-1" v-model="html" :placeholder="descPlaceholder" />
 
       <view class="container-images">
         <view v-for="(image, index) in images" class="container-image">
@@ -157,10 +157,8 @@ export default {
         return
       }
 
-      var dianpingRating = localEvent.get('dianping_rating')
-      if (dianpingRating && dianpingRating.rating) {
-        this.star = dianpingRating.rating
-        localEvent.remove('dianping_rating')
+      if (this.pageOption.rating) {
+        this.star = this.pageOption.rating
       }
       this.initData()
       const id = this.pageOption.id
@@ -220,15 +218,11 @@ export default {
 
       const that = this
       uni.chooseImage({
-        count: 9,
+        count: 9 - this.images.length,
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 从相册选择
         success: function(res) {
-          res.tempFiles.forEach((item, index) => {
-            if (that.images.length < 9) {
-              that.images.push(item)
-            }
-          })
+					that.images = that.images.concat(res.tempFiles)
         }
       })
 
@@ -511,6 +505,11 @@ export default {
         right: -10upx;
         top: -26upx;
         z-index:9;
+    }
+
+    .container-images .container-image {
+      width: 122upx;
+      height: 122upx;
     }
 </style>
 <style>

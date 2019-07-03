@@ -26,7 +26,10 @@
         class="container-images container-images-discover"
         :class="'container-images-' + (itemObj.feed.img.length)"
       >
-        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image"><image mode="aspectFill" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" /></view>
+        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image">
+          <autoWidthHeight :src="img" v-if="itemObj.feed.img.length === 1"></autoWidthHeight>
+          <image mode="aspectFill" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" v-else />
+        </view>
       </view>
 
       <view v-if="item.feed.tags && isShowLink" class="link">
@@ -35,7 +38,7 @@
             <text class="iconfont icon-biaozhunlogoshangxiayise " />
           </view>
           <view v-else class="productLogo border-football">
-            <image mode="aspectFill" class="image" :src="item.feed.tags[0].logo" :is-lazyload="true" width="45" height="45" />
+            <image mode="aspectFit" class="image" :src="item.feed.tags[0].logo  | imageSuffix(45, 45)" :lazy-load="true" width="45" height="45" />
           </view>
           <view class="linkContent">
             <view v-if="item.feed.tags[0].name" class="div text-line-1">{{ item.feed.tags[0].name }}</view>
@@ -82,10 +85,12 @@
 import { getDianpingCommentDetail } from '@/lib/shareTemplate'
 import { upvote, downVote } from '@/lib/discover'
 import StarView from '@/components/iw-star/iw-star'
+import autoWidthHeight from '@/components/iw-image/autowidthheight'
 
 export default {
   components: {
-    StarView
+    StarView,
+    autoWidthHeight
   },
   props: {
     item: {
@@ -309,8 +314,8 @@ export default {
                     .span {
                         &.spanFirst {
                             color: #444444;
-                            font-size: 25.96upx;
-                            line-height: 36.98upx;
+                            font-size: 26upx;
+                            line-height: 37upx;
                         }
                         &.spanSecond {
 
@@ -472,18 +477,19 @@ export default {
                     margin-top: 0;
                     .text {
                         color: #FCC816;
-                        margin-top: 0 !important;
+                        margin-top: 6upx !important;
                     }
                     .i {
                         width: 3.98upx;
                         height: 3.98upx;
                         background: #B4B4B6;
                         border-radius: 50%;
-                        margin: 19.50upx 9.98upx 0;
+                        margin: 26upx 9.98upx 0;
                     }
                     .comment {
                         color: #B4B4B6;
                         font-size: 21.98upx;
+												margin-top: 6upx;
                     }
                 }
             }

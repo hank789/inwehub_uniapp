@@ -21,7 +21,7 @@
                 <view class="container-list-discuss container-list-marginTop">
                     <view class="message">
                         <template v-for="(item, index) in list">
-                            <view class="list-item-discuss"  @tap.stop.prevent="clickComment(item, list)" :key="index">
+                            <view class="list-item-discuss"  @tap.stop.prevent="clickComment(item, list)" :key="index" hover-class="hoverClass" :hover-stop-propagation="true">
                                 <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
                                     <image mode="aspectFill" v-if="item.owner.avatar" :src="item.owner.avatar"/>
                                     <text class="iconfont icon-zhuanjiabiaozhishixin"></text>
@@ -31,8 +31,8 @@
                                     <view class="lidR2 textToLink" v-html="textToLink(item.content)"></view>
                                     <view class="lidR3">
                                         <view class="lidRtime"> {{item.created_at | timeago}}</view>
-                                        <view class="lidROption" @tap.stop.prevent="vote(item)" :class="{active:item.is_supported}">
-                                            <text class="iconfont icon-zan"></text><view v-if="item.supports">{{item.supports}}</view>
+                                        <view class="lidROption" @tap.stop.prevent="vote(item)" :class="{active:item.is_supported}" hover-class="hoverClass" :hover-stop-propagation="true">
+                                            <text class="iconfont icon-zan"></text><text class="span" v-if="item.supports">{{item.supports}}</text>
                                         </view>
                                     </view>
                                 </view>
@@ -44,7 +44,7 @@
                                         :children="item.children"
                                         :parentOwnerName="item.owner.name"
                                         :isShow="true"
-                                        @comment="clickComment"
+                                        @comment="clickCommentChild"
                                         @vote="vote"
                                 ></DiscussReplay>
                             </view>
@@ -69,14 +69,15 @@
   import RefreshList from '@/components/iw-list/iw-list.vue'
   import { postRequest } from '@/lib/request'
   import { getLocalUserInfo } from '@/lib/user'
-  import { getIndexByIdArray } from '@/lib/array'
+  import { getIndexByIdArray, getListByIdArray } from '@/lib/array'
   import commentTextarea from '@/components/iw-comment-textarea/iw-comment-textarea.vue'
   import Vue from 'vue'
   import { textToLinkHtml, transferTagToLink } from '@/lib/dom'
-  import DiscussReplay from '@/components/iw-discover/discuss.vue'
+  import DiscussReplay from '@/components/iw-discover/discuss-reply.vue'
   import userAbility from '@/lib/userAbility'
   import AlertTextarea from '@/components/iw-comment-alerttextarea/iw-comment-alerttextarea.vue'
   import { showComment } from '@/lib/comment'
+  import { getPlatform } from '@/lib/allPlatform'
 
   export default {
     data () {
@@ -241,6 +242,7 @@
 
         console.log('discuss:parentid:' + parentId)
         if (parentId) {
+          this.commentTarget.list = getListByIdArray(parentId, this.list)
           var parentIndex = getIndexByIdArray(this.commentTarget.list, parentId)
           console.log('discuss:parentIndex:' + parentIndex)
           if (parentIndex > 0) {
@@ -260,6 +262,21 @@
             this.resetList()
           }
         }
+      },
+      clickCommentChild (event) {
+        let platform = getPlatform()
+        console.log('platform:' + platform)
+        console.log(event)
+        let data = {}
+        if (platform === 'web') {
+          data = event
+        } else {
+          data = event.detail.__args__[0]
+        }
+
+        const comment = data.comment
+        const list = data.list
+        this.clickComment(comment, list)
       },
       clickComment (comment, list) {
         var commentUid = comment.owner.uuid
@@ -285,6 +302,8 @@
             ui.toast(response.message)
             return
           }
+
+          this.delList = getListByIdArray(this.delCommentId, this.list)
           var index = getIndexByIdArray(this.delList, this.delCommentId)
           if (index) {
             this.delList = this.delList.splice(index, 1)
@@ -300,7 +319,7 @@
         this.delCommentId = comment.id
         this.delList = list
 
-        ui.confirm('删除我的回复', '', ['取消', '确定'], (event) => {
+        ui.confirm('提示', '删除我的回复', ['取消', '确定'], (event) => {
           if (event.index === 1) {
             this.doDelComment()
           }
