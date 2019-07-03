@@ -1,6 +1,6 @@
 <template>
-	<view>
-		<view class="mui-content">
+	<view class="content" v-if="loading">
+		<view class="muiContent">
 			<view class="my-top">
 				<view class="account_info" @tap.stop.prevent="toRoute('/pages/my/resume')">
 					<text class="iconfont icon-jinru"></text>
@@ -120,7 +120,8 @@
 				show_my_wallet: false,
 				my: '',
 				current_day_signed: '',
-				recommendList: []
+				recommendList: [],
+				loading: false
 			}
 		},
 		components: {
@@ -190,6 +191,7 @@
 			},
 			getUserData() {
 				getAndUpdateUserInfo((user) => {
+					this.loading = true
 					this.user_level = user.info.user_level
 					this.user_id = user.info.id
 					this.uuid = user.info.uuid
@@ -235,7 +237,8 @@
 </script>
 
 <style lang="less">
-	.mui-content {
+	.muiContent {
+		height: 100%;
 		background: #fff;
 	}
 
@@ -450,5 +453,8 @@
 				left: 31.96upx;
 			}
 		}
+	}
+	.guessLike {
+		padding-bottom: 100upx;
 	}
 </style>
