@@ -381,6 +381,7 @@ export default {
     }
 
     .container-bottom-menus {
+			z-index: 100;
         position: fixed;
         display: flex;
         align-items:center;
