@@ -71,7 +71,7 @@
 						</div>
 						<div class="cl-second">
 							<div :class="[item.img?'cl-second-left':'cl-second-content']">
-								<text @click="navToDetails(item)" :class="['cl-title',item.img?'':'cl-title1']">{{ item.title }}</text>
+								<text @click="navToDetails(item)" :class="['cl-title','font-family-medium',item.img?'':'cl-title1']">{{ item.title }}</text>
 								<div class="cl-button" @click="addHeat(item, index, tabIndex)">
 									<text class="iconfont cl-icon-fire">&#xe6d3;</text>
 									<text class="cl-zannumber">{{ item.rate }}</text>
@@ -79,7 +79,7 @@
 								</div>
 							</div>
 							<div @click="navToDetails(item)" class="cl-second-right" v-if="item.img">
-								<image resize="stretch" class="cl-image" :src="item.img | imageSuffix(96, 70)"></image>
+								<image resize="cover" class="cl-image" :src="item.img | imageSuffix(96, 70)"></image>
 							</div>
 						</div>
 					</div>
@@ -753,7 +753,7 @@
 	}
 	.cl-second-left{
 		flex: 0 1 auto;
-		width:500px;
+		width:470px;
 		height:160px;
 		flex-wrap:wrap;
 		padding-right:10px;
@@ -767,11 +767,11 @@
 	}
 	.cl-second-right{
 		flex: 0 1 auto;
-		width:140px;
+		width:180px;
 		height:140px;
 	}
 	.cl-image{
-		width:140px;
+		width:180px;
 		height:140px;
 		border-radius: 8px;
 	}
