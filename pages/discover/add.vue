@@ -2,14 +2,17 @@
   <view class="content">
     <textarea v-model="description" focus="true" maxlength="-1" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
 
-    <scroll-view :scroll-x="true" class="scrollViewImages" v-if="waitUploadImages.length">
-      <view class="container-upload-images">
-        <view class="imageItem" v-for="(image, index) in waitUploadImages" :key="index" >
-          <image class="image" :mode="'aspectFill'" :src="image.path" />
-          <text class="iconfont icon-times1" @tap.stop.prevent="delImg(index)" />
+    <view class="scrollViewImagesWrapper" v-if="waitUploadImages.length">
+      <scroll-view :scroll-x="true" class="scrollViewImages">
+        <view class="container-upload-images">
+          <view class="imageItem" v-for="(image, index) in waitUploadImages" :key="index" >
+            <image class="image" :mode="'aspectFill'" :src="image.path" />
+            <text class="iconfont icon-times1" @tap.stop.prevent="delImg(index)" />
+          </view>
         </view>
-      </view>
-    </scroll-view>
+      </scroll-view>
+    </view>
+
 
     <view v-for="(link, index) in links" v-if="links.length" :key="index" class="link">
       <view class="linkBox">
@@ -81,6 +84,7 @@ import { addDiscover, addLink } from '@/lib/discover'
 import Prompt from '@/components/zz-prompt/index.vue'
 import { fetchArticle } from '@/lib/url'
 import { imagesToBase64, uploadImagesByBase64 } from '@/lib/image'
+import { getGeoPosition } from '@/lib/allPlatform'
 
 export default {
   components: { Prompt },
@@ -99,6 +103,10 @@ export default {
       isUploadPdf: true,
       selectedGroup: {
         name: ''
+      },
+      position: {
+        longt: 0,
+        lat: 0
       },
       waitUploadImages: [],
       selectedAddress: '所在位置',
@@ -122,6 +130,11 @@ export default {
       this.group_id = option.group_id
     }
     this.pageOption = option
+    getGeoPosition((position) => {
+      if (position.addresses) {
+        this.position = position
+      }
+    })
   },
   computed: {
     isUploadImage () {
@@ -221,17 +234,11 @@ export default {
       }
 
       uni.chooseImage({
-        count: 9,
+        count: 9 - this.waitUploadImages.length,
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 从相册选择
         success: function(res) {
-          res.tempFiles.forEach((item, index) => {
-            if (that.waitUploadImages.length < 9) {
-              that.waitUploadImages.push(item)
-            } else {
-              that.isUploadImage = false
-            }
-          })
+					that.waitUploadImages = that.waitUploadImages.concat(res.tempFiles)
         }
       })
     },
@@ -289,6 +296,7 @@ export default {
       }
     },
     addDiscover() {
+      console.log('in addDiscover')
       if (this.links.length) {
 				if (!this.description) {
 					this.description = this.links[0].title
@@ -307,13 +315,21 @@ export default {
           this.newTags,
           this.noticeUsers,
           this.selectedAddress,
+          this.position,
           (res) => {
-          var id = res.data.id
-          this.lastUploadImage(id, () => {
-            ui.toast('发布成功！')
-            this.resetData()
-            uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
-          })
+						if (this.waitUploadImages.length >0) {
+							uni.showLoading({
+									title: '图片上传中',
+									mask: true
+							})
+						}
+						var id = res.data.id
+						this.lastUploadImage(id, () => {
+							uni.hideLoading()
+							ui.toast('发布成功！')
+							this.resetData()
+							uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
+						})
         })
       }
     },
@@ -328,6 +344,9 @@ export default {
 </script>
 
 <style lang="less">
+   .selectedAddress{
+     max-width:200upx;
+   }
     page, .content{
       background-color: #f3f4f6;
       height: 100%;
@@ -335,9 +354,16 @@ export default {
       position: relative;
     }
 
-    .scrollViewImages{
+    .scrollViewImagesWrapper{
       height:182upx;
       width:750upx;
+      padding:0 10upx;
+    }
+
+    .scrollViewImages{
+      height:182upx;
+      width:100%;
+      white-space: nowrap;
     }
 
     .textarea {

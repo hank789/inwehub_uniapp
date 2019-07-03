@@ -210,6 +210,10 @@ export default {
   .list {
     margin-top: 3.0upx;
   }
+
+  .starsText{
+    margin-left:10upx;
+  }
   .comment-product {
     padding: 27.98upx 30upx 0;
     .product-info {

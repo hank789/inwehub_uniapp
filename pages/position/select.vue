@@ -23,7 +23,6 @@
         :api="'location/nearbySearch'"
         :page-mode="true"
         :request-data="dataList"
-        class="listWrapper"
       >
         <view class="ul">
           <view v-for="(item, index) in list" class="li" @tap.stop.prevent="addAddress(item.name)">
@@ -185,8 +184,6 @@ export default {
         height:108upx;
         background:#ffffff;
         padding-top: 19.96upx;
-        position: absolute;
-        top:0;
     }
     .searchContainer .p {
         width:92%;
@@ -245,8 +242,7 @@ export default {
         height:87.98upx;
         padding: 0 4%;
         line-height: 87.98upx;
-        position: absolute;
-        top:108upx;
+      position: relative;
       z-index: 7;
       background: #fff;
     }

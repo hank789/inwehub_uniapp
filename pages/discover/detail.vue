@@ -123,7 +123,7 @@
               <view class="share">
                 <view v-show="detail.data.current_address_name" class="location">
                   <text class="iconfont icon-dingwei1" />
-                  <view>{{ detail.data.current_address_name }}</view>
+                  <text class="span">{{ detail.data.current_address_name }}</text>
                 </view>
               </view>
             </view>
@@ -1172,7 +1172,7 @@ export default {
             }
         }
         .span {
-            margin-left: -7.96upx;
+            margin-left: 7.96upx;
             font-size: 24upx;
             color: #B4B4B6;
         }

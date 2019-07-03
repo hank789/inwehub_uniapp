@@ -13,7 +13,7 @@
       <textarea class="textarea" maxlength="-1" v-model="html" :placeholder="descPlaceholder" />
 
       <view class="container-images">
-        <view :key="image" v-for="(image, index) in images" class="container-image">
+        <view v-for="(image, index) in images" class="container-image">
           <text class="iconfont icon-times1 " @tap.stop.prevent="delImg(index)"/>
           <image :id="'image_' + index" mode="aspectFill" class="image" :src="image.path" />
         </view><view v-if="images.length < maxImageCount" class="component-photograph" @tap.stop.prevent="uploadImage()"><text class="iconfont icon-xiangji1 " /></view>
@@ -218,15 +218,11 @@ export default {
 
       const that = this
       uni.chooseImage({
-        count: 9,
+        count: 9 - this.images.length,
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 从相册选择
         success: function(res) {
-          res.tempFiles.forEach((item, index) => {
-            if (that.images.length < 9) {
-              that.images.push(item)
-            }
-          })
+					that.images = that.images.concat(res.tempFiles)
         }
       })
 
@@ -509,6 +505,11 @@ export default {
         right: -10upx;
         top: -26upx;
         z-index:9;
+    }
+
+    .container-images .container-image {
+      width: 122upx;
+      height: 122upx;
     }
 </style>
 <style>
