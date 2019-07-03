@@ -1,10 +1,15 @@
 {
-    "name" : "InweHubTest",
-    "appid" : "__UNI__3FD074B",
+    "name" : "InweHub",
+    "appid" : "__UNI__73A6D8B",
     "description" : "",
-    "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "versionName" : "1.1.398",
+    "versionCode" : "192",
     "transformPx" : false,
+	"networkTimeout" : {
+		"request": 10000,
+		"uploadFile": 30000,
+		"downloadFile": 30000
+	},
     "app-plus" : {
         /* 5+App特有相关 */
         "usingComponents" : true,
@@ -19,7 +24,6 @@
         },
         "modules" : {
             "OAuth" : {},
-            "Payment" : {},
             "Share" : {},
             "Maps" : {},
             "Push" : {},
@@ -29,7 +33,7 @@
         "distribute" : {
             /* 应用发布信息 */
             "android" : {
-                "schemes" : [ "inwehubtest" ],
+                "schemes" : [ "inwehubapp" ],
                 /* android打包配置 */
                 "permissions" : [
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
@@ -63,8 +67,8 @@
             "ios" : {
                 "urltypes" : [
                     {
-                        "urlschemes" : [ "inwehubtest" ],
-                        "id" : "com.inwehub.InwehubTest"
+                        "urlschemes" : [ "inwehubapp" ],
+                        "id" : "com.inwehub.InwehubApp"
                     }
                 ],
                 "privacyDescription" : {
@@ -86,12 +90,7 @@
                         "appsecret" : "e71a7e85acc8fc8366931ca4587eaae9"
                     }
                 },
-                "payment" : {
-                    "weixin" : {
-                        "appid" : "wx1670e9d7c14e00e4"
-                    },
-                    "appleiap" : {}
-                },
+                "payment" : {},
                 "share" : {
                     "weixin" : {
                         "appid" : "wx1670e9d7c14e00e4",
@@ -100,15 +99,15 @@
                 },
                 "maps" : {
                     "baidu" : {
-                        "appkey_ios" : "HEMNYUQlPrkilhpzGcL5fkiDqW156eFQ",
+                        "appkey_ios" : "Z554o8WtvvXQMnfy4btSGxW8xcGGfvkU",
                         "appkey_android" : "KO1zE1KRCdt32qbRjYycyoYhFI3uaGvT"
                     }
                 },
                 "push" : {
                     "igexin" : {
-                        "appid" : "vVFgR8EHrv70JAdn7uRRY5",
-                        "appkey" : "2AzXCOA6MqA4O7l7J6aBG9",
-                        "appsecret" : "5HVX700H4OA2zOR7GDdDj2"
+                        "appid" : "MzzHwX3CCd9LfnHP0IIBx1",
+                        "appkey" : "Dldci55fBzA2dGS6GIlMu5",
+                        "appsecret" : "vgm483LeHz57UUwlfThja8"
                     }
                 }
             },
