@@ -13,6 +13,7 @@
       </view>
 
       <RefreshList
+        v-if="category.id"
         ref="RefreshList"
         v-model="list"
         :api="'tags/productList'"
@@ -20,7 +21,7 @@
         class="listWrapper"
       >
         <view class="list">
-          <view v-for="(item, index) in list" :key="index" class="comment-product">
+          <view v-for="(item, index) in list" :key="item.id" class="comment-product">
             <view class="product-info" @tap.stop.prevent="toDetail(item)">
               <view class="product-img border-football">
                 <image mode="aspectFill" :src="item.logo" alt="" class="image lazyImg" /></view>
