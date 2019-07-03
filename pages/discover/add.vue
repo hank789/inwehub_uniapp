@@ -2,14 +2,17 @@
   <view class="content">
     <textarea v-model="description" focus="true" maxlength="-1" :class="{hasFile: waitUploadImages.length, hasLink: links.length}" class="textarea" :placeholder="placeholder" />
 
-    <scroll-view :scroll-x="true" class="scrollViewImages" v-if="waitUploadImages.length">
-      <view class="container-upload-images">
-        <view class="imageItem" v-for="(image, index) in waitUploadImages" :key="index" >
-          <image class="image" :mode="'aspectFill'" :src="image.path" />
-          <text class="iconfont icon-times1" @tap.stop.prevent="delImg(index)" />
+    <view class="scrollViewImagesWrapper" v-if="waitUploadImages.length">
+      <scroll-view :scroll-x="true" class="scrollViewImages">
+        <view class="container-upload-images">
+          <view class="imageItem" v-for="(image, index) in waitUploadImages" :key="index" >
+            <image class="image" :mode="'aspectFill'" :src="image.path" />
+            <text class="iconfont icon-times1" @tap.stop.prevent="delImg(index)" />
+          </view>
         </view>
-      </view>
-    </scroll-view>
+      </scroll-view>
+    </view>
+
 
     <view v-for="(link, index) in links" v-if="links.length" :key="index" class="link">
       <view class="linkBox">
@@ -335,9 +338,16 @@ export default {
       position: relative;
     }
 
-    .scrollViewImages{
+    .scrollViewImagesWrapper{
       height:182upx;
       width:750upx;
+      padding:0 10upx;
+    }
+
+    .scrollViewImages{
+      height:182upx;
+      width:100%;
+      white-space: nowrap;
     }
 
     .textarea {
