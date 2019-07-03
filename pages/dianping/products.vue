@@ -13,6 +13,7 @@
       </view>
 
       <RefreshList
+        v-if="category.id"
         ref="RefreshList"
         v-model="list"
         :api="'tags/productList'"
@@ -23,7 +24,7 @@
           <view v-for="(item, index) in list" :key="index" class="comment-product">
             <view class="product-info" @tap.stop.prevent="toDetail(item)">
               <view class="product-img border-football">
-                <image mode="aspectFill" :src="item.logo" alt="" class="image lazyImg" /></view>
+                <image mode="aspectFill" :src="item.logo | imageSuffix(96, 70)" alt="" class="image lazyImg" lazy-load="true" /></view>
               <view class="product-detail">
                 <view class="productName font-family-medium text-line-1">{{ item.name }}</view>
                 <view class="productMark">
@@ -241,15 +242,16 @@ export default {
         }
         .productMark {
           display: flex;
+          align-items: center;
           .iconfont{
             color: #FCC816;
             font-size: 24upx;
           }
           .span {
             color: #B4B4B6;
-            font-size: 21.98upx;
+            font-size: 24upx;
             line-height: 30upx;
-            .spanFirst {
+            &.spanFirst {
               color: #FCC816;
               margin-left: 6upx;
             }
@@ -257,7 +259,7 @@ export default {
           .i {
             width: 3.98upx;
             height: 3.98upx;
-            margin-right: 9.98upx;
+            margin: 9.98upx;
             vertical-align: middle;
             border-radius: 50%;
             background: #B4B4B6;

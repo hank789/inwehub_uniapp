@@ -10,17 +10,17 @@
         @finish="finish"
       >
         <view class="product-introduce" v-if="!loading">
-          <view class="companyLogo border-football">
+          <view class="companyLogo">
             <image mode="aspectFit" :src="detail.logo" alt="" class="image lazyImg" /></view>
           <view class="companyNmae font-family-medium">{{ detail.name }}</view>
           <view class="companyMark">
             <view class="stars">
               <StarView :rating="detail.review_average_rate" />
             </view>
-            <view class="starsText">
-              <view class="span">{{ detail.review_average_rate }}分</view>
-              <view class="i" /><view class="span comment">{{ detail.review_count }}条评论</view>
-            </view>
+
+            <view class="span">{{ detail.review_average_rate }}分</view>
+            <view class="i" /><view class="span comment">{{ detail.review_count }}条评论</view>
+
           </view>
           <view class="companyDescribe">{{ detail.summary }}</view>
           <view
@@ -50,7 +50,7 @@
 
           <view v-if="productComments.length">
             <template v-for="(comment, index) in productComments">
-              <feedDianping :key="comment.id" :item="comment" :index="index" @showPageMore="showItemMore" />
+              <feedDianping :key="comment.id" :item="comment" :index="index" :isShowLink="false" @showPageMore="showItemMore" />
             </template>
           </view>
 
@@ -392,6 +392,7 @@ export default {
             margin: 0 auto 19.96upx;
             overflow: hidden;
             border-radius: 7.96upx;
+            border:1upx solid #DCDCDC;
             .image {
                 width: 100%;
                 height: 100%;
@@ -406,8 +407,6 @@ export default {
         }
         .companyMark {
             color: #FCC816;
-            font-size: 21.98upx;
-            line-height: 30upx;
             text-align: center;
             margin-top: 15.98upx;
             display: flex;
@@ -416,21 +415,23 @@ export default {
             .stars {
                 display: inline-block;
                 margin-right:5upx;
-                position: relative;
-                top:-4upx;
             }
 
             .starsText {
                 display: inline-block;
+              font-size: 24upx;
             }
 
+            .span {
+              font-size: 24upx;
+            }
             .comment {
                 color: #B4B4B6;
             }
             .i {
                 width: 3.98upx;
                 height: 3.98upx;
-                margin-right: 9.98upx;
+                margin: 9.98upx;
                 vertical-align: middle;
                 border-radius: 50%;
                 background: #B4B4B6;
@@ -624,8 +625,9 @@ export default {
                 }
                 .productMark {
                     display: flex;
+                    align-items: center;
                     .stars {
-                        margin-top: 1.96upx;
+
                     }
                     .iconfont{
                         color: #FCC816;
@@ -633,8 +635,7 @@ export default {
                     }
                     .span {
                         color: #B4B4B6;
-                        font-size: 21.98upx;
-                        line-height: 30upx;
+                        font-size: 24upx;
                         &:nth-of-type(1) {
                             color: #FCC816;
                             margin-left: 6upx;
@@ -643,7 +644,7 @@ export default {
                     .i {
                         width: 3.98upx;
                         height: 3.98upx;
-                        margin-right: 9.98upx;
+                        margin: 9.98upx;
                         vertical-align: middle;
                         border-radius: 50%;
                         background: #B4B4B6;

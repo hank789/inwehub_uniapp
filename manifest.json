@@ -3,8 +3,13 @@
     "appid" : "__UNI__73A6D8B",
     "description" : "",
     "versionName" : "1.1.398",
-    "versionCode" : "100",
+    "versionCode" : "192",
     "transformPx" : false,
+	"networkTimeout" : {
+		"request": 10000,
+		"uploadFile": 30000,
+		"downloadFile": 30000
+	},
     "app-plus" : {
         /* 5+App特有相关 */
         "usingComponents" : true,

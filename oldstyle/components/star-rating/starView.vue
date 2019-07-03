@@ -3,6 +3,7 @@
     position: relative;
     width:151.96upx;
     height:42upx;
+    vertical-align: middle;
   }
   .starViewWrapper .icon{
     font-size: 151.96upx;

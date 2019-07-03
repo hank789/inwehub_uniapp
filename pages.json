@@ -49,6 +49,7 @@
         "navigationBarTitleText": "发布",
         "app-plus": {
           "bounce": "none",
+					"softinputMode": "adjustResize",
           "animationType": "slide-in-bottom",
           "titleNView": {
             "titleSize": "18px",
