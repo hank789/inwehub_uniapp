@@ -10,7 +10,7 @@
         @finish="finish"
       >
         <view class="product-introduce" v-if="!loading">
-          <view class="companyLogo border-football">
+          <view class="companyLogo">
             <image mode="aspectFit" :src="detail.logo" alt="" class="image lazyImg" /></view>
           <view class="companyNmae font-family-medium">{{ detail.name }}</view>
           <view class="companyMark">
@@ -392,6 +392,7 @@ export default {
             margin: 0 auto 19.96upx;
             overflow: hidden;
             border-radius: 7.96upx;
+            border:1upx solid #DCDCDC;
             .image {
                 width: 100%;
                 height: 100%;

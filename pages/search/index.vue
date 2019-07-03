@@ -66,61 +66,11 @@
               @showPageMore="showItemMore"
             />
           </view>
-          <view v-if="list.submission.total > 3" class="checkAll" @tap.stop.prevent="$router.replace('/searchSubmission?text=' + searchText)">
+          <view v-if="list.submission.total > 3" class="checkAll" @tap.stop.prevent="toSearchShare()">
             <view class="span font-family-medium">查看全部{{ list.submission.total }}个分享</view>
           </view>
         </view>
 
-        <view v-if="list.question.list.length" class="searchQuestion">
-          <view class="searchTitle">问答</view>
-          <view class="">
-
-            <template v-for="(item, index) in list.question.list">
-              <view class="container-list-question" :key="item.id" @tap.stop.prevent="toDetail(item.id,item.question_type)">
-                <view class="question text-line-3">
-                  <label v-if="item.price>0" class="component-label">{{ item.status_description }}</label><view class="span" v-html="textToLink(item.description)" />
-                </view>
-                <view v-if="item.question_type == 2" class="statistics">{{ item.answer_number }}回答<view class="span line-wall" />{{ item.follow_number }}关注</view>
-                <view v-if="item.question_type == 1" class="statistics">{{ item.comment_number }}评论<view class="span line-wall" />{{ item.support_number }}点赞<view v-if="item.average_rate" class="span line-wall" />{{ item.average_rate?item.average_rate:'' }}</view>
-              </view>
-              <view :key="item.id" v-if="index === 2 && index === list.question.list.length-1" class="line-river-after line-river-after-top" />
-              <view :key="item.id" v-if="index !== 3 && index !== list.question.list.length-1" class="line-river-big" />
-            </template>
-
-          </view>
-          <view v-if="list.question.total > 3" class="checkAll" @tap.stop.prevent="$router.replace('/searchQuestion?text=' + searchText)">
-            <view class="span font-family-medium">查看全部{{ list.question.total }}个问答</view>
-          </view>
-        </view>
-
-        <view v-if="list.group.list.length" class="searchGroup">
-          <view class="searchTitle">圈子</view>
-          <view v-for="(submission, index) in list.group.list" :key="index" class="">
-            <view class="component-group" @tap.stop.prevent="$uni.navigateTo('/group/detail/' + submission.id)">
-              <view class="groupLogo">
-                <image mode="aspectFill" class="image" :src="submission.logo" width="44" height="44" />
-              </view>
-              <view class="groupContent">
-                <view class="groupName">
-                  <view class="font-family-medium groupOwnerWrapper">
-                    <view class="span text-line-1" v-html="getHighlight(submission.name)" /><view v-if="submission.is_joined === 3" class="span border-football">圈主</view>
-                  </view>
-                </view>
-                <view class="span groupDescribe text-line-1">{{ submission.description }}</view>
-                <view class="span groupText">{{ submission.subscribers }}人气</view>
-                <view class="span groupText">{{ submission.articles }}分享</view>
-                <view v-if="!submission.public" class="span groupText">
-                  <text class="iconfont icon-simi " />
-                  私密
-                </view>
-              </view>
-              <view class="i bot" />
-            </view>
-          </view>
-          <view v-if="list.group.total > 3" class="checkAll" @tap.stop.prevent="$router.replace('/group/search?text=' + searchText)">
-            <view class="span font-family-medium">查看全部{{ list.group.total }}个圈子</view>
-          </view>
-        </view>
 
         <view v-if="list.review.list.length" class="searchComment">
           <view class="searchTitle">点评</view>
@@ -132,7 +82,7 @@
               @showItemMore="showItemMore"
             />
           </view>
-          <view v-if="list.review.total > 3" class="checkAll" @tap.stop.prevent="$router.replace('/dianping/search/comments?text=' + searchText)">
+          <view v-if="list.review.total > 3" class="checkAll" @tap.stop.prevent="toSearchDianping()">
             <view class="span font-family-medium">查看全部{{ list.review.total }}个点评</view>
           </view>
         </view>
@@ -164,7 +114,7 @@
               </view>
             </view>
           </view>
-          <view v-if="list.product.total > 3" class="checkAll" @tap.stop.prevent="$router.replace('/dianping/search/products?text=' + searchText)">
+          <view v-if="list.product.total > 3" class="checkAll" @tap.stop.prevent="toSearchProduct()">
             <view class="span font-family-medium">查看全部{{ list.product.total }}个产品</view>
           </view>
         </view>
@@ -305,10 +255,19 @@ export default {
   },
   methods: {
     toProduct(item) {
-      this.to('/dianping/product/' + encodeURIComponent(item.name))
+      this.to('/pages/dianping/product?name=' + encodeURIComponent(item.name))
     },
     to(url) {
       uni.navigateTo({ url: url })
+    },
+    toSearchShare() {
+      this.to('/pages/search/discover?text=' + this.searchText)
+    },
+    toSearchProduct() {
+      this.to('/pages/search/product?text=' + this.searchText)
+    },
+    toSearchDianping() {
+      this.to('/pages/search/comment?text=' + this.searchText)
     },
     redirectTo(url) {
       uni.redirectTo({ url: url })
