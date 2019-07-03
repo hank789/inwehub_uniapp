@@ -84,6 +84,7 @@ import { addDiscover, addLink } from '@/lib/discover'
 import Prompt from '@/components/zz-prompt/index.vue'
 import { fetchArticle } from '@/lib/url'
 import { imagesToBase64, uploadImagesByBase64 } from '@/lib/image'
+import { getGeoPosition } from '@/lib/allPlatform'
 
 export default {
   components: { Prompt },
@@ -102,6 +103,10 @@ export default {
       isUploadPdf: true,
       selectedGroup: {
         name: ''
+      },
+      position: {
+        longt: 0,
+        lat: 0
       },
       waitUploadImages: [],
       selectedAddress: '所在位置',
@@ -125,6 +130,11 @@ export default {
       this.group_id = option.group_id
     }
     this.pageOption = option
+    getGeoPosition((position) => {
+      if (position.addresses) {
+        this.position = position
+      }
+    })
   },
   computed: {
     isUploadImage () {
@@ -286,6 +296,7 @@ export default {
       }
     },
     addDiscover() {
+      console.log('in addDiscover')
       if (this.links.length) {
 				if (!this.description) {
 					this.description = this.links[0].title
@@ -304,6 +315,7 @@ export default {
           this.newTags,
           this.noticeUsers,
           this.selectedAddress,
+          this.position,
           (res) => {
 					uni.showLoading({
 							title: '图片上传中',
@@ -330,6 +342,9 @@ export default {
 </script>
 
 <style lang="less">
+   .selectedAddress{
+     max-width:200upx;
+   }
     page, .content{
       background-color: #f3f4f6;
       height: 100%;
