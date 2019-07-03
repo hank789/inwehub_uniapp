@@ -430,8 +430,12 @@ input, textarea, select{
     position: absolute;
     right:0;
     top:26upx;
-    color:#03AEF9;
+    color:#f9c833;
     font-size:32upx;
+}
+.container-list-discuss .list-item-discuss .lidL .iconfont:before {
+	border-radius: 50%;
+	background: #FFF;
 }
 .container-list-discuss .list-item-discuss .lidR {
     -webkit-box-flex: 2;

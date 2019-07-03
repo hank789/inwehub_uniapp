@@ -10,7 +10,7 @@
         <view class="list-item-discuss">
           <view class="lidL">
             <image mode="aspectFill" :src="info.avatar_url" />
-            <text class="iconfont icon-zhuanjiabiaozhishixin" />
+            <text class="iconfont icon-zhuanjiabiaozhishixin" v-show="info.is_expert" />
           </view>
           <view class="lidR">
             <view class="lidR1">{{ info.name }}</view>
@@ -37,7 +37,7 @@
             <view class="list-item-discuss" @tap.stop.prevent="clickComment(item, list)" hover-class="hoverClass" :hover-stop-propagation="true">
               <view class="lidL" @tap.stop.prevent="toResume(item.owner.uuid)">
                 <image mode="aspectFill" :src="item.owner.avatar" />
-                <text class="iconfont icon-zhuanjiabiaozhishixin" />
+                <text class="iconfont icon-zhuanjiabiaozhishixin" v-show="item.owner.is_expert"/>
               </view>
               <view class="lidR">
                 <view class="lidR1">{{ item.owner.name }}</view>
