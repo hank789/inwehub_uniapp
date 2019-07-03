@@ -135,12 +135,6 @@ export default {
         this.position = position
       }
     })
-		var pages = getCurrentPages();
-		var page = pages[pages.length - 1];
-		// #ifdef APP-PLUS
-		var currentWebview = page.$getAppWebview();
-		currentWebview.setStyle({softinputMode: 'adjustResize'})
-		// #endif
   },
   computed: {
     isUploadImage () {
