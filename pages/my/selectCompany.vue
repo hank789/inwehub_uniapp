@@ -3,7 +3,7 @@
 		<view class="searchContainer">
 			<view class="inputBox">
 				<text class="iconfont icon-sousuo"></text>
-				<input class="textInput" type="text" placeholder="输入公司名称" v-model.trim="searchText" />
+				<input class="textInput" maxlength="45" type="text" placeholder="输入公司名称" v-model.trim="searchText" />
 				<text class="close" v-if="isShow" @tap.stop.prevent="empty()">
 					<text class="iconfont icon-guanbi"></text>
 				</text>
@@ -308,6 +308,9 @@
     width:100%;
     padding: 0 4%;
     overflow: hidden;
+	/* #ifdef APP-PLUS */
+	margin-top: 100upx;
+	/* #endif */
 	.boxLi {
 		width:100%;
 		height:192upx;

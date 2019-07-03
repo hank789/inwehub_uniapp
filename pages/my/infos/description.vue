@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<view class="mui-content">
-			<textarea class="textArea" rows="5" maxlength="1000" v-model.trim="description" placeholder-style="color:#bbb" placeholder="请输入"></textarea>
+			<textarea class="textArea" rows="5" maxlength="-1" v-model.trim="description" placeholder-style="color:#bbb" placeholder="请输入"></textarea>
 		</view>
 	</view>
 </template>
