@@ -308,6 +308,9 @@
     width:100%;
     padding: 0 4%;
     overflow: hidden;
+	/* #ifdef APP-PLUS */
+	margin-top: 100upx;
+	/* #endif */
 	.boxLi {
 		width:100%;
 		height:192upx;
