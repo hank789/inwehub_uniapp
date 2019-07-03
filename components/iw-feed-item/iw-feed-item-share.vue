@@ -526,16 +526,17 @@ export default {
                 .mark {
                     padding: 0;
                     margin-top: 0;
+                    display: flex;
+                    align-items: center;
                     .text {
                         color: #FCC816;
-                        margin-top: 0 !important;
                     }
                     .i {
                         width: 3.98upx;
                         height: 3.98upx;
                         background: #B4B4B6;
                         border-radius: 50%;
-                        margin: 19.50upx 9.98upx 0;
+                        margin: 9.98upx;
                     }
                     .comment {
                         color: #B4B4B6;

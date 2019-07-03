@@ -152,10 +152,11 @@
                       <view class="stars">
                         <StarView :rating="tag.review_average_rate" />
                       </view>
-                      <view class="starsText">
-                        <view class="span">{{ tag.review_average_rate }}分</view>
-                        <view /><view class="span">{{ tag.review_count }}条评论</view>
-                      </view>
+
+                      <view class="span">{{ tag.review_average_rate }}分</view>
+                      <view class="i" />
+                      <view class="span">{{ tag.review_count }}条评论</view>
+
                     </view>
                   </view>
                 </view>
@@ -674,8 +675,9 @@ export default {
                 }
                 .productMark {
                     display: flex;
+                    align-items: center;
                     .stars {
-                        margin-top: 1.96upx;
+                      margin-right:10upx;
                     }
                     .iconfont{
                         color: #FCC816;
@@ -683,8 +685,7 @@ export default {
                     }
                     .span {
                         color: #B4B4B6;
-                        font-size: 21.98upx;
-                        line-height: 30upx;
+                        font-size: 24upx;
                         &:nth-of-type(1) {
                             color: #FCC816;
                             margin-left: 6upx;
@@ -693,7 +694,7 @@ export default {
                     .i {
                         width: 3.98upx;
                         height: 3.98upx;
-                        margin-right: 9.98upx;
+                        margin: 9.98upx;
                         vertical-align: middle;
                         border-radius: 50%;
                         background: #B4B4B6;

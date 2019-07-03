@@ -242,15 +242,16 @@ export default {
         }
         .productMark {
           display: flex;
+          align-items: center;
           .iconfont{
             color: #FCC816;
             font-size: 24upx;
           }
           .span {
             color: #B4B4B6;
-            font-size: 21.98upx;
+            font-size: 24upx;
             line-height: 30upx;
-            .spanFirst {
+            &.spanFirst {
               color: #FCC816;
               margin-left: 6upx;
             }
@@ -258,7 +259,7 @@ export default {
           .i {
             width: 3.98upx;
             height: 3.98upx;
-            margin-right: 9.98upx;
+            margin: 9.98upx;
             vertical-align: middle;
             border-radius: 50%;
             background: #B4B4B6;
