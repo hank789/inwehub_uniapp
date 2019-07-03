@@ -50,7 +50,7 @@
 
           <view v-if="productComments.length">
             <template v-for="(comment, index) in productComments">
-              <feedDianping :key="comment.id" :item="comment" :index="index" @showPageMore="showItemMore" />
+              <feedDianping :key="comment.id" :item="comment" :index="index" :isShowLink="false" @showPageMore="showItemMore" />
             </template>
           </view>
 

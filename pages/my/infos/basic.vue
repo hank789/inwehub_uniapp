@@ -5,15 +5,15 @@
 
 			<view class="muiTableView mui-table-view-chevron">
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="toRoute('/pages/my/infos/basicName')" class="mui-navigate-right iconfont">平台昵称<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.name ? user.info.name : '必填'
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/basicName')" class="navigateRight iconfont">平台昵称<text class="pullRight settingField mui-ellipsis">{{ user.info.name ? user.info.name : '必填'
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="toRoute('/pages/my/infos/realName')" class="mui-navigate-right iconfont">真实姓名<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.realname ? user.info.realname : '必填'
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/realName')" class="navigateRight iconfont">真实姓名<text class="pullRight settingField mui-ellipsis">{{ user.info.realname ? user.info.realname : '必填'
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<view class="mui-navigate-right iconfont pickerBox">用户性别
+					<view class="navigateRight iconfont pickerBox">用户性别
 						<view class="uni-list-cell-db">
 							<picker mode="selector" :value="user.info.gender" :range="selectSex" @change="bindSex">
 								<view class="uni-input">{{ selectSex[user.info.gender] ? selectSex[user.info.gender] : '请选择' }}</view>
@@ -22,34 +22,34 @@
 					</view>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="toRoute('/pages/my/selectCompany?from=infobasic')" class="mui-navigate-right iconfont">当前公司<text
-						 class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.company ? user.info.company : '必填'
+					<text @tap.stop.prevent="toRoute('/pages/my/selectCompany?from=infobasic')" class="navigateRight iconfont">当前公司<text
+						 class="pullRight settingField mui-ellipsis">{{ user.info.company ? user.info.company : '必填'
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="toRoute('/pages/my/infos/position')" class="mui-navigate-right iconfont">当前职位<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.title ? user.info.title : '必填'}}</text></text>
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/position')" class="navigateRight iconfont">当前职位<text class="pullRight settingField mui-ellipsis">{{ user.info.title ? user.info.title : '必填'}}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text href="#page_industry_tags" @tap="changeIndustryTagsOwner('user')" class="mui-navigate-right iconfont">行业领域<text
-						 class="mui-pull-right account-setting-field mui-ellipsis">{{ userIndustryTagsNames ? userIndustryTagsNames : '可多选'
+					<text href="#page_industry_tags" @tap="changeIndustryTagsOwner('user')" class="navigateRight iconfont">行业领域<text
+						 class="pullRight settingField mui-ellipsis">{{ userIndustryTagsNames ? userIndustryTagsNames : '可多选'
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="selectWorkerCity" class="mui-navigate-right iconfont">工作地区<text class="mui-pull-right account-setting-field mui-ellipsis">{{ work_city !== ' ' ? work_city : '请选择' }}</text></text>
+					<text @tap.stop.prevent="selectWorkerCity" class="navigateRight iconfont">工作地区<text class="pullRight settingField mui-ellipsis">{{ work_city !== ' ' ? work_city : '请选择' }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="toRoute('/pages/my/infos/textddress')" class="mui-navigate-right iconfont">详细地址<text
-						 class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.address_detail ? user.info.address_detail : '必填'}}</text></text>
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/textddress')" class="navigateRight iconfont">详细地址<text
+						 class="pullRight settingField mui-ellipsis">{{ user.info.address_detail ? user.info.address_detail : '必填'}}</text></text>
 				</view>
 				<view class="mui-table-view-cell" @tap.stop.prevent="$router.pushPlus('/wechat/bindPhone')">
-					<text class="mui-navigate-right iconfont">联系手机<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.mobile ? user.info.mobile : '必填'
+					<text class="navigateRight iconfont">联系手机<text class="pullRight settingField mui-ellipsis">{{ user.info.mobile ? user.info.mobile : '必填'
             }}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="toRoute('/pages/my/infos/email')" class="mui-navigate-right iconfont">电子邮箱<text class="mui-pull-right account-setting-field mui-ellipsis">{{ user.info.email ? user.info.email : '必填'}}</text></text>
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/email')" class="navigateRight iconfont">电子邮箱<text class="pullRight settingField mui-ellipsis">{{ user.info.email ? user.info.email : '必填'}}</text></text>
 				</view>
 				<view class="mui-table-view-cell">
-					<view class="mui-navigate-right iconfont pickerBox">出生日期
+					<view class="navigateRight iconfont pickerBox">出生日期
 						<view class="uni-list-cell-db">
 							<picker mode="date" :value="user.info.birthday" :start="startDate" :end="endDate" @change="bindDateChange">
 								<view class="uni-input">{{user.info.birthday ? user.info.birthday : '请选择'}}</view>
@@ -58,13 +58,13 @@
 					</view>
 				</view>
 				<view class="mui-table-view-cell" @tap.stop.prevent="showMulLinkageTwoPicker">
-					<view class="mui-navigate-right iconfont">家乡地区
-						<text class="mui-pull-right account-setting-field mui-ellipsis">{{ home_city !== ' ' ? home_city : '请选择' }}</text>
+					<view class="navigateRight iconfont">家乡地区
+						<text class="pullRight settingField mui-ellipsis">{{ home_city !== ' ' ? home_city : '请选择' }}</text>
 					</view>
 				</view>
 				<view class="mui-table-view-cell">
-					<text @tap.stop.prevent="toRoute('/pages/my/infos/description')" class="mui-navigate-right iconfont">个人签名<text
-						 class="mui-pull-right account-setting-field mui-ellipsis">{{user.info.description ? user.info.description : '请填写'}}</text></text>
+					<text @tap.stop.prevent="toRoute('/pages/my/infos/description')" class="navigateRight iconfont">个人签名<text
+						 class="pullRight settingField mui-ellipsis">{{user.info.description ? user.info.description : '请填写'}}</text></text>
 				</view>
 			</view>
 
@@ -413,11 +413,11 @@
 		list-style: none;
 		background-color: #fff;
 	}
-	.mui-navigate-right {
+	.navigateRight {
 		color: #999;
 	}
 
-	.mui-table-view-cell .mui-navigate-right iconfont,
+	.mui-table-view-cell .navigateRight iconfont,
 	.mui-table-view-cell .mui-navigate {
 		color: #999;
 	}
@@ -444,7 +444,7 @@
 	}
 
 
-	.mui-table-view-cell>.mui-navigate-right iconfont:not(.mui-btn) {
+	.mui-table-view-cell>.navigateRight iconfont:not(.mui-btn) {
 		position: relative;
 		display: block;
 		overflow: hidden;
@@ -455,7 +455,7 @@
 		font-size: 32upx;
 	}
 
-	.account-setting-field {
+	.settingField {
 		position: absolute;
 		text-align: right;
 		width: 399.98upx;
@@ -465,7 +465,7 @@
 		padding-right: 0;
 	}
 
-	.mui-pull-right {
+	.pullRight {
 		float: right;
 	}
 
@@ -500,14 +500,14 @@
 		background-color: #c8c7cc;
 	}
 
-	.mui-navigate-right:after,
+	.navigateRight:after,
 	.mui-push-right:after {
 		font-size: 28upx;
 		right: 30upx;
 		content: '\e6db';
 	}
 
-	.mui-navigate-right:after,
+	.navigateRight:after,
 	.mui-push-left:after,
 	.mui-push-right:after {
 		line-height: 2;

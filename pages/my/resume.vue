@@ -1,8 +1,6 @@
 <template>
 	<view class="content">
 		
-
-		
 		<!-- 正文 -->
 		<iwList v-model="list" :api="'feed/list'" @scrollList="scrollList" ref="iwList" :cssTop="cssTop" :requestData="feedListParams">
 		
@@ -804,7 +802,7 @@
 			border-radius: 99.98upx;
 			border: 1.96upx solid #DCDCDC;
 
-			.icon {
+			.iconfont {
 				font-size: 24upx;
 				color: #B4B4B6;
 				margin-right: 6upx;
