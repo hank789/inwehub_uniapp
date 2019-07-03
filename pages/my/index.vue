@@ -1,6 +1,6 @@
 <template>
-	<view>
-		<view class="mui-content">
+	<view class="content">
+		<view class="muiContent">
 			<view class="my-top">
 				<view class="account_info" @tap.stop.prevent="toRoute('/pages/my/resume')">
 					<text class="iconfont icon-jinru"></text>
@@ -235,7 +235,8 @@
 </script>
 
 <style lang="less">
-	.mui-content {
+	.muiContent {
+		height: 100%;
 		background: #fff;
 	}
 
@@ -450,5 +451,8 @@
 				left: 31.96upx;
 			}
 		}
+	}
+	.guessLike {
+		padding-bottom: 100upx;
 	}
 </style>
