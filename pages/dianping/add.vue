@@ -218,15 +218,11 @@ export default {
 
       const that = this
       uni.chooseImage({
-        count: 9,
+        count: 9 - this.images.length,
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 从相册选择
         success: function(res) {
-          res.tempFiles.forEach((item, index) => {
-            if (that.images.length < 9) {
-              that.images.push(item)
-            }
-          })
+					that.images = that.images.concat(res.tempFiles)
         }
       })
 
