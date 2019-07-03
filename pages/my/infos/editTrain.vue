@@ -6,11 +6,11 @@
 			<view class="tableBox">
 				<view class="inputRow">
 					<view class="title">培训/认证名称</view>
-					<input class="inputBox" type="text" v-model.trim="train.certificate" placeholder="必填" readonly>
+					<input class="inputBox" type="text" maxlength="45" v-model.trim="train.certificate" placeholder="必填" readonly>
 				</view>
 				<view class="inputRow">
 					<view class="title">培训/认证机构</view>
-					<input class="inputBox" type="text" v-model.trim="train.agency" placeholder="必填">
+					<input class="inputBox" type="text" maxlength="45" v-model.trim="train.agency" placeholder="必填">
 				</view>
 
 				<view class="inputRow">

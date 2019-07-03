@@ -317,17 +317,19 @@ export default {
           this.selectedAddress,
           this.position,
           (res) => {
-					uni.showLoading({
-							title: '图片上传中',
-							mask: true
-					})
-          var id = res.data.id
-          this.lastUploadImage(id, () => {
-						uni.hideLoading()
-            ui.toast('发布成功！')
-            this.resetData()
-            uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
-          })
+						if (this.waitUploadImages.length >0) {
+							uni.showLoading({
+									title: '图片上传中',
+									mask: true
+							})
+						}
+						var id = res.data.id
+						this.lastUploadImage(id, () => {
+							uni.hideLoading()
+							ui.toast('发布成功！')
+							this.resetData()
+							uni.redirectTo({ url: '/pages/discover/detail?slug=' + res.data.slug })
+						})
         })
       }
     },
