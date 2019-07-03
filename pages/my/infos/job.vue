@@ -44,7 +44,7 @@
 			</view>
 			<view class="accountTitle">
 				<view class="title"> 工作经历详情描述 </view>
-				<textarea class="description" maxlength="-1" v-model.trim="description" placeholder="请详细填写该工作经历的详细信息"></textarea>
+				<textarea class="description" maxlength="-1" v-model.trim="job.description" placeholder="请详细填写该工作经历的详细信息"></textarea>
 			</view>
 			<view class="options">
 				<text class="close common" @tap.stop.prevent="muiViewBack">取消</text>
@@ -98,7 +98,8 @@
 					begin_time: '',
 					end_time: '',
 					industry_tags: '',
-					product_tags: ''
+					product_tags: '',
+					description: ''
 				},
 				initJob: {
 					company: '',
@@ -225,7 +226,6 @@
 			},
 			clearData() {
 				this.job = this.initJob
-				this.description = ''
 				this.bak = ''
 			},
 			toselectcompany() {
@@ -321,7 +321,7 @@
 
 				data.industry_tags = this.userIndustryTagsCodes
 
-				data.description = this.description
+				data.description = this.job.description
 
 				postRequest(url, data).then(response => {
 					this.buttonSaveDisabled = false

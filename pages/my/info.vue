@@ -111,18 +111,19 @@ import localEvent from '@/lib/localstorage.js'
 				// #ifdef APP-PLUS || MP-WEIXIN
 				switch (type) {
 					case 'info':
-						uni.redirectTo({url: '/pages/my/infos/basic'})
+						uni.redirectTo({ url: '/pages/my/infos/basic'})
 						break
 					case 'job': 
 						uni.redirectTo({ url: '/pages/my/infos/jobs'})
 						break
 					case 'project':
-						uni.redirectTo({url: '/pages/my/infos/edus'})
+						uni.redirectTo({ url: '/pages/my/infos/edus'})
+						break
 					case 'tranis':
-						uni.redirectTo({url: '/pages/my/infos/trains'})
+						uni.redirectTo({ url: '/pages/my/infos/trains'})
 						break
 					case 'edu':
-						uni.redirectTo({url: '/pages/my/infos/privacy'})
+						uni.redirectTo({ url: '/pages/my/infos/privacy'})
 						break
 					default:
 				}
@@ -135,6 +136,9 @@ import localEvent from '@/lib/localstorage.js'
 						break
 					case 'job': 
 						uni.navigateTo({ url: '/pages/my/infos/jobs'})
+						break
+					case 'project':
+						uni.navigateTo({ url: '/pages/my/infos/edus'})
 						break
 					case 'tranis':
 						uni.navigateTo({url: '/pages/my/infos/trains'})
