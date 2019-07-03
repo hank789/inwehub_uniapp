@@ -448,7 +448,7 @@ export default {
               font-size: 21.98upx;
               line-height: 30upx;
               margin-left: 6upx;
-              margin-top: 7.96upx;
+              margin-top: 10upx;
               display: inline-block;
             }
           }

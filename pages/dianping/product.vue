@@ -410,17 +410,20 @@ export default {
             line-height: 30upx;
             text-align: center;
             margin-top: 15.98upx;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             .stars {
                 display: inline-block;
+                margin-right:5upx;
+                position: relative;
+                top:-4upx;
             }
-            .starViewWrapper {
-                top:7.96upx;
-            }
+
             .starsText {
                 display: inline-block;
-                position: relative;
-                top: -1.96upx;
             }
+
             .comment {
                 color: #B4B4B6;
             }
