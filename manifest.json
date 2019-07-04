@@ -2,8 +2,8 @@
     "name" : "InweHub",
     "appid" : "__UNI__73A6D8B",
     "description" : "",
-    "versionName" : "1.1.398",
-    "versionCode" : "192",
+    "versionName" : "1.1.399",
+    "versionCode" : 193,
     "transformPx" : false,
     "networkTimeout" : {
         "request" : 10000,
