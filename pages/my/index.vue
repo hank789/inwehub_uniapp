@@ -70,7 +70,7 @@
 					<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value, key) in recommendList" :key="key"
 					 @click="goDetail(value)">
 						<view class="uni-media-list" v-if="value.read_type == 1">
-							<image class="uni-media-list-logo" lazy-load :src="value.data.img"></image>
+							<image class="uni-media-list-logo rm-image" lazy-load :src="value.data.img | imageSuffix(96, 70)"></image>
 							<view class="uni-media-list-body">
 								<view class="uni-media-list-text-top uni-article-title">{{ value.data.title }}</view>
 								<view class="uni-media-list-text-bottom">
@@ -240,6 +240,10 @@
 	.muiContent {
 		height: 100%;
 		background: #fff;
+	}
+	
+	.rm-image{
+		border-radius: 16upx;
 	}
 
 	.gray {
