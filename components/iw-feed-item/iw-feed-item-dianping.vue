@@ -325,7 +325,7 @@ export default {
                         color: #B4B4B6;
                         font-size: 21.98upx;
                         line-height: 30upx;
-                        margin-top: 3.98upx;
+                        margin-top: 6upx;
                     }
                 }
             }
@@ -340,7 +340,7 @@ export default {
             color: #444444;
             font-size: 27.98upx;
             line-height: 43.96upx;
-            margin-top: 12upx;
+            margin-top: 20upx;
             letter-spacing: 0.98upx;
         }
         .feed-open-all {

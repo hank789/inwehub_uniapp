@@ -270,7 +270,6 @@ export default {
             color: #444444;
             font-size: 27.98upx;
             line-height: 43.96upx;
-            margin-top: -16upx;
             letter-spacing: 1upx;
         }
         .userInfoWrapper {
