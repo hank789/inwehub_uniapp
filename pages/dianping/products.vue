@@ -24,7 +24,7 @@
           <view v-for="(item, index) in list" :key="index" class="comment-product">
             <view class="product-info" @tap.stop.prevent="toDetail(item)">
               <view class="product-img">
-                <image mode="aspectFill" :src="item.logo | imageSuffix(96, 70)" alt="" class="image lazyImg" lazy-load="true" /></view>
+                <image mode="aspectFit" :src="item.logo | imageSuffix(43, 43)" class="image lazyImg" lazy-load="true" /></view>
               <view class="product-detail">
                 <view class="productName font-family-medium text-line-1">{{ item.name }}</view>
                 <view class="productMark">
