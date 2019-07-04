@@ -3,7 +3,7 @@
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(item,key) in list" :key="key" @tap.stop.prevent="goUrl(item.data.url)">
 				<view class="uni-media-list">
-					<image class="uni-media-list-logo" lazy-load :src="item.data.avatar"></image>
+					<image class="uni-media-list-logo radius-image" lazy-load="true" :src="item.data.avatar | imageSuffix(96, 70)"></image>
 					<view class="uni-media-list-body">
 						<view class="uni-media-list-text-top">{{item.data.title}}</view>
 						<view class="uni-media-list-text-bottom">

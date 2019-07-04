@@ -16,6 +16,9 @@ image{will-change: transform}
     font-family: PingFangSC-Medium, sans-serif;
 }
 
+.radius-image{
+	border-radius: 16upx;
+}
 
 .gray {
     width: 100%;

@@ -35,11 +35,11 @@
 						-->
 						<view v-for="(item, index) in tabItem.newsList" :key="index" class="news-item">
 							<view v-if="tabItem.id == 1" @click="navToDetails(item)">
-								<text :class="['title', 'uni-article-title']">{{item.title}}</text>
-								<view v-if="item.img.length > 0" :class="['img-list', item.img.length === 1 && item.type==='link' ? 'img-list-single': '']">
+								<text :class="['title', 'title'+(item.img.length>1?3:0),'uni-article-title']">{{item.title}}</text>
+								<view v-if="item.img.length > 0" :class="['img-list', 'img-list'+(item.img.length>1?3:0),item.img.length === 1 && item.type==='link' ? 'img-list-single': '']">
 									<view 
 										v-for="(imgItem, imgIndex) in item.img" :key="imgIndex"
-										:class="['img-wrapper', item.img.length === 1 && item.type==='link' ? 'img-wrapper-single': '']"
+										:class="['img-wrapper','img-wrapper'+(item.img.length>1?3:0), item.img.length === 1 && item.type==='link' ? 'img-wrapper-single': '']"
 									>
 										<image class="img" lazy-load :src="imgItem"></image>
 									</view>
@@ -47,9 +47,8 @@
 								<!-- 空图片占位 -->
 								<view v-else class="img-empty"></view>
 								<view>
-									<text class="author">{{item.domain}}</text>
-									<text class="time">{{timeago(item.created_at)}}</text>
-									<text class="bot"></text>
+									<text class="author">{{timeago(item.created_at)}}</text>
+									<text :class="['bot', 'bot'+(item.img.length>1?3:0)]"></text>
 								</view>
 								
 							</view>
@@ -387,10 +386,10 @@
 			width: 100%;
 		}
 	}
-	
-	.img{
-		width: 100%;
-		height: 100%;
+	view{
+		display:flex;
+		display: -webkit-flex;
+		flex-direction: column;
 	}
 	.news-item{
 		position:relative;
@@ -421,21 +420,23 @@
 		margin-left: 20upx;
 	}
 	.img-list{
+		display: flex;
+    display: -webkit-flex;
+		justify-content: space-between;
 		flex-shrink: 0;
 		flex-direction: row;
 		background-color: #fff;
-		width: 220upx;
-		height: 140upx;
+		width: 100%;
+    height: auto;
+		flex-wrap: wrap;
 	}
 	.img-wrapper{
-		flex: 1;
 		flex-direction: row;
 		height: 140upx;
-		position: relative;
-		overflow: hidden;
 	}
 	.img{
-		flex: 1;
+		width: 100%;
+		height: 100%;
 	}
 	.img-empty{
 		height: 20upx;
@@ -472,7 +473,8 @@
 		margin: 16upx 0upx;
 	}
 	.img-wrapper3{
-		margin-right: 4upx;
+		width: 32%;
+		margin-top: 8upx;
 	}
 	/* 底部大图 */
 	.img-list-single{
