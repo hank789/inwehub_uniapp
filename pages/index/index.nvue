@@ -232,7 +232,13 @@
 						// window.mui.toast(res.message)
 						return
 					}
+					ls.set('homeDataCache',res.data, false)
 					successCallback(res.data)
+				},()=>{
+					var cache = ls.get('homeDataCache')
+					if (cache) {
+						successCallback(cache)
+					}
 				})
 			},
 			getListData(pageNum, typeValue, successCallback) {
@@ -242,7 +248,15 @@
 						// window.mui.toast(res.message)
 						return
 					}
+					if (pageNum === 1) {
+						ls.set('homeListCache-'+typeValue,res.data, false)
+					}
 					successCallback(res.data)
+				},()=>{
+					var cache = ls.get('homeListCache-'+typeValue)
+					if (cache) {
+						successCallback(cache)
+					}
 				})
 			},
 			async tabChange(e) {
