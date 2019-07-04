@@ -73,8 +73,8 @@
         <view class="line-river-after line-river-after-top"  v-if="detail.related_tags && detail.related_tags.length"/>
 
         <view class="productList" v-if="detail.related_tags && detail.related_tags.length">
-          <view v-for="(tag, index) in detail.related_tags" :key="index" class="comment-product">
-            <view class="product-info" @tap.stop.prevent="toProduct(tag)">
+          <view v-for="(tag, index) in detail.related_tags" :key="index" class="comment-product" @tap.stop.prevent="toProduct(tag)" hover-class="hoverClass" :hover-stop-propagation="true">
+            <view class="product-info">
               <view class="product-img border-football">
                 <image mode="aspectFit" :src="tag.logo | imageSuffix(43, 43)" alt="" class="image lazyImg" /></view>
               <view class="product-detail">
