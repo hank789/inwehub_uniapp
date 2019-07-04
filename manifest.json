@@ -5,11 +5,11 @@
     "versionName" : "1.1.398",
     "versionCode" : "192",
     "transformPx" : false,
-	"networkTimeout" : {
-		"request": 10000,
-		"uploadFile": 30000,
-		"downloadFile": 30000
-	},
+    "networkTimeout" : {
+        "request" : 10000,
+        "uploadFile" : 30000,
+        "downloadFile" : 30000
+    },
     "app-plus" : {
         /* 5+App特有相关 */
         "usingComponents" : true,
