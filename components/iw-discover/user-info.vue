@@ -163,7 +163,7 @@
         font-size: 39.98upx;
         text-align: center;
         border-radius: 50%;
-        margin-right:12upx;
+        margin-right:20upx;
 				position: relative;
 				z-index: 9;
     }
@@ -204,11 +204,10 @@
     .detail {
         font-size: 20upx;
         color: #B4B4B6;
-        margin-top: -6upx;
 				.timeCreated {
 					font-size: 20upx;
 					color: #B4B4B6;
-					margin-top: -12upx;
+					margin-top: -4upx; 
 				}
     }
 
