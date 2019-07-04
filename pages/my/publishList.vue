@@ -422,7 +422,6 @@
 	.img-list{
 		display: flex;
     display: -webkit-flex;
-		justify-content: space-between;
 		flex-shrink: 0;
 		flex-direction: row;
 		background-color: #fff;
@@ -432,6 +431,7 @@
 	}
 	.img-wrapper{
 		flex-direction: row;
+		margin-right: 10upx;
 		height: 140upx;
 	}
 	.img{
@@ -474,7 +474,7 @@
 	}
 	.img-wrapper3{
 		width: 32%;
-		margin-top: 8upx;
+		margin-top: 10upx;
 	}
 	/* 底部大图 */
 	.img-list-single{
