@@ -346,7 +346,6 @@
 				
 				//异步请求数据
 				this.getListData(tabItem.page, tabItem.value, (res) => {
-					tabItem.page += 1
 					var list = res.data
 					if(type === 'refresh'){
 						this.refreshing = false
@@ -356,6 +355,7 @@
 					} else {
 						tabItem.newsList = tabItem.newsList.concat(list)
 					}
+					tabItem.page += 1
 
 					if (type === 'refresh') {						
 						this.refreshing = false
