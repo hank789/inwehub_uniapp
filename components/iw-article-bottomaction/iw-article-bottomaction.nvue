@@ -47,7 +47,7 @@
 				
 			</div>
 			
-			<div class="iw-operat-wrapper" v-if="isAdmin">
+			<div class="iw-operat-wrapper" v-if="isUserAdmin()">
 				<div class="iw-bot"></div>
 				
 				<div class="iw-operat-list" @click="deleteItem">
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 			
-			<div class="iw-choice-wrapper">
+			<div class="iw-choice-wrapper" v-if="isUserAdmin()">
 				<div class="iw-bot"></div>
 				<text class="iw-title">设置精选</text>
 				<div class="iw-choice-list">
@@ -102,7 +102,7 @@
 				localRegions: [],
 				localItem: {},
 				showPopupBottomShare: false,
-				height: 1004
+				height: 370
 			}
 		},
 		beforeCreate() {
@@ -146,7 +146,7 @@
 				if (this.isAdmin) {
 					this.height = 1004
 				} else {
-					this.height = 824
+					this.height = 370
 				}
 			},
 			vote() {

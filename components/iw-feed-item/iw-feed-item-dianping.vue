@@ -5,7 +5,7 @@
         <view class="userInfo">
           <view class="avatar avatarInner">
             <image mode="aspectFill" class="image" :src="item.user.avatar" :is-lazyload="true" width="34" height="34" />
-            <text class="iconfont icon-zhuanjiabiaozhishixin"  v-show="isExpert"></text>
+            <text class="iconfont icon-zhuanjiabiaozhishixin" v-show="isExpert"></text>
           </view>
           <view class="userName">
             <view class="userNameTop">
@@ -527,6 +527,10 @@ export default {
     right: -7.50upx;
     bottom: -5.26upx;
     font-size: 24upx;
-    color: #03aef9;
+    color: #f9c833;
+		&:before {
+			border-radius: 50%;
+			background-color: #FFF;
+		}
   }
 </style>

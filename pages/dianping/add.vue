@@ -13,7 +13,7 @@
       <textarea class="textarea" maxlength="-1" v-model="html" :placeholder="descPlaceholder" />
 
       <view class="container-images">
-        <view v-for="(image, index) in images" class="container-image">
+        <view :key="index" v-for="(image, index) in images" class="container-image">
           <text class="iconfont icon-times1 " @tap.stop.prevent="delImg(index)"/>
           <image :id="'image_' + index" mode="aspectFill" class="image" :src="image.path" />
         </view><view v-if="images.length < maxImageCount" class="component-photograph" @tap.stop.prevent="uploadImage()"><text class="iconfont icon-xiangji1 " /></view>
@@ -29,7 +29,7 @@
         <view class="line-river-after line-river-after-top" />
         <view class="assessDomain">您的评价属于哪个领域</view>
         <view class="domainList">
-          <view v-for="(category, index) in detail.categories" :class="{active: !!category.selected}" class="span" @tap.stop.prevent="selectCategory($event, category)">{{ category.name }}</view>
+          <view :key="index" v-for="(category, index) in detail.categories" :class="{active: !!category.selected}" class="span" @tap.stop.prevent="selectCategory($event, category)">{{ category.name }}</view>
         </view>
         <view class="fixedContainer">
           <view class="span" @tap.stop.prevent="switchHide()"><label class="nimingCheckbox" :class="{'active': hide}" />匿名</view>
@@ -511,6 +511,9 @@ export default {
       width: 122upx;
       height: 122upx;
     }
+		.container-images .container-image:nth-of-type(3n+1) {
+			clear: none
+		}
 </style>
 <style>
     .addDianPing .container-editor.container-editor-add .textarea-wrapper {

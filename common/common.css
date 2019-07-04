@@ -16,6 +16,9 @@ image{will-change: transform}
     font-family: PingFangSC-Medium, sans-serif;
 }
 
+.radius-image{
+	border-radius: 16upx;
+}
 
 .gray {
     width: 100%;
@@ -93,6 +96,8 @@ image{will-change: transform}
     line-height: 67.96upx;
     background: #F3F4F6;
     color: #C8C8C8;
+    display: flex;
+    align-items: center;
     border-radius: 199.96upx;}
 .container-control-logoAndTabsAndSearch .topSearchWrapper .searchFrame .span {
     font-size: 27.98upx;
@@ -430,8 +435,12 @@ input, textarea, select{
     position: absolute;
     right:0;
     top:26upx;
-    color:#03AEF9;
+    color:#f9c833;
     font-size:32upx;
+}
+.container-list-discuss .list-item-discuss .lidL .iconfont:before {
+	border-radius: 50%;
+	background: #FFF;
 }
 .container-list-discuss .list-item-discuss .lidR {
     -webkit-box-flex: 2;
