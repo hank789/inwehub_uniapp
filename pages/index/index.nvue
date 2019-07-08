@@ -355,7 +355,6 @@
 					} else {
 						tabItem.newsList = tabItem.newsList.concat(list)
 					}
-					tabItem.page += 1
 
 					if (type === 'refresh') {						
 						this.refreshing = false
@@ -370,6 +369,7 @@
 							}, 2000)
 						}
 					}
+					tabItem.page += 1
 
 					tabItem.loadMoreStatus = res.next_page_url ? 0 : 2
 				})
