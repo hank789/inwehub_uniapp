@@ -36,7 +36,7 @@
 						<view v-for="(item, index) in tabItem.newsList" :key="index" class="news-item">
 							<view v-if="tabItem.id == 1" @click="navToDetails(item)">
 								<text :class="['title', 'title'+(item.img.length>1?3:0),'uni-article-title']">{{item.title}}</text>
-								<view v-if="item.img.length > 0" :class="['img-list', 'img-list'+(item.img.length>1?3:0),item.img.length === 1 && item.type==='link' ? 'img-list-single': '']">
+								<view v-if="item.img.length > 0" :class="[item.img.length>1?'img-list':'', 'img-list'+(item.img.length>1?3:0),item.img.length === 1 && item.type==='link' ? 'img-list-single': '']">
 									<view 
 										v-for="(imgItem, imgIndex) in item.img" :key="imgIndex"
 										:class="['img-wrapper','img-wrapper'+(item.img.length>1?3:0), item.img.length === 1 && item.type==='link' ? 'img-wrapper-single': '']"
