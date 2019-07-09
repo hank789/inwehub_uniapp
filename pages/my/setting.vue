@@ -158,7 +158,7 @@
 			},
 			getOperators () {
         //#ifdef APP-PLUS
-				this.$request.get(`system/getOperators`, {}, false).then(responseData => {
+				this.$request.post(`system/getOperators`, {}, false).then(responseData => {
 					if (responseData.data.length > 0) {
 						var btnArray = []
 						responseData.data.forEach(function (i, r) {
@@ -170,7 +170,7 @@
 							buttons: btnArray
 						}, (e) => {
 							if (e.index > 0) {
-								this.$request.get('auth/operatorLogin', {
+								this.$request.post('auth/operatorLogin', {
 									user_id: btnArray[e.index - 1].id
 								})
 									.then(response => {
