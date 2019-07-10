@@ -215,7 +215,7 @@
                     <label v-if="item.tips">{{ item.tips }}</label><view
                       v-if="item.type_description"
                     >{{ item.type_description }}</view>
-                    {{ timeago(item.created_at) }}
+                    {{ item.data.domain }}
                   </view>
                 </view>
                 <view class="itemArticleRight"><image mode="aspectFill" :src="item.data.img" /></view>
@@ -763,11 +763,6 @@ export default {
     shareSuccess() {
     },
     shareFail() {
-    },
-    timeago(time) {
-      const newDate = new Date()
-      newDate.setTime(Date.parse(time.replace(/-/g, '/')))
-      return newDate
     },
     finish () {
       this.getDetail()
