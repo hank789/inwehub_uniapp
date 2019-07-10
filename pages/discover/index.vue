@@ -70,7 +70,7 @@ export default {
 	},
   methods: {
     toSearch() {
-      uni.navigateTo({ url: '/pages/search/index' })
+      uni.navigateTo({ url: '/pages/search/newindex' })
     },
     toDiscoverAdd() {
       uni.navigateTo({ url: '/pages/discover/add' })

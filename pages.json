@@ -857,9 +857,48 @@
       }
     },
     // #endif
+    // #ifndef APP-PLUS
+    {
+      "path": "pages/search/newindex",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    // #endif
     // #ifdef APP-PLUS
     {
       "path": "pages/search/index",
+      "style": {
+        "navigationStyle": "default",
+        "app-plus": {
+					"animationType": "zoom-out",
+          "titleNView": {
+            "titleColor": "#3c3e44",
+            "searchInput": {
+              "backgroundColor": "#F3F4F6",
+              "borderRadius": "6px",
+              "placeholder": "搜产品、内容",
+              "placeholderColor": "#CCCCCC",
+              "autoFocus": true
+            },
+						"buttons": [
+              {
+                "type": "none",
+                "color": "rgb(3, 174, 249)",
+                "fontSize": "16px",
+                "text": "取消",
+                "width": "auto"
+              }
+            ]
+          }
+        }
+      }
+    },
+    // #endif
+		
+    // #ifdef APP-PLUS
+    {
+      "path": "pages/search/newindex",
       "style": {
         "navigationStyle": "default",
         "app-plus": {
