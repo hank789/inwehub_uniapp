@@ -51,7 +51,7 @@
 			<!-- <mix-pulldown-refresh ref="mixPulldownRefresh" class="panel-content" :top="90" @refresh="onPulldownReresh"
 			 @setEnableScroll="setEnableScroll" v-if="getCurrentMode === 'result'"> -->
 				<!-- 内容部分 -->
-				<swiper id="swiper" class="swiper-box" :duration="300" :current="tabCurrentIndex" @change="changeTab">
+				<swiper id="swiper" class="swiper-box" v-if="getCurrentMode === 'result'" :duration="300" :current="tabCurrentIndex" @change="changeTab">
 					<swiper-item v-for="tabItem in tabBars" :key="tabItem.id">
 						<scroll-view class="panel-scroll-box" :scroll-y="enableScroll" @scrolltolower="loadMore">
 							
