@@ -56,7 +56,7 @@
 						<scroll-view class="panel-scroll-box" :scroll-y="enableScroll" @scrolltolower="loadMore">
 							
 							<view v-if="getCurrentMode === 'result' && searchText !== '' && tabItem.id === 1" >
-								<iw-search :confirmSearchText="confirmSearchText"></iw-search>
+								<iw-search :confirmSearchText="confirmSearchText" @switchTabbar="switchTabbar"></iw-search>
 							</view>
 							<view v-if="getCurrentMode === 'result' && searchText !== '' && tabItem.id === 2">
 								<iw-discover :confirmSearchText="confirmSearchText"></iw-discover>
@@ -258,7 +258,10 @@
 				})
 				this.tabBars = tabList;
 			},
-
+			switchTabbar(data) {
+				console.log(data)
+				this.changeTab(data.index)
+			},
 			//tab切换
 			async changeTab(e) {
 				
