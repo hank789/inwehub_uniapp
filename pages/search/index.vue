@@ -189,7 +189,7 @@
 				searchTextFilter(newValue, (text) => {
 					if (newValue) {
 						this.isShowCancelButton = true
-						// this.loadNewsList('add', newValue)
+						this.searchAdvice(newValue)
 
 						if (newValue !== this.confirmSearchText) {
 							this.initList()
@@ -219,16 +219,6 @@
 			this.searchText = e.text
 		},
 		methods: {
-
-			//下拉刷新
-			onPulldownReresh() {
-				// this.loadNewsList('refresh', this.searchText);
-			},
-			//上滑加载
-			loadMore() {
-				// this.loadNewsList('add', this.searchText);
-			},
-
 			//设置scroll-view是否允许滚动，在小程序里下拉刷新时避免列表可以滑动
 			setEnableScroll(enable) {
 				if (this.enableScroll !== enable) {
@@ -268,61 +258,6 @@
 				})
 				this.tabBars = tabList;
 			},
-// 			loadNewsList(type, searchText) {
-// 				let tabItem = this.tabBars[this.tabCurrentIndex];
-// 
-// 				//type add 加载更多 refresh下拉刷新
-// 				if (type === 'add') {
-// 					if (tabItem.loadMoreStatus === 2) {
-// 						return;
-// 					}
-// 					tabItem.loadMoreStatus = 1;
-// 				} else if (type === 'refresh') {
-// 					// #ifdef APP-PLUS
-// 					tabItem.refreshing = true;
-// 					// #endif
-// 					tabItem.page = 1
-// 				}
-// 				
-// 				this.list = this.$options.data().list
-// 
-// 				//异步请求数据
-// 				this.$request.post(tabItem.url, {
-// 					search_word: searchText
-// 				}).then(res => {
-// 					tabItem.page = tabItem.page + 1
-// 					
-// 					if (tabItem.id !==1 ) {
-// 						if (type === 'refresh') {
-// 							this.listPage = res.data.data
-// 							tabItem.page = 1
-// 						} else {
-// 							this.listPage = res.data.data
-// 						}
-// 					} else {
-// 						if (type === 'refresh') {
-// 							this.list = res.data
-// 							tabItem.page = 1
-// 						} else {
-// 							this.list = res.data
-// 						}
-// 					}
-// 
-// 					//下拉刷新 关闭刷新动画
-// 					if (type === 'refresh') {
-// 						this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
-// 						// #ifdef APP-PLUS
-// 						tabItem.refreshing = false;
-// 						// #endif
-// 						tabItem.loadMoreStatus = 0;
-// 					}
-// 					if (!res.data.next_page_url) {
-// 						tabItem.loadMoreStatus = 2
-// 					} else {
-// 						tabItem.loadMoreStatus = 0
-// 					}
-// 				})
-// 			},
 
 			//tab切换
 			async changeTab(e) {
@@ -542,13 +477,6 @@
 		background-color: rgb(220, 220, 220);
 	}
 
-	page,
-	.content {
-		background-color: #f8f8f8;
-		height: 100%;
-		overflow: hidden;
-	}
-
 	.nav-bar {
 		position: relative;
 		z-index: 10;
@@ -590,8 +518,6 @@
 	}
 
 	.mui-content {
-		height: 100%;
-		overflow: hidden;
 		background: #ffffff;
 
 		.listWrapper {
@@ -751,7 +677,7 @@
 	.searchList {
 		padding: 0 31.96upx;
 		position: relative;
-		z-index: 1000;
+		z-index: 1;
 
 		.div {
 			color: #808080;
