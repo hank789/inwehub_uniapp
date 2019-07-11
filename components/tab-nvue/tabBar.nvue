@@ -73,7 +73,7 @@ export default {
 			if (index <= 1) {
 				dom.scrollToElement(el, {offset: 0});
 			} else if (elSize.left < 0) {
-				dom.scrollToElement(el, {offset: 300});
+				dom.scrollToElement(el, {offset: 60});
 			} else {
 				dom.scrollToElement(el, {offset: -300});
 			}
@@ -116,7 +116,8 @@ export default {
 	justify-content: center;
 }
 .tab-bar-scroll-width {
-	width: 150px;
+	padding-left: 20px;
+  padding-right: 20px;
 }
 .tab-bar-title {
 	height: 90px;
