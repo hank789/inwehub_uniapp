@@ -220,13 +220,16 @@ export default {
       uni.navigateTo({ url: url })
     },
     toSearchShare() {
-      this.to('/pages/search/discover?text=' + this.searchText)
+			this.$emit('switchTabbar', {index: 1})
+      //this.to('/pages/search/discover?text=' + this.searchText)
     },
     toSearchProduct() {
-      this.to('/pages/search/product?text=' + this.searchText)
+			this.$emit('switchTabbar', {index: 2})
+      //this.to('/pages/search/product?text=' + this.searchText)
     },
     toSearchDianping() {
-      this.to('/pages/search/comment?text=' + this.searchText)
+			this.$emit('switchTabbar', {index: 3})
+      //this.to('/pages/search/comment?text=' + this.searchText)
     },
     redirectTo(url) {
       uni.redirectTo({ url: url })
