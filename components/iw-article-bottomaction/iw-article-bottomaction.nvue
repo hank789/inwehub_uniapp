@@ -47,7 +47,7 @@
 				
 			</div>
 			
-			<div class="iw-operat-wrapper" v-if="isUserAdmin()">
+			<div class="iw-operat-wrapper" v-if="isAdmin">
 				<div class="iw-bot"></div>
 				
 				<div class="iw-operat-list" @click="deleteItem">
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 			
-			<div class="iw-choice-wrapper" v-if="isUserAdmin()">
+			<div class="iw-choice-wrapper" v-if="isAdmin">
 				<div class="iw-bot"></div>
 				<text class="iw-title">设置精选</text>
 				<div class="iw-choice-list">
@@ -101,6 +101,7 @@
 			return {
 				localRegions: [],
 				localItem: {},
+				isAdmin: false,
 				showPopupBottomShare: false,
 				height: 370
 			}
@@ -113,9 +114,6 @@
 			});
 		},
 		computed: {
-			isAdmin() {
-				return this.isUserAdmin()
-			},
 			localRegionsC() {
 				return this.localRegions
 			}
@@ -129,6 +127,7 @@
 		},
 		created() {},
 		mounted() {
+			this.isUserAdmin()
 			this.heightPop()
 		},
 		methods: {
@@ -138,8 +137,10 @@
 			isUserAdmin() {
 				var userInfo = ls.get('UserInfo')
 				if (userInfo && userInfo.is_admin) {
+					this.isAdmin = true
 					return true
 				}
+				this.isAdmin = false
 				return false
 			},
 			heightPop () {
@@ -278,7 +279,9 @@
 					console.log(123)
 					this.localItem = item
 				}
-				this.resetRegions()
+				if (this.isAdmin) {
+					this.resetRegions()
+				}
 				this.showPopupBottomShare = true
 			}
 		}
@@ -387,8 +390,9 @@
 	}
 	.iw-text-num {
 		color: #FA4975;
-		position: relative;
-		top: 10px;
+		margin-top: 10px;
+		font-size: 24px;
+		text-align: center;
 	}
 	.iw-upvoted-active {
 		background-color: #03AEF9;
