@@ -49,7 +49,7 @@
         <text class="firstSpan">验证即可登录，未注册用户将根据手机号自动创建账号</text>
       </view>
 
-      <view class="weChat" @tap.stop.prevent="wechatLogin()">
+      <view v-if="isWechatInstalled" class="weChat" @tap.stop.prevent="wechatLogin()">
         <view class="weChatIcon">
           <text class="iconfont icon-wechat" />
         </view>
@@ -77,6 +77,7 @@ export default {
   data() {
     return {
       isCanGetCode: true,
+			isWechatInstalled: true,
       phone: '',
       yzm: '',
       get_msg_btn: '获取验证码',
@@ -88,6 +89,15 @@ export default {
   },
   onLoad: function(option) {
     this.pageOption = option
+		//#ifdef APP-PLUS
+		if (plus.runtime.isApplicationExist({ pname: 'com.tencent.mm', action: 'weixin://' })) {
+			//安装了微信
+			this.isWechatInstalled = true
+		} else {
+			//未安装微信
+			this.isWechatInstalled = false
+		}
+		//#endif
   },
   methods: {
     ...mapMutations(['setUser', 'setToken']),

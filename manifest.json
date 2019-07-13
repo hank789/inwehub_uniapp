@@ -2,8 +2,8 @@
     "name" : "InweHub",
     "appid" : "__UNI__73A6D8B",
     "description" : "",
-    "versionName" : "1.1.402",
-    "versionCode" : 196,
+    "versionName" : "1.1.404",
+    "versionCode" : 197,
     "transformPx" : false,
     "networkTimeout" : {
         "request" : 10000,
@@ -65,6 +65,7 @@
                 ]
             },
             "ios" : {
+                "urlschemewhitelist" : [ "weixin" ],
                 "urltypes" : [
                     {
                         "urlschemes" : [ "inwehubapp" ],
