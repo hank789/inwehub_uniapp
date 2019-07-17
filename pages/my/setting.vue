@@ -6,7 +6,6 @@
 		<cmd-item title="常见问题" @click="fnClick('help')" arrow></cmd-item>
 		<cmd-item title="关于我们" @click="fnClick('aboutus')" arrow></cmd-item>
 		<cmd-item title="前往评价" @click="fnClick('starApp')" arrow></cmd-item>
-		<cmd-item title="清除缓存" @click="fnClick('clearCache')" arrow></cmd-item>
 		<button type="button" class="btn-logout" @tap.stop.prevent="logOut">退出应用</button>
 		<view class="foot">
 			<view class="logo">

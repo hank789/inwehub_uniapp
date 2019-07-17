@@ -13,7 +13,7 @@
           <view v-if="isShow">
 
             <view v-if="detail.type === 'article' && detail.data.img" class="topImg container-image">
-              <image mode="aspectFill" :src="detail.data.img" />
+              <image :src="detail.data.img" />
             </view>
 
             <view class="mui-table-view detail-discover">
@@ -69,7 +69,7 @@
                     <ImageAutoHeight
                       :key="image"
                       :src="image"
-                      :mode="'aspectFit'"
+											@previewImage="previewImage"
                       class="discover_img lazyImg"
                     />
                   </template>
@@ -520,6 +520,13 @@ export default {
     onTap() {
 
     },
+		previewImage(data) {
+			var current = data.current
+			uni.previewImage({
+				current: current,
+				urls: this.detail.data.img
+			})
+		},
     to(url) {
       uni.navigateTo({ url: url })
     },

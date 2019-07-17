@@ -21,7 +21,7 @@
             <image mode="aspectFill" class="image" src="../../static/images/pengyouquan.png" />
             <text class="text">朋友圈</text>
           </view>
-          <view v-if="shareOption.link" class="single" @success="shareToCopyLink()">
+          <view v-if="shareOption.link" class="single" @tap.stop.prevent="shareToCopyLink()">
             <image mode="aspectFill" class="image" src="../../static/images/copyLink@3x.png" />
             <text class="text">复制链接</text>
           </view>
@@ -116,6 +116,18 @@ export default {
     },
     shareToCopyLink() {
       // todo 复制到剪切板
+			var shareParams = 'isShare=1&fromUser=' + getLocalUserId()
+      if (this.shareOption.link.indexOf('?') < 0) {
+        shareParams = '?' + shareParams
+      } else {
+        shareParams = '&' + shareParams
+      }
+			uni.setClipboardData({
+					data: this.shareOption.link + shareParams,
+					success: function () {
+							console.log('success');
+					}
+			});
     },
     shareToChat() {
       this.hidePopup()
@@ -159,7 +171,12 @@ export default {
       }, 500)
     },
     successCallback () {
-
+			this.$request.post('share/wechat/success',{
+				   'target': this.shareOption.link,
+          'title': this.shareOption.title,
+          'target_type': this.shareOption.targetType,
+          'target_id': this.shareOption.targetId
+			}).then(res=>{})
     },
     failCallback (error) {
 

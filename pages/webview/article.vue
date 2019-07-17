@@ -6,6 +6,7 @@
 
 <script>
 	import share from "@/lib/sharePlus.js";
+	import nvueLib from '@/lib/nvueLib.js';
 	var wv;//计划创建的webview
   export default {
     data() {
@@ -106,6 +107,7 @@
 						text:"更多"
 					},
 				];
+				var that = this
 				this.shareObj=share(shareInfo,shareList,function(index){
 					console.log("点击按钮的序号: " + index);
 					let shareObj={
@@ -113,6 +115,13 @@
 						title:shareInfo.title||"",
 						summary:shareInfo.desc||"",
 						success:(res)=>{
+							console.log("success:" + JSON.stringify(res));
+							nvueLib.post('share/wechat/success',{
+								'target': shareInfo.href,
+								'title': shareInfo.title,
+								'target_type': 'submission',
+								'target_id': that.detailData.id
+							},false,res=>{},()=>{})
 							console.log("success:" + JSON.stringify(res));
 						},
 						fail:(err)=>{

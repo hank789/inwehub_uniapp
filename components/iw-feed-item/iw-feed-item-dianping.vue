@@ -23,12 +23,11 @@
 
       <view
         v-if="itemObj.feed.img.length && item.feed.submission_type === 'review'"
-        class="container-images container-images-discover"
-        :class="'container-images-' + (itemObj.feed.img.length)"
+        :class="['container-images','container-images-discover','container-images-' + (itemObj.feed.img.length)]"
       >
-        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image">
-          <autoWidthHeight :src="img" v-if="itemObj.feed.img.length === 1"></autoWidthHeight>
-          <image mode="aspectFill" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" v-else />
+        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" :class="['container-image','container-image-' + imgIndex]">
+          <autoWidthHeight :src="img" v-if="itemObj.feed.img.length === 1" @previewImage="onPreviewImage"></autoWidthHeight>
+          <image class="image" :src="img | imageSuffix(226, 226)" :data-src="img" :lazy-load="true" @tap.stop.prevent="previewImage" v-else />
         </view>
       </view>
 
@@ -144,6 +143,20 @@ export default {
     goProductDetail () {
       uni.navigateTo({url: '/pages/dianping/product?name=' + encodeURIComponent(this.item.feed.tags[0].name)})
     },
+		onPreviewImage(data) {
+			var current = data.current
+			uni.previewImage({
+				current: current,
+				urls: this.item.feed.img
+			})
+		},
+		previewImage: function(e) {
+			var current = e.target.dataset.src
+			uni.previewImage({
+				current: current,
+				urls: this.item.feed.img
+			})
+		},
     toResume () {
       var uuid = this.item.user.uuid
       if (!uuid) {
@@ -190,6 +203,8 @@ export default {
         this.item.user.name,
         this.item.feed.rate_star
       )
+			this.shareOption.targetType = 'submission'
+			this.shareOption.targetId = this.item.feed.submission_id
       this.$emit('showPageMore', {shareOption: this.shareOption, item: this.item})
     }
   }

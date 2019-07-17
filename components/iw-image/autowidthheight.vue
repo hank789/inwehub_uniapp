@@ -1,6 +1,6 @@
 <template>
     <view>
-        <image :mode="mode" :style="getStyle" :src="src" alt="" class="image" lazy-load="true" @load="loaded"/>
+        <image :mode="mode" :style="getStyle" :src="src" :data-src="src" alt="" class="image" lazy-load="true" @load="loaded" @tap.stop.prevent="previewImage" />
     </view>
 </template>
 
@@ -68,7 +68,11 @@
 
         this.width = width + 'px'
         this.height = height + 'px'
-      }
+      },
+			previewImage: function(e) {
+				var current = e.target.dataset.src
+				this.$emit('previewImage',{current: current})
+			}
     }
   }
 </script>

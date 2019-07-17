@@ -1179,7 +1179,7 @@
         "pagePath": "pages/dianping/index",
         "iconPath": "static/images/tabbar-3.png",
         "selectedIconPath": "static/images/tabbar-3-active.png",
-        "text": "社区"
+        "text": "点评"
       },
       {
         "pagePath": "pages/my/index",

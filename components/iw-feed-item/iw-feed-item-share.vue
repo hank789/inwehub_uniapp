@@ -18,13 +18,12 @@
       <!--图片-->
       <view
         v-if="itemObj.feed.img.length && item.feed.submission_type !== 'link'"
-        class="container-images container-images-discover"
-        :class="'container-images-' + (itemObj.feed.img.length)"
+        :class="['container-images', 'container-images-discover','container-images-' + (itemObj.feed.img.length)]"
       >
 
-        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" class="container-image" :class="'container-image-' + imgIndex">
-          <autoWidthHeight :src="img" v-if="itemObj.feed.img.length === 1"></autoWidthHeight>
-          <image mode="aspectFit" class="image" :src="img | imageSuffix(226, 226)" :lazy-load="true" v-else />
+        <view v-for="(img, imgIndex) in itemObj.feed.img" :key="imgIndex" :class="['container-image','container-image-' + imgIndex]">
+          <autoWidthHeight :src="img" v-if="itemObj.feed.img.length === 1" @previewImage="onPreviewImage"></autoWidthHeight>
+          <image class="image" :src="img | imageSuffix(226, 226)" :data-src="img" :lazy-load="true" @tap.stop.prevent="previewImage" v-else />
           </view>
       </view>
       <!--链接-->
@@ -145,6 +144,20 @@ export default {
         this.localItem.feed.is_upvoted = 0
       })
     },
+	onPreviewImage(data) {
+		var current = data.current
+		uni.previewImage({
+			current: current,
+			urls: this.item.feed.img
+		})
+	},
+	previewImage: function(e) {
+		var current = e.target.dataset.src
+		uni.previewImage({
+			current: current,
+			urls: this.item.feed.img
+		})
+	},
     discoverDown() {
       downVote(this, this.item.feed.submission_id, (response) => {
         this.localItem.feed.downvote_number++
@@ -185,6 +198,8 @@ export default {
         this.item.user.name,
         this.item.feed.group.name
       )
+	  this.shareOption.targetType = 'submission'
+	  this.shareOption.targetId = this.item.feed.submission_id
       this.$emit('showPageMore', { shareOption: this.shareOption, item: this.item })
     }
   }

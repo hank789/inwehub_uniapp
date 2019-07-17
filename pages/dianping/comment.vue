@@ -41,6 +41,7 @@
                 <ImageAutoHeight
 								:key="index"
                   class="image discover_img lazyImg"
+									@previewImage="previewImage"
                   :src="image"
                 />
               </template>
@@ -312,6 +313,7 @@ export default {
   onLoad: function(option) { // option为object类型，会序列化上个页面传递的参数
     this.pageOption = option
     const currentUser = localEvent.get('UserInfo')
+		this.shareOption.targetId = option.slug
     this.uuid = currentUser.uuid
     this.getDetail()
   },
@@ -335,6 +337,13 @@ export default {
 		toProduct(item) {
 			var url = '/pages/dianping/product?name=' + encodeURIComponent(item.name)
 			this.toRoute(url)
+		},
+		previewImage(data) {
+			var current = data.current
+			uni.previewImage({
+				current: current,
+				urls: this.detail.data.img
+			})
 		},
 		toComment(detail) {
 			var url = '/pages/comment/index?category_id=' + detail.category_id + '&slug=' + detail.slug + '&id=' + detail.id
